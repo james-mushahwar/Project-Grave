@@ -35,8 +35,6 @@ namespace _Scripts.Gameplay.Player.Controller{
             isGrounded = characterController.isGrounded;
             //isGrounded = Physics.CheckSphere(groundCheck.position, 0.1f, groundMask);
 
-            Debug.Log("Is grounded = " + isGrounded);
-
             if (isGrounded && velocity.y < 0)
             {
                 velocity.y = -2f; // Reset the vertical velocity when grounded
