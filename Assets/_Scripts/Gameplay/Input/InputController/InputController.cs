@@ -6,10 +6,21 @@ using UnityEngine.InputSystem;
 
 namespace _Scripts.Gameplay.Input.InputController{
 
+    public interface IPossess
+    {
+        InputController InputController { get; }
+        bool AttemptPossess(InputController controller);
+        bool AttemptUnpossess(InputController controller);
+        void PossessTick();
+    }
+
     public abstract class InputController : ScriptableObject, IManaged
     {
         [SerializeField] protected LayerMask _selectableLayer; // LayerMask to determine which layers can be selected
         [SerializeField] protected LayerMask _actionedLayer; // LayerMask to determine which layers can be actioned
+
+        private IPossess _possessed;
+        public IPossess Possessed { get; set; }
 
         public virtual void OnSelectInput()
         {

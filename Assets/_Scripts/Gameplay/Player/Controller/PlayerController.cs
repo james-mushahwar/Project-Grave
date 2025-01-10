@@ -1,12 +1,16 @@
-﻿using System.Collections;
+﻿using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.Input.InputController;
+using _Scripts.Gameplay.Input.InputController.Game;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace _Scripts.Gameplay.Player.Controller{
     
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IPossess
     {
+
         [Header("Movement Settings")]
         [SerializeField] private float moveSpeed = 5f;
         [SerializeField] private float sprintSpeed = 10f;
@@ -24,13 +28,17 @@ namespace _Scripts.Gameplay.Player.Controller{
         [SerializeField] private float mouseSensitivity = 100f;
         private float xRotation = 0f;
 
+        public InputController InputController { get; private set; }
+
         private void Start()
         {
             characterController = GetComponent<CharacterController>();
             Cursor.lockState = CursorLockMode.Locked; // Lock the cursor to the center of the screen
+
+            InputManager.Instance.PossessPlayer(this);
         }
 
-        private void Update()
+        public void PossessTick()
         {
             isGrounded = characterController.isGrounded;
             //isGrounded = Physics.CheckSphere(groundCheck.position, 0.1f, groundMask);
@@ -96,6 +104,58 @@ namespace _Scripts.Gameplay.Player.Controller{
             xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Clamp the vertical rotation
             Camera.main.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f); // Rotate the camera
             transform.Rotate(Vector3.up * mouseX); // Rotate the player
+        }
+
+        public bool AttemptPossess(InputController controller)
+        {
+            if (controller is GameInputController == false)
+            {
+                return false;
+            }
+            Possess(controller);
+            return true;
+        }
+
+        public bool AttemptUnpossess(InputController controller)
+        {
+            if (controller.Possessed != this)
+            {
+                return false;
+            }
+            Unpossess(controller);
+            return true;
+        }
+
+        protected void Possess(InputController controller)
+        {
+            InputController = controller;
+
+            if (InputManager.Instance != null)
+            {
+                MasterPlayerInput mpi = InputManager.Instance.MasterPlayerInput;
+                if (mpi != null)
+                {
+                    #region Game
+                    mpi.Game.Look.performed += ctx => OnLook(ctx);
+                    #endregion
+                }
+            }
+        }
+
+        protected void Unpossess(InputController controller)
+        {
+            if (InputManager.Instance != null)
+            {
+                MasterPlayerInput mpi = InputManager.Instance.MasterPlayerInput;
+                if (mpi != null)
+                {
+                    #region Game
+                    mpi.Game.Look.performed -= ctx => OnLook(ctx);
+                    #endregion
+                }
+            }
+
+            InputController = null;
         }
     }
 }

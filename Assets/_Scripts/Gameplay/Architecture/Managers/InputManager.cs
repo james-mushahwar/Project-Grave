@@ -1,5 +1,6 @@
 ﻿using _Scripts.Gameplay.Input;
 using _Scripts.Gameplay.Input.InputController;
+using _Scripts.Gameplay.Player.Controller;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +33,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public InputController InputController => _inputController;
 
+        #region Global
         private Vector2 _globalMovementInput;
         private bool _globalSouthButtonDown;
         private bool _globalSelectButtonDown;
@@ -39,12 +41,13 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public Vector2 GlobalMovementInput => _globalMovementInput;
         public bool GlobalSouthButtonDown => _globalSouthButtonDown;
         public bool GlobalSelectButtonDown => _globalSelectButtonDown;
-
+        #endregion
 
         public void ManagedPostInitialiseGameState()
         {
             _masterPlayerInput = new MasterPlayerInput();
 
+            #region Global
             //movement
             _masterPlayerInput.Global.Movement.performed += ctx => _globalMovementInput = ctx.ReadValue<Vector2>();
             //south button
@@ -53,6 +56,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             //select
             _masterPlayerInput.Global.Select.started += ctx => _globalSelectButtonDown = true;
             _masterPlayerInput.Global.Select.canceled += ctx => _globalSelectButtonDown = false;
+            #endregion
 
             _inputController = _gameInputController;
 
@@ -69,7 +73,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 _globalSelectButtonDown = false;
             }
 
-            _inputController.ManagedTick();
+            InputController.ManagedTick();
         }
 
         public void TryEnableActionMap(EInputSystem inputType)
@@ -108,6 +112,24 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     break;
                 default:
                     break;
+            }
+        }
+
+        public void PossessPlayer(PlayerController playerController)
+        {
+            if (_inputController != _gameInputController)
+            {
+                return;
+            }
+
+
+            if (playerController != null)
+            {
+                bool success = playerController.AttemptPossess(_inputController);
+                if (success)
+                {
+                    _inputController.Possessed = playerController;
+                }
             }
         }
 
