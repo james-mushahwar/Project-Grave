@@ -18,8 +18,13 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         [Header("Managers")]
         [SerializeField] private InputManager _inputManagerPrefab;
+        [SerializeField] private PlayerManager _playerManagerPrefab;
 
         EGameState _gameState = EGameState.Bootstrap;
+        public EGameState GameState
+        {
+            get => _gameState;
+        }
 
         private List<IManager> _managers = new List<IManager>();
 
@@ -39,6 +44,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private void CreateManagers()
         {
             _managers.Add(GameObject.Instantiate(_inputManagerPrefab, this.transform));
+            _managers.Add(GameObject.Instantiate(_playerManagerPrefab, this.transform));
         }
 
         void Start()

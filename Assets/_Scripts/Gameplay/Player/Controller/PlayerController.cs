@@ -1,10 +1,15 @@
-﻿using _Scripts.Gameplay.Architecture.Managers;
+﻿using System;
+using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.Input.InputController;
 using _Scripts.Gameplay.Input.InputController.Game;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 namespace _Scripts.Gameplay.Player.Controller{
     
@@ -19,6 +24,8 @@ namespace _Scripts.Gameplay.Player.Controller{
         [SerializeField] private LayerMask groundMask;
 
         private CharacterController characterController;
+        private Vector3 _moveVector;
+        private Vector3 _lookVector;
         private Vector3 velocity;
         private bool isGrounded;
         private bool isSprinting;
@@ -47,6 +54,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                 velocity.y = -2f; // Reset the vertical velocity when grounded
             }
 
+            HandleRotation();
             HandleMovement();
             HandleJump();
             ApplyGravity();
@@ -54,14 +62,14 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         private void HandleMovement()
         {
-            float moveX = 0f; // Horizontal movement
-            float moveZ = 0f; // Forward movement
+            float moveX = _moveVector.x; // Horizontal movement
+            float moveZ = _moveVector.y; // Forward movement
 
             // Handle inputs
-            if (Keyboard.current.wKey.isPressed) moveZ = 1f;
-            if (Keyboard.current.sKey.isPressed) moveZ = -1f;
-            if (Keyboard.current.aKey.isPressed) moveX = -1f;
-            if (Keyboard.current.dKey.isPressed) moveX = 1f;
+            //if (Keyboard.current.wKey.isPressed) moveZ = 1f;
+            //if (Keyboard.current.sKey.isPressed) moveZ = -1f;
+            //if (Keyboard.current.aKey.isPressed) moveX = -1f;
+            //if (Keyboard.current.dKey.isPressed) moveX = 1f;
 
             // Sprinting
             if (Keyboard.current.leftShiftKey.isPressed)
@@ -79,6 +87,23 @@ namespace _Scripts.Gameplay.Player.Controller{
             characterController.Move(move.normalized * speed * Time.deltaTime);
         }
 
+        private void HandleRotation()
+        {
+            if (_lookVector.sqrMagnitude <= Single.MinValue)
+            {
+                return;
+            }
+
+            Vector2 mouseInput = _lookVector;
+            float mouseX = mouseInput.x * mouseSensitivity * Time.deltaTime;
+            float mouseY = mouseInput.y * mouseSensitivity * Time.deltaTime;
+
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Clamp the vertical rotation
+            transform.Rotate(Vector3.up * mouseX); // Rotate the player
+            Camera.main.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f); // Rotate the camera
+        }
+
         private void HandleJump()
         {
             if (isGrounded && Keyboard.current.spaceKey.wasPressedThisFrame)
@@ -93,16 +118,13 @@ namespace _Scripts.Gameplay.Player.Controller{
             characterController.Move(velocity * Time.deltaTime); // Move the character with gravity
         }
 
+        public void OnMove(InputAction.CallbackContext context)
+        {
+            _moveVector = context.ReadValue<Vector2>();
+        }
         public void OnLook(InputAction.CallbackContext context)
         {
-            Vector2 mouseInput = context.ReadValue<Vector2>();
-            float mouseX = mouseInput.x * mouseSensitivity * Time.deltaTime;
-            float mouseY = mouseInput.y * mouseSensitivity * Time.deltaTime;
-
-            xRotation -= mouseY;
-            xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Clamp the vertical rotation
-            transform.Rotate(Vector3.up * mouseX); // Rotate the player
-            Camera.main.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f); // Rotate the camera
+            _lookVector = context.ReadValue<Vector2>();
         }
 
         public bool AttemptPossess(InputController controller)
@@ -135,7 +157,11 @@ namespace _Scripts.Gameplay.Player.Controller{
                 if (mpi != null)
                 {
                     #region Game
-                    mpi.Game.Look.performed += ctx => OnLook(ctx);
+                    mpi.Game.Movement.performed += OnMove;
+                    mpi.Game.Movement.canceled += OnMove;
+
+                    mpi.Game.Look.performed += OnLook;
+                    mpi.Game.Look.canceled  += OnLook;
                     #endregion
                 }
             }
@@ -149,7 +175,12 @@ namespace _Scripts.Gameplay.Player.Controller{
                 if (mpi != null)
                 {
                     #region Game
-                    mpi.Game.Look.performed -= ctx => OnLook(ctx);
+                    mpi.Game.Movement.performed -= OnMove;
+                    mpi.Game.Movement.canceled  -= OnMove;
+
+                    mpi.Game.Look.performed -= OnLook;
+                    mpi.Game.Look.canceled  -= OnLook;
+
                     #endregion
                 }
             }
