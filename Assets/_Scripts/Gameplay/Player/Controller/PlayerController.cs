@@ -10,7 +10,6 @@ namespace _Scripts.Gameplay.Player.Controller{
     
     public class PlayerController : MonoBehaviour, IPossess
     {
-
         [Header("Movement Settings")]
         [SerializeField] private float moveSpeed = 5f;
         [SerializeField] private float sprintSpeed = 10f;
@@ -102,8 +101,8 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Clamp the vertical rotation
-            Camera.main.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f); // Rotate the camera
             transform.Rotate(Vector3.up * mouseX); // Rotate the player
+            Camera.main.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f); // Rotate the camera
         }
 
         public bool AttemptPossess(InputController controller)
