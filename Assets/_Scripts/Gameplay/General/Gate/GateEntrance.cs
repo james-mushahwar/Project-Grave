@@ -42,13 +42,15 @@ namespace _Scripts.Gameplay.General.Gate{
             }
             else
             {
-                Vector2 gateToPlayer = _gateGO.transform.position - PlayerManager.Instance.CurrentPlayerController.transform.position;
+                Vector3 gateToPlayer = _gateGO.transform.position - PlayerManager.Instance.CurrentPlayerController.transform.position;
+                gateToPlayer = new Vector3(gateToPlayer.x, 0.0f, gateToPlayer.z);
+                Debug.Log(gateToPlayer.magnitude);
                 bool shouldBeOpen = gateToPlayer.magnitude < _distanceToTrigger;
                 bool isAlreadyOpen = _gateGO.activeSelf == false;
 
                 if (canChangeState && shouldBeOpen != isAlreadyOpen)
                 {
-                    _gateGO.SetActive(shouldBeOpen);
+                    _gateGO.SetActive(!shouldBeOpen);
 
                     _gateAS.clip = shouldBeOpen ? _gateOpenAC : _gateCloseAC;
                     _gateAS.Play();
