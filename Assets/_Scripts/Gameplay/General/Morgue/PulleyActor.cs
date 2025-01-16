@@ -1,22 +1,21 @@
-﻿using _Scripts.Org;
+﻿using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Org;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue{
 
-    public class PulleyActor : MonoBehaviour, IInteractable
+    public class PulleyActor : MonoBehaviour, ISelect, IInteractable
     {
-
-
-        public void Highlight()
+        public void OnDeselected()
         {
-            
+            transform.localScale = Vector3.one * 0.5f;
         }
 
-        public bool IsHighlighted()
+        public void OnSelected()
         {
-            return false;
+            transform.localScale = Vector3.one;
         }
 
         public bool IsInteractable()
@@ -24,10 +23,12 @@ namespace _Scripts.Gameplay.General.Morgue{
             return true;
         }
 
+
         public bool OnInteract()
         {
             return true;
         }
+
     }
 
 }

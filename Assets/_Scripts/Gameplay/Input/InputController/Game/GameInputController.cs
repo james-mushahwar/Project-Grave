@@ -39,7 +39,7 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
                 MasterPlayerInput mpi = InputManager.Instance.MasterPlayerInput;
                 if (mpi != null)
                 {
-                    mpi.Game.Select.started += ctx => OnSelectInput();
+                    //mpi.Game.Select.started += ctx => OnSelectInput();
                     mpi.Game.Select.started += ctx => _gameSelectButtonDown = true;
                     mpi.Game.Select.canceled += ctx => _gameSelectButtonDown = false;
 
@@ -62,28 +62,38 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
             bool clearSelectable = false;
             bool clearActionable = false;
 
+            FindSelectable();
+
             Possessed?.PossessTick();
         }
 
-        public override void OnSelectInput()
+        public void FindSelectable()
+        {
+            OnSelectInput();
+        }
+
+        private void RaycastFindSelectable()
         {
             //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // Create a ray from the camera to the mouse position
-            Ray ray = Camera.main.ViewportPointToRay(new Vector3(0, 0, 0));
+            Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             //Vector2 mousePos = Mouse.current.position.ReadValue();
             //Vector2 mousePos = Mouse.current.position.ReadValue();
             //Ray ray = Camera.main.ScreenPointToRay(mousePos); // Create a ray from the camera to the mouse position
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, _selectableLayer)) // Perform the raycast
+            _selectedObject =  null;
+
+            if (Physics.Raycast(ray, out hit, 5.0f, _selectableLayer)) // Perform the raycast
             {
                 GameObject selectedObject = hit.collider.gameObject; // Get the selected object
-                Debug.Log("Selected Object: " + selectedObject.name);
+                //Debug.Log("Selected Object: " + selectedObject.name);
                 _selectedObject = selectedObject;
                 _selectedHit = hit;
             }
             else
             {
-                Debug.Log("No selectable object hit.");
+                //Debug.Log("No selectable object hit.");
+
             }
 
             ISelect selectable = null;
@@ -104,7 +114,20 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
 
                     _selectable = selectable;
                 }
+                else
+                {
+                    if (_selectable != null)
+                    {
+                        _selectable.OnDeselected();
+                        _selectable = null;
+                    }
+                }
             }
+        }
+
+        public override void OnSelectInput()
+        {
+            RaycastFindSelectable();
         }
 
         public void ClearSelected()

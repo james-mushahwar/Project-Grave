@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
+using _Scripts.Editortools.Draw;
 using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
@@ -60,6 +61,10 @@ namespace _Scripts.Gameplay.Player.Controller{
             ApplyGravity();
         }
 
+        public void OnDrawGizmos()
+        {
+            //DrawGizmos.ForArrowGizmo()
+        }
         private void HandleMovement()
         {
             float moveX = _moveVector.x; // Horizontal movement

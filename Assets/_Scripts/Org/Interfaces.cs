@@ -6,14 +6,9 @@ namespace _Scripts.Org
 {
     public interface IInteractable
     {
-        void Highlight();
-        bool IsHighlighted();
-
         bool IsInteractable();
         bool OnInteract();
     }
-
-    
 
     public interface IOperatable
     {
