@@ -72,7 +72,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         void Start()
         {
-
+            foreach (IManager manager in _managers)
+            {
+                manager.ManagedPostInGameLoad();
+            }
         }
 
         void Update()

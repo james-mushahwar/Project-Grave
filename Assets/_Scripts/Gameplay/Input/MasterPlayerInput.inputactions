@@ -931,6 +931,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Debug_SpawnBody",
+                    "type": "Button",
+                    "id": "0cbab588-df46-4a6b-abec-8f739538203c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1129,6 +1138,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e31be20b-7172-421a-8547-9e28b91b6876",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Debug_SpawnBody",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

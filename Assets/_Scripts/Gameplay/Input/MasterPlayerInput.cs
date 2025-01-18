@@ -953,6 +953,15 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Debug_SpawnBody"",
+                    ""type"": ""Button"",
+                    ""id"": ""0cbab588-df46-4a6b-abec-8f739538203c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1153,6 +1162,17 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e31be20b-7172-421a-8547-9e28b91b6876"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Debug_SpawnBody"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1188,6 +1208,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         m_Game_NextandPrev = m_Game.FindAction("NextandPrev", throwIfNotFound: true);
         m_Game_Movement = m_Game.FindAction("Movement", throwIfNotFound: true);
         m_Game_Look = m_Game.FindAction("Look", throwIfNotFound: true);
+        m_Game_Debug_SpawnBody = m_Game.FindAction("Debug_SpawnBody", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1474,6 +1495,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_NextandPrev;
     private readonly InputAction m_Game_Movement;
     private readonly InputAction m_Game_Look;
+    private readonly InputAction m_Game_Debug_SpawnBody;
     public struct GameActions
     {
         private @MasterPlayerInput m_Wrapper;
@@ -1483,6 +1505,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         public InputAction @NextandPrev => m_Wrapper.m_Game_NextandPrev;
         public InputAction @Movement => m_Wrapper.m_Game_Movement;
         public InputAction @Look => m_Wrapper.m_Game_Look;
+        public InputAction @Debug_SpawnBody => m_Wrapper.m_Game_Debug_SpawnBody;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1507,6 +1530,9 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @Debug_SpawnBody.started += instance.OnDebug_SpawnBody;
+            @Debug_SpawnBody.performed += instance.OnDebug_SpawnBody;
+            @Debug_SpawnBody.canceled += instance.OnDebug_SpawnBody;
         }
 
         private void UnregisterCallbacks(IGameActions instance)
@@ -1526,6 +1552,9 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @Debug_SpawnBody.started -= instance.OnDebug_SpawnBody;
+            @Debug_SpawnBody.performed -= instance.OnDebug_SpawnBody;
+            @Debug_SpawnBody.canceled -= instance.OnDebug_SpawnBody;
         }
 
         public void RemoveCallbacks(IGameActions instance)
@@ -1574,5 +1603,6 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         void OnNextandPrev(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnDebug_SpawnBody(InputAction.CallbackContext context);
     }
 }

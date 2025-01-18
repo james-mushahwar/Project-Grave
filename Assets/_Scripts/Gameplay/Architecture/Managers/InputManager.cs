@@ -63,6 +63,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _gameInputController.Enable();
 
             TryEnableActionMap(EInputSystem.Game);
+
+            //debug
+
         }
 
         public void ManagedTick()
