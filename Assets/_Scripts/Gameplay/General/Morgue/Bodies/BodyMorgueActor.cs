@@ -30,7 +30,6 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             if (anim != null)
             {
                 CurrentAnimation = anim;
-                CurrentAnimation.Play();
             }
         }
 
