@@ -1,4 +1,5 @@
 ﻿using _Scripts.Org;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [Header("Managers")]
         [SerializeField] private InputManager _inputManagerPrefab;
         [SerializeField] private PlayerManager _playerManagerPrefab;
+        [SerializeField] private MorgueManager _morgueManagerPrefab;
 
         EGameState _gameState = EGameState.Bootstrap;
         public EGameState GameState
@@ -27,6 +29,26 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         }
 
         private List<IManager> _managers = new List<IManager>();
+
+        // Generic function to retrieve any GameManager of type T
+        public T GetGameManager<T>() where T : GameManager<T>, IManager
+        {
+            T manager = default(T);
+
+            System.Type type = typeof(T);
+            for (int i = 0; i < _managers.Count; i++)
+            {
+                manager = (T)_managers[i];
+                if (manager != null)
+                {
+                    return manager;
+                }
+            }
+
+            Debug.LogError($"GameManager of type {type} not found.");
+            return default; // Return default value if not found
+        }
+
 
         public void Initialise()
         {
@@ -45,6 +67,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             _managers.Add(GameObject.Instantiate(_inputManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_playerManagerPrefab, this.transform));
+            _managers.Add(GameObject.Instantiate(_morgueManagerPrefab, this.transform));
         }
 
         void Start()
@@ -58,6 +81,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 manager.ManagedTick();
             }
+
+            var inputM = GetGameManager<InputManager>();
         }
 
         private void OnDrawGizmos()

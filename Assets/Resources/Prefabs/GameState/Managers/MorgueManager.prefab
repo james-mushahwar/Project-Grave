@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3416705222698196519
+--- !u!1 &1304065692680816600
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,45 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5343703920299089844}
-  - component: {fileID: 3899557368427159554}
+  - component: {fileID: 4860732289267781988}
+  - component: {fileID: 8014924620646975180}
   m_Layer: 0
-  m_Name: GameStateManager
+  m_Name: MorgueManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5343703920299089844
+--- !u!4 &4860732289267781988
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3416705222698196519}
+  m_GameObject: {fileID: 1304065692680816600}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 33.96205, y: 2.3721657, z: 41.447617}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3899557368427159554
+--- !u!114 &8014924620646975180
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3416705222698196519}
+  m_GameObject: {fileID: 1304065692680816600}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a23d20887f9e4b4d84eb4cab4a6827b, type: 3}
+  m_Script: {fileID: 11500000, guid: d0299de6b28690b4abacbe2779c63a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputManagerPrefab: {fileID: 1591597123619388368, guid: 046eeaabb2dcfef46bfe704d4b020f1f,
-    type: 3}
-  _playerManagerPrefab: {fileID: 8279226207249101473, guid: d8b954ff50fa49f4194ae33d3d6f91ba,
-    type: 3}
-  _morgueManagerPrefab: {fileID: 8014924620646975180, guid: 13634a49e69724f40a15373bd75bfe3f,
-    type: 3}
