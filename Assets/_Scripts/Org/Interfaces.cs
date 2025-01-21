@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace _Scripts.Org
 {
+    public interface IMorgueTickable
+    {
+        void Tick();
+    }
+
     public interface IInteractable
     {
         bool IsInteractable();

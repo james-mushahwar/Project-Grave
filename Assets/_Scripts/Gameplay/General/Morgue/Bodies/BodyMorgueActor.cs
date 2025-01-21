@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Org;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Bodies{
     
-    public class BodyMorgueActor : MorgueActor
+    public class BodyMorgueActor : MorgueActor, IMorgueTickable
     {
         private Collider _collider;
 
@@ -31,6 +32,10 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             {
                 CurrentAnimation = anim;
             }
+        }
+
+        public override void Tick()
+        {
         }
 
         public override void ToggleProne(bool set)

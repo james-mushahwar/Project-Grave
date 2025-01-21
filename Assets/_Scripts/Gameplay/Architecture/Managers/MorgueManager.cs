@@ -1,6 +1,8 @@
 ﻿using _Scripts.Gameplay.General.Morgue;
+using _Scripts.Org;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Animations;
 using UnityEngine;
 
@@ -11,6 +13,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField] private MorgueActor _morgueActor;
         private GameObject _houseChuteRoot;
         private List<MorgueActor> _pendingHouseMorgueActors = new List<MorgueActor>();
+
+        private List<IMorgueTickable> _morgueTickables = new List<IMorgueTickable>();
 
         #region Animation
         [SerializeField] private Animation _enterHouseThroughChute_Animation;
@@ -45,6 +49,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
             }
+
+            _morgueTickables = FindObjectsOfType<MonoBehaviour>(true).OfType<IMorgueTickable>().ToList();
         }
         // save states are restored
         public virtual void ManagedRestoreSave() { }
@@ -53,7 +59,13 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // before play begins 
         public virtual void ManagedPrePlayGame() { }
         // tick for playing game 
-        public virtual void ManagedTick() { }
+        public virtual void ManagedTick() 
+        { 
+            for (int i = 0; i < _morgueTickables.Count; i++)
+            {
+                _morgueTickables[i].Tick();
+            }
+        }
         // before world (level, area, zone) starts unloading
         public virtual void ManagedPreTearddownGame() { }
         // after world (level, area, zone) unloading
