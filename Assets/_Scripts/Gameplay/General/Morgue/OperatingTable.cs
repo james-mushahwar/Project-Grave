@@ -3,6 +3,7 @@ using _Scripts.Org;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue{
@@ -20,6 +21,16 @@ namespace _Scripts.Gameplay.General.Morgue{
 
         [SerializeField]
         private List<EMorgueAnimType> _morgueAnimTypes = new List<EMorgueAnimType>();
+
+        [SerializeField] private CinemachineVirtualCamera _vCamera_Above;
+
+        public void Setup()
+        {
+            if (_vCamera_Above != null)
+            {
+                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_Above, _vCamera_Above);
+            }
+        }
 
         public void Tick()
         {

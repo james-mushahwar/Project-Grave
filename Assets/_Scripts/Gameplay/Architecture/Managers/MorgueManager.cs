@@ -47,6 +47,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
 
             _morgueTickables = FindObjectsOfType<MonoBehaviour>(true).OfType<IMorgueTickable>().ToList();
+            foreach (IMorgueTickable morgueTickable in _morgueTickables)
+            {
+                morgueTickable.Setup();
+            }
         }
         // save states are restored
         public virtual void ManagedRestoreSave() { }

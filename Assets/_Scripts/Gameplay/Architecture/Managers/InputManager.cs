@@ -33,6 +33,18 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public InputController InputController => _inputController;
 
+        public T GetInputController<T>() where T : InputController
+        {
+            T inputController = null;
+
+            if (InputController as T)
+            {
+                inputController = InputController as T;
+            }
+
+            return inputController;
+        }
+
         #region Global
         private Vector2 _globalMovementInput;
         private bool _globalSouthButtonDown;
@@ -135,7 +147,6 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 return;
             }
-
 
             if (playerController != null)
             {

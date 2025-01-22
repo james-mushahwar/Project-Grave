@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using _Scripts.Gameplay.Architecture.Managers;
+using Cinemachine;
 using UnityEngine;
 
 [Serializable]
@@ -29,3 +30,6 @@ public class QuaternionMyClassDictionary : SerializableDictionary<Quaternion, My
 //Project Grave Dictionaries 
 [Serializable]
 public class MorgueAnimTypeAnimationDictionary : SerializableDictionary<EMorgueAnimType, Animation> {}
+
+[Serializable]
+public class VirtualCameraTypeDictionary : SerializableDictionary<EVirtualCameraType, CinemachineVirtualCamera> { }

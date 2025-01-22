@@ -13,7 +13,16 @@ using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 namespace _Scripts.Gameplay.Player.Controller{
-    
+
+    public enum EPlayerControllerState
+    {
+        NONE = -1,
+
+        Normal = 0,
+
+        Operating = 100,
+    }
+
     public class PlayerController : MonoBehaviour, IPossess
     {
         [Header("Movement Settings")]
@@ -30,6 +39,8 @@ namespace _Scripts.Gameplay.Player.Controller{
         private Vector3 velocity;
         private bool isGrounded;
         private bool isSprinting;
+
+        private EPlayerControllerState _playerControllerState = EPlayerControllerState.NONE;
 
         [Header("Mouse Look Settings")]
         [SerializeField] private float mouseSensitivity = 100f;
@@ -161,17 +172,7 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             if (InputManager.Instance != null)
             {
-                MasterPlayerInput mpi = InputManager.Instance.MasterPlayerInput;
-                if (mpi != null)
-                {
-                    #region Game
-                    mpi.Game.Movement.performed += OnMove;
-                    mpi.Game.Movement.canceled += OnMove;
-
-                    mpi.Game.Look.performed += OnLook;
-                    mpi.Game.Look.canceled  += OnLook;
-                    #endregion
-                }
+                EnterPlayerControllerState(EPlayerControllerState.Normal);
             }
         }
 
@@ -179,21 +180,79 @@ namespace _Scripts.Gameplay.Player.Controller{
         {
             if (InputManager.Instance != null)
             {
-                MasterPlayerInput mpi = InputManager.Instance.MasterPlayerInput;
-                if (mpi != null)
-                {
-                    #region Game
-                    mpi.Game.Movement.performed -= OnMove;
-                    mpi.Game.Movement.canceled  -= OnMove;
-
-                    mpi.Game.Look.performed -= OnLook;
-                    mpi.Game.Look.canceled  -= OnLook;
-
-                    #endregion
-                }
+                ExitPlayerControllerState();
             }
 
             InputController = null;
+        }
+
+        public void RequestPlayerControllerState(EPlayerControllerState state)
+        {
+            if (_playerControllerState != EPlayerControllerState.NONE)
+            {
+                ExitPlayerControllerState();
+            }
+
+            EnterPlayerControllerState(state);
+        }
+
+        private void EnterPlayerControllerState(EPlayerControllerState state)
+        {
+            if (state == EPlayerControllerState.NONE)
+            {
+                return;
+            }
+
+            MasterPlayerInput mpi = InputManager.Instance.MasterPlayerInput;
+            if (mpi != null)
+            {
+                switch (state)
+                {
+                    case EPlayerControllerState.Normal:
+                        #region Game
+                        mpi.Game.Movement.performed += OnMove;
+                        mpi.Game.Movement.canceled += OnMove;
+
+                        mpi.Game.Look.performed += OnLook;
+                        mpi.Game.Look.canceled += OnLook;
+                        break;
+                    #endregion
+                    default:
+                        break;
+                }
+            }
+
+            _playerControllerState = state;
+        }
+
+        private void ExitPlayerControllerState()
+        {
+            if (_playerControllerState == EPlayerControllerState.NONE)
+            {
+                return;
+            }
+
+            MasterPlayerInput mpi = InputManager.Instance.MasterPlayerInput;
+            if (mpi != null)
+            {
+                switch (_playerControllerState)
+                {
+                    case EPlayerControllerState.Normal:
+                        #region Game
+                        mpi.Game.Movement.performed -= OnMove;
+                        mpi.Game.Movement.canceled -= OnMove;
+
+                        mpi.Game.Look.performed -= OnLook;
+                        mpi.Game.Look.canceled -= OnLook;
+                        break;
+                    #endregion
+                    default:
+                        break;
+                }
+
+            }
+
+            _playerControllerState = EPlayerControllerState.NONE;
         }
     }
 }

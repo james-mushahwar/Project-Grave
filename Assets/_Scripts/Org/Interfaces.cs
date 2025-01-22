@@ -6,6 +6,7 @@ namespace _Scripts.Org
 {
     public interface IMorgueTickable
     {
+        void Setup();
         void Tick();
     }
 

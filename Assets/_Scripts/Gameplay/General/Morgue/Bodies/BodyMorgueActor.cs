@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.Input.InputController.Game;
+using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Bodies{
     
-    public class BodyMorgueActor : MorgueActor, IMorgueTickable, IStorable, IInteractable
+    public class BodyMorgueActor : MorgueActor, IStorable, IInteractable
     {
         private Collider _collider;
 
@@ -41,6 +43,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             }
         }
 
+        public override void Setup()
+        {
+            
+        }
+
         public override void Tick()
         {
         }
@@ -72,6 +79,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         public bool OnInteract()
         {
             Debug.Log("Interact with body");
+
+            if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.OperatingTable_Above))
+            {
+                PlayerManager.Instance.CurrentPlayerController.RequestPlayerControllerState(EPlayerControllerState.Operating);
+            }
             return true;
         }
     }
