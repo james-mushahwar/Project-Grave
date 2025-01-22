@@ -145,10 +145,21 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
 
         public override void OnActionInput()
         {
-            if (_selectable != null)
+            IInteractable interactable = null;
+            if (_selectedObject != null)
             {
-                IInteractable interactable = _selectable as IInteractable;
-
+                interactable = _selectedObject.GetComponent<IInteractable>();
+                if (interactable != null)
+                {
+                    if (interactable.IsInteractable())
+                    {
+                        interactable.OnInteract();
+                    }
+                }
+            }
+            else if (_selectable != null)
+            {
+                interactable = _selectable as IInteractable;
                 if (interactable != null)
                 {
                     if (interactable.IsInteractable())

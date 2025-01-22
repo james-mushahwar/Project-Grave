@@ -6,9 +6,17 @@ using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Bodies{
     
-    public class BodyMorgueActor : MorgueActor, IMorgueTickable
+    public class BodyMorgueActor : MorgueActor, IMorgueTickable, IStorable, IInteractable
     {
         private Collider _collider;
+
+        [SerializeField]
+        private EStorableSize _size;
+
+        public EStorableSize StorableSize { get; }
+
+        private IStorage _stored;
+        public IStorage Stored { get => _stored; set => _stored = value; }
 
         private Collider Collider
         {
@@ -21,7 +29,6 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
                 return _collider;
             }
-            
         }
 
         public override void EnterHouseThroughChute()
@@ -44,6 +51,28 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             {
                 Collider.isTrigger = set;
             }
+        }
+
+        public bool IsInteractable()
+        {
+            bool interact = false;
+
+            if (Stored != null)
+            {
+                OperatingTable opTable = Stored as OperatingTable;
+                if (opTable != null)
+                {
+                    interact = true;
+                }
+            }
+
+            return interact;
+        }
+
+        public bool OnInteract()
+        {
+            Debug.Log("Interact with body");
+            return true;
         }
     }
     

@@ -18,6 +18,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [Header("Scriptables")]
 
         [Header("Managers")]
+        [SerializeField] private CameraManager _cameraManagerPrefab;
         [SerializeField] private InputManager _inputManagerPrefab;
         [SerializeField] private PlayerManager _playerManagerPrefab;
         [SerializeField] private AnimationManager _animationManagerPrefab;
@@ -66,6 +67,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         private void CreateManagers()
         {
+            _managers.Add(GameObject.Instantiate(_cameraManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_inputManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_playerManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_animationManagerPrefab, this.transform));

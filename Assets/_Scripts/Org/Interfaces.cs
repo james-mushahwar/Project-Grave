@@ -38,10 +38,14 @@ namespace _Scripts.Org
     public interface IStorable
     {
         public EStorableSize StorableSize { get; }
+        public IStorage Stored { get; set; }
     }
     public interface IStorage
     {
         public EStorableSize StorableSize { get; }
+        public List<Transform> StorableSpaces { get; }
+        public List<IStorable> Storables { get; }
+        public bool IsFull();
         bool TryStore(IStorable storable);
         bool TryRemove(IStorable storable);
     }

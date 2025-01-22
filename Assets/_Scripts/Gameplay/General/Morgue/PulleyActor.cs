@@ -9,6 +9,11 @@ namespace _Scripts.Gameplay.General.Morgue{
     public class PulleyActor : MonoBehaviour, ISelect, IInteractable
     {
 
+        #region Blocks
+        [Header("Interaction blocks")]
+        [SerializeField]
+        private OperatingTable _operatingTable;
+        #endregion
 
         #region Animations
         [SerializeField] private Animation _pulleyAnimation;
@@ -31,6 +36,14 @@ namespace _Scripts.Gameplay.General.Morgue{
             if (_pulleyAnimation.isPlaying)
             {
                 return false;
+            }
+
+            if (_operatingTable != null)
+            {
+                if (_operatingTable.IsFull())
+                {
+                    return false;
+                }
             }
 
             Animation anim = AnimationManager.Instance.GetMorgueAnimTypeAnimation(_triggerAnimType);
