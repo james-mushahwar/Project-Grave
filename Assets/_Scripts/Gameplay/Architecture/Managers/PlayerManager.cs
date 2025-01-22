@@ -27,17 +27,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // after main menu loads
         public virtual void ManagedPostMainMenuLoad() { }
         // before world (level, area, zone) starts loading
-        public virtual void ManagedPreInGameLoad() { }
-        // after world (level, area, zone) finished loading
-        public virtual void ManagedPostInGameLoad() { }
-        // save states are restored
-        public virtual void ManagedRestoreSave() { }
-        // after save states are restored
-        public virtual void ManagedPostRestoreSave() { }
-        // before play begins 
-        public virtual void ManagedPrePlayGame() { }
-        // tick for playing game 
-        public virtual void ManagedTick()
+        public virtual void ManagedPreInGameLoad()
         {
             if (_currentPlayerController == null)
             {
@@ -51,6 +41,19 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     _currentPlayerController = pc;
                 }
             }
+        }
+        // after world (level, area, zone) finished loading
+        public virtual void ManagedPostInGameLoad() { }
+        // save states are restored
+        public virtual void ManagedRestoreSave() { }
+        // after save states are restored
+        public virtual void ManagedPostRestoreSave() { }
+        // before play begins 
+        public virtual void ManagedPrePlayGame() { }
+        // tick for playing game 
+        public virtual void ManagedTick()
+        {
+            
         }
         // before world (level, area, zone) starts unloading
         public virtual void ManagedPreTearddownGame() { }

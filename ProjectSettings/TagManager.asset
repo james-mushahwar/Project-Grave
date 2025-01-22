@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Transform_ChuteRoot
+  - Camera_Holder
   layers:
   - Default
   - TransparentFX

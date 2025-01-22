@@ -78,6 +78,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             foreach (IManager manager in _managers)
             {
+                manager.ManagedPreInGameLoad();
+            }
+
+            foreach (IManager manager in _managers)
+            {
                 manager.ManagedPostInGameLoad();
             }
         }

@@ -8,6 +8,24 @@ namespace _Scripts.CautionaryTalesScripts{
     
     public static class CTGlobal
     {
+        #region Gameobjects
+        public static GameObject FindGameObjectInChildWithTag(GameObject parent, string tag)
+        {
+            Transform t = parent.transform;
+
+            for (int i = 0; i < t.childCount; i++)
+            {
+                if (t.GetChild(i).gameObject.tag == tag)
+                {
+                    return t.GetChild(i).gameObject;
+                }
+
+            }
+
+            return null;
+        }
+        #endregion
+
         public static bool IsInSqDistanceRange(GameObject obj1, GameObject obj2, float sqRange)
         {
             Vector3 differenceToTarget = obj1.transform.position - obj2.transform.position;
