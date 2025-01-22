@@ -2,6 +2,7 @@
 using _Scripts.Gameplay.Player.Controller;
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Org;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -65,6 +66,11 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
             FindSelectable();
 
             Possessed?.PossessTick();
+        }
+
+        public override void ManagedLateTick()
+        {
+            Possessed?.PossessLateTick();
         }
 
         public void FindSelectable()
@@ -139,6 +145,18 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
 
         public override void OnActionInput()
         {
+            if (_selectable != null)
+            {
+                IInteractable interactable = _selectable as IInteractable;
+
+                if (interactable != null)
+                {
+                    if (interactable.IsInteractable())
+                    {
+                        interactable.OnInteract();
+                    }
+                }
+            }
             //Vector2 mousePos = Mouse.current.position.ReadValue();
             //Ray ray = Camera.main.ScreenPointToRay(mousePos); // Create a ray from the camera to the mouse position
             //RaycastHit hit;

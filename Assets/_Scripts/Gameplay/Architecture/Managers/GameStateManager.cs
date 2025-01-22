@@ -20,6 +20,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [Header("Managers")]
         [SerializeField] private InputManager _inputManagerPrefab;
         [SerializeField] private PlayerManager _playerManagerPrefab;
+        [SerializeField] private AnimationManager _animationManagerPrefab;
         [SerializeField] private MorgueManager _morgueManagerPrefab;
 
         EGameState _gameState = EGameState.Bootstrap;
@@ -67,6 +68,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             _managers.Add(GameObject.Instantiate(_inputManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_playerManagerPrefab, this.transform));
+            _managers.Add(GameObject.Instantiate(_animationManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_morgueManagerPrefab, this.transform));
         }
 
@@ -84,8 +86,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 manager.ManagedTick();
             }
+        }
 
-            var inputM = GetGameManager<InputManager>();
+        void LateUpdate()
+        {
+            foreach (IManager manager in _managers)
+            {
+                manager.ManagedLateTick();
+            }
         }
 
         private void OnDrawGizmos()

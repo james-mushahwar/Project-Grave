@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using _Scripts.Gameplay.Architecture.Managers;
 using UnityEngine;
 
 [Serializable]
@@ -24,3 +25,7 @@ public class MyClass
 
 [Serializable]
 public class QuaternionMyClassDictionary : SerializableDictionary<Quaternion, MyClass> {}
+
+//Project Grave Dictionaries 
+[Serializable]
+public class MorgueAnimTypeAnimationDictionary : SerializableDictionary<EMorgueAnimType, Animation> {}

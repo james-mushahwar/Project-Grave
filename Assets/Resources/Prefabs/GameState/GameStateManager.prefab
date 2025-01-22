@@ -48,5 +48,7 @@ MonoBehaviour:
     type: 3}
   _playerManagerPrefab: {fileID: 8279226207249101473, guid: d8b954ff50fa49f4194ae33d3d6f91ba,
     type: 3}
+  _animationManagerPrefab: {fileID: 420772769317262351, guid: 115019903c82ff6488d5f837ece54914,
+    type: 3}
   _morgueManagerPrefab: {fileID: 8014924620646975180, guid: 13634a49e69724f40a15373bd75bfe3f,
     type: 3}

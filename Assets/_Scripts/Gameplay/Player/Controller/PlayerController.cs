@@ -54,7 +54,10 @@ namespace _Scripts.Gameplay.Player.Controller{
             {
                 velocity.y = -2f; // Reset the vertical velocity when grounded
             }
+        }
 
+        public void PossessLateTick()
+        {
             HandleRotation();
             HandleMovement();
             HandleJump();

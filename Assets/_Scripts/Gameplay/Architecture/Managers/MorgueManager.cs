@@ -16,10 +16,6 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         private List<IMorgueTickable> _morgueTickables = new List<IMorgueTickable>();
 
-        #region Animation
-        [SerializeField] private Animation _enterHouseThroughChute_Animation;
-        #endregion
-
         // as gamestate is being generated
         public virtual void ManagedPreInitialiseGameState() { }
         // after gamestate is generated
@@ -71,7 +67,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // after world (level, area, zone) unloading
         public virtual void ManagedPostTearddownGame() { }
 
-        private void Debug_SpawnMorgueActor()
+        public void Debug_SpawnMorgueActor()
         {
             Debug.Log("Try spawn morgue actor debug");
             MorgueActor actorSpawned = TrySpawnHouseChuteMorgueActor();
@@ -115,12 +111,16 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 }
             }
 
-            if (_enterHouseThroughChute_Animation.isPlaying)
+            animation = AnimationManager.Instance.GetMorgueAnimTypeAnimation(EMorgueAnimType.ChuteEnter);
+            if (animation == null)
             {
                 return null;
             }
 
-            animation = _enterHouseThroughChute_Animation;
+            if (animation.isPlaying)
+            {
+                return null;
+            }
 
             actor.ToggleProne(true);
             actor.transform.SetParent(animation.gameObject.transform, false);
