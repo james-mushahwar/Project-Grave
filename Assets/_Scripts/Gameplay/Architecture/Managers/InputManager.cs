@@ -20,6 +20,25 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public void OnDeselected();
     }
 
+    public enum EInputType
+    {
+        Movement,       //Lstick
+        Direction,      //Rstick
+        NButton,        //Y 
+        SButton,        //A
+        EButton,        //B
+        WButton,        //X
+        LBumper,
+        RBumper,
+        LTrigger,
+        RTrigger,
+        LStick,
+        RStick,
+        Start,
+        Select,
+        COUNT
+    }
+
     public class InputManager : GameManager<InputManager>, IManager
     {
         private MasterPlayerInput _masterPlayerInput;

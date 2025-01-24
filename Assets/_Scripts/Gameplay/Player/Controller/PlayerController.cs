@@ -11,6 +11,7 @@ using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
+using _Scripts.Org;
 
 namespace _Scripts.Gameplay.Player.Controller{
 
@@ -41,6 +42,10 @@ namespace _Scripts.Gameplay.Player.Controller{
         private bool isSprinting;
 
         private EPlayerControllerState _playerControllerState = EPlayerControllerState.NONE;
+        public EPlayerControllerState PlayerControllerState
+        {
+            get => _playerControllerState;
+        }
 
         [Header("Mouse Look Settings")]
         [SerializeField] private float mouseSensitivity = 100f;
@@ -69,10 +74,18 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void PossessLateTick()
         {
-            HandleRotation();
-            HandleMovement();
-            HandleJump();
-            ApplyGravity();
+            if (InputController.IsSouthInputValid)
+            {
+                OnActionInput();
+            }
+
+            if (PlayerControllerState == EPlayerControllerState.Normal)
+            {
+                HandleRotation();
+                HandleMovement();
+                HandleJump();
+                ApplyGravity();
+            }
         }
 
         public void OnDrawGizmos()
@@ -186,6 +199,39 @@ namespace _Scripts.Gameplay.Player.Controller{
             InputController = null;
         }
 
+        public void OnActionInput()
+        {
+            IInteractable interactable = null;
+
+            InputController.NullifyInput(EInputType.SButton);
+
+            GameObject selectedGO = InputController.SelectedObject;
+            ISelect selectable = InputController.Selectable;
+
+            if (selectedGO != null)
+            {
+                interactable = selectedGO.GetComponent<IInteractable>();
+                if (interactable != null)
+                {
+                    if (interactable.IsInteractable())
+                    {
+                        interactable.OnInteract();
+                    }
+                }
+            }
+            else if (selectable != null)
+            {
+                interactable = selectable as IInteractable;
+                if (interactable != null)
+                {
+                    if (interactable.IsInteractable())
+                    {
+                        interactable.OnInteract();
+                    }
+                }
+            }
+        }
+
         public void RequestPlayerControllerState(EPlayerControllerState state)
         {
             if (_playerControllerState != EPlayerControllerState.NONE)
@@ -209,14 +255,17 @@ namespace _Scripts.Gameplay.Player.Controller{
                 switch (state)
                 {
                     case EPlayerControllerState.Normal:
-                        #region Game
+                        
                         mpi.Game.Movement.performed += OnMove;
                         mpi.Game.Movement.canceled += OnMove;
 
                         mpi.Game.Look.performed += OnLook;
                         mpi.Game.Look.canceled += OnLook;
                         break;
-                    #endregion
+
+                    case EPlayerControllerState.Operating:
+                        //mpi.Game.Action.RemoveAllBindingOverrides();
+                        break;
                     default:
                         break;
                 }
@@ -238,14 +287,14 @@ namespace _Scripts.Gameplay.Player.Controller{
                 switch (_playerControllerState)
                 {
                     case EPlayerControllerState.Normal:
-                        #region Game
+                        
                         mpi.Game.Movement.performed -= OnMove;
                         mpi.Game.Movement.canceled -= OnMove;
 
                         mpi.Game.Look.performed -= OnLook;
                         mpi.Game.Look.canceled -= OnLook;
                         break;
-                    #endregion
+                    
                     default:
                         break;
                 }

@@ -64,6 +64,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         {
             bool interact = false;
 
+            bool normal = PlayerManager.Instance.CurrentPlayerController.PlayerControllerState ==
+                          EPlayerControllerState.Normal;
+            bool operating = PlayerManager.Instance.CurrentPlayerController.PlayerControllerState ==
+                             EPlayerControllerState.Operating;
+
             if (Stored != null)
             {
                 OperatingTable opTable = Stored as OperatingTable;
@@ -80,9 +85,21 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         {
             Debug.Log("Interact with body");
 
-            if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.OperatingTable_Above))
+            bool normal = PlayerManager.Instance.CurrentPlayerController.PlayerControllerState ==
+                          EPlayerControllerState.Normal;
+            bool operating = PlayerManager.Instance.CurrentPlayerController.PlayerControllerState ==
+                             EPlayerControllerState.Operating;
+
+            if (normal)
             {
-                PlayerManager.Instance.CurrentPlayerController.RequestPlayerControllerState(EPlayerControllerState.Operating);
+                if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.OperatingTable_Above))
+                {
+                    PlayerManager.Instance.CurrentPlayerController.RequestPlayerControllerState(EPlayerControllerState.Operating);
+                }
+            }
+            else
+            {
+                Debug.Log("Operating on body");
             }
             return true;
         }

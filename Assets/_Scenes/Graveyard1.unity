@@ -5936,7 +5936,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1055507820}
   m_LocalRotation: {x: 0.41142365, y: -0, z: -0, w: 0.91144425}
-  m_LocalPosition: {x: 2.5, y: 1.875, z: -0.7500003}
+  m_LocalPosition: {x: 2.5, y: 2.115, z: -0.477}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5967,7 +5967,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 70
     OrthographicSize: 10
-    NearClipPlane: 0.1
+    NearClipPlane: 1
     FarClipPlane: 5000
     Dutch: 0
     ModeOverride: 0
@@ -5990,7 +5990,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1055507820}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44d70cc20219cd84593f67d248eafe36, type: 3}
   m_Name: 
