@@ -113,26 +113,71 @@ namespace _Scripts.Gameplay.Input.InputController{
         public bool IsRightTriggerInputValid { get => _rightTriggerInputValid; }
         #endregion
 
-        public virtual void NullifyInput(EInputType inputType)
+        // check if input is active/'down', checkvalid checks if input is valid as well as down
+        public virtual bool CheckAndNullifyInput(EInputType inputType, bool checkValid = true, bool nullifyDown = false)
+        {
+            bool isActive = false;
+            bool isValid = false;
+
+            if (inputType == EInputType.SButton)
+            {
+                isActive = _southButtonDown;
+                isValid = _southInputValid;
+            }
+
+            bool success = false;
+
+            if (checkValid)
+            {
+                success = isActive && isValid;
+            }
+            else
+            {
+                success = isActive;
+            }
+
+            if (!success)
+            {
+                return false;
+            }
+
+            NullifyInput(inputType, nullifyDown);
+
+            return true;
+        }
+
+        public virtual void NullifyInput(EInputType inputType, bool nullifyDown = false)
         {
             if (inputType == EInputType.SButton)
             {
-                _southButtonDown = false;
+                if (nullifyDown)
+                {
+                    _southButtonDown = false;
+                }
                 _southInputValid = false;
             }
             else if (inputType == EInputType.WButton)
             {
-                _westButtonDown = false;
+                if (nullifyDown)
+                {
+                    _westButtonDown = false;
+                }
                 _westInputValid = false;
             }
             else if (inputType == EInputType.NButton)
             {
-                _northButtonDown = false;
+                if (nullifyDown)
+                {
+                    _northButtonDown = false;
+                }
                 _northInputValid = false;
             }
             else if (inputType == EInputType.EButton)
             {
-                _eastButtonDown = false;
+                if (nullifyDown)
+                {
+                    _eastButtonDown = false;
+                }
                 _eastInputValid = false;
             }
         }

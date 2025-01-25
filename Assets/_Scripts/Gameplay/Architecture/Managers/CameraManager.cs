@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using _Scripts.CautionaryTalesScripts;
 using Cinemachine;
+using static UnityEngine.Rendering.HDROutputUtils;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -54,7 +55,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // after gamestate is generated
         public virtual void ManagedPostInitialiseGameState() 
         {
-            
+            if (MainCamera != null)
+            {
+                
+            }
+
         }
         // before main menu loads
         public virtual void ManagedPreMainMenuLoad() { }
@@ -74,6 +79,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     MainCamera.transform.SetParent(go.transform);
                     MainCamera.transform.localPosition = Vector3.zero;
                     MainCamera.transform.rotation = Quaternion.identity;
+
+                    CinemachineVirtualCamera firstPersonVCam =
+                        go.GetComponentInChildren<CinemachineVirtualCamera>();
+
+                    if (firstPersonVCam != null)
+                    {
+                        AssignVirtualCameraType(EVirtualCameraType.FirstPersonView_Normal, firstPersonVCam);
+                    }
                 }
             }
         }
@@ -84,7 +97,18 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // before play begins 
         public virtual void ManagedPrePlayGame() { }
         // tick for playing game 
-        public virtual void ManagedTick() { }
+        public virtual void ManagedTick()
+        {
+            if (CmBrain != null)
+            {
+                bool inTransition = CmBrain.IsBlending;
+
+                bool inputState = !inTransition;
+
+                InputManager.Instance.TryToggleAllInput(inputState);
+            }
+
+        }
         // late update tick for playing game 
         public virtual void ManagedLateTick() { }
         // before world (level, area, zone) starts unloading

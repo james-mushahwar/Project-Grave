@@ -160,6 +160,25 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
         }
 
+        public void TryToggleAllInput(bool on)
+        {
+            bool toggle = (on && !_masterPlayerInput.asset.enabled) || (!on && _masterPlayerInput.asset.enabled);
+
+            if (!toggle)
+            {
+                return;
+            }
+
+            if (on)
+            {
+                _masterPlayerInput.Enable();
+            }
+            else
+            {
+                _masterPlayerInput.Disable();
+            }
+        }
+
         public void PossessPlayer(PlayerController playerController)
         {
             if (_inputController != _gameInputController)

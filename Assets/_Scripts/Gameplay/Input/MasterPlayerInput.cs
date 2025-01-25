@@ -955,6 +955,15 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Back"",
+                    ""type"": ""Button"",
+                    ""id"": ""46364aba-1ef3-4bbd-ba6c-5553725fe451"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Debug_SpawnBody"",
                     ""type"": ""Button"",
                     ""id"": ""0cbab588-df46-4a6b-abec-8f739538203c"",
@@ -978,8 +987,8 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ec6a4734-6379-4be2-836f-ede7601d72a7"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""id"": ""b074c8bb-d01c-402a-b0bf-aec99b896d00"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -989,8 +998,8 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b074c8bb-d01c-402a-b0bf-aec99b896d00"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""id"": ""ec6a4734-6379-4be2-836f-ede7601d72a7"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1173,6 +1182,28 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Debug_SpawnBody"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f16157e-5cbf-4e31-b80a-20663a90fcc1"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ebaa1e98-6074-4a62-8d80-3c51966ab745"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1208,6 +1239,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         m_Game_NextandPrev = m_Game.FindAction("NextandPrev", throwIfNotFound: true);
         m_Game_Movement = m_Game.FindAction("Movement", throwIfNotFound: true);
         m_Game_Look = m_Game.FindAction("Look", throwIfNotFound: true);
+        m_Game_Back = m_Game.FindAction("Back", throwIfNotFound: true);
         m_Game_Debug_SpawnBody = m_Game.FindAction("Debug_SpawnBody", throwIfNotFound: true);
     }
 
@@ -1495,6 +1527,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_NextandPrev;
     private readonly InputAction m_Game_Movement;
     private readonly InputAction m_Game_Look;
+    private readonly InputAction m_Game_Back;
     private readonly InputAction m_Game_Debug_SpawnBody;
     public struct GameActions
     {
@@ -1505,6 +1538,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         public InputAction @NextandPrev => m_Wrapper.m_Game_NextandPrev;
         public InputAction @Movement => m_Wrapper.m_Game_Movement;
         public InputAction @Look => m_Wrapper.m_Game_Look;
+        public InputAction @Back => m_Wrapper.m_Game_Back;
         public InputAction @Debug_SpawnBody => m_Wrapper.m_Game_Debug_SpawnBody;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
@@ -1530,6 +1564,9 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @Back.started += instance.OnBack;
+            @Back.performed += instance.OnBack;
+            @Back.canceled += instance.OnBack;
             @Debug_SpawnBody.started += instance.OnDebug_SpawnBody;
             @Debug_SpawnBody.performed += instance.OnDebug_SpawnBody;
             @Debug_SpawnBody.canceled += instance.OnDebug_SpawnBody;
@@ -1552,6 +1589,9 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @Back.started -= instance.OnBack;
+            @Back.performed -= instance.OnBack;
+            @Back.canceled -= instance.OnBack;
             @Debug_SpawnBody.started -= instance.OnDebug_SpawnBody;
             @Debug_SpawnBody.performed -= instance.OnDebug_SpawnBody;
             @Debug_SpawnBody.canceled -= instance.OnDebug_SpawnBody;
@@ -1603,6 +1643,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         void OnNextandPrev(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnBack(InputAction.CallbackContext context);
         void OnDebug_SpawnBody(InputAction.CallbackContext context);
     }
 }

@@ -56,7 +56,6 @@ namespace _Scripts.Gameplay.Player.Controller{
         private void Start()
         {
             characterController = GetComponent<CharacterController>();
-            Cursor.lockState = CursorLockMode.Locked; // Lock the cursor to the center of the screen
 
             InputManager.Instance.PossessPlayer(this);
         }
@@ -74,7 +73,7 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void PossessLateTick()
         {
-            if (InputController.IsSouthInputValid)
+            if (InputController.CheckAndNullifyInput(EInputType.SButton))
             {
                 OnActionInput();
             }
@@ -126,14 +125,30 @@ namespace _Scripts.Gameplay.Player.Controller{
                 return;
             }
 
+            if (CameraManager.Instance.CmBrain == null)
+            {
+                return;
+            }
+
+            if (CameraManager.Instance.CmBrain.IsBlending)
+            {
+                Debug.Log("Is blending cameras");
+                return;
+            }
+
             Vector2 mouseInput = _lookVector;
             float mouseX = mouseInput.x * mouseSensitivity * Time.deltaTime;
             float mouseY = mouseInput.y * mouseSensitivity * Time.deltaTime;
 
+            GameObject vCameraGameObject = CameraManager.Instance.CmBrain.ActiveVirtualCamera.VirtualCameraGameObject;
+            if (vCameraGameObject != null)
+            {
+                vCameraGameObject.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f); // Rotate the camera
+            }
+
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Clamp the vertical rotation
             transform.Rotate(Vector3.up * mouseX); // Rotate the player
-            Camera.main.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f); // Rotate the camera
         }
 
         private void HandleJump()
@@ -157,6 +172,26 @@ namespace _Scripts.Gameplay.Player.Controller{
         public void OnLook(InputAction.CallbackContext context)
         {
             _lookVector = context.ReadValue<Vector2>();
+        }
+
+        public void Operating_OnBack(InputAction.CallbackContext callbackContext)
+        {
+            Debug.Log("Attempt leave body");
+
+            bool operating = PlayerControllerState == EPlayerControllerState.Operating;
+
+            if (operating)
+            {
+                if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.FirstPersonView_Normal))
+                {
+                    RequestPlayerControllerState(EPlayerControllerState.Normal);
+                }
+            }
+            else
+            {
+                Debug.Log("Leaving Operating on body");
+            }
+            
         }
 
         public bool AttemptPossess(InputController controller)
@@ -203,8 +238,6 @@ namespace _Scripts.Gameplay.Player.Controller{
         {
             IInteractable interactable = null;
 
-            InputController.NullifyInput(EInputType.SButton);
-
             GameObject selectedGO = InputController.SelectedObject;
             ISelect selectable = InputController.Selectable;
 
@@ -249,6 +282,8 @@ namespace _Scripts.Gameplay.Player.Controller{
                 return;
             }
 
+            CursorLockMode cursorLock = CursorLockMode.Locked;
+
             MasterPlayerInput mpi = InputManager.Instance.MasterPlayerInput;
             if (mpi != null)
             {
@@ -264,7 +299,9 @@ namespace _Scripts.Gameplay.Player.Controller{
                         break;
 
                     case EPlayerControllerState.Operating:
+                        cursorLock = CursorLockMode.Confined;
                         //mpi.Game.Action.RemoveAllBindingOverrides();
+                        mpi.Game.Back.started += Operating_OnBack;
                         break;
                     default:
                         break;
@@ -272,6 +309,8 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
 
             _playerControllerState = state;
+
+            Cursor.lockState = cursorLock; // Lock the cursor to the center of the screen
         }
 
         private void ExitPlayerControllerState()
@@ -294,7 +333,11 @@ namespace _Scripts.Gameplay.Player.Controller{
                         mpi.Game.Look.performed -= OnLook;
                         mpi.Game.Look.canceled -= OnLook;
                         break;
-                    
+
+                    case EPlayerControllerState.Operating:
+                        mpi.Game.Back.started -= Operating_OnBack;
+                        break;
+
                     default:
                         break;
                 }
