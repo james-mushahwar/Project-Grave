@@ -965,8 +965,19 @@
                 },
                 {
                     "name": "",
-                    "id": "b074c8bb-d01c-402a-b0bf-aec99b896d00",
+                    "id": "58f4b66d-60eb-463f-9a2f-314fe219f076",
                     "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ec6a4734-6379-4be2-836f-ede7601d72a7",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -976,8 +987,8 @@
                 },
                 {
                     "name": "",
-                    "id": "ec6a4734-6379-4be2-836f-ede7601d72a7",
-                    "path": "<Mouse>/leftButton",
+                    "id": "fcaa9d1d-efce-4261-ba71-75c4e439aa16",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
