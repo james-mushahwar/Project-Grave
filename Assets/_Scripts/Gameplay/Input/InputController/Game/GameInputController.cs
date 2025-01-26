@@ -56,6 +56,11 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
             Possessed?.PossessLateTick();
         }
 
+        public override void ManagedFixedTick()
+        {
+            Possessed?.PossessFixedTick();
+        }
+
         private void RaycastFindSelectable()
         {
             //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // Create a ray from the camera to the mouse position

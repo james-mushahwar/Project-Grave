@@ -101,24 +101,17 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public void ManagedTick()
         {
-            if (_globalSelectButtonDown) // Check for left mouse button click
-            {
-                //_inputController.OnSelectInput();
-                _globalSelectButtonDown = false;
-            }
-
             InputController.ManagedTick();
         }
 
         public void ManagedLateTick()
         {
-            if (_globalSelectButtonDown) // Check for left mouse button click
-            {
-                //_inputController.OnSelectInput();
-                _globalSelectButtonDown = false;
-            }
-
             InputController.ManagedLateTick();
+        }
+
+        public void ManagedFixedTick()
+        {
+            InputController.ManagedFixedTick();
         }
 
         public void TryEnableActionMap(EInputSystem inputType)

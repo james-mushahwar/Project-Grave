@@ -35,6 +35,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public virtual void ManagedTick() { }
         // late update tick for playing game 
         public virtual void ManagedLateTick() { }
+        // late update tick for playing game 
+        public virtual void ManagedFixedTick() { }
         // before world (level, area, zone) starts unloading
         public virtual void ManagedPreTearddownGame() { }
         // after world (level, area, zone) unloading

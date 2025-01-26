@@ -67,11 +67,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         private void CreateManagers()
         {
-            _managers.Add(GameObject.Instantiate(_cameraManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_inputManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_playerManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_animationManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_morgueManagerPrefab, this.transform));
+            _managers.Add(GameObject.Instantiate(_cameraManagerPrefab, this.transform));
         }
 
         void Start()
@@ -100,6 +100,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             foreach (IManager manager in _managers)
             {
                 manager.ManagedLateTick();
+            }
+        }
+
+        void FixedUpdate()
+        {
+            foreach (IManager manager in _managers)
+            {
+                manager.ManagedFixedTick();
             }
         }
 

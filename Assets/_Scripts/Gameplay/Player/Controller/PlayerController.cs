@@ -73,6 +73,11 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void PossessLateTick()
         {
+            
+        }
+
+        public void PossessFixedTick()
+        {
             if (InputController.CheckAndNullifyInput(EInputType.SButton))
             {
                 OnActionInput();
@@ -130,9 +135,8 @@ namespace _Scripts.Gameplay.Player.Controller{
                 return;
             }
 
-            if (CameraManager.Instance.CmBrain.IsBlending)
+            if (CameraManager.Instance.IsCameraInTransition())
             {
-                Debug.Log("Is blending cameras");
                 return;
             }
 
@@ -174,6 +178,7 @@ namespace _Scripts.Gameplay.Player.Controller{
             _lookVector = context.ReadValue<Vector2>();
         }
 
+        #region Operating
         public void Operating_OnBack(InputAction.CallbackContext callbackContext)
         {
             Debug.Log("Attempt leave body");
@@ -193,6 +198,12 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
             
         }
+
+        public void Operating_OnAction(InputAction.CallbackContext callbackContext)
+        {
+            
+        }
+        #endregion
 
         public bool AttemptPossess(InputController controller)
         {
@@ -237,6 +248,8 @@ namespace _Scripts.Gameplay.Player.Controller{
         public void OnActionInput()
         {
             IInteractable interactable = null;
+
+            Debug.Log("Ation input");
 
             GameObject selectedGO = InputController.SelectedObject;
             ISelect selectable = InputController.Selectable;

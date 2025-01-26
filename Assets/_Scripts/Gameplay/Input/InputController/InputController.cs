@@ -14,6 +14,7 @@ namespace _Scripts.Gameplay.Input.InputController{
         bool AttemptUnpossess(InputController controller);
         void PossessTick();
         void PossessLateTick();
+        void PossessFixedTick();
     }
 
     public abstract class InputController : ScriptableObject, IManaged
@@ -197,6 +198,11 @@ namespace _Scripts.Gameplay.Input.InputController{
 
         }
         public virtual void ManagedLateTick()
+        {
+
+        }
+
+        public virtual void ManagedFixedTick()
         {
 
         }

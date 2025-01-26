@@ -48,6 +48,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
         }
 
+        private bool _cameraTransitionBuffer;
+
         [SerializeField] private VirtualCameraTypeDictionary _virtualCameraTypeDictionary;
 
         // as gamestate is being generated
@@ -99,18 +101,30 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // tick for playing game 
         public virtual void ManagedTick()
         {
+        }
+        // late update tick for playing game 
+        public virtual void ManagedLateTick()
+        {
             if (CmBrain != null)
             {
-                bool inTransition = CmBrain.IsBlending;
+                bool inTransition = IsCameraInTransition();
+
+                if (inTransition && _cameraTransitionBuffer)
+                {
+                    _cameraTransitionBuffer = false;
+                }
 
                 bool inputState = !inTransition;
 
                 InputManager.Instance.TryToggleAllInput(inputState);
             }
+        }
+
+        public virtual void ManagedFixedTick()
+        {
 
         }
-        // late update tick for playing game 
-        public virtual void ManagedLateTick() { }
+
         // before world (level, area, zone) starts unloading
         public virtual void ManagedPreTearddownGame() { }
         // after world (level, area, zone) unloading
@@ -144,11 +158,34 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     }
 
                     vCam.gameObject.SetActive(true);
+                    _cameraTransitionBuffer = true;
                     activated = true;
                 }
             }
 
             return activated;
+        }
+
+        public bool IsCameraInTransition()
+        {
+            bool inTransition = false;
+
+            if (_cameraTransitionBuffer == false)
+            {
+                if (CmBrain != null)
+                {
+                    if (CmBrain.IsBlending || CmBrain.ActiveBlend != null)
+                    {
+                        inTransition = true;
+                    }
+                }
+            }
+            else
+            {
+                inTransition = true;
+            }
+
+            return inTransition;
         }
     }
     

@@ -5920,7 +5920,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1055507821}
   - component: {fileID: 1055507822}
-  - component: {fileID: 1055507823}
   m_Layer: 0
   m_Name: VCamera
   m_TagString: Untagged
@@ -5962,7 +5961,7 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 1847895496}
+  m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 70
@@ -5983,21 +5982,6 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 1707530099}
---- !u!114 &1055507823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1055507820}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44d70cc20219cd84593f67d248eafe36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Offset: {x: 0.12, y: 0.12, z: 0}
-  m_ApplyAfter: 2
-  m_PreserveComposition: 0
 --- !u!1 &1117761713
 GameObject:
   m_ObjectHideFlags: 0
@@ -6271,11 +6255,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3514275536492575818, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3578614195820394837, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
         type: 3}
       propertyPath: m_RootOrder
