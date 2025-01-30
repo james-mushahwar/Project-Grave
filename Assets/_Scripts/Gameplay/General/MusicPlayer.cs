@@ -40,7 +40,7 @@ namespace _Scripts.Gameplay.General{
         public bool OnInteract()
         {
             _audioSource.clip = _tracks[_audioIndex];
-            _audioSource.Play(1);
+            _audioSource.PlayDelayed(1.0f);
 
             _audioIndex++;
             if (_audioIndex >= _tracks.Count)

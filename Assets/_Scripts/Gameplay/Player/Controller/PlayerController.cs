@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
 using _Scripts.Editortools.Draw;
+using _Scripts.Gameplay.General.Morgue;
+using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
@@ -53,6 +55,16 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public InputController InputController { get; private set; }
 
+        #region PlayerStorage
+        [SerializeField] private PlayerStorage _playerStorage;
+        #endregion
+
+        #region Operating
+        //private float _opScroll;
+        private OperatingTable _operatingTable;
+        private MorgueToolActor _equippedOperatingTool;
+        #endregion
+
         private void Start()
         {
             characterController = GetComponent<CharacterController>();
@@ -78,9 +90,24 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void PossessFixedTick()
         {
+            bool operating = PlayerControllerState == EPlayerControllerState.Operating;
+
             if (InputController.CheckAndNullifyInput(EInputType.SButton))
             {
                 OnActionInput();
+            }
+
+            //scroll
+            if (operating)
+            {
+                if (InputController.CheckAndNullifyInput(EInputType.LBumper))
+                {
+                    OperatingScroll(false);
+                }
+                else if (InputController.CheckAndNullifyInput(EInputType.RBumper))
+                {
+                    OperatingScroll(true);
+                }
             }
 
             if (PlayerControllerState == EPlayerControllerState.Normal)
@@ -100,12 +127,6 @@ namespace _Scripts.Gameplay.Player.Controller{
         {
             float moveX = _moveVector.x; // Horizontal movement
             float moveZ = _moveVector.y; // Forward movement
-
-            // Handle inputs
-            //if (Keyboard.current.wKey.isPressed) moveZ = 1f;
-            //if (Keyboard.current.sKey.isPressed) moveZ = -1f;
-            //if (Keyboard.current.aKey.isPressed) moveX = -1f;
-            //if (Keyboard.current.dKey.isPressed) moveX = 1f;
 
             // Sprinting
             if (Keyboard.current.leftShiftKey.isPressed)
@@ -190,6 +211,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                 if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.FirstPersonView_Normal))
                 {
                     RequestPlayerControllerState(EPlayerControllerState.Normal);
+                    _operatingTable = null;
                 }
             }
             else
@@ -201,7 +223,66 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void Operating_OnAction(InputAction.CallbackContext callbackContext)
         {
-            
+            if (CameraManager.Instance.IsCameraInTransition())
+            {
+                return;
+            }
+        }
+
+        public void Operating_OnScroll(InputAction.CallbackContext callbackContext)
+        {
+            if (CameraManager.Instance.IsCameraInTransition())
+            {
+                return;
+            }
+
+            float opScroll = callbackContext.ReadValue<float>();
+
+            Debug.Log("Playercontroller: scroll = " + opScroll);
+        }
+
+        public void OperatingScroll(bool forward = true)
+        {
+            if (CameraManager.Instance.IsCameraInTransition())
+            {
+                return;
+            }
+
+            if (_operatingTable == null)
+            {
+                return;
+            }
+
+            int toolsCount = _operatingTable.OperatingToolsCount;
+            int toolIndex = _operatingTable.GetOperatingToolIndex(_equippedOperatingTool);
+
+            int newIndex = toolIndex + (forward ? 1 : -1);
+
+            if (newIndex < 0)
+            {
+                newIndex = toolsCount - 1;
+            }
+            else if (newIndex == toolsCount)
+            {
+                newIndex = 0;
+            }
+
+            MorgueToolActor newTool = _operatingTable.GetOperatingTool(newIndex);
+
+            if (newTool != null)
+            {
+                IStorage nextStorage = _playerStorage.GetNextBestStorage();
+                if (nextStorage != null)
+                {
+                    bool stored = nextStorage.TryStore(newTool);
+                    if (stored)
+                    {
+                        _equippedOperatingTool = newTool;
+                    }
+                }
+            }
+
+            Debug.Log("Index is now : " + newIndex);
         }
         #endregion
 
@@ -278,6 +359,13 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
         }
 
+        public void BeginOperatingState(OperatingTable opTable)
+        {
+            _operatingTable = opTable;
+
+            RequestPlayerControllerState(EPlayerControllerState.Operating);
+        }
+
         public void RequestPlayerControllerState(EPlayerControllerState state)
         {
             if (_playerControllerState != EPlayerControllerState.NONE)
@@ -298,6 +386,9 @@ namespace _Scripts.Gameplay.Player.Controller{
             CursorLockMode cursorLock = CursorLockMode.Locked;
 
             MasterPlayerInput mpi = InputManager.Instance.MasterPlayerInput;
+
+            GameInputController gameIC = InputManager.Instance.GetInputController<GameInputController>();
+
             if (mpi != null)
             {
                 switch (state)
@@ -315,6 +406,14 @@ namespace _Scripts.Gameplay.Player.Controller{
                         cursorLock = CursorLockMode.Confined;
                         //mpi.Game.Action.RemoveAllBindingOverrides();
                         mpi.Game.Back.started += Operating_OnBack;
+
+                        mpi.Game.Operating_Scroll.Enable();
+                        //mpi.Game.Operating_Scroll.started += Operating_OnScroll;
+                        if (gameIC)
+                        {
+                            mpi.Game.Operating_Scroll.started += gameIC.Operating_OnScroll;
+                        }
+                        //mpi.Game.Operating_Scroll.canceled += ctx => _opScroll = 0.0f;
                         break;
                     default:
                         break;
@@ -334,6 +433,9 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
 
             MasterPlayerInput mpi = InputManager.Instance.MasterPlayerInput;
+
+            GameInputController gameIC = InputManager.Instance.GetInputController<GameInputController>();
+
             if (mpi != null)
             {
                 switch (_playerControllerState)
@@ -349,6 +451,13 @@ namespace _Scripts.Gameplay.Player.Controller{
 
                     case EPlayerControllerState.Operating:
                         mpi.Game.Back.started -= Operating_OnBack;
+                        
+                        mpi.Game.Operating_Scroll.Disable();
+                        //mpi.Game.Operating_Scroll.started -= Operating_OnScroll;
+                        if (gameIC)
+                        {
+                            mpi.Game.Operating_Scroll.started -= gameIC.Operating_OnScroll;
+                        }
                         break;
 
                     default:

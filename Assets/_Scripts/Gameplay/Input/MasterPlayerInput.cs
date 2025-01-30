@@ -971,6 +971,15 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Operating_Scroll"",
+                    ""type"": ""Button"",
+                    ""id"": ""e1d43e26-3b18-4684-9b39-76c4f063fc19"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1171,6 +1180,72 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Back"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Scroll"",
+                    ""id"": ""cd794cdc-3f8a-42fe-aa9a-8b9a46d7d2c3"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": ""Clamp(min=-1,max=1)"",
+                    ""groups"": """",
+                    ""action"": ""Operating_Scroll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""5cbea6e9-9f58-4535-a5a4-7e11be7e9e9f"",
+                    ""path"": ""<Mouse>/scroll/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""2749b877-a341-4dbb-a3af-cf75463f2676"",
+                    ""path"": ""<Mouse>/scroll/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Bumpers"",
+                    ""id"": ""cc5d14f1-7a83-4efb-8013-3c39f26b1641"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_Scroll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""dfbb35ee-cb4b-434e-a064-2504388fd40c"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""d7208d78-9075-4e1e-8674-9a615ccf8f34"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -1208,6 +1283,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         m_Game_Look = m_Game.FindAction("Look", throwIfNotFound: true);
         m_Game_Back = m_Game.FindAction("Back", throwIfNotFound: true);
         m_Game_Debug_SpawnBody = m_Game.FindAction("Debug_SpawnBody", throwIfNotFound: true);
+        m_Game_Operating_Scroll = m_Game.FindAction("Operating_Scroll", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1496,6 +1572,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_Look;
     private readonly InputAction m_Game_Back;
     private readonly InputAction m_Game_Debug_SpawnBody;
+    private readonly InputAction m_Game_Operating_Scroll;
     public struct GameActions
     {
         private @MasterPlayerInput m_Wrapper;
@@ -1507,6 +1584,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Game_Look;
         public InputAction @Back => m_Wrapper.m_Game_Back;
         public InputAction @Debug_SpawnBody => m_Wrapper.m_Game_Debug_SpawnBody;
+        public InputAction @Operating_Scroll => m_Wrapper.m_Game_Operating_Scroll;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1537,6 +1615,9 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
             @Debug_SpawnBody.started += instance.OnDebug_SpawnBody;
             @Debug_SpawnBody.performed += instance.OnDebug_SpawnBody;
             @Debug_SpawnBody.canceled += instance.OnDebug_SpawnBody;
+            @Operating_Scroll.started += instance.OnOperating_Scroll;
+            @Operating_Scroll.performed += instance.OnOperating_Scroll;
+            @Operating_Scroll.canceled += instance.OnOperating_Scroll;
         }
 
         private void UnregisterCallbacks(IGameActions instance)
@@ -1562,6 +1643,9 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
             @Debug_SpawnBody.started -= instance.OnDebug_SpawnBody;
             @Debug_SpawnBody.performed -= instance.OnDebug_SpawnBody;
             @Debug_SpawnBody.canceled -= instance.OnDebug_SpawnBody;
+            @Operating_Scroll.started -= instance.OnOperating_Scroll;
+            @Operating_Scroll.performed -= instance.OnOperating_Scroll;
+            @Operating_Scroll.canceled -= instance.OnOperating_Scroll;
         }
 
         public void RemoveCallbacks(IGameActions instance)
@@ -1612,5 +1696,6 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
         void OnDebug_SpawnBody(InputAction.CallbackContext context);
+        void OnOperating_Scroll(InputAction.CallbackContext context);
     }
 }

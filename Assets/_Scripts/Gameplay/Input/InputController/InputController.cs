@@ -125,6 +125,16 @@ namespace _Scripts.Gameplay.Input.InputController{
                 isActive = _southButtonDown;
                 isValid = _southInputValid;
             }
+            else if (inputType == EInputType.LBumper)
+            {
+                isActive = _leftBumperDown;
+                isValid = _leftBumperInputValid;
+            }
+            else if (inputType == EInputType.RBumper)
+            {
+                isActive = _rightBumperDown;
+                isValid = _rightBumperInputValid;
+            }
 
             bool success = false;
 
@@ -180,6 +190,22 @@ namespace _Scripts.Gameplay.Input.InputController{
                     _eastButtonDown = false;
                 }
                 _eastInputValid = false;
+            }
+            else if (inputType == EInputType.LBumper)
+            {
+                if (nullifyDown)
+                {
+                    _leftBumperDown = false;
+                }
+                _leftBumperInputValid = false;
+            }
+            else if (inputType == EInputType.RBumper)
+            {
+                if (nullifyDown)
+                {
+                    _rightBumperDown = false;
+                }
+                _rightBumperInputValid = false;
             }
         }
 

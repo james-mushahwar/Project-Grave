@@ -34,6 +34,10 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
                     #region Game
                     mpi.Game.Movement.performed += ctx => MovementInput  = ctx.ReadValue<Vector2>();
                     mpi.Game.Look.performed += ctx =>     DirectionInput = ctx.ReadValue<Vector2>();
+
+                    //mpi.Game.Operating_Scroll.started += Operating_OnScroll;
+                    //mpi.Game.Operating_Scroll.Disable();
+
                     #endregion
                 }
             }
@@ -125,6 +129,29 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
         {
             
         }
+
+        #region Operating
+        public void Operating_OnScroll(InputAction.CallbackContext callbackContext)
+        {
+            float scroll = callbackContext.ReadValue<float>();
+            Debug.Log("Scroll is : " + scroll);
+
+            if (scroll != 0.0f)
+            {
+                if (scroll < 0.0f)
+                {
+                    LeftBumperDown = true;
+                    _leftBumperInputValid = true;
+                }
+                else
+                {
+                    RightBumperDown = true;
+                    _rightBumperInputValid = true;
+                }
+            }
+            
+        }
+        #endregion
     }
     
 }

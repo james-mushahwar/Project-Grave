@@ -3,6 +3,8 @@ using _Scripts.Org;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using _Scripts.Gameplay.General.Morgue.Operation.Tools;
+using _Scripts.Gameplay.Player.Controller;
 using Cinemachine;
 using UnityEngine;
 
@@ -10,19 +12,15 @@ namespace _Scripts.Gameplay.General.Morgue{
 
     public class OperatingTable : MonoBehaviour, IMorgueTickable, IStorage
     {
-        [SerializeField] private EStorableSize _storableSize;
-        public EStorableSize StorableSize { get => _storableSize; }
-
-        private List<IStorable> _storables = new List<IStorable>();
-        public List<IStorable> Storables { get => _storables; }
-
-        [SerializeField] private List<Transform> _storableSpaces;
-        public List<Transform> StorableSpaces { get => _storableSpaces; }
+        [SerializeField] private FStorageSlot _tableStorageSlot;
 
         [SerializeField]
         private List<EMorgueAnimType> _morgueAnimTypes = new List<EMorgueAnimType>();
 
         [SerializeField] private CinemachineVirtualCamera _vCamera_Above;
+
+        [SerializeField] private List<MorgueToolActor> _operatingTools = new List<MorgueToolActor>();
+        public int OperatingToolsCount { get { return _operatingTools.Count; } }
 
         public void Setup()
         {
@@ -30,6 +28,8 @@ namespace _Scripts.Gameplay.General.Morgue{
             {
                 CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_Above, _vCamera_Above);
             }
+
+            _tableStorageSlot.StorageParent = this;
         }
 
         public void Tick()
@@ -56,71 +56,111 @@ namespace _Scripts.Gameplay.General.Morgue{
             }
         }
 
-        public bool TryRemove(IStorable storable)
+        public IStorable TryRemove(IStorable storable)
         {
-            bool remove = false;
+            IStorable removed = null;
 
-            return remove;
+            removed = _tableStorageSlot.TryRemove(storable);
+
+            return removed;
+        }
+
+        public bool TryFind(IStorable storable)
+        {
+            return _tableStorageSlot.TryFind(storable);
+        }
+
+        public List<IStorable> TryEmpty()
+        {
+            return _tableStorageSlot.TryEmpty();
+        }
+
+        public IStorage GetStorageParent()
+        {
+            return this;
+        }
+
+
+        public bool CanStorableFit(IStorable storable)
+        {
+            return _tableStorageSlot.CanStorableFit(storable);
         }
 
         public bool TryStore(IStorable storable)
         {
-            bool tooLargeStorable = storable.StorableSize > StorableSize;
-
-            bool store = !IsFull() && !tooLargeStorable;
-
-            if (store)
-            {
-                MonoBehaviour storableMono = storable as MonoBehaviour;
-                if (storableMono != null)
-                {
-                    storableMono.gameObject.transform.SetParent(GetStorableSpace(), false);
-
-                }
-
-                storable.Stored = this;
-                Storables.Add(storable);
-            }
+            bool store = _tableStorageSlot.TryStore(storable);
+            
             return store;
         }
 
         public bool IsFull()
         {
-            int storedCount = GetStoredCount();
-
-            return storedCount >= StorableSpaces.Count;
+            return _tableStorageSlot.IsFull();
         }
 
-        private int GetStoredCount()
-        {
-            int storedCount = 0;
+        //private int GetStoredCount()
+        //{
+        //    int storedCount = 0;
 
-            for (int i = 0; i < StorableSpaces.Count; i++)
+        //    for (int i = 0; i < StorableSpaces.Count; i++)
+        //    {
+        //        bool isSpaceEmpty = StorableSpaces[i].childCount == 0;
+        //        if (!isSpaceEmpty)
+        //        {
+        //            storedCount++;
+        //        }
+        //    }
+
+        //    return storedCount;
+        //}
+
+        //private Transform GetStorableSpace()
+        //{
+        //    Transform t = null;
+
+        //    for (int i = 0; i < StorableSpaces.Count; i++)
+        //    {
+        //        if (StorableSpaces[i].childCount == 0)
+        //        {
+        //            t = StorableSpaces[i];
+        //            break;
+        //        }
+        //    }
+
+        //    return t;
+        //}
+
+        public int GetOperatingToolIndex(MorgueToolActor tool)
+        {
+            int index = -1;
+
+            if (tool == null)
             {
-                bool isSpaceEmpty = StorableSpaces[i].childCount == 0;
-                if (!isSpaceEmpty)
+                return 0;
+            }
+
+            for (int i = -1; i < _operatingTools.Count; i++)
+            {
+                if (tool == _operatingTools[i])
                 {
-                    storedCount++;
+                    index = i;
+                    return index;
                 }
             }
 
-            return storedCount;
+            return index;
         }
 
-        private Transform GetStorableSpace()
+        public MorgueToolActor GetOperatingTool(int index)
         {
-            Transform t = null;
+            MorgueToolActor tool = null;
 
-            for (int i = 0; i < StorableSpaces.Count; i++)
+            if (index >= 0 && index < OperatingToolsCount)
             {
-                if (StorableSpaces[i].childCount == 0)
-                {
-                    t = StorableSpaces[i];
-                    break;
-                }
+                tool = _operatingTools[index];
             }
 
-            return t;
+            return tool;
         }
     }
     

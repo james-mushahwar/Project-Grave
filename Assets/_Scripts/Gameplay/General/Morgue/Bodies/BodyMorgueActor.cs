@@ -12,13 +12,23 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
     {
         private Collider _collider;
 
-        [SerializeField]
-        private EStorableSize _size;
+        [SerializeField] private FStorable _bodyStorable;
+        public EStorableSize StorableSize { get => _bodyStorable.StorableSize; }
 
-        public EStorableSize StorableSize { get; }
+        public bool IsStored()
+        {
+            return _bodyStorable.IsStored();
+        }
 
-        private IStorage _stored;
-        public IStorage Stored { get => _stored; set => _stored = value; }
+        public IStorable StoreIntoStorage(IStorage storage)
+        {
+            return _bodyStorable.StoreIntoStorage(storage);
+        }
+
+        public IStorable RemoveFromStorage(IStorage storage)
+        {
+            return _bodyStorable.RemoveFromStorage(storage);
+        }
 
         private Collider Collider
         {
@@ -69,9 +79,9 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             bool operating = PlayerManager.Instance.CurrentPlayerController.PlayerControllerState ==
                              EPlayerControllerState.Operating;
 
-            if (Stored != null)
+            if (_bodyStorable.Stored != null)
             {
-                OperatingTable opTable = Stored as OperatingTable;
+                OperatingTable opTable = _bodyStorable.Stored.GetStorageParent() as OperatingTable;
                 if (opTable != null)
                 {
                     interact = true;
@@ -83,18 +93,19 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public bool OnInteract()
         {
-            Debug.Log("Interact with body");
+            //Debug.Log("Interact with body");
 
             bool normal = PlayerManager.Instance.CurrentPlayerController.PlayerControllerState ==
                           EPlayerControllerState.Normal;
             bool operating = PlayerManager.Instance.CurrentPlayerController.PlayerControllerState ==
                              EPlayerControllerState.Operating;
+            OperatingTable opTable = _bodyStorable.Stored.GetStorageParent() as OperatingTable;
 
             if (normal)
             {
                 if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.OperatingTable_Above))
                 {
-                    PlayerManager.Instance.CurrentPlayerController.RequestPlayerControllerState(EPlayerControllerState.Operating);
+                    PlayerManager.Instance.CurrentPlayerController.BeginOperatingState(opTable);
                 }
             }
             else
