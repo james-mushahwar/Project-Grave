@@ -8,9 +8,9 @@ TerrainLayer:
   m_PrefabAsset: {fileID: 0}
   m_Name: gorey_001
   m_DiffuseTexture: {fileID: 2800000, guid: f28e7c25e338c9540acef786422eb05c, type: 3}
-  m_NormalMapTexture: {fileID: 2800000, guid: e3450547987c87a4f8cdec7fc0af78fc, type: 3}
+  m_NormalMapTexture: {fileID: 2800000, guid: 97a5b3b51147c84418210f5a55efcaff, type: 3}
   m_MaskMapTexture: {fileID: 2800000, guid: 9333fc1794889a14da89e1479ee5f703, type: 3}
-  m_TileSize: {x: 6, y: 7}
+  m_TileSize: {x: 6, y: 8}
   m_TileOffset: {x: 1, y: 0}
   m_Specular: {r: 0, g: 0, b: 0, a: 0}
   m_Metallic: 0
