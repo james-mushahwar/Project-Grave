@@ -51,9 +51,12 @@ namespace _Scripts.Org
     public interface IStorable
     {
         public EStorableSize StorableSize { get; }
+        public IStorage Stored { get; }
         public bool IsStored();
         public IStorable StoreIntoStorage(IStorage storage);
         public IStorable RemoveFromStorage(IStorage storage);
+        public IStorable GetStorableParent();
+
     }
     public interface IStorage
     {
@@ -67,27 +70,28 @@ namespace _Scripts.Org
     }
 
     [Serializable]
-    public struct FStorable : IStorable
+    public class FStorable : IStorable
     {
         [SerializeField]
         private EStorableSize _storableSize;
         [SerializeField]
         private EStorableType _storableType;
         private IStorage _stored;
-
-        public readonly EStorableSize StorableSize
+        private IStorable _storableParent;
+        public EStorableSize StorableSize
         {
             get { return _storableSize; }
         }
-        public readonly EStorableType StorableType
+        public EStorableType StorableType
         {
             get { return _storableType; }
         }
         public IStorage Stored
         {
-            readonly get { return _stored; }
-            set { _stored = value; }
+            get { return _stored; }
         }
+
+        public IStorable StorableParent { get => _storableParent; set => _storableParent = value; }
 
         public bool IsStored()
         {
@@ -106,7 +110,7 @@ namespace _Scripts.Org
                 return null;
             }
 
-            Stored = storage;
+            _stored = storage;
 
             return this;
         }
@@ -117,23 +121,28 @@ namespace _Scripts.Org
 
             if (storage == null)
             {
-                Stored = null;
+                _stored = null;
                 storable = this;
             }
             else
             {
                 if (Stored == storage)
                 {
-                    Stored = null;
+                    _stored = null;
                     storable = this;
                 }
             }
 
             return storable;
         }
+
+        public IStorable GetStorableParent()
+        {
+            return StorableParent;
+        }
     }
     [Serializable]
-    public struct FStorageSlot : IStorage
+    public class FStorageSlot : IStorage
     {
         [SerializeField] private EStorableSize _storableSize;
         [SerializeField] private List<EStorableType> _storableTypeFilter;
@@ -188,14 +197,34 @@ namespace _Scripts.Org
 
             if (store)
             {
-                MonoBehaviour storableMono = storable as MonoBehaviour;
-                if (storableMono != null)
+                if (storable.IsStored())
                 {
-                    storableMono.gameObject.transform.SetParent(StorageSpace, false);
+                    IStorable removed = storable.Stored.TryRemove(storable);
+
+                    if (removed == Storable)
+                    {
+                        Storable = null;
+                    }
                 }
 
-                Storable = storable;
-                storable.StoreIntoStorage(this);
+                IStorable stored = storable.StoreIntoStorage(this);
+
+                if (stored != null)
+                {
+                    MonoBehaviour storableMono = storable.GetStorableParent() as MonoBehaviour;
+                    if (storableMono != null)
+                    {
+                        storableMono.gameObject.transform.SetParent(StorageSpace, false);
+                        //storableMono.gameObject.transform.localPosition = Vector3.zero;
+                        //storableMono.gameObject.transform.rotation = Quaternion.identity;
+                    }
+
+                    Storable = storable;
+                }
+                else
+                {
+                    store = false;
+                }
             }
 
             return store;
@@ -203,19 +232,28 @@ namespace _Scripts.Org
 
         public IStorable TryRemove(IStorable storable)
         {
+            IStorable removed = null;
             if (storable == null)
             {
-                return Storable.RemoveFromStorage(this);
+                if (Storable != null)
+                {
+                    removed = Storable.RemoveFromStorage(this);
+                }
             }
             else 
             {
                 if (TryFind(storable))
                 {
-                    return Storable.RemoveFromStorage(this);
+                    removed = Storable.RemoveFromStorage(this);
                 }
             }
 
-            return null;
+            if (removed != null)
+            {
+                Storable = null;
+            }
+
+            return removed;
         }
 
         public bool TryFind(IStorable storable)
@@ -234,6 +272,7 @@ namespace _Scripts.Org
 
                 if (removed != null)
                 {
+                    Storable = null;
                     storablesEmptied.Add(removed);
                 }
             }

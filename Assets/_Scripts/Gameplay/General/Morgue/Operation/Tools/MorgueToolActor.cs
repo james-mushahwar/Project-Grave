@@ -8,17 +8,42 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
     public abstract class MorgueToolActor : MorgueActor, IEquip, IStorable
     {
         [SerializeField] protected FStorable _toolStorable;
+
+        public ref FStorable ToolStorable { get { return ref _toolStorable; } }
+        //public ref FStorageSlot DefaultStorage { get { return ref _defaultStorage; } }
         public EStorableSize StorableSize { get => _toolStorable.StorableSize; }
-        
+
+        public IStorage Stored => _toolStorable.Stored;
+
+        public override void Setup()
+        {
+            _toolStorable.StorableParent = this;
+
+            //DefaultStorage.TryStore(_toolStorable);
+        }
+
         public virtual IStorable StoreIntoStorage(IStorage storage)
         {
             IStorable storable = null;
             storable = _toolStorable.StoreIntoStorage(storage);
             if (storable != null)
             {
-                //transform.SetParent(_toolStorable.Stored.st);
-                //transform.localPosition = Vector3.zero;
+
+                //if (storage == DefaultStorage)
+                //{
+                //    DefaultStorage.Storable = storable;
+
+                //    //transform.SetParent(DefaultStorage.);
+
+                //}
+                //else
+                //{
+                //    DefaultStorage.Storable = null;
+                //}
+
                 //transform.rotation = Quaternion.identity;
+                //transform.SetParent(_toolStorable.Stored.st);
+
             }
 
             return storable;
@@ -32,6 +57,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
         public bool IsStored()
         {
             return _toolStorable.IsStored();
+        }
+
+        public IStorable GetStorableParent()
+        {
+            return this;
         }
     }
     

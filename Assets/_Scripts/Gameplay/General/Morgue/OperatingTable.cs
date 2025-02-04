@@ -7,6 +7,7 @@ using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Gameplay.Player.Controller;
 using Cinemachine;
 using UnityEngine;
+using _Scripts.Gameplay.General.Morgue.Bodies;
 
 namespace _Scripts.Gameplay.General.Morgue{
 
@@ -22,6 +23,8 @@ namespace _Scripts.Gameplay.General.Morgue{
         [SerializeField] private List<MorgueToolActor> _operatingTools = new List<MorgueToolActor>();
         public int OperatingToolsCount { get { return _operatingTools.Count; } }
 
+        [SerializeField] protected List<FStorageSlot> _opToolStorageSlots = new List<FStorageSlot>();
+
         public void Setup()
         {
             if (_vCamera_Above != null)
@@ -30,6 +33,15 @@ namespace _Scripts.Gameplay.General.Morgue{
             }
 
             _tableStorageSlot.StorageParent = this;
+
+            for (int i = 0; i < _opToolStorageSlots.Count; i++)
+            {
+                FStorageSlot slot = _opToolStorageSlots[i];
+                if (slot != null)
+                {
+                    slot.TryStore(_operatingTools[i]);
+                }
+            }
         }
 
         public void Tick()
@@ -88,7 +100,19 @@ namespace _Scripts.Gameplay.General.Morgue{
 
         public bool TryStore(IStorable storable)
         {
-            bool store = _tableStorageSlot.TryStore(storable);
+            bool store = false;
+
+            BodyMorgueActor bodyActor = storable as BodyMorgueActor;
+            if (bodyActor != null)
+            {
+                return _tableStorageSlot.TryStore(storable);
+            }
+            
+            MorgueToolActor toolActor = storable as MorgueToolActor;
+            if (toolActor != null) 
+            {
+                store = TryStoreOperatingTool(toolActor);
+            }
             
             return store;
         }
@@ -139,7 +163,7 @@ namespace _Scripts.Gameplay.General.Morgue{
                 return 0;
             }
 
-            for (int i = -1; i < _operatingTools.Count; i++)
+            for (int i = 0; i < _operatingTools.Count; i++)
             {
                 if (tool == _operatingTools[i])
                 {
@@ -149,6 +173,18 @@ namespace _Scripts.Gameplay.General.Morgue{
             }
 
             return index;
+        }
+
+        public FStorageSlot GetOperatingToolStorageSlot(int index)
+        {
+            FStorageSlot slot = null;
+
+            if (index >= 0 && index < _opToolStorageSlots.Count)
+            {
+                slot = _opToolStorageSlots[index];
+            }
+
+            return slot;
         }
 
         public MorgueToolActor GetOperatingTool(int index)
@@ -161,6 +197,26 @@ namespace _Scripts.Gameplay.General.Morgue{
             }
 
             return tool;
+        }
+
+        public bool TryStoreOperatingTool(MorgueToolActor tool)
+        {
+            int index = GetOperatingToolIndex(tool);
+            if (index < 0)
+            {
+                return false;
+            }
+
+            FStorageSlot slot = GetOperatingToolStorageSlot(index);
+
+            if (slot == null)
+            {
+                return false;
+            }
+
+            bool store = slot.TryStore(tool);
+
+            return store;
         }
     }
     

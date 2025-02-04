@@ -256,7 +256,7 @@ namespace _Scripts.Gameplay.Player.Controller{
             int toolsCount = _operatingTable.OperatingToolsCount;
             int toolIndex = _operatingTable.GetOperatingToolIndex(_equippedOperatingTool);
 
-            int newIndex = toolIndex + (forward ? 1 : -1);
+            int newIndex = _equippedOperatingTool == null ? (forward ? 0 : toolsCount - 1) : toolIndex + (forward ? -1 : 1);
 
             if (newIndex < 0)
             {
@@ -274,6 +274,21 @@ namespace _Scripts.Gameplay.Player.Controller{
                 IStorage nextStorage = _playerStorage.GetNextBestStorage();
                 if (nextStorage != null)
                 {
+                    IStorable prevStored = nextStorage.TryRemove(null);
+                    if (prevStored != null)
+                    {
+                        MorgueToolActor oldTool = prevStored.GetStorableParent() as MorgueToolActor;
+                        if (oldTool != null)
+                        {
+                            int oldToolIndex = _operatingTable.GetOperatingToolIndex(oldTool);
+                            FStorageSlot opTableToolSlot = _operatingTable.GetOperatingToolStorageSlot(oldToolIndex);
+                            bool storedOldTool = opTableToolSlot.TryStore(oldTool);
+                            
+                            Debug.Log("Stored old tool =  " + (storedOldTool ? "YES" : "NO"));
+                            
+                        }
+                    }
+
                     bool stored = nextStorage.TryStore(newTool);
                     if (stored)
                     {
@@ -282,7 +297,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                 }
             }
 
-            Debug.Log("Index is now : " + newIndex);
+            //Debug.Log("Index is now : " + newIndex);
         }
         #endregion
 

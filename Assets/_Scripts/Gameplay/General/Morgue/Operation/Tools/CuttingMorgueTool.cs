@@ -9,7 +9,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
     {
         public override void Setup()
         {
-
+            base.Setup();
         }
 
         public override void Tick()

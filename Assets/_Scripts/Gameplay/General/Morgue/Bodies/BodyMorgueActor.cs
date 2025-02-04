@@ -15,6 +15,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         [SerializeField] private FStorable _bodyStorable;
         public EStorableSize StorableSize { get => _bodyStorable.StorableSize; }
 
+        public IStorage Stored => _bodyStorable.Stored;
+
         public bool IsStored()
         {
             return _bodyStorable.IsStored();
@@ -43,6 +45,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             }
         }
 
+
         public override void EnterHouseThroughChute()
         {
             Debug.Log("Try enter house through chute");
@@ -55,7 +58,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public override void Setup()
         {
-            
+            _bodyStorable.StorableParent = this;
         }
 
         public override void Tick()
@@ -113,6 +116,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                 Debug.Log("Operating on body");
             }
             return true;
+        }
+
+        public IStorable GetStorableParent()
+        {
+            return this;
         }
     }
     

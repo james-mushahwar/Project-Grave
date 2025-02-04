@@ -8,19 +8,37 @@ namespace _Scripts.Gameplay.Player.Controller{
     public class PlayerStorage : MonoBehaviour, IMorgueTickable
     {
         [SerializeField]
+        private bool _leftHanded = false;
+        [SerializeField]
         private PlayerHands _hands;
         private List<IStorage> _pockets = new List<IStorage>();
 
-        public IStorage GetNextBestStorage()
+        public FStorageSlot GetPrimaryHand()
         {
-            if (_hands.LHand.IsFull() == false)
+            return (_leftHanded ? _hands.LHand : _hands.RHand);
+        }
+        public FStorageSlot GetSecondaryHand()
+        {
+            return (_leftHanded ? _hands.RHand : _hands.LHand);
+        }
+
+        public IStorage GetNextBestStorage(bool singleHand = true)
+        {
+            FStorageSlot hand = GetPrimaryHand();
+
+            if (singleHand)
             {
-                return _hands.LHand;
+                return hand;
             }
             else
             {
-                return _hands.RHand;
+                if (hand.IsFull())
+                {
+                    return GetSecondaryHand();
+                }
             }
+
+            return null;
         }
 
         public void Setup()

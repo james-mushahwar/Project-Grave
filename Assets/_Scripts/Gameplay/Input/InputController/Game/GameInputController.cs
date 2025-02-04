@@ -134,7 +134,7 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
         public void Operating_OnScroll(InputAction.CallbackContext callbackContext)
         {
             float scroll = callbackContext.ReadValue<float>();
-            Debug.Log("Scroll is : " + scroll);
+            //Debug.Log("Scroll is : " + scroll);
 
             if (scroll != 0.0f)
             {
