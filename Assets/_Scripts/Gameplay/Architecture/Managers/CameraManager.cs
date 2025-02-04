@@ -50,6 +50,13 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         private bool _cameraTransitionBuffer;
 
+        private Ray _centreCameraRay;
+
+        public Ray CentreCameraRay
+        {
+            get => _centreCameraRay;
+        }
+
         [SerializeField] private VirtualCameraTypeDictionary _virtualCameraTypeDictionary;
 
         // as gamestate is being generated
@@ -101,6 +108,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // tick for playing game 
         public virtual void ManagedTick()
         {
+            _centreCameraRay = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         }
         // late update tick for playing game 
         public virtual void ManagedLateTick()

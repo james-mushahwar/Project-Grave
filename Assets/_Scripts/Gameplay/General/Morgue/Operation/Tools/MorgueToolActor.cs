@@ -9,6 +9,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
     {
         [SerializeField] protected FStorable _toolStorable;
 
+        [SerializeField] protected float _lerpMoveSpeed;
         public ref FStorable ToolStorable { get { return ref _toolStorable; } }
         //public ref FStorageSlot DefaultStorage { get { return ref _defaultStorage; } }
         public EStorableSize StorableSize { get => _toolStorable.StorableSize; }
@@ -26,24 +27,18 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
         {
             IStorable storable = null;
             storable = _toolStorable.StoreIntoStorage(storage);
+            
             if (storable != null)
             {
-
-                //if (storage == DefaultStorage)
-                //{
-                //    DefaultStorage.Storable = storable;
-
-                //    //transform.SetParent(DefaultStorage.);
-
-                //}
-                //else
-                //{
-                //    DefaultStorage.Storable = null;
-                //}
-
-                //transform.rotation = Quaternion.identity;
-                //transform.SetParent(_toolStorable.Stored.st);
-
+                if (_toolStorable.GetStorableParent() != null)
+                {
+                    Vector3 localPosition = this.gameObject.transform.localPosition;
+                    this.gameObject.transform.SetParent(storage.GetStorageSpace(_toolStorable), true);
+                    //storableMono.gameObject.transform.localPosition = Vector3.zero;
+                    Transform storageSpace = storage.GetStorageSpace(storable);
+                    this.gameObject.transform.rotation = storageSpace.rotation;
+                    this.gameObject.transform.localPosition = localPosition;
+                }
             }
 
             return storable;

@@ -67,6 +67,7 @@ namespace _Scripts.Org
         public bool TryFind(IStorable storable);
         public List<IStorable> TryEmpty();
         public IStorage GetStorageParent();
+        public Transform GetStorageSpace(IStorable storable);
     }
 
     [Serializable]
@@ -211,13 +212,13 @@ namespace _Scripts.Org
 
                 if (stored != null)
                 {
-                    MonoBehaviour storableMono = storable.GetStorableParent() as MonoBehaviour;
-                    if (storableMono != null)
-                    {
-                        storableMono.gameObject.transform.SetParent(StorageSpace, false);
-                        //storableMono.gameObject.transform.localPosition = Vector3.zero;
-                        //storableMono.gameObject.transform.rotation = Quaternion.identity;
-                    }
+                    //MonoBehaviour storableMono = storable.GetStorableParent() as MonoBehaviour;
+                    //if (storableMono != null)
+                    //{
+                    //    storableMono.gameObject.transform.SetParent(StorageSpace, true);
+                    //    //storableMono.gameObject.transform.localPosition = Vector3.zero;
+                    //    storableMono.gameObject.transform.rotation = StorageSpace.rotation;
+                    //}
 
                     Storable = storable;
                 }
@@ -283,6 +284,11 @@ namespace _Scripts.Org
         public IStorage GetStorageParent()
         {
             return StorageParent;
+        }
+
+        public Transform GetStorageSpace(IStorable storable)
+        {
+            return StorageSpace;
         }
     }
     #endregion

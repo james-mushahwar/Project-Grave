@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.Input.InputController.Game;
 using _Scripts.Gameplay.Player.Controller;
@@ -24,7 +25,24 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public IStorable StoreIntoStorage(IStorage storage)
         {
-            return _bodyStorable.StoreIntoStorage(storage);
+            IStorable storable = _bodyStorable.StoreIntoStorage(storage);
+            if (storable != null)
+            {
+                if (_bodyStorable.GetStorableParent() != null)
+                {
+                    MonoBehaviour storableMono = _bodyStorable.GetStorableParent() as MonoBehaviour;
+                    if (storableMono != null)
+                    {
+                        Vector3 localScale = storableMono.transform.localScale;
+                        storableMono.gameObject.transform.SetParent(storage.GetStorageSpace(_bodyStorable), false);
+                        //storableMono.gameObject.transform.localPosition = Vector3.zero;
+                        //storableMono.gameObject.transform.rotation = StorageSpace.rotation;
+                        storableMono.gameObject.transform.localScale = localScale;
+                    }
+                }
+            }
+
+            return storable;
         }
 
         public IStorable RemoveFromStorage(IStorage storage)

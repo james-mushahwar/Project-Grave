@@ -114,6 +114,26 @@ namespace _Scripts.Gameplay.Player.Controller{
         {
             return this;
         }
+
+        public Transform GetStorageSpace(IStorable storable)
+        {
+            if (storable == null)
+            {
+                return null;
+            }
+
+            if (LHand.TryFind(storable))
+            {
+                return LHand.GetStorageSpace(storable);
+            }
+
+            if (RHand.TryFind(storable))
+            {
+                return RHand.GetStorageSpace(storable);
+            }
+
+            return null;
+        }
     }
     
 }

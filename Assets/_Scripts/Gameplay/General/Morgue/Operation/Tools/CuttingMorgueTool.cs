@@ -16,7 +16,10 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
         {
             if (_toolStorable.Stored != null)
             {
-                transform.localPosition = Vector3.zero;
+                //Transform storageSpace = _toolStorable.Sto
+                var step = _lerpMoveSpeed * Time.deltaTime; // calculate distance to move
+                transform.localPosition = Vector3.MoveTowards(transform.localPosition, Vector3.zero, step);
+                //transform.localPosition = Vector3.zero;
             }
         }
 

@@ -92,6 +92,35 @@ namespace _Scripts.Gameplay.General.Morgue{
             return this;
         }
 
+        public Transform GetStorageSpace(IStorable storable)
+        {
+            if (storable as MorgueToolActor)
+            {
+                for (int i = 0; i < _opToolStorageSlots.Count; i++)
+                {
+                    FStorageSlot slot = _opToolStorageSlots[i];
+
+                    if (slot != null)
+                    {
+                        if (slot.TryFind(storable))
+                        {
+                            return slot.GetStorageSpace(storable);
+                        }
+                    }
+                }
+            }
+
+            if (storable as BodyMorgueActor)
+            {
+                if (_tableStorageSlot.TryFind(storable))
+                {
+                    return _tableStorageSlot.GetStorageSpace(storable);
+                }
+            }
+
+            return null;
+        }
+
 
         public bool CanStorableFit(IStorable storable)
         {

@@ -67,8 +67,8 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
 
         private void RaycastFindSelectable()
         {
-            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // Create a ray from the camera to the mouse position
-            Ray ray = CameraManager.Instance.MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            Ray ray = CameraManager.Instance.CentreCameraRay;
+
             //Vector2 mousePos = Mouse.current.position.ReadValue();
             //Vector2 mousePos = Mouse.current.position.ReadValue();
             //Ray ray = Camera.main.ScreenPointToRay(mousePos); // Create a ray from the camera to the mouse position
