@@ -211,6 +211,11 @@ namespace _Scripts.Gameplay.Player.Controller{
                 if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.FirstPersonView_Normal))
                 {
                     RequestPlayerControllerState(EPlayerControllerState.Normal);
+
+                    if (_equippedOperatingTool != null)
+                    {
+                        ReturnOperatingToolToSlot(_equippedOperatingTool);
+                    }
                     _operatingTable = null;
                 }
             }
@@ -280,12 +285,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                         MorgueToolActor oldTool = prevStored.GetStorableParent() as MorgueToolActor;
                         if (oldTool != null)
                         {
-                            int oldToolIndex = _operatingTable.GetOperatingToolIndex(oldTool);
-                            FStorageSlot opTableToolSlot = _operatingTable.GetOperatingToolStorageSlot(oldToolIndex);
-                            bool storedOldTool = opTableToolSlot.TryStore(oldTool);
-                            
-                            Debug.Log("Stored old tool =  " + (storedOldTool ? "YES" : "NO"));
-                            
+                            ReturnOperatingToolToSlot(oldTool);
                         }
                     }
 
@@ -298,6 +298,26 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
 
             //Debug.Log("Index is now : " + newIndex);
+        }
+
+        public bool ReturnOperatingToolToSlot(MorgueToolActor opTool)
+        {
+            if (opTool == null)
+            {
+                return false;
+            }
+
+            int oldToolIndex = _operatingTable.GetOperatingToolIndex(opTool);
+            FStorageSlot opTableToolSlot = _operatingTable.GetOperatingToolStorageSlot(oldToolIndex);
+            bool storedOldTool = opTableToolSlot.TryStore(opTool);
+
+            Debug.Log("Stored old tool =  " + (storedOldTool ? "YES" : "NO"));
+            if (storedOldTool)
+            {
+                _equippedOperatingTool = null;
+            }
+
+            return storedOldTool;
         }
         #endregion
 
