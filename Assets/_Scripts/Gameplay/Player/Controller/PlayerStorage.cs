@@ -4,6 +4,7 @@ using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Org;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace _Scripts.Gameplay.Player.Controller{
     
@@ -84,14 +85,18 @@ namespace _Scripts.Gameplay.Player.Controller{
             {
                 Vector3 cameraDir = CameraManager.Instance.CentreCameraRay.direction;
 
-                Vector3 newPosition = CameraManager.Instance.MainCamera.transform.position +
-                                      (cameraDir * _operatingHandsRootOffset);
+                Vector2 mousePos = Mouse.current.position.ReadValue();
+                //Ray ray = Camera.main.ScreenPointToRay(mousePos);
+                Vector3 displacement = CameraManager.Instance.MainCamera.ScreenPointToRay(mousePos).origin;
+
+                //Vector3 newPosition = (CameraManager.Instance.MainCamera.transform.position + displacement) + (cameraDir * _operatingHandsRootOffset);
+                Vector3 newPosition = (displacement) + (cameraDir * _operatingHandsRootOffset);
 
                 if (_operatingHandsRoot != null)
                 {
                     _operatingHandsRoot.position = newPosition;
 
-                    _operatingHandsRoot.rotation = Quaternion.LookRotation(new Vector3(cameraDir.x, 0.0f, cameraDir.y), Vector3.up);
+                    _operatingHandsRoot.rotation = Quaternion.LookRotation(new Vector3(cameraDir.x, 0.0f, cameraDir.z), CameraManager.Instance.MainCamera.transform.forward);
                 }
             }
             //If you get an error with the above line, replace it with this:

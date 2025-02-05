@@ -123,4 +123,4 @@ MonoBehaviour:
   _toolStorable:
     _storableSize: 0
     _storableType: 100
-  _lerpMoveSpeed: 20
+  _lerpMoveSpeed: 15
