@@ -81,6 +81,9 @@ namespace _Scripts.Gameplay.Player.Controller{
             {
                 velocity.y = -2f; // Reset the vertical velocity when grounded
             }
+
+            IInteractable interactable = GetSelectedInteractable();
+            UIManager.Instance.ShowInteractReticle = interactable != null;
         }
 
         public void PossessLateTick()
@@ -361,11 +364,9 @@ namespace _Scripts.Gameplay.Player.Controller{
             InputController = null;
         }
 
-        public void OnActionInput()
+        public IInteractable GetSelectedInteractable()
         {
             IInteractable interactable = null;
-
-            Debug.Log("Ation input");
 
             GameObject selectedGO = InputController.SelectedObject;
             ISelect selectable = InputController.Selectable;
@@ -375,10 +376,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                 interactable = selectedGO.GetComponent<IInteractable>();
                 if (interactable != null)
                 {
-                    if (interactable.IsInteractable())
-                    {
-                        interactable.OnInteract();
-                    }
+                    return interactable;
                 }
             }
             else if (selectable != null)
@@ -386,10 +384,23 @@ namespace _Scripts.Gameplay.Player.Controller{
                 interactable = selectable as IInteractable;
                 if (interactable != null)
                 {
-                    if (interactable.IsInteractable())
-                    {
-                        interactable.OnInteract();
-                    }
+                    return interactable;
+                }
+            }
+
+            return interactable;
+        }
+
+        public void OnActionInput()
+        {
+            Debug.Log("Ation input");
+            IInteractable interactable = GetSelectedInteractable();
+
+            if (interactable != null)
+            {
+                if (interactable.IsInteractable())
+                {
+                    interactable.OnInteract();
                 }
             }
         }

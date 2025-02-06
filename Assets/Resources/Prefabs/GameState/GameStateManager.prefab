@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3899557368427159554
 MonoBehaviour:
@@ -47,6 +47,8 @@ MonoBehaviour:
   _cameraManagerPrefab: {fileID: 2825874568342320903, guid: 79301c40c6477474689a583766efd24c,
     type: 3}
   _inputManagerPrefab: {fileID: 1591597123619388368, guid: 046eeaabb2dcfef46bfe704d4b020f1f,
+    type: 3}
+  _uiManagerPrefab: {fileID: 6365419611546345459, guid: fdbfc459890e7904b988a875744ee69a,
     type: 3}
   _playerManagerPrefab: {fileID: 8279226207249101473, guid: d8b954ff50fa49f4194ae33d3d6f91ba,
     type: 3}
