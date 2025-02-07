@@ -84,11 +84,19 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             IInteractable interactable = GetSelectedInteractable();
             UIManager.Instance.ShowInteractReticle = interactable != null;
+
+            
         }
 
         public void PossessLateTick()
         {
-            
+            if (PlayerControllerState == EPlayerControllerState.Normal)
+            {
+                HandleRotation();
+                HandleMovement();
+                HandleJump();
+                ApplyGravity();
+            }
         }
 
         public void PossessFixedTick()
@@ -111,14 +119,6 @@ namespace _Scripts.Gameplay.Player.Controller{
                 {
                     OperatingScroll(true);
                 }
-            }
-
-            if (PlayerControllerState == EPlayerControllerState.Normal)
-            {
-                HandleRotation();
-                HandleMovement();
-                HandleJump();
-                ApplyGravity();
             }
         }
 
