@@ -1,12 +1,10 @@
-﻿using _Scripts.Org;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
     
-    public class CuttingMorgueTool : MorgueToolActor
+    public abstract class OperationMorgueToolActor : MorgueToolActor
     {
         private Vector3 fixedScale;
 
@@ -33,11 +31,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
 
         public override void EnterHouseThroughChute()
         {
-           
+
         }
         public override void ToggleProne(bool set)
         {
-            
+
         }
     }
     

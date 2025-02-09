@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 1888197331066980961}
   - component: {fileID: 4540801057980925927}
   - component: {fileID: 8295024445241481583}
-  - component: {fileID: 7895798803346420518}
+  - component: {fileID: 1321272979859805475}
   m_Layer: 0
-  m_Name: Operation_Knife
+  m_Name: Operation_Saw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 7713958118740304052}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.14540973, y: 0.14093809, z: 0.045808647}
+  m_LocalScale: {x: 0.18903264, y: 0.1832195, z: 0.059551243}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 7933299137048178034, guid: a9f670f4eae962b4683c35ae3d1db878, type: 3}
+  - {fileID: -8248842870520630916, guid: a174cda6c947c0a4e8ecc98697374ddc, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,7 +108,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7895798803346420518
+--- !u!114 &1321272979859805475
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,10 +117,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7713958118740304052}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d71fb4b172829cb44be2b955d0d6cddd, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e17921656f606c41abc767e731999f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _toolStorable:
     _storableSize: 0
-    _storableType: 100
-  _lerpMoveSpeed: 10
+    _storableType: 0
+  _lerpMoveSpeed: 6.5
