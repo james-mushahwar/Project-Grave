@@ -144,7 +144,17 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             throw new System.NotImplementedException();
         }
 
+        public virtual void OnConnected(IConnectable parent)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public virtual bool TryDisconnect(IConnectable child)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public virtual void OnDisconnect(IConnectable parent)
         {
             throw new System.NotImplementedException();
         }
@@ -153,6 +163,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         {
             throw new System.NotImplementedException();
         }
+
+        public Transform Transform { get; }
     }
     
 }

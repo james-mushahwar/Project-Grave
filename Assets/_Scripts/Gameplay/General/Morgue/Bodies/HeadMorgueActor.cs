@@ -19,7 +19,17 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             throw new System.NotImplementedException();
         }
 
+        public override void OnConnected(IConnectable parent)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override bool TryDisconnect(IConnectable child)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void OnDisconnect(IConnectable parent)
         {
             throw new System.NotImplementedException();
         }

@@ -9,7 +9,6 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
     
     public class TorsoMorgueActor : BodyPartMorgueActor
     {
-        
         [SerializeField] private FPropConnector _headConnector;
         [SerializeField] private FPropConnector _lArmConnector;
         [SerializeField] private FPropConnector _rArmConnector;
@@ -23,6 +22,32 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             _rArmConnector.ParentConnectable = this;
             _lLegConnector.ParentConnectable = this;
             _rLegConnector.ParentConnectable = this;
+        }
+
+        public override bool TryConnect(IConnectable child)
+        {
+            bool connect = false;
+            if (child as HeadMorgueActor)
+            {
+                if (_headConnector.ChildConnectable == null)
+                {
+                    connect = true;
+                    child.OnConnected(_headConnector);
+                    _headConnector.ChildConnectable = child;
+                }
+            }
+
+            return connect;
+        }
+
+        public override bool TryDisconnect(IConnectable child)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override bool TryFindConnected(IConnectable child)
+        {
+            throw new System.NotImplementedException();
         }
     }
     

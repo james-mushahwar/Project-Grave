@@ -297,13 +297,17 @@ namespace _Scripts.Org
     public interface IConnectable
     {
         public bool TryConnect(IConnectable child);
+        public void OnConnected(IConnectable parent);
         public bool TryDisconnect(IConnectable child);
+        public void OnDisconnect(IConnectable parent);
         public bool TryFindConnected(IConnectable child);
+        public Transform Transform { get; }
     }
 
     [Serializable]
     public class FPropConnector : IConnectable
     {
+        [SerializeField] private Transform _socket;
         public IConnectable _parentConnected;
         public IConnectable _childConnected;
 
@@ -318,12 +322,27 @@ namespace _Scripts.Org
             set { _childConnected = value; }
         }
 
+        public Transform Transform
+        {
+            get { return _socket; }
+        }
+
         public bool TryConnect(IConnectable child)
         {
             throw new NotImplementedException();
         }
 
+        public void OnConnected(IConnectable parent)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool TryDisconnect(IConnectable child)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnDisconnect(IConnectable parent)
         {
             throw new NotImplementedException();
         }
