@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -292,6 +293,48 @@ namespace _Scripts.Org
         }
     }
     #endregion
+
+    public interface IConnectable
+    {
+        public bool TryConnect(IConnectable child);
+        public bool TryDisconnect(IConnectable child);
+        public bool TryFindConnected(IConnectable child);
+    }
+
+    [Serializable]
+    public class FPropConnector : IConnectable
+    {
+        public IConnectable _parentConnected;
+        public IConnectable _childConnected;
+
+        public IConnectable ParentConnectable
+        {
+            get { return _parentConnected; }
+            set { _parentConnected = value; }
+        }
+        public IConnectable ChildConnectable
+        {
+            get { return _childConnected; }
+            set { _childConnected = value; }
+        }
+
+        public bool TryConnect(IConnectable child)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryDisconnect(IConnectable child)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryFindConnected(IConnectable child)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
 
     public interface IEquip
     {
