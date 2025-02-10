@@ -105,6 +105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7506285295246997259}
+  - component: {fileID: 5547937278574059685}
   m_Layer: 7
   m_Name: TorsoMain
   m_TagString: Untagged
@@ -133,6 +134,31 @@ Transform:
   m_Father: {fileID: 6694153357008752116}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5547937278574059685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090473584555894181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 714cf9929d2999d468df9d0a1c8c9af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bodyStorable:
+    _storableSize: 10
+    _storableType: 0
+  _headConnector:
+    _socket: {fileID: 2593048020379737651}
+  _lArmConnector:
+    _socket: {fileID: 1095928083371761705}
+  _rArmConnector:
+    _socket: {fileID: 1702813818609059238}
+  _lLegConnector:
+    _socket: {fileID: 1681690882725618132}
+  _rLegConnector:
+    _socket: {fileID: 2620648327197079094}
 --- !u!1 &2928305384211792301
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +254,7 @@ GameObject:
   - component: {fileID: 5920412589670525394}
   - component: {fileID: 2311515564174907791}
   m_Layer: 7
-  m_Name: Prop
+  m_Name: LLegProp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -343,7 +369,7 @@ GameObject:
   - component: {fileID: 9014694631842143973}
   - component: {fileID: 2829802832507097182}
   m_Layer: 7
-  m_Name: Prop
+  m_Name: RLegProp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -423,10 +449,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6029788122013560249}
+  - component: {fileID: 4448904781998967484}
   - component: {fileID: 4243804480978790323}
   - component: {fileID: 8907033885437661135}
   m_Layer: 7
-  m_Name: Prop
+  m_Name: HeadProp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -440,13 +467,30 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4531159125294854558}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.000000029802322, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 0.7, y: 0.26880002, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2593048020379737651}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4448904781998967484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4531159125294854558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99f7f45e7056cae48aa5e453d740d8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bodyStorable:
+    _storableSize: 0
+    _storableType: 0
+  _parentTorsoConnector:
+    _socket: {fileID: 2593048020379737651}
 --- !u!23 &4243804480978790323
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -509,7 +553,7 @@ GameObject:
   - component: {fileID: 999485349210766017}
   - component: {fileID: 6474390963795806614}
   m_Layer: 7
-  m_Name: Prop
+  m_Name: RArmProp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -592,7 +636,7 @@ GameObject:
   - component: {fileID: 3429277813454843917}
   - component: {fileID: 4838932243507203730}
   m_Layer: 7
-  m_Name: Prop
+  m_Name: LArmProp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
