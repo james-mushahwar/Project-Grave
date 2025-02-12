@@ -4,6 +4,8 @@ using UnityEngine;
 using _Scripts.CautionaryTalesScripts;
 using Cinemachine;
 using static UnityEngine.Rendering.HDROutputUtils;
+using UnityEngine.InputSystem;
+using _Scripts.Gameplay.Player.Controller;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -51,10 +53,30 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private bool _cameraTransitionBuffer;
 
         private Ray _centreCameraRay;
-
         public Ray CentreCameraRay
         {
             get => _centreCameraRay;
+        }
+
+        private Ray _mousePointerRay;
+        public Ray MousePointerRay
+        {
+            get => _mousePointerRay;
+        }
+
+        public Ray CurrentRay
+        {
+            get
+            {
+                Ray ray = _centreCameraRay;
+
+                if (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState ==
+                             EPlayerControllerState.Operating)
+                {
+                    ray = _mousePointerRay;
+                }
+                return ray;
+            }
         }
 
         [SerializeField] private VirtualCameraTypeDictionary _virtualCameraTypeDictionary;
@@ -109,6 +131,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public virtual void ManagedTick()
         {
             _centreCameraRay = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            _mousePointerRay = MainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
         }
         // late update tick for playing game 
         public virtual void ManagedLateTick()

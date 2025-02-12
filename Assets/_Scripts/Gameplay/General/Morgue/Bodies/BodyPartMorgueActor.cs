@@ -88,6 +88,13 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                 Collider.isTrigger = set;
             }
         }
+        public override void ToggleCollision(bool set)
+        {
+            if (Collider != null)
+            {
+                Collider.enabled = set;
+            }
+        }
 
         public bool IsInteractable()
         {

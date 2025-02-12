@@ -66,6 +66,7 @@ namespace _Scripts.Org
         public bool TryStore(IStorable storable);
         public IStorable TryRemove(IStorable storable);
         public bool TryFind(IStorable storable);
+        public T GetStorable<T>() where T : class, IStorable;
         public List<IStorable> TryEmpty();
         public IStorage GetStorageParent();
         public Transform GetStorageSpace(IStorable storable);
@@ -290,6 +291,11 @@ namespace _Scripts.Org
         public Transform GetStorageSpace(IStorable storable)
         {
             return StorageSpace;
+        }
+
+        public T GetStorable<T>() where T : class, IStorable
+        {
+            return _storable as T;
         }
     }
     #endregion

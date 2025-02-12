@@ -38,6 +38,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         {
             throw new System.NotImplementedException();
         }
+
+        public override void ToggleCollision(bool set)
+        {
+            throw new System.NotImplementedException();
+        }
     }
     
 }
