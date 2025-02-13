@@ -37,6 +37,10 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
         {
 
         }
+        public override void ToggleCollision(bool set)
+        {
+
+        }
     }
     
 }

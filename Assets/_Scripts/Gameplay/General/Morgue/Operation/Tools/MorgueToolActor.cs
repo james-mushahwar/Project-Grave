@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
     
-    public abstract class MorgueToolActor : MorgueActor, IEquip, IStorable
+    public abstract class MorgueToolActor : MorgueActor, IStorable
     {
         [SerializeField] protected FStorable _toolStorable;
 

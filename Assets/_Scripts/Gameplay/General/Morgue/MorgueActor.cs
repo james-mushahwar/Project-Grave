@@ -12,6 +12,8 @@ namespace _Scripts.Gameplay.General.Morgue{
 
         public abstract void ToggleProne(bool set);
 
+        public abstract void ToggleCollision(bool set);
+
         public abstract void Setup();
 
         public abstract void Tick();

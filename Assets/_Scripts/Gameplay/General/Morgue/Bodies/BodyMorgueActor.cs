@@ -129,16 +129,25 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                     PlayerManager.Instance.CurrentPlayerController.BeginOperatingState(opTable);
                 }
             }
-            else
+            else if (operating)
             {
-                Debug.Log("Operating on body");
+                
             }
+            
             return true;
         }
 
         public IStorable GetStorableParent()
         {
             return this;
+        }
+
+        public override void ToggleCollision(bool set)
+        {
+            if (Collider != null)
+            {
+                Collider.enabled = set;
+            }
         }
     }
     

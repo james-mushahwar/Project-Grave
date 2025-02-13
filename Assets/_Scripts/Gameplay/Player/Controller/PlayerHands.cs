@@ -134,6 +134,11 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             return null;
         }
+
+        public T GetStorable<T>() where T : class, IStorable
+        {
+            return null;
+        }
     }
     
 }

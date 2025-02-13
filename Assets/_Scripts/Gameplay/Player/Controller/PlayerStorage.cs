@@ -23,9 +23,11 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         private List<IStorage> _pockets = new List<IStorage>();
 
-        public FStorageSlot GetPrimaryHand()
+        public FStorageSlot GetPrimaryHand(EPlayerControllerState forceState = EPlayerControllerState.NONE)
         {
-            bool isOperating = (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState ==
+            EPlayerControllerState playerState = forceState != EPlayerControllerState.NONE ? forceState : PlayerManager.Instance.CurrentPlayerController.PlayerControllerState;
+
+            bool isOperating = (playerState ==
                                 EPlayerControllerState.Operating);
             if (isOperating)
             {
@@ -36,9 +38,11 @@ namespace _Scripts.Gameplay.Player.Controller{
                 return (_leftHanded ? _hands.LHand : _hands.RHand);
             }
         }
-        public FStorageSlot GetSecondaryHand()
+        public FStorageSlot GetSecondaryHand(EPlayerControllerState forceState = EPlayerControllerState.NONE)
         {
-            bool isOperating = (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState ==
+            EPlayerControllerState playerState = forceState != EPlayerControllerState.NONE ? forceState : PlayerManager.Instance.CurrentPlayerController.PlayerControllerState;
+
+            bool isOperating = (playerState ==
                                 EPlayerControllerState.Operating);
             if (isOperating)
             {
@@ -50,9 +54,9 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
         }
 
-        public IStorage GetNextBestStorage(bool singleHand = true)
+        public IStorage GetNextBestStorage(bool singleHand = true, EPlayerControllerState forceState = EPlayerControllerState.NONE)
         {
-            FStorageSlot hand = GetPrimaryHand();
+            FStorageSlot hand = GetPrimaryHand(forceState);
 
             if (singleHand)
             {
@@ -62,7 +66,7 @@ namespace _Scripts.Gameplay.Player.Controller{
             {
                 if (hand.IsFull())
                 {
-                    return GetSecondaryHand();
+                    return GetSecondaryHand(forceState);
                 }
             }
 

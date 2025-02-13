@@ -66,6 +66,7 @@ namespace _Scripts.Org
         public bool TryStore(IStorable storable);
         public IStorable TryRemove(IStorable storable);
         public bool TryFind(IStorable storable);
+        public T GetStorable<T>() where T : class, IStorable;
         public List<IStorable> TryEmpty();
         public IStorage GetStorageParent();
         public Transform GetStorageSpace(IStorable storable);
@@ -291,14 +292,20 @@ namespace _Scripts.Org
         {
             return StorageSpace;
         }
+
+        public T GetStorable<T>() where T : class, IStorable
+        {
+            return _storable as T;
+        }
     }
     #endregion
 
     public interface IConnectable
     {
+        public bool IsConnected();
         public bool TryConnect(IConnectable child);
         public void OnConnected(IConnectable parent);
-        public bool TryDisconnect(IConnectable child);
+        public IConnectable TryDisconnect(IConnectable child);
         public void OnDisconnect(IConnectable parent);
         public bool TryFindConnected(IConnectable child);
         public Transform Transform { get; }
@@ -329,34 +336,32 @@ namespace _Scripts.Org
 
         public bool TryConnect(IConnectable child)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public void OnConnected(IConnectable parent)
         {
-            throw new NotImplementedException();
         }
 
-        public bool TryDisconnect(IConnectable child)
+        public IConnectable TryDisconnect(IConnectable child)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public void OnDisconnect(IConnectable parent)
         {
-            throw new NotImplementedException();
         }
 
         public bool TryFindConnected(IConnectable child)
         {
-            throw new NotImplementedException();
+            return false;
+        }
+
+        public bool IsConnected()
+        {
+            return false;
         }
     }
 
 
-
-    public interface IEquip
-    {
-        
-    }
 }

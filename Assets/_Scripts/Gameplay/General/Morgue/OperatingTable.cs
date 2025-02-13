@@ -247,6 +247,11 @@ namespace _Scripts.Gameplay.General.Morgue{
 
             return store;
         }
+
+        public T GetStorable<T>() where T : class, IStorable
+        {
+            return _tableStorageSlot.Storable as T;
+        }
     }
     
 }

@@ -52,6 +52,11 @@ namespace _Scripts.Gameplay.General{
 
             return true;
         }
+
+        public override void ToggleCollision(bool set)
+        {
+            throw new System.NotImplementedException();
+        }
     }
     
 }

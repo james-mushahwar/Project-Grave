@@ -26,6 +26,10 @@ namespace _Scripts.Gameplay.General.Morgue.Storage{
            
         }
 
+        public override void ToggleCollision(bool set)
+        {
+        }
+
         public override void Setup()
         {
             _singleSlot.StorageParent = this;
@@ -74,6 +78,11 @@ namespace _Scripts.Gameplay.General.Morgue.Storage{
         public Transform GetStorageSpace(IStorable storable)
         {
             return StorageSlot.GetStorageSpace(storable);
+        }
+
+        public T GetStorable<T>() where T : class, IStorable
+        {
+            return StorageSlot.Storable as T;
         }
     }
     

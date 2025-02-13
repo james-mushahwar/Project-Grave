@@ -14,6 +14,9 @@ using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 using _Scripts.Org;
+using _Scripts.Gameplay.General.Morgue.Bodies;
+using Unity.VisualScripting;
+using UnityEditor;
 
 namespace _Scripts.Gameplay.Player.Controller{
 
@@ -82,10 +85,8 @@ namespace _Scripts.Gameplay.Player.Controller{
                 velocity.y = -2f; // Reset the vertical velocity when grounded
             }
 
-            IInteractable interactable = GetSelectedInteractable();
+            IInteractable interactable = GetSelectedObject<IInteractable>();
             UIManager.Instance.ShowInteractReticle = interactable != null;
-
-            
         }
 
         public void PossessLateTick()
@@ -214,6 +215,12 @@ namespace _Scripts.Gameplay.Player.Controller{
                 if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.FirstPersonView_Normal))
                 {
                     RequestPlayerControllerState(EPlayerControllerState.Normal);
+
+                    BodyMorgueActor storedBody = _operatingTable.GetStorable<BodyMorgueActor>();
+                    if (storedBody != null)
+                    {
+                        storedBody.ToggleCollision(true);
+                    }
 
                     if (_equippedOperatingTool != null)
                     {
@@ -364,43 +371,100 @@ namespace _Scripts.Gameplay.Player.Controller{
             InputController = null;
         }
 
-        public IInteractable GetSelectedInteractable()
+        public T GetSelectedObject<T>() where T : class
         {
-            IInteractable interactable = null;
+            T selected = default;
 
             GameObject selectedGO = InputController.SelectedObject;
-            ISelect selectable = InputController.Selectable;
+            T selectedType = InputController.Selectable as T;
 
             if (selectedGO != null)
             {
-                interactable = selectedGO.GetComponent<IInteractable>();
-                if (interactable != null)
+                selected = selectedGO.GetComponent<T>();
+                if (selected != null)
                 {
-                    return interactable;
+                    return selected;
                 }
             }
-            else if (selectable != null)
+            else if (selectedType != null)
             {
-                interactable = selectable as IInteractable;
-                if (interactable != null)
+                selected = selectedType as T;
+                if (selected != null)
                 {
-                    return interactable;
+                    return selected;
                 }
             }
 
-            return interactable;
+            return selected;
+        }
+
+        public T GetInputController<T>() where T : InputController
+        {
+            T inputController = null;
+
+            if (InputController as T)
+            {
+                inputController = InputController as T;
+            }
+
+            return inputController;
         }
 
         public void OnActionInput()
         {
-            Debug.Log("Ation input");
-            IInteractable interactable = GetSelectedInteractable();
+            Debug.Log("Action input");
+            bool operating = PlayerControllerState == EPlayerControllerState.Operating;
 
-            if (interactable != null)
+            if (operating)
             {
-                if (interactable.IsInteractable())
+                BodyPartMorgueActor bodyPart = GetSelectedObject<BodyPartMorgueActor>();
+                if (bodyPart != null)
                 {
-                    interactable.OnInteract();
+                    Debug.Log("Found body part = " + bodyPart.gameObject.name);
+
+                    OperationDismemberMorgueTool dismemberTool = _equippedOperatingTool as OperationDismemberMorgueTool;
+                    if (dismemberTool != null)
+                    {
+                        if (bodyPart.IsConnected())
+                        {
+                            IConnectable disconnectedPart = bodyPart.TryDisconnect(null);
+                            
+                            if (disconnectedPart != null)
+                            {
+                                IStorage nextPlayerStorage = _playerStorage.GetNextBestStorage(true, EPlayerControllerState.Normal);
+                                if (nextPlayerStorage != null)
+                                {
+                                    IStorable prevStored = nextPlayerStorage.TryRemove(null);
+                                    if (prevStored != null)
+                                    {
+                                        //MorgueToolActor oldTool = prevStored.GetStorableParent() as MorgueToolActor;
+                                        //if (oldTool != null)
+                                        //{
+                                        //    ReturnOperatingToolToSlot(oldTool);
+                                        //}
+                                    }
+
+                                    bool stored = nextPlayerStorage.TryStore(bodyPart);
+                                    if (stored)
+                                    {
+                                        Debug.Log("Stored disconnected part successfully");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                IInteractable interactable = GetSelectedObject<IInteractable>();
+
+                if (interactable != null)
+                {
+                    if (interactable.IsInteractable())
+                    {
+                        interactable.OnInteract();
+                    }
                 }
             }
         }
@@ -410,6 +474,12 @@ namespace _Scripts.Gameplay.Player.Controller{
             _operatingTable = opTable;
 
             RequestPlayerControllerState(EPlayerControllerState.Operating);
+
+            BodyMorgueActor storedBody = _operatingTable.GetStorable<BodyMorgueActor>();
+            if (storedBody != null)
+            {
+                storedBody.ToggleCollision(false);
+            }
         }
 
         public void RequestPlayerControllerState(EPlayerControllerState state)
