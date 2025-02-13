@@ -15,6 +15,8 @@ using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 using _Scripts.Org;
 using _Scripts.Gameplay.General.Morgue.Bodies;
+using Unity.VisualScripting;
+using UnityEditor;
 
 namespace _Scripts.Gameplay.Player.Controller{
 
@@ -418,7 +420,39 @@ namespace _Scripts.Gameplay.Player.Controller{
                 BodyPartMorgueActor bodyPart = GetSelectedObject<BodyPartMorgueActor>();
                 if (bodyPart != null)
                 {
-                    Debug.Log("FOund body part = " + bodyPart.gameObject.name);
+                    Debug.Log("Found body part = " + bodyPart.gameObject.name);
+
+                    OperationDismemberMorgueTool dismemberTool = _equippedOperatingTool as OperationDismemberMorgueTool;
+                    if (dismemberTool != null)
+                    {
+                        if (bodyPart.IsConnected())
+                        {
+                            IConnectable disconnectedPart = bodyPart.TryDisconnect(null);
+                            
+                            if (disconnectedPart != null)
+                            {
+                                IStorage nextPlayerStorage = _playerStorage.GetNextBestStorage(true, EPlayerControllerState.Normal);
+                                if (nextPlayerStorage != null)
+                                {
+                                    IStorable prevStored = nextPlayerStorage.TryRemove(null);
+                                    if (prevStored != null)
+                                    {
+                                        //MorgueToolActor oldTool = prevStored.GetStorableParent() as MorgueToolActor;
+                                        //if (oldTool != null)
+                                        //{
+                                        //    ReturnOperatingToolToSlot(oldTool);
+                                        //}
+                                    }
+
+                                    bool stored = nextPlayerStorage.TryStore(bodyPart);
+                                    if (stored)
+                                    {
+                                        Debug.Log("Stored disconnected part successfully");
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
             else

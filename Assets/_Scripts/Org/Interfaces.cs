@@ -302,9 +302,10 @@ namespace _Scripts.Org
 
     public interface IConnectable
     {
+        public bool IsConnected();
         public bool TryConnect(IConnectable child);
         public void OnConnected(IConnectable parent);
-        public bool TryDisconnect(IConnectable child);
+        public IConnectable TryDisconnect(IConnectable child);
         public void OnDisconnect(IConnectable parent);
         public bool TryFindConnected(IConnectable child);
         public Transform Transform { get; }
@@ -335,34 +336,32 @@ namespace _Scripts.Org
 
         public bool TryConnect(IConnectable child)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public void OnConnected(IConnectable parent)
         {
-            throw new NotImplementedException();
         }
 
-        public bool TryDisconnect(IConnectable child)
+        public IConnectable TryDisconnect(IConnectable child)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public void OnDisconnect(IConnectable parent)
         {
-            throw new NotImplementedException();
         }
 
         public bool TryFindConnected(IConnectable child)
         {
-            throw new NotImplementedException();
+            return false;
+        }
+
+        public bool IsConnected()
+        {
+            return false;
         }
     }
 
 
-
-    public interface IEquip
-    {
-        
-    }
 }

@@ -1,6 +1,7 @@
 ﻿using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
     public abstract class BodyPartMorgueActor : MorgueActor, IConnectable, IStorable
     {
         private Collider _collider;
+
+        //[SerializeField] private FPropConnector _connector;
 
         [SerializeField] private FStorable _bodyStorable;
         public EStorableSize StorableSize { get => _bodyStorable.StorableSize; }
@@ -146,29 +149,34 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             return this;
         }
 
-        public virtual bool TryConnect(IConnectable child)
+        public virtual bool IsConnected()
         {
-            throw new System.NotImplementedException();
+            return true;
+        }
+
+        public virtual bool TryConnect(IConnectable parent)
+        {
+            return false;
         }
 
         public virtual void OnConnected(IConnectable parent)
         {
-            throw new System.NotImplementedException();
+            
         }
 
-        public virtual bool TryDisconnect(IConnectable child)
+        public virtual IConnectable TryDisconnect(IConnectable child)
         {
-            throw new System.NotImplementedException();
+            return null;
         }
 
         public virtual void OnDisconnect(IConnectable parent)
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public virtual bool TryFindConnected(IConnectable child)
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         public Transform Transform { get; }

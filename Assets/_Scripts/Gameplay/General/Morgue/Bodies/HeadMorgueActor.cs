@@ -1,4 +1,5 @@
 ﻿using _Scripts.Org;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             throw new System.NotImplementedException();
         }
 
-        public override bool TryDisconnect(IConnectable child)
+        public override IConnectable TryDisconnect(IConnectable child)
         {
             throw new System.NotImplementedException();
         }
@@ -43,6 +44,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         {
             throw new System.NotImplementedException();
         }
+
+        //public override bool IsConnected()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
     
 }
