@@ -159,9 +159,9 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             return false;
         }
 
-        public virtual void OnConnected(IConnectable parent)
+        public virtual IConnectable ConnectToConnectable(IConnectable parent)
         {
-            
+            return null;
         }
 
         public virtual IConnectable TryDisconnect(IConnectable child)
@@ -174,12 +174,17 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             
         }
 
-        public virtual bool TryFindConnected(IConnectable child)
+        public virtual IConnectable TryFindConnected(IConnectable child)
         {
-            return false;
+            return null;
         }
 
-        public Transform Transform { get; }
+        public virtual IConnectable GetParentConnected()
+        {
+            return null;
+        }
+
+        public virtual Transform Transform { get; }
     }
     
 }

@@ -73,6 +73,21 @@ namespace _Scripts.Gameplay.Player.Controller{
             return null;
         }
 
+        public IStorage GetPlayerHands(EStorableType force = EStorableType.None)
+        {
+            if (force == EStorableType.None)
+            {
+                return _hands;
+            }
+
+            if (force == EStorableType.Operation)
+            {
+                return _operatingHands;
+            }
+
+            return null;
+        }
+
         public void Setup()
         {
         }
@@ -105,6 +120,20 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
             //If you get an error with the above line, replace it with this:
             //mousePosition = new Vector3(mousePosition.x, mousePosition.y, zAxis);
+        }
+
+        public bool TryStore(EPlayerControllerState forceState = EPlayerControllerState.NONE)
+        {
+            bool stored = false;
+
+            return stored;
+        }
+
+        public bool TryRemove(EPlayerControllerState forceState = EPlayerControllerState.NONE)
+        {
+            bool stored = false;
+
+            return stored;
         }
     }
     

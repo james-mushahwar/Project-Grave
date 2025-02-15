@@ -60,6 +60,10 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         #region PlayerStorage
         [SerializeField] private PlayerStorage _playerStorage;
+        public PlayerStorage PlayerStorage
+        {
+            get { return _playerStorage; }
+        }
         #endregion
 
         #region Operating

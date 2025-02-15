@@ -23,18 +23,46 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             _rArmConnector.ParentConnectable = this;
             _lLegConnector.ParentConnectable = this;
             _rLegConnector.ParentConnectable = this;
+
+            if (_headConnector.Transform != null)
+            {
+                HeadMorgueActor headActor = _headConnector.Transform.GetComponentInChildren<HeadMorgueActor>();
+                if (headActor != null)
+                {
+                    TryConnect(headActor);
+                }
+            }
+
+            //if (_lArmConnector.Transform != null)
+            //{
+            //    ArmMorgueActor armActor = _lArmConnector.Transform.GetComponentInChildren<ArmMorgueActor>();
+            //    if (armActor != null)
+            //    {
+            //        _lArmConnector.TryConnect(armActor);
+            //    }
+            //}
         }
 
         public override bool TryConnect(IConnectable child)
         {
             bool connect = false;
+
+            if (child == null)
+            {
+                return false;
+            }
+
             if (child as HeadMorgueActor)
             {
-                if (_headConnector.ChildConnectable == null)
+                if (_headConnector.ChildConnectable == null && child.IsConnected() == false) 
                 {
-                    connect = true;
-                    child.OnConnected(_headConnector);
-                    _headConnector.ChildConnectable = child;
+                    IConnectable newConnect = child.ConnectToConnectable(this);
+
+                    if (newConnect != null)
+                    {
+                        connect = true;
+                        _headConnector.ChildConnectable = child;
+                    }
                 }
             }
 
@@ -43,12 +71,77 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public override IConnectable TryDisconnect(IConnectable child)
         {
-            throw new System.NotImplementedException();
+            if (child == null)
+            {
+                return null;
+            }
+
+            IConnectable disconnected = null;
+
+            IConnectable socket = TryFindConnected(child);
+            if (socket != null)
+            {
+                IConnectable parent = child.GetParentConnected();
+                if (parent == this) 
+                {
+                    disconnected = child;
+                    child.TryDisconnect(parent);
+                }
+            }
+
+            return disconnected;
         }
 
-        public override bool TryFindConnected(IConnectable child)
+        public override IConnectable TryFindConnected(IConnectable child)
         {
-            throw new System.NotImplementedException();
+            IConnectable found = null;
+
+            if (child == null)
+            {
+                return null;
+            }
+
+            if (child.IsConnected() == false)
+            {
+                return null;
+            }
+
+            found = _headConnector.TryFindConnected(child);
+
+            if (found != null)
+            {
+                return found;
+            }
+
+            found = _lArmConnector.TryFindConnected(child);
+
+            if (found != null)
+            {
+                return found;
+            }
+
+            found = _lLegConnector.TryFindConnected(child);
+
+            if (found != null)
+            {
+                return found;
+            }
+
+            found = _rLegConnector.TryFindConnected(child);
+
+            if (found != null)
+            {
+                return found;
+            }
+
+            found = _rArmConnector.TryFindConnected(child);
+
+            if (found != null)
+            {
+                return found;
+            }
+
+            return found;
         }
 
         //public override bool IsConnected()

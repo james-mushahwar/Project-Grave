@@ -12,6 +12,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public override void Setup()
         {
+            base.Setup();
             _parentTorsoConnector.ChildConnectable = this;
         }
 
@@ -20,14 +21,26 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             throw new System.NotImplementedException();
         }
 
-        public override void OnConnected(IConnectable parent)
+        public override IConnectable ConnectToConnectable(IConnectable socketConnector)
         {
-            throw new System.NotImplementedException();
+            IConnectable newConnection = _parentTorsoConnector.ConnectToConnectable(socketConnector);
+
+            return newConnection;
         }
 
         public override IConnectable TryDisconnect(IConnectable child)
         {
-            throw new System.NotImplementedException();
+            if (child == null)
+            {
+                if (_parentTorsoConnector.ParentConnectable == null)
+                {
+                    return null;
+                }
+
+                return _parentTorsoConnector.ParentConnectable.TryDisconnect(this);
+            }
+
+            return null;
         }
 
         public override void OnDisconnect(IConnectable parent)
@@ -35,7 +48,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             throw new System.NotImplementedException();
         }
 
-        public override bool TryFindConnected(IConnectable child)
+        public override IConnectable TryFindConnected(IConnectable child)
         {
             throw new System.NotImplementedException();
         }
@@ -45,10 +58,15 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             throw new System.NotImplementedException();
         }
 
-        //public override bool IsConnected()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public override bool IsConnected()
+        {
+            return _parentTorsoConnector.IsConnected();
+        }
+
+        public override IConnectable GetParentConnected()
+        {
+            return _parentTorsoConnector.GetParentConnected();
+        }
     }
     
 }

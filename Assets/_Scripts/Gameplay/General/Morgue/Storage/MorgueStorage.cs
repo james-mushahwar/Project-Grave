@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
 using UnityEngine;
 using static SerializableDictionary;
 
 namespace _Scripts.Gameplay.General.Morgue.Storage{
     
-    public class MorgueStorage : MorgueActor, IStorage
+    public class MorgueStorage : MorgueActor, IStorage, IInteractable
     {
         [SerializeField] private FStorageSlot _singleSlot;
 
@@ -83,6 +85,39 @@ namespace _Scripts.Gameplay.General.Morgue.Storage{
         public T GetStorable<T>() where T : class, IStorable
         {
             return StorageSlot.Storable as T;
+        }
+
+        public bool IsInteractable()
+        {
+            return true;
+        }
+
+        public bool OnInteract()
+        {
+            bool interact = false;
+
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+            if (pc != null)
+            {
+                IStorage hands = pc.PlayerStorage.GetPlayerHands();
+                IStorable removed = hands.TryRemove(null);
+                if (removed != null)
+                {
+                    interact = TryStore(removed.GetStorableParent());
+                }
+                else
+                {
+                    // try remove from storage and store in hands
+                    removed = TryRemove(null);
+
+                    if (removed != null)
+                    {
+                        interact = hands.TryStore(removed.GetStorableParent());
+                    }
+                }
+            }
+
+            return interact;
         }
     }
     

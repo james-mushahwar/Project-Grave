@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 7048917469614803576}
   - component: {fileID: 778513791115918106}
   - component: {fileID: 5720768684272803538}
-  m_Layer: 0
+  - component: {fileID: 7084565295668997782}
+  m_Layer: 7
   m_Name: JarStorage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,15 +29,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1471873117835692111}
-  m_LocalRotation: {x: -0, y: 0, z: -0.00078129704, w: 0.9999997}
+  m_LocalRotation: {x: 0, y: 0, z: -0.00078534114, w: 0.9999997}
   m_LocalPosition: {x: 47.54481, y: 0.125, z: 38.825264}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1848669494717236261}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.09}
 --- !u!114 &4119993026909011560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,7 +381,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1912
+  m_VersionIndex: 1927
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -477,13 +478,29 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &7084565295668997782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471873117835692111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d0c1de6d25f9554ab71cadfeb8b3da3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _singleSlot:
+    _storableSize: 20
+    _storableTypeFilter: 
+    _storageSpace: {fileID: 1848669494717236261}
 --- !u!1 &1982558027233592966
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,7 +510,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1848669494717236261}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: StorageTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -508,7 +525,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1982558027233592966}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.404, y: -0, z: 0.694}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

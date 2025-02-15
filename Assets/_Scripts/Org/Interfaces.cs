@@ -304,11 +304,12 @@ namespace _Scripts.Org
     {
         public bool IsConnected();
         public bool TryConnect(IConnectable child);
-        public void OnConnected(IConnectable parent);
+        public IConnectable ConnectToConnectable(IConnectable parent);
         public IConnectable TryDisconnect(IConnectable child);
         public void OnDisconnect(IConnectable parent);
-        public bool TryFindConnected(IConnectable child);
+        public IConnectable TryFindConnected(IConnectable child);
         public Transform Transform { get; }
+        public IConnectable GetParentConnected();
     }
 
     [Serializable]
@@ -339,8 +340,17 @@ namespace _Scripts.Org
             return false;
         }
 
-        public void OnConnected(IConnectable parent)
+        public IConnectable ConnectToConnectable(IConnectable parent)
         {
+            if (_childConnected == null)
+            {
+                return null;
+            }
+
+            _socket = parent.Transform;
+            _parentConnected = parent;
+
+            return _childConnected;
         }
 
         public IConnectable TryDisconnect(IConnectable child)
@@ -350,16 +360,32 @@ namespace _Scripts.Org
 
         public void OnDisconnect(IConnectable parent)
         {
+            _parentConnected = null;
         }
 
-        public bool TryFindConnected(IConnectable child)
+        public IConnectable TryFindConnected(IConnectable child)
         {
-            return false;
+            if (child == null)
+            {
+                return null;
+            }
+
+            if (_parentConnected == child.GetParentConnected())
+            {
+                return this;
+            }
+
+            return null;
         }
 
         public bool IsConnected()
         {
-            return false;
+            return _parentConnected != null;
+        }
+
+        public IConnectable GetParentConnected()
+        {
+            return _parentConnected;
         }
     }
 
