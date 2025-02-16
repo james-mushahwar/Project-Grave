@@ -361,7 +361,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5208106064012511059}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.034, y: 1.625, z: 0.186}
+  m_LocalPosition: {x: 0.034, y: 1.625, z: 0.052}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -427,7 +427,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5626017498981430128}
   m_LocalRotation: {x: 0.70710677, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.6249999, z: 0.35}
+  m_LocalPosition: {x: -0, y: 0.58, z: 0.217}
   m_LocalScale: {x: 0.8819892, y: 0.21919996, z: 0.45105857}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -462,7 +462,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: -196146090775662410, guid: a9f670f4eae962b4683c35ae3d1db878, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -540,7 +540,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  mouseSensitivity: 200
+  mouseSensitivity: 120
   _playerStorage: {fileID: 4932697406848840331}
 --- !u!143 &5593198990031617578
 CharacterController:

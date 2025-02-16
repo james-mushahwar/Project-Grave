@@ -44,6 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0299de6b28690b4abacbe2779c63a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _morgueActor: {fileID: 8096634858490036928, guid: 1bdd7cb268aad0f4392a0cd4809e5425,
+  _morgueActor: {fileID: 8096634858490036928, guid: 69817b7aecd0d8b42af8d71fc07fca75,
     type: 3}
-  _enterHouseThroughChute_Animation: {fileID: 0}

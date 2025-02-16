@@ -18,6 +18,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public override void Setup()  
         {
+            base.Setup();
+
             _headConnector.ParentConnectable = this;
             _lArmConnector.ParentConnectable = this;
             _rArmConnector.ParentConnectable = this;

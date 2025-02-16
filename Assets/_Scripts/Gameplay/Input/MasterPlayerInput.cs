@@ -1142,7 +1142,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""id"": ""dc668cec-9f48-4c70-8002-f1935d479931"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=0.02,y=0.02)"",
+                    ""processors"": ""ScaleVector2(x=0.035,y=0.035)"",
                     ""groups"": """",
                     ""action"": ""Look"",
                     ""isComposite"": false,
