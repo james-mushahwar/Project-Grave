@@ -16,6 +16,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             _parentTorsoConnector.ChildConnectable = this;
         }
 
+        public override void Tick()
+        {
+            base.Tick();
+        }
+
         public override bool TryConnect(IConnectable child)
         {
             throw new System.NotImplementedException();
@@ -60,7 +65,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public override bool IsConnected()
         {
-            return _parentTorsoConnector.IsConnected();
+            //return _parentTorsoConnector.IsConnected();
+            return base.IsConnected();
         }
 
         public override IConnectable GetParentConnected()

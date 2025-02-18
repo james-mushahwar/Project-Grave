@@ -18,6 +18,13 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public IStorage Stored => _bodyStorable.Stored;
 
+        private HeadMorgueActor _headMorgueActor;
+
+        [SerializeField]
+        private GameObject _bodyGeometryGO;
+        [SerializeField]
+        private GameObject _bodyRigGO;
+
         public bool IsStored()
         {
             return _bodyStorable.IsStored();

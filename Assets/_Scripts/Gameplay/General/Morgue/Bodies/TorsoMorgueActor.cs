@@ -26,6 +26,13 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             _lLegConnector.ParentConnectable = this;
             _rLegConnector.ParentConnectable = this;
 
+            BodyMorgueActor body = GetComponentInParent<BodyMorgueActor>(true);
+
+            if (body != null)
+            {
+
+            }
+
             if (_headConnector.Transform != null)
             {
                 HeadMorgueActor headActor = _headConnector.Transform.GetComponentInChildren<HeadMorgueActor>();

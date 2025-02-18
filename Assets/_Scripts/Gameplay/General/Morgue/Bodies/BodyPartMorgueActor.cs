@@ -19,6 +19,12 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public IStorage Stored => _bodyStorable.Stored;
 
+        [SerializeField]
+        protected SkinnedMeshRenderer _skinnedMeshRenderer;
+        [SerializeField] protected MeshRenderer _meshRenderer;
+
+        private BodyMorgueActor _bodyMorgueActor;
+
         public bool IsStored()
         {
             return _bodyStorable.IsStored();
@@ -82,6 +88,25 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public override void Tick()
         {
+            _bodyMorgueActor = GetComponentInParent<BodyMorgueActor>();
+
+            if (gameObject.activeSelf == false)
+            {
+                return;
+            }
+
+            if (IsConnected())
+            {
+                _skinnedMeshRenderer.gameObject.SetActive(true);
+                _meshRenderer.gameObject.SetActive(false);
+
+            }
+            else
+            {
+                _skinnedMeshRenderer.gameObject.SetActive(false);
+                _meshRenderer.gameObject.SetActive(true);
+
+            }
         }
 
         public override void ToggleProne(bool set)
@@ -151,7 +176,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public virtual bool IsConnected()
         {
-            return true;
+            return _bodyMorgueActor != null;
         }
 
         public virtual bool TryConnect(IConnectable parent)
