@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Transform_ChuteRoot
   - Camera_Holder
+  - Human_Head
+  - Human_Torso
   - Torso
   layers:
   - Default
@@ -16,7 +18,7 @@ TagManager:
   - UI
   - Ground
   - MorgueActor
-  - 
+  - MorgueCollision
   - 
   - 
   - 

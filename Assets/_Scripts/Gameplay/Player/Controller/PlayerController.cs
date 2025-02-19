@@ -483,6 +483,44 @@ namespace _Scripts.Gameplay.Player.Controller{
                         }
                     }
                 }
+                else
+                {
+                    GameObject selectedObject = InputController.SelectedObject;
+
+                    if (selectedObject != null)
+                    {
+                        if (selectedObject.layer == LayerMask.NameToLayer("MorgueCollision"))
+                        {
+                            BodyMorgueActor bodyMorgueActor = selectedObject.GetComponentInParent<BodyMorgueActor>();
+
+                            if (bodyMorgueActor != null)
+                            {
+                                IStorage hands = PlayerStorage.GetPlayerHands();
+                                BodyPartMorgueActor heldBodyPart = hands.GetStorable<BodyPartMorgueActor>();
+                                if (heldBodyPart != null && _equippedOperatingTool as OperationAttachmentMorgueTool)
+                                {
+                                    HeadMorgueActor head = heldBodyPart as HeadMorgueActor;
+                                    if (head != null)
+                                    {
+                                        if (selectedObject.tag == "Human_Head")
+                                        {
+                                            IStorable removed = hands.TryRemove(heldBodyPart);
+                                            if (removed != null)
+                                            {
+                                                head.TryConnect(bodyMorgueActor.TorsoMorgueActor);
+                                            }
+
+                                        }
+                                    }
+                                }
+
+                            }
+
+                            
+                        }
+                    }
+                }
+
             }
             else
             {

@@ -137,6 +137,16 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public T GetStorable<T>() where T : class, IStorable
         {
+            if (LHand.Storable != null)
+            {
+                return (T)LHand.Storable;
+            }
+
+            if (RHand.Storable != null)
+            {
+                return (T)RHand.Storable;
+            }
+
             return null;
         }
     }

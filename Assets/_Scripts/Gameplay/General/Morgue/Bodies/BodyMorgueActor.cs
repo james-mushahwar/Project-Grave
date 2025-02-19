@@ -21,9 +21,19 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         public IStorage Stored => _bodyStorable.Stored;
 
         private HeadMorgueActor _headMorgueActor;
+        private TorsoMorgueActor _torsoMorgueActor;
+
+        public TorsoMorgueActor TorsoMorgueActor
+        {
+            get { return _torsoMorgueActor;}
+        }
+        [SerializeField]
+        private GameObject _headPlaceholderGO;
 
         [SerializeField]
         private GameObject _bodyGeometryGO;
+        [SerializeField]
+        private GameObject _bodyGeometryPlaceholder;
         [SerializeField]
         private GameObject _bodyRigGO;
 
@@ -90,6 +100,9 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public override void Tick()
         {
+            _torsoMorgueActor = _bodyGeometryGO.GetComponentInChildren<TorsoMorgueActor>();
+
+            _headPlaceholderGO.SetActive(GetBodyPartByTag("Human_Head") == null);
         }
 
         public override void ToggleProne(bool set)
@@ -171,6 +184,24 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             }
 
             return null;
+        }
+
+        public bool AttachBodyPart(BodyPartMorgueActor bodyPart)
+        {
+            if (bodyPart == null)
+            {
+                return false;
+            }
+
+            if (GetBodyPartByTag(bodyPart.tag) == true)
+            {
+                return false;
+            }
+
+            bodyPart.gameObject.transform.SetParent(_bodyGeometryGO.transform, false);
+            bodyPart.gameObject.transform.localPosition = Vector3.zero;
+
+            return true;
         }
     }
     

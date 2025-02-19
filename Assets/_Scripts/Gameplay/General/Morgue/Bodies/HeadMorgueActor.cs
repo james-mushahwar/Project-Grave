@@ -21,17 +21,54 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             base.Tick();
         }
 
-        //public override bool TryConnect(IConnectable child)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
+        public override bool TryConnect(IConnectable parent)
+        {
+            if (parent == null)
+            {
+                return false;
+            }
+            else
+            {
+                if (BodyMorgueActor != null)
+                {
+                    return false;
+                }
 
-        //public override IConnectable ConnectToConnectable(IConnectable socketConnector)
-        //{
-        //    IConnectable newConnection = _parentTorsoConnector.ConnectToConnectable(socketConnector);
+                //return _parentTorsoConnector.ParentConnectable.TryDisconnect(this);
+                //BodyPartMorgueActor bodyPart = BodyMorgueActor.GetBodyPartByTag("Human_Torso");
+                TorsoMorgueActor torsoBodyPart = parent as TorsoMorgueActor;
 
-        //    return newConnection;
-        //}
+                if (torsoBodyPart != null)
+                {
+                    return torsoBodyPart.TryConnect(this);
+                }
+            }
+
+            return false;
+        }
+
+        public override IConnectable ConnectToConnectable(IConnectable socketConnector)
+        {
+            //IConnectable newConnection = _parentTorsoConnector.ConnectToConnectable(socketConnector);
+
+            //return newConnection;
+
+            if (BodyMorgueActor != null)
+            {
+                return null;
+            }
+
+            BodyPartMorgueActor bodyPart = socketConnector as BodyPartMorgueActor;
+            if (bodyPart != null)
+            {
+                if (bodyPart.BodyMorgueActor != null)
+                {
+                    bodyPart.BodyMorgueActor.AttachBodyPart(this);
+                }
+            }
+
+            return null;
+        }
 
         public override IConnectable TryDisconnect(IConnectable child)
         {
@@ -43,7 +80,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                 }
 
                 //return _parentTorsoConnector.ParentConnectable.TryDisconnect(this);
-                BodyPartMorgueActor bodyPart = BodyMorgueActor.GetBodyPartByTag("torso");
+                BodyPartMorgueActor bodyPart = BodyMorgueActor.GetBodyPartByTag("Human_Torso");
                 TorsoMorgueActor torsoBodyPart = bodyPart as TorsoMorgueActor;
 
                 if (torsoBodyPart != null)
