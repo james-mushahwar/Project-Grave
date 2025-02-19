@@ -33,14 +33,14 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
             }
 
-            if (_headConnector.Transform != null)
-            {
-                HeadMorgueActor headActor = _headConnector.Transform.GetComponentInChildren<HeadMorgueActor>();
-                if (headActor != null)
-                {
-                    TryConnect(headActor);
-                }
-            }
+            //if (_headConnector.Transform != null)
+            //{
+            //    HeadMorgueActor headActor = _headConnector.Transform.GetComponentInChildren<HeadMorgueActor>();
+            //    if (headActor != null)
+            //    {
+            //        TryConnect(headActor);
+            //    }
+            //}
 
             //if (_lArmConnector.Transform != null)
             //{
@@ -90,12 +90,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             IConnectable socket = TryFindConnected(child);
             if (socket != null)
             {
-                IConnectable parent = child.GetParentConnected();
-                if (parent == this) 
-                {
-                    disconnected = child;
-                    child.TryDisconnect(parent);
-                }
+                disconnected = child;
+                child.TryDisconnect(this);
             }
 
             return disconnected;
@@ -103,7 +99,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public override IConnectable TryFindConnected(IConnectable child)
         {
-            IConnectable found = null;
+            IConnectable found = child;
 
             if (child == null)
             {
@@ -115,39 +111,44 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                 return null;
             }
 
-            found = _headConnector.TryFindConnected(child);
+            //found = _headConnector.TryFindConnected(child);
 
-            if (found != null)
+            //if (found != null)
+            //{
+            //    return found;
+            //}
+
+            //found = _lArmConnector.TryFindConnected(child);
+
+            //if (found != null)
+            //{
+            //    return found;
+            //}
+
+            //found = _lLegConnector.TryFindConnected(child);
+
+            //if (found != null)
+            //{
+            //    return found;
+            //}
+
+            //found = _rLegConnector.TryFindConnected(child);
+
+            //if (found != null)
+            //{
+            //    return found;
+            //}
+
+            //found = _rArmConnector.TryFindConnected(child);
+
+            //if (found != null)
+            //{
+            //    return found;
+            //}
+
+            if (child.GetParentConnected() != GetParentConnected())
             {
-                return found;
-            }
-
-            found = _lArmConnector.TryFindConnected(child);
-
-            if (found != null)
-            {
-                return found;
-            }
-
-            found = _lLegConnector.TryFindConnected(child);
-
-            if (found != null)
-            {
-                return found;
-            }
-
-            found = _rLegConnector.TryFindConnected(child);
-
-            if (found != null)
-            {
-                return found;
-            }
-
-            found = _rArmConnector.TryFindConnected(child);
-
-            if (found != null)
-            {
-                return found;
+                return null;
             }
 
             return found;

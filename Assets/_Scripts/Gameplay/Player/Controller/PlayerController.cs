@@ -186,6 +186,8 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         private void HandleJump()
         {
+            return;
+
             if (isGrounded && Keyboard.current.spaceKey.wasPressedThisFrame)
             {
                 velocity.y += Mathf.Sqrt(jumpForce * -2f * gravity); // Calculate jump force
@@ -402,6 +404,24 @@ namespace _Scripts.Gameplay.Player.Controller{
             return selected;
         }
 
+        public T GetSelectedObjectParent<T>() where T : class
+        {
+            T selected = default;
+
+            GameObject selectedGO = InputController.SelectedObject;
+
+            if (selectedGO != null)
+            {
+                selected = selectedGO.GetComponentInParent<T>();
+                if (selected != null)
+                {
+                    return selected;
+                }
+            }
+
+            return selected;
+        }
+
         public T GetInputController<T>() where T : InputController
         {
             T inputController = null;
@@ -422,6 +442,11 @@ namespace _Scripts.Gameplay.Player.Controller{
             if (operating)
             {
                 BodyPartMorgueActor bodyPart = GetSelectedObject<BodyPartMorgueActor>();
+                if (bodyPart == null)
+                {
+                    bodyPart = GetSelectedObjectParent<BodyPartMorgueActor>();
+                }
+
                 if (bodyPart != null)
                 {
                     Debug.Log("Found body part = " + bodyPart.gameObject.name);

@@ -24,6 +24,10 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         [SerializeField] protected MeshRenderer _meshRenderer;
 
         private BodyMorgueActor _bodyMorgueActor;
+        public BodyMorgueActor BodyMorgueActor
+        {
+            get { return _bodyMorgueActor; }
+        }
 
         public bool IsStored()
         {
@@ -176,7 +180,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public virtual bool IsConnected()
         {
-            return _bodyMorgueActor != null;
+            return BodyMorgueActor != null;
         }
 
         public virtual bool TryConnect(IConnectable parent)

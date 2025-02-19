@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.Input.InputController.Game;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
+using UnityEditor;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Bodies{
@@ -155,6 +157,20 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             {
                 Collider.enabled = set;
             }
+        }
+
+        public BodyPartMorgueActor GetBodyPartByTag(string tag)
+        {
+            BodyPartMorgueActor[] bodyParts = _bodyGeometryGO.GetComponentsInChildren<BodyPartMorgueActor>(true);
+            foreach (var bodyPart in bodyParts)
+            {
+                if (String.Equals(bodyPart.tag, tag, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return bodyPart;
+                }
+            }
+
+            return null;
         }
     }
     

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Transform_ChuteRoot
   - Camera_Holder
+  - Torso
   layers:
   - Default
   - TransparentFX

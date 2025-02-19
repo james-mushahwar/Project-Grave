@@ -750,8 +750,6 @@ MonoBehaviour:
     _storableType: 0
   _skinnedMeshRenderer: {fileID: 595503718327793968}
   _meshRenderer: {fileID: 6066432034505616386}
-  _parentTorsoConnector:
-    _socket: {fileID: 8579506187695855219}
 --- !u!1 &3719549516206361745
 GameObject:
   m_ObjectHideFlags: 0
@@ -2132,8 +2130,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bodyStorable:
-    _storableSize: 0
+    _storableSize: 20
     _storableType: 0
+  _bodyGeometryGO: {fileID: 8060353995403069222}
+  _bodyRigGO: {fileID: 1123785576508154275}
 --- !u!1 &8008931929794580505
 GameObject:
   m_ObjectHideFlags: 0
@@ -2376,7 +2376,7 @@ GameObject:
   - component: {fileID: 77240999281282902}
   m_Layer: 0
   m_Name: TorsoTrans
-  m_TagString: Untagged
+  m_TagString: Torso
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
