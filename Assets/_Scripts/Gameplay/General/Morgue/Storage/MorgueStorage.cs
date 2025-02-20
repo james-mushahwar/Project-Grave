@@ -4,7 +4,6 @@ using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
 using UnityEngine;
-using static SerializableDictionary;
 
 namespace _Scripts.Gameplay.General.Morgue.Storage{
     

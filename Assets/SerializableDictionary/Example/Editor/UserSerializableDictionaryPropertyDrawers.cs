@@ -8,6 +8,7 @@ using UnityEditor;
 [CustomPropertyDrawer(typeof(StringColorArrayDictionary))]
 [CustomPropertyDrawer(typeof(MorgueAnimTypeAnimationDictionary))]
 [CustomPropertyDrawer(typeof(VirtualCameraTypeDictionary))]
+[CustomPropertyDrawer(typeof(HumanMorgueBodyVariantDictionary))]
 public class AnySerializableDictionaryPropertyDrawer : SerializableDictionaryPropertyDrawer {}
 
 [CustomPropertyDrawer(typeof(ColorArrayStorage))]

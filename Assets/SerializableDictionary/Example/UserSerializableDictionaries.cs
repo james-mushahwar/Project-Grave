@@ -4,6 +4,7 @@ using System;
 using _Scripts.Gameplay.Architecture.Managers;
 using Cinemachine;
 using UnityEngine;
+using _Scripts.Gameplay.General.Morgue.Bodies;
 
 [Serializable]
 public class StringStringDictionary : SerializableDictionary<string, string> {}
@@ -33,3 +34,6 @@ public class MorgueAnimTypeAnimationDictionary : SerializableDictionary<EMorgueA
 
 [Serializable]
 public class VirtualCameraTypeDictionary : SerializableDictionary<EVirtualCameraType, CinemachineVirtualCamera> { }
+
+[Serializable]
+public class HumanMorgueBodyVariantDictionary : SerializableDictionary<EMorgueBodyVariant, HumanMorgueBodyVariant> { }

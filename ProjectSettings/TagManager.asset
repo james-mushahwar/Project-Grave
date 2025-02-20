@@ -8,7 +8,10 @@ TagManager:
   - Camera_Holder
   - Human_Head
   - Human_Torso
-  - Torso
+  - Human_LArm
+  - Human_RArm
+  - Human_LLeg
+  - Human_RLeg
   layers:
   - Default
   - TransparentFX

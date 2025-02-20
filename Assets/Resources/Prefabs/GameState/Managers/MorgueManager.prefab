@@ -44,5 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0299de6b28690b4abacbe2779c63a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _morgueBodyAtlas: {fileID: 11400000, guid: eaea97c1cf9e705478e00eb88e159d90, type: 2}
   _morgueActor: {fileID: 8096634858490036928, guid: 69817b7aecd0d8b42af8d71fc07fca75,
     type: 3}

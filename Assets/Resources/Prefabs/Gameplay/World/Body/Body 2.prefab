@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 8506482001240078866}
   m_Layer: 0
   m_Name: LArmTrans
-  m_TagString: Untagged
+  m_TagString: Human_LArm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -275,8 +275,7 @@ SkinnedMeshRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 584c1f588e255e04498751efd37053e6, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -863,6 +862,7 @@ MonoBehaviour:
     _storableType: 0
   _skinnedMeshRenderer: {fileID: 595503718327793968}
   _meshRenderer: {fileID: 6066432034505616386}
+  _meshFilter: {fileID: 2825421729381754866}
 --- !u!1 &3612927814538641086
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,8 +915,7 @@ SkinnedMeshRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 584c1f588e255e04498751efd37053e6, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1238,7 +1237,7 @@ GameObject:
   - component: {fileID: 145700881315103308}
   m_Layer: 0
   m_Name: RArmTrans
-  m_TagString: Untagged
+  m_TagString: Human_RArm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2083,7 +2082,7 @@ GameObject:
   - component: {fileID: 6867221378190364856}
   m_Layer: 0
   m_Name: LLegTrans
-  m_TagString: Untagged
+  m_TagString: Human_LLeg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2499,11 +2498,11 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6357201746393194134}
-  - {fileID: 8506482001240078866}
-  - {fileID: 6867221378190364856}
-  - {fileID: 145700881315103308}
-  - {fileID: 1884842174610996243}
   - {fileID: 3169912386946956896}
+  - {fileID: 8506482001240078866}
+  - {fileID: 145700881315103308}
+  - {fileID: 6867221378190364856}
+  - {fileID: 1884842174610996243}
   m_Father: {fileID: 2391944622446920008}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2559,8 +2558,7 @@ SkinnedMeshRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 584c1f588e255e04498751efd37053e6, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2670,8 +2668,7 @@ SkinnedMeshRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 584c1f588e255e04498751efd37053e6, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2837,7 +2834,7 @@ GameObject:
   - component: {fileID: 1884842174610996243}
   m_Layer: 0
   m_Name: RLegTrans
-  m_TagString: Untagged
+  m_TagString: Human_RLeg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2911,8 +2908,7 @@ SkinnedMeshRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 584c1f588e255e04498751efd37053e6, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3022,11 +3018,7 @@ SkinnedMeshRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 62924d8f8c457c44db1d841ae34248e0, type: 2}
-  - {fileID: 2100000, guid: f4a9c58b832f3f64e8746253c3291953, type: 2}
-  - {fileID: 2100000, guid: 8e51dcce56c51a64d917299950b8cba7, type: 2}
-  - {fileID: 2100000, guid: e83b4401390897945ad730090c210a04, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3137,6 +3129,7 @@ MonoBehaviour:
     _storableType: 0
   _skinnedMeshRenderer: {fileID: 8657831762582642666}
   _meshRenderer: {fileID: 999137558720088494}
+  _meshFilter: {fileID: 6472615340518149301}
   _headConnector:
     _socket: {fileID: 8579506187695855219}
   _lArmConnector:

@@ -23,6 +23,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         private HeadMorgueActor _headMorgueActor;
         private TorsoMorgueActor _torsoMorgueActor;
 
+        public HeadMorgueActor HeadMorgueActor { get => _headMorgueActor; }
         public TorsoMorgueActor TorsoMorgueActor
         {
             get { return _torsoMorgueActor;}
@@ -82,7 +83,6 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             }
         }
 
-
         public override void EnterHouseThroughChute()
         {
             Debug.Log("Try enter house through chute");
@@ -95,6 +95,20 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public override void Setup()
         {
+            _torsoMorgueActor = GetBodyPartByTag("Human_Torso") as TorsoMorgueActor;
+            _headMorgueActor = GetBodyPartByTag("Human_Head") as HeadMorgueActor;
+
+            if (_torsoMorgueActor != null)
+            {
+                MorgueManager.Instance.PopulateMorgueBodyPart(_torsoMorgueActor);
+            }
+            if (_headMorgueActor != null)
+            {
+                MorgueManager.Instance.PopulateMorgueBodyPart(_headMorgueActor);
+            }
+
+            //MorgueManager.Instance.PopulateMorgueBody(this);
+
             _bodyStorable.StorableParent = this;
         }
 

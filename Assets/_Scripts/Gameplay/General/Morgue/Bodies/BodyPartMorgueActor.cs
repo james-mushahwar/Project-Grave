@@ -19,9 +19,13 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public IStorage Stored => _bodyStorable.Stored;
 
-        [SerializeField]
-        protected SkinnedMeshRenderer _skinnedMeshRenderer;
-        [SerializeField] protected MeshRenderer _meshRenderer;
+        [SerializeField] private SkinnedMeshRenderer _skinnedMeshRenderer;
+        [SerializeField] private MeshRenderer _meshRenderer;
+        [SerializeField] private MeshFilter _meshFilter;
+
+        public SkinnedMeshRenderer SkinnedMeshRenderer { get => _skinnedMeshRenderer; }
+        public MeshRenderer MeshRenderer { get => _meshRenderer; }
+        public MeshFilter MeshFilter { get => _meshFilter; }
 
         private BodyMorgueActor _bodyMorgueActor;
         public BodyMorgueActor BodyMorgueActor

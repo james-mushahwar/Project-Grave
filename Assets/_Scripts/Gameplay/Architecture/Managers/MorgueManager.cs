@@ -1,4 +1,5 @@
 ﻿using _Scripts.Gameplay.General.Morgue;
+using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Org;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
     
     public class MorgueManager : GameManager<MorgueManager>, IManager
     {
+        [SerializeField] private MorgueBodyAtlas _morgueBodyAtlas;
         [SerializeField] private MorgueActor _morgueActor;
         private GameObject _houseChuteRoot;
         private List<MorgueActor> _pendingHouseMorgueActors = new List<MorgueActor>();
@@ -132,6 +134,70 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             animation.Play();
 
             return animation;
+        }
+
+        public void PopulateMorgueBody(BodyMorgueActor body)
+        {
+            if (body == null)
+            {
+                return;
+            }
+
+            EMorgueBodyVariant bodyVariantType = (EMorgueBodyVariant)Random.Range(0, (int)EMorgueBodyVariant.COUNT);
+
+            PopulateMorgueBodyPart(body.HeadMorgueActor, true, bodyVariantType);
+            PopulateMorgueBodyPart(body.TorsoMorgueActor, true, bodyVariantType);
+        }
+
+        public void PopulateMorgueBodyPart(BodyPartMorgueActor bodyPart, bool updateCollision = true, EMorgueBodyVariant variant = EMorgueBodyVariant.None)
+        {
+            if (bodyPart == null)
+            {
+                return;
+            }
+
+            HumanMorgueBodyVariant bodyVariant = _morgueBodyAtlas.GetHumanBodyVariant();
+
+            if (bodyVariant == null)
+            {
+                return;
+            }
+
+            FMeshPair meshPair = null;
+            if (bodyPart is HeadMorgueActor)
+            {
+                meshPair = bodyVariant.GetHeadMeshes();
+            }
+            else if (bodyPart is TorsoMorgueActor)
+            {
+                meshPair = bodyVariant.GetTorsoMeshes();
+            }
+
+            if ( meshPair != null)
+            {
+                Material[] staticMeshMaterials = new Material[meshPair.StaticMeshMaterials.Count];
+                for (int i = 0; i < meshPair.StaticMeshMaterials.Count; i++)
+                {
+                    staticMeshMaterials[i] = meshPair.StaticMeshMaterials[i];
+                }
+
+                bodyPart.MeshRenderer.materials = staticMeshMaterials;
+                bodyPart.MeshFilter.mesh = meshPair.StaticMesh;
+
+                Material[] skinnedMeshMaterials = new Material[meshPair.SkinnedMeshMaterials.Count];
+                for (int i = 0; i < meshPair.SkinnedMeshMaterials.Count; i++)
+                {
+                    skinnedMeshMaterials[i] = meshPair.SkinnedMeshMaterials[i];
+                }
+
+                bodyPart.SkinnedMeshRenderer.materials = skinnedMeshMaterials;
+                bodyPart.SkinnedMeshRenderer.sharedMesh = meshPair.SkinnedMesh;
+
+                if (updateCollision)
+                {
+                    //bodyPart.BodyMorgueActor.
+                }
+            }
         }
     }
     
