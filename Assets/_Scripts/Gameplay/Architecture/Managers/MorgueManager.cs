@@ -136,17 +136,19 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             return animation;
         }
 
-        public void PopulateMorgueBody(BodyMorgueActor body)
+        public void PopulateMorgueBody(BodyMorgueActor body, EMorgueBodyVariant bodyVariantType = EMorgueBodyVariant.None)
         {
             if (body == null)
             {
                 return;
             }
 
-            EMorgueBodyVariant bodyVariantType = (EMorgueBodyVariant)Random.Range(0, (int)EMorgueBodyVariant.COUNT);
-
             PopulateMorgueBodyPart(body.HeadMorgueActor, true, bodyVariantType);
             PopulateMorgueBodyPart(body.TorsoMorgueActor, true, bodyVariantType);
+            PopulateMorgueBodyPart(body.LArmMorgueActor, true, bodyVariantType);
+            PopulateMorgueBodyPart(body.RArmMorgueActor, true, bodyVariantType);
+            PopulateMorgueBodyPart(body.LLegMorgueActor, true, bodyVariantType);
+            PopulateMorgueBodyPart(body.RLegMorgueActor, true, bodyVariantType);
         }
 
         public void PopulateMorgueBodyPart(BodyPartMorgueActor bodyPart, bool updateCollision = true, EMorgueBodyVariant variant = EMorgueBodyVariant.None)
@@ -171,6 +173,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             else if (bodyPart is TorsoMorgueActor)
             {
                 meshPair = bodyVariant.GetTorsoMeshes();
+            }
+            else if (bodyPart is LegMorgueActor)
+            {
+                meshPair = bodyPart.gameObject.tag == "Human_LLeg" ? bodyVariant.GetLLegMeshes() : bodyVariant.GetRLegMeshes();
+            }
+            else if (bodyPart is ArmMorgueActor)
+            {
+                meshPair = bodyPart.gameObject.tag == "Human_LArm" ? bodyVariant.GetLArmMeshes() : bodyVariant.GetRArmMeshes();
             }
 
             if ( meshPair != null)

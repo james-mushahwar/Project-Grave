@@ -23,14 +23,23 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         private HeadMorgueActor _headMorgueActor;
         private TorsoMorgueActor _torsoMorgueActor;
+        private ArmMorgueActor _lArmMorgueActor;
+        private ArmMorgueActor _rArmMorgueActor;
+        private LegMorgueActor _lLegMorgueActor;
+        private LegMorgueActor _rLegMorgueActor;
 
         public HeadMorgueActor HeadMorgueActor { get => _headMorgueActor; }
-        public TorsoMorgueActor TorsoMorgueActor
-        {
-            get { return _torsoMorgueActor;}
-        }
-        [SerializeField]
-        private GameObject _headPlaceholderGO;
+        public TorsoMorgueActor TorsoMorgueActor { get => _torsoMorgueActor; }
+        public ArmMorgueActor LArmMorgueActor { get => _lArmMorgueActor; }
+        public ArmMorgueActor RArmMorgueActor { get => _rArmMorgueActor; }
+        public LegMorgueActor LLegMorgueActor { get => _lLegMorgueActor; }
+        public LegMorgueActor RLegMorgueActor { get => _rLegMorgueActor; }
+
+        [SerializeField] private GameObject _headPlaceholderGO;
+        [SerializeField] private GameObject _lArmPlaceholderGO;
+        [SerializeField] private GameObject _rArmPlaceholderGO;
+        [SerializeField] private GameObject _lLegPlaceholderGO;
+        [SerializeField] private GameObject _rLegPlaceholderGO;
 
         [SerializeField]
         private GameObject _bodyGeometryGO;
@@ -98,6 +107,10 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         {
             _torsoMorgueActor = GetBodyPartByTag("Human_Torso") as TorsoMorgueActor;
             _headMorgueActor = GetBodyPartByTag("Human_Head") as HeadMorgueActor;
+            _lArmMorgueActor = GetBodyPartByTag("Human_LArm") as ArmMorgueActor;
+            _rArmMorgueActor = GetBodyPartByTag("Human_RArm") as ArmMorgueActor;
+            _lLegMorgueActor = GetBodyPartByTag("Human_LLeg") as LegMorgueActor;
+            _rLegMorgueActor = GetBodyPartByTag("Human_RLeg") as LegMorgueActor;
 
             //if (_torsoMorgueActor != null)
             //{
@@ -118,6 +131,10 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             _torsoMorgueActor = _bodyGeometryGO.GetComponentInChildren<TorsoMorgueActor>();
 
             _headPlaceholderGO.SetActive(GetBodyPartByTag("Human_Head") == null);
+            _lArmPlaceholderGO.SetActive(GetBodyPartByTag("Human_LArm") == null);
+            _rArmPlaceholderGO.SetActive(GetBodyPartByTag("Human_RArm") == null);
+            _lLegPlaceholderGO.SetActive(GetBodyPartByTag("Human_LLeg") == null);
+            _rLegPlaceholderGO.SetActive(GetBodyPartByTag("Human_RLeg") == null);
         }
 
         public override void ToggleProne(bool set)

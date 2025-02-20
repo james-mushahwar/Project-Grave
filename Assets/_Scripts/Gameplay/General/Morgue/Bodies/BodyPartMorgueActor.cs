@@ -189,16 +189,72 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public virtual bool TryConnect(IConnectable parent)
         {
+            if (parent == null)
+            {
+                return false;
+            }
+            else
+            {
+                if (BodyMorgueActor != null)
+                {
+                    return false;
+                }
+
+                //return _parentTorsoConnector.ParentConnectable.TryDisconnect(this);
+                //BodyPartMorgueActor bodyPart = BodyMorgueActor.GetBodyPartByTag("Human_Torso");
+                TorsoMorgueActor torsoBodyPart = parent as TorsoMorgueActor;
+
+                if (torsoBodyPart != null)
+                {
+                    return torsoBodyPart.TryConnect(this);
+                }
+            }
+
             return false;
         }
 
-        public virtual IConnectable ConnectToConnectable(IConnectable parent)
+        public virtual IConnectable ConnectToConnectable(IConnectable socketConnector)
         {
+            //IConnectable newConnection = _parentTorsoConnector.ConnectToConnectable(socketConnector);
+
+            //return newConnection;
+
+            if (BodyMorgueActor != null)
+            {
+                return null;
+            }
+
+            BodyPartMorgueActor bodyPart = socketConnector as BodyPartMorgueActor;
+            if (bodyPart != null)
+            {
+                if (bodyPart.BodyMorgueActor != null)
+                {
+                    bodyPart.BodyMorgueActor.AttachBodyPart(this);
+                }
+            }
+
             return null;
         }
 
         public virtual IConnectable TryDisconnect(IConnectable child)
         {
+            if (child == null)
+            {
+                if (BodyMorgueActor == null)
+                {
+                    return null;
+                }
+
+                //return _parentTorsoConnector.ParentConnectable.TryDisconnect(this);
+                BodyPartMorgueActor bodyPart = BodyMorgueActor.GetBodyPartByTag("Human_Torso");
+                TorsoMorgueActor torsoBodyPart = bodyPart as TorsoMorgueActor;
+
+                if (torsoBodyPart != null)
+                {
+                    return torsoBodyPart.TryDisconnect(this);
+                }
+            }
+
             return null;
         }
 

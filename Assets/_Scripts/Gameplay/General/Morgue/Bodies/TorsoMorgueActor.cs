@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Bodies{
@@ -61,21 +62,48 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                 return false;
             }
 
+            FPropConnector connector = null;
+
             if (child as HeadMorgueActor)
             {
-                if (_headConnector.ChildConnectable == null && child.IsConnected() == false) 
+                connector = _headConnector;
+            }
+            else if (child as ArmMorgueActor)
+            {
+                ArmMorgueActor arm = child as ArmMorgueActor;
+                connector = _lArmConnector;
+                if (arm.gameObject.tag == "Human_RArm")
                 {
-                    IConnectable newConnect = child.ConnectToConnectable(this);
-
-                    if (newConnect != null)
-                    {
-                        connect = true;
-                        _headConnector.ChildConnectable = child;
-                    }
+                    connector = _rArmConnector;
+                }
+            }
+            else if (child as LegMorgueActor)
+            {
+                LegMorgueActor leg = child as LegMorgueActor;
+                connector = _lLegConnector;
+                if (leg.gameObject.tag == "Human_RLeg")
+                {
+                    connector = _rLegConnector;
                 }
             }
 
+            if (connector != null && connector.ChildConnectable == null && child.IsConnected() == false) 
+            {
+                IConnectable newConnect = child.ConnectToConnectable(this);
+
+                if (newConnect != null)
+                {
+                    connect = true;
+                    connector.ChildConnectable = child;
+                }
+            }
+            
             return connect;
+        }
+
+        public override IConnectable ConnectToConnectable(IConnectable parent)
+        {
+            return null;
         }
 
         public override IConnectable TryDisconnect(IConnectable child)
@@ -152,6 +180,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             }
 
             return found;
+        }
+
+        public override void OnDisconnect(IConnectable parent)
+        {
+
         }
 
         //public override bool IsConnected()

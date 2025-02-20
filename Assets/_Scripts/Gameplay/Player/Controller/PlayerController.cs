@@ -499,17 +499,12 @@ namespace _Scripts.Gameplay.Player.Controller{
                                 BodyPartMorgueActor heldBodyPart = hands.GetStorable<BodyPartMorgueActor>();
                                 if (heldBodyPart != null && _equippedOperatingTool as OperationAttachmentMorgueTool)
                                 {
-                                    HeadMorgueActor head = heldBodyPart as HeadMorgueActor;
-                                    if (head != null)
+                                    if (selectedObject.tag == heldBodyPart.gameObject.tag)
                                     {
-                                        if (selectedObject.tag == "Human_Head")
+                                        IStorable removed = hands.TryRemove(heldBodyPart);
+                                        if (removed != null)
                                         {
-                                            IStorable removed = hands.TryRemove(heldBodyPart);
-                                            if (removed != null)
-                                            {
-                                                head.TryConnect(bodyMorgueActor.TorsoMorgueActor);
-                                            }
-
+                                            heldBodyPart.TryConnect(bodyMorgueActor.TorsoMorgueActor);
                                         }
                                     }
                                 }

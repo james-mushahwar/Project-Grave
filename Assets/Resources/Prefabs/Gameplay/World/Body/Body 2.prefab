@@ -40,6 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8506482001240078866}
+  - component: {fileID: 6231979375749560421}
   m_Layer: 0
   m_Name: LArmTrans
   m_TagString: Human_LArm
@@ -64,6 +65,24 @@ Transform:
   m_Father: {fileID: 2249712109187098691}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6231979375749560421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440737838863789337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fa439ad8bcb14e4fb8b1be4f867188a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bodyStorable:
+    _storableSize: 10
+    _storableType: 0
+  _skinnedMeshRenderer: {fileID: 6751929848874941705}
+  _meshRenderer: {fileID: 2229163728432924418}
+  _meshFilter: {fileID: 3457798998075425099}
 --- !u!1 &624112475017808484
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,8 +254,8 @@ GameObject:
   - component: {fileID: 8802747217337662471}
   - component: {fileID: 476992505065283504}
   m_Layer: 8
-  m_Name: a01_l_leg_Skinned
-  m_TagString: Untagged
+  m_Name: a01_l_leg_Skinned_placeholder
+  m_TagString: Human_LLeg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -875,8 +894,8 @@ GameObject:
   - component: {fileID: 7971603714413183475}
   - component: {fileID: 1957704696498364896}
   m_Layer: 8
-  m_Name: a01_torso_Skinned
-  m_TagString: Untagged
+  m_Name: a01_torso_Skinned_placeholder
+  m_TagString: Human_Torso
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1235,6 +1254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 145700881315103308}
+  - component: {fileID: 2280305488631668035}
   m_Layer: 0
   m_Name: RArmTrans
   m_TagString: Human_RArm
@@ -1259,6 +1279,24 @@ Transform:
   m_Father: {fileID: 2249712109187098691}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2280305488631668035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3777082430865751488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fa439ad8bcb14e4fb8b1be4f867188a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bodyStorable:
+    _storableSize: 0
+    _storableType: 0
+  _skinnedMeshRenderer: {fileID: 1016709409444465674}
+  _meshRenderer: {fileID: 3334474455945908835}
+  _meshFilter: {fileID: 3023147301302828118}
 --- !u!1 &3904873431143361108
 GameObject:
   m_ObjectHideFlags: 0
@@ -2080,6 +2118,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6867221378190364856}
+  - component: {fileID: 5347335135139902078}
   m_Layer: 0
   m_Name: LLegTrans
   m_TagString: Human_LLeg
@@ -2104,6 +2143,24 @@ Transform:
   m_Father: {fileID: 2249712109187098691}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5347335135139902078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6255696379610193547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d31f66da05da1845a35c07ad0639c14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bodyStorable:
+    _storableSize: 0
+    _storableType: 0
+  _skinnedMeshRenderer: {fileID: 2239990221187759863}
+  _meshRenderer: {fileID: 8928300179343481154}
+  _meshFilter: {fileID: 6656999450041537292}
 --- !u!1 &6390309484204207031
 GameObject:
   m_ObjectHideFlags: 0
@@ -2286,7 +2343,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6860628426204460411}
-  m_Mesh: {fileID: 1621489774825907225, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
+  m_Mesh: {fileID: 1194310052049718328, guid: ad5002b0c0d52c84f96e4df0c71692e7, type: 3}
 --- !u!23 &9141582244894964827
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2402,6 +2459,10 @@ MonoBehaviour:
     _storableSize: 20
     _storableType: 0
   _headPlaceholderGO: {fileID: 8935313523959008206}
+  _lArmPlaceholderGO: {fileID: 8323514381385071671}
+  _rArmPlaceholderGO: {fileID: 8912854600096882882}
+  _lLegPlaceholderGO: {fileID: 1264528341021461397}
+  _rLegPlaceholderGO: {fileID: 8476540830449570072}
   _bodyGeometryGO: {fileID: 8060353995403069222}
   _bodyGeometryPlaceholder: {fileID: 3658051860864663620}
   _bodyRigGO: {fileID: 1123785576508154275}
@@ -2518,8 +2579,8 @@ GameObject:
   - component: {fileID: 8242199436496914568}
   - component: {fileID: 5690997665687177223}
   m_Layer: 8
-  m_Name: a01_l_arm_Skinned
-  m_TagString: Untagged
+  m_Name: a01_l_arm_Skinned_placeholder
+  m_TagString: Human_LArm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2628,8 +2689,8 @@ GameObject:
   - component: {fileID: 4542306321069524768}
   - component: {fileID: 2596228553244627696}
   m_Layer: 8
-  m_Name: a01_r_leg_Skinned
-  m_TagString: Untagged
+  m_Name: a01_r_leg_Skinned_placeholder
+  m_TagString: Human_RLeg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2832,6 +2893,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1884842174610996243}
+  - component: {fileID: 2875639277673022983}
   m_Layer: 0
   m_Name: RLegTrans
   m_TagString: Human_RLeg
@@ -2856,6 +2918,24 @@ Transform:
   m_Father: {fileID: 2249712109187098691}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2875639277673022983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8756588722947139194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d31f66da05da1845a35c07ad0639c14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bodyStorable:
+    _storableSize: 0
+    _storableType: 0
+  _skinnedMeshRenderer: {fileID: 6898482534293072520}
+  _meshRenderer: {fileID: 9141582244894964827}
+  _meshFilter: {fileID: 5855983102304464932}
 --- !u!1 &8912854600096882882
 GameObject:
   m_ObjectHideFlags: 0
@@ -2868,8 +2948,8 @@ GameObject:
   - component: {fileID: 8214459280247409916}
   - component: {fileID: 1221990815244220288}
   m_Layer: 8
-  m_Name: a01_r_arm_Skinned
-  m_TagString: Untagged
+  m_Name: a01_r_arm_Skinned_placeholder
+  m_TagString: Human_RArm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

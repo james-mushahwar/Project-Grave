@@ -31,12 +31,12 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         [SerializeField] private FMeshPair _lLegMeshes;
         [SerializeField] private FMeshPair _rLegMeshes;
 
-        public FMeshPair GetHeadMeshes()
-        {
-            return _headMeshes;
-        }
-
-        public FMeshPair GetTorsoMeshes() {  return _torsoMeshes; }
+        public FMeshPair GetHeadMeshes() { return _headMeshes; }
+        public FMeshPair GetTorsoMeshes() { return _torsoMeshes; }
+        public FMeshPair GetLArmMeshes() { return _lArmMeshes; }
+        public FMeshPair GetRArmMeshes() { return _rArmMeshes; }
+        public FMeshPair GetLLegMeshes() { return _lLegMeshes; }
+        public FMeshPair GetRLegMeshes() { return _rLegMeshes; }
     }
 
     [Serializable]
