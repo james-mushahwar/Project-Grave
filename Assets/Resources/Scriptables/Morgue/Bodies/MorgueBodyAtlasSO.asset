@@ -79,7 +79,7 @@ MonoBehaviour:
         _staticMesh: {fileID: 6763056062296676775, guid: 5181de99197b7c842bb557b5685b968b,
           type: 3}
         _staticMeshMaterials:
-        - {fileID: 565201691288005592, guid: b228bb630c5418c4aab56b16cac9ad35, type: 3}
+        - {fileID: 6034957751646507721, guid: 5181de99197b7c842bb557b5685b968b, type: 3}
         _skinnedMesh: {fileID: -4564990722436546594, guid: 82daa890f1bc5d542963d1e6481fc34d,
           type: 3}
         _skinnedMeshMaterials:

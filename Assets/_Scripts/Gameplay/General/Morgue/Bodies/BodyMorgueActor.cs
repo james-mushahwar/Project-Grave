@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using _Scripts.CautionaryTalesScripts;
 using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.Input.InputController.Game;
 using _Scripts.Gameplay.Player.Controller;
@@ -98,10 +99,10 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             _torsoMorgueActor = GetBodyPartByTag("Human_Torso") as TorsoMorgueActor;
             _headMorgueActor = GetBodyPartByTag("Human_Head") as HeadMorgueActor;
 
-            if (_torsoMorgueActor != null)
-            {
-                MorgueManager.Instance.PopulateMorgueBodyPart(_torsoMorgueActor);
-            }
+            //if (_torsoMorgueActor != null)
+            //{
+            //    MorgueManager.Instance.PopulateMorgueBodyPart(_torsoMorgueActor);
+            //}
             if (_headMorgueActor != null)
             {
                 MorgueManager.Instance.PopulateMorgueBodyPart(_headMorgueActor);
@@ -215,7 +216,49 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             bodyPart.gameObject.transform.SetParent(_bodyGeometryGO.transform, false);
             bodyPart.gameObject.transform.localPosition = Vector3.zero;
 
+            RefreshBones(bodyPart.SkinnedMeshRenderer);
+
             return true;
+        }
+
+        public void RefreshBones(SkinnedMeshRenderer skinnedMesh)
+        {
+            if (skinnedMesh == null)
+            {
+                return;
+            }
+
+
+            string rootBoneTag = "";
+
+            if (skinnedMesh.rootBone != null)
+            {
+                rootBoneTag = skinnedMesh.rootBone.tag;
+            }
+
+            Dictionary<string, Transform> boneDictionary = new Dictionary<string, Transform>();
+            Transform[] rootBoneChildren = _bodyRigGO.GetComponentsInChildren<Transform>();
+            foreach (Transform child in rootBoneChildren)
+            {
+                boneDictionary[child.name] = child;
+            }
+
+            Transform[] newBones = new Transform[skinnedMesh.bones.Length];
+            for (int i = 0; i < skinnedMesh.bones.Length; i++)
+            {
+                if (boneDictionary.TryGetValue(skinnedMesh.bones[i].name, out Transform newBone))
+                {
+                    newBones[i] = newBone;
+                }
+            }
+
+            skinnedMesh.bones = newBones;
+            skinnedMesh.rootBone = null;
+            GameObject rootBoneGO = CTGlobal.FindGameObjectInChildWithTag(_bodyRigGO, rootBoneTag);
+            if (rootBoneGO != null)
+            {
+                skinnedMesh.rootBone = rootBoneGO.transform;
+            }
         }
     }
     

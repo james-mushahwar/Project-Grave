@@ -2,6 +2,7 @@
 using _Scripts.Org;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue{
@@ -38,13 +39,13 @@ namespace _Scripts.Gameplay.General.Morgue{
                 return false;
             }
 
-            if (_operatingTable != null)
-            {
-                if (_operatingTable.IsFull())
-                {
-                    return false;
-                }
-            }
+            //if (_operatingTable != null)
+            //{
+            //    if (_operatingTable.IsFull())
+            //    {
+            //        return false;
+            //    }
+            //}
 
             Animation anim = AnimationManager.Instance.GetMorgueAnimTypeAnimation(_triggerAnimType);
             if (anim == null)
@@ -62,6 +63,26 @@ namespace _Scripts.Gameplay.General.Morgue{
 
         public bool OnInteract()
         {
+            if (_operatingTable != null)
+            {
+                if (_operatingTable.IsFull())
+                {
+                    IStorable removed = _operatingTable.TryRemove(null);
+                    if (removed == null)
+                    {
+                        return false;
+                    }
+
+                    MonoBehaviour storableMono = removed.GetStorableParent() as MonoBehaviour;
+                    if (storableMono != null)
+                    {
+                        storableMono.gameObject.SetActive(false);
+                        storableMono.gameObject.transform.SetParent(null, true);
+                        storableMono.gameObject.transform.position = Vector3.zero;
+                    }
+                }
+            }
+
             if (_pulleyAnimation != null)
             {
                 _pulleyAnimation.Play();
