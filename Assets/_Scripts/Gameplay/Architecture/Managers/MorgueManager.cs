@@ -143,6 +143,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return;
             }
 
+            if (bodyVariantType == EMorgueBodyVariant.None || bodyVariantType == EMorgueBodyVariant.COUNT)
+            {
+                bodyVariantType = (EMorgueBodyVariant)Random.Range(0, (int)EMorgueBodyVariant.COUNT);
+            }
             PopulateMorgueBodyPart(body.HeadMorgueActor, true, bodyVariantType);
             PopulateMorgueBodyPart(body.TorsoMorgueActor, true, bodyVariantType);
             PopulateMorgueBodyPart(body.LArmMorgueActor, true, bodyVariantType);
@@ -158,7 +162,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return;
             }
 
-            HumanMorgueBodyVariant bodyVariant = _morgueBodyAtlas.GetHumanBodyVariant();
+            HumanMorgueBodyVariant bodyVariant = _morgueBodyAtlas.GetHumanBodyVariant(variant);
 
             if (bodyVariant == null)
             {

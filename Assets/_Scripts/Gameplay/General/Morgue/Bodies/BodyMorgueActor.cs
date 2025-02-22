@@ -116,12 +116,12 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             //{
             //    MorgueManager.Instance.PopulateMorgueBodyPart(_torsoMorgueActor);
             //}
-            if (_headMorgueActor != null)
-            {
-                MorgueManager.Instance.PopulateMorgueBodyPart(_headMorgueActor);
-            }
+            //if (_headMorgueActor != null)
+            //{
+            //    MorgueManager.Instance.PopulateMorgueBodyPart(_headMorgueActor);
+            //}
 
-            //MorgueManager.Instance.PopulateMorgueBody(this);
+            MorgueManager.Instance.PopulateMorgueBody(this);
 
             _bodyStorable.StorableParent = this;
         }
