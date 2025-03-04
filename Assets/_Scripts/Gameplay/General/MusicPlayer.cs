@@ -10,6 +10,7 @@ namespace _Scripts.Gameplay.General{
     {
         [SerializeField] private List<AudioClip> _tracks;
         [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private bool _playOnSetup;
         private int _audioIndex = 0;
 
         [SerializeField] private Animation _playingLoopAnimation;
@@ -26,6 +27,10 @@ namespace _Scripts.Gameplay.General{
 
         public override void Setup()
         {
+            if (_playOnSetup)
+            {
+                OnInteract();
+            }
         }
 
         public override void Tick()

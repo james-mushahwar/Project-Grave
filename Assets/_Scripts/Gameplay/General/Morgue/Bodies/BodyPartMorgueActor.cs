@@ -4,6 +4,7 @@ using _Scripts.Org;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Bodies{
@@ -97,6 +98,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         public override void Tick()
         {
             _bodyMorgueActor = GetComponentInParent<BodyMorgueActor>();
+            if (_bodyMorgueActor != null)
+            {
+                BodyMorgueActor.RefreshBones(SkinnedMeshRenderer);
+
+            }
 
             if (gameObject.activeSelf == false)
             {
