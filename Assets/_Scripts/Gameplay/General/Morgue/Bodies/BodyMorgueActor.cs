@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlTypes;
 using _Scripts.CautionaryTalesScripts;
 using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.Input.InputController.Game;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
@@ -105,6 +106,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public override void Setup()
         {
+            RuntimeID = GetComponent<RuntimeID>();
+
             _torsoMorgueActor = GetBodyPartByTag("Human_Torso") as TorsoMorgueActor;
             _headMorgueActor = GetBodyPartByTag("Human_Head") as HeadMorgueActor;
             _lArmMorgueActor = GetBodyPartByTag("Human_LArm") as ArmMorgueActor;

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Gameplay.General.Identification;
 using _Scripts.Org;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
 
         public override void Setup()
         {
+            RuntimeID = GetComponent<RuntimeID>();
+
             _toolStorable.StorableParent = this;
 
             //DefaultStorage.TryStore(_toolStorable);

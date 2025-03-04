@@ -6,6 +6,7 @@ using Cinemachine;
 using static UnityEngine.Rendering.HDROutputUtils;
 using UnityEngine.InputSystem;
 using _Scripts.Gameplay.Player.Controller;
+using _Scripts.Gameplay.General.Identification;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -80,6 +81,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         }
 
         [SerializeField] private VirtualCameraTypeDictionary _virtualCameraTypeDictionary;
+        [SerializeField] private RuntimeIDVirtualCameraDictionary _runtimeIdVirtualCameraDictionary;
 
         // as gamestate is being generated
         public virtual void ManagedPreInitialiseGameState() { }
@@ -173,6 +175,18 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             return assign;
         }
+        public bool AssignVirtualCameraType(RuntimeID runtimeID, CinemachineVirtualCamera vCam)
+        {
+            bool assign = false;
+
+            if (_runtimeIdVirtualCameraDictionary.ContainsKey(runtimeID) == false)
+            {
+                _runtimeIdVirtualCameraDictionary.Add(runtimeID, vCam);
+                assign = true;
+            }
+
+            return assign;
+        }
 
         public bool ActivateVirtualCamera(EVirtualCameraType cameraType)
         {
@@ -181,6 +195,28 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             if (_virtualCameraTypeDictionary.ContainsKey(cameraType))
             {
                 CinemachineVirtualCamera vCam =_virtualCameraTypeDictionary[cameraType];
+                if (vCam != null)
+                {
+                    if (CmBrain.ActiveVirtualCamera.VirtualCameraGameObject != null)
+                    {
+                        CmBrain.ActiveVirtualCamera.VirtualCameraGameObject.SetActive(false);
+                    }
+
+                    vCam.gameObject.SetActive(true);
+                    _cameraTransitionBuffer = true;
+                    activated = true;
+                }
+            }
+
+            return activated;
+        }
+        public bool ActivateVirtualCamera(RuntimeID runtimeID)
+        {
+            bool activated = false;
+
+            if (_runtimeIdVirtualCameraDictionary.ContainsKey(runtimeID))
+            {
+                CinemachineVirtualCamera vCam = _runtimeIdVirtualCameraDictionary[runtimeID];
                 if (vCam != null)
                 {
                     if (CmBrain.ActiveVirtualCamera.VirtualCameraGameObject != null)

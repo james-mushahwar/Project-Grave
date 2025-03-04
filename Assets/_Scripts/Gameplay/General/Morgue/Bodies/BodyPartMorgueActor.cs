@@ -1,4 +1,5 @@
 ﻿using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
 using System;
@@ -92,6 +93,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public override void Setup()
         {
+            RuntimeID = GetComponent<RuntimeID>();
+
             _bodyStorable.StorableParent = this;
         }
 

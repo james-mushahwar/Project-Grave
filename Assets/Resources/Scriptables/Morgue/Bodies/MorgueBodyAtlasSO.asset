@@ -23,19 +23,16 @@ MonoBehaviour:
         - {fileID: 2100000, guid: f4a9c58b832f3f64e8746253c3291953, type: 2}
         - {fileID: 2100000, guid: 8e51dcce56c51a64d917299950b8cba7, type: 2}
         - {fileID: 2100000, guid: e83b4401390897945ad730090c210a04, type: 2}
-        _skinnedMesh: {fileID: 8333808043443636188, guid: 82daa890f1bc5d542963d1e6481fc34d,
+        _skinnedMesh: {fileID: -8979672350336402525, guid: 82daa890f1bc5d542963d1e6481fc34d,
           type: 3}
         _skinnedMeshMaterials:
-        - {fileID: 2100000, guid: 62924d8f8c457c44db1d841ae34248e0, type: 2}
-        - {fileID: 2100000, guid: f4a9c58b832f3f64e8746253c3291953, type: 2}
-        - {fileID: 2100000, guid: 8e51dcce56c51a64d917299950b8cba7, type: 2}
-        - {fileID: 2100000, guid: e83b4401390897945ad730090c210a04, type: 2}
+        - {fileID: 2100000, guid: c8ac4abbc00d5a54889bf2c71aa7ad44, type: 2}
       _torsoMeshes:
         _staticMesh: {fileID: -2431129412440249943, guid: 6ee3e8602047bb9499a3c5fc8c22fee4,
           type: 3}
         _staticMeshMaterials:
         - {fileID: 2100000, guid: 584c1f588e255e04498751efd37053e6, type: 2}
-        _skinnedMesh: {fileID: 3977582393515770198, guid: 82daa890f1bc5d542963d1e6481fc34d,
+        _skinnedMesh: {fileID: 3450836660425107863, guid: 82daa890f1bc5d542963d1e6481fc34d,
           type: 3}
         _skinnedMeshMaterials:
         - {fileID: 2100000, guid: 584c1f588e255e04498751efd37053e6, type: 2}
@@ -44,7 +41,7 @@ MonoBehaviour:
           type: 3}
         _staticMeshMaterials:
         - {fileID: 2100000, guid: 584c1f588e255e04498751efd37053e6, type: 2}
-        _skinnedMesh: {fileID: -2922436638413457, guid: 82daa890f1bc5d542963d1e6481fc34d,
+        _skinnedMesh: {fileID: -3531417587107773713, guid: 82daa890f1bc5d542963d1e6481fc34d,
           type: 3}
         _skinnedMeshMaterials:
         - {fileID: 2100000, guid: 584c1f588e255e04498751efd37053e6, type: 2}
@@ -53,7 +50,7 @@ MonoBehaviour:
           type: 3}
         _staticMeshMaterials:
         - {fileID: 2100000, guid: 584c1f588e255e04498751efd37053e6, type: 2}
-        _skinnedMesh: {fileID: -4409003470509342882, guid: 82daa890f1bc5d542963d1e6481fc34d,
+        _skinnedMesh: {fileID: -2697160182627622102, guid: 82daa890f1bc5d542963d1e6481fc34d,
           type: 3}
         _skinnedMeshMaterials:
         - {fileID: 2100000, guid: 584c1f588e255e04498751efd37053e6, type: 2}
@@ -62,7 +59,7 @@ MonoBehaviour:
           type: 3}
         _staticMeshMaterials:
         - {fileID: 2100000, guid: 584c1f588e255e04498751efd37053e6, type: 2}
-        _skinnedMesh: {fileID: 1621489774825907225, guid: 82daa890f1bc5d542963d1e6481fc34d,
+        _skinnedMesh: {fileID: 7984914823672699083, guid: 82daa890f1bc5d542963d1e6481fc34d,
           type: 3}
         _skinnedMeshMaterials:
         - {fileID: 2100000, guid: 584c1f588e255e04498751efd37053e6, type: 2}
@@ -71,7 +68,7 @@ MonoBehaviour:
           type: 3}
         _staticMeshMaterials:
         - {fileID: 2100000, guid: 584c1f588e255e04498751efd37053e6, type: 2}
-        _skinnedMesh: {fileID: -117008067927041635, guid: 82daa890f1bc5d542963d1e6481fc34d,
+        _skinnedMesh: {fileID: 5292343718765854152, guid: 82daa890f1bc5d542963d1e6481fc34d,
           type: 3}
         _skinnedMeshMaterials:
         - {fileID: 2100000, guid: 584c1f588e255e04498751efd37053e6, type: 2}
@@ -80,7 +77,7 @@ MonoBehaviour:
           type: 3}
         _staticMeshMaterials:
         - {fileID: 6034957751646507721, guid: 5181de99197b7c842bb557b5685b968b, type: 3}
-        _skinnedMesh: {fileID: -4564990722436546594, guid: 82daa890f1bc5d542963d1e6481fc34d,
+        _skinnedMesh: {fileID: -1070763012420371166, guid: 82daa890f1bc5d542963d1e6481fc34d,
           type: 3}
         _skinnedMeshMaterials:
         - {fileID: 2100000, guid: 82322be8107551b4fb2bd90d576bef12, type: 2}
@@ -89,16 +86,16 @@ MonoBehaviour:
           type: 3}
         _staticMeshMaterials:
         - {fileID: 565201691288005592, guid: b6e84ad0231c6564a8ef6533f783d976, type: 3}
-        _skinnedMesh: {fileID: -7920502044306111446, guid: 82daa890f1bc5d542963d1e6481fc34d,
+        _skinnedMesh: {fileID: 6734923425384750598, guid: 82daa890f1bc5d542963d1e6481fc34d,
           type: 3}
         _skinnedMeshMaterials:
-        - {fileID: 2100000, guid: cc38153d49d0c4a47b92479057716957, type: 2}
+        - {fileID: 2100000, guid: a5ea1cb7a7ad64a4696a7bb1636e1721, type: 2}
       _lArmMeshes:
         _staticMesh: {fileID: 4850892570952353821, guid: f2548963ab02fec4eb9cefb0f66b93b8,
           type: 3}
         _staticMeshMaterials:
         - {fileID: 565201691288005592, guid: b6e84ad0231c6564a8ef6533f783d976, type: 3}
-        _skinnedMesh: {fileID: -5393206120561705773, guid: 82daa890f1bc5d542963d1e6481fc34d,
+        _skinnedMesh: {fileID: -7789814564653880218, guid: 82daa890f1bc5d542963d1e6481fc34d,
           type: 3}
         _skinnedMeshMaterials:
         - {fileID: 2100000, guid: a5ea1cb7a7ad64a4696a7bb1636e1721, type: 2}
@@ -107,7 +104,7 @@ MonoBehaviour:
           type: 3}
         _staticMeshMaterials:
         - {fileID: 565201691288005592, guid: b6e84ad0231c6564a8ef6533f783d976, type: 3}
-        _skinnedMesh: {fileID: -2103411744579620597, guid: 82daa890f1bc5d542963d1e6481fc34d,
+        _skinnedMesh: {fileID: 7792573948862082316, guid: 82daa890f1bc5d542963d1e6481fc34d,
           type: 3}
         _skinnedMeshMaterials:
         - {fileID: 2100000, guid: a5ea1cb7a7ad64a4696a7bb1636e1721, type: 2}
@@ -116,7 +113,7 @@ MonoBehaviour:
           type: 3}
         _staticMeshMaterials:
         - {fileID: 565201691288005592, guid: b6e84ad0231c6564a8ef6533f783d976, type: 3}
-        _skinnedMesh: {fileID: -7589834015386036012, guid: 82daa890f1bc5d542963d1e6481fc34d,
+        _skinnedMesh: {fileID: 6048081606631551254, guid: 82daa890f1bc5d542963d1e6481fc34d,
           type: 3}
         _skinnedMeshMaterials:
         - {fileID: 2100000, guid: a5ea1cb7a7ad64a4696a7bb1636e1721, type: 2}
@@ -125,7 +122,7 @@ MonoBehaviour:
           type: 3}
         _staticMeshMaterials:
         - {fileID: 565201691288005592, guid: b6e84ad0231c6564a8ef6533f783d976, type: 3}
-        _skinnedMesh: {fileID: -1184540661247590153, guid: 82daa890f1bc5d542963d1e6481fc34d,
+        _skinnedMesh: {fileID: 710182713847785588, guid: 82daa890f1bc5d542963d1e6481fc34d,
           type: 3}
         _skinnedMeshMaterials:
         - {fileID: 2100000, guid: a5ea1cb7a7ad64a4696a7bb1636e1721, type: 2}
