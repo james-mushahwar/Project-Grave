@@ -26,6 +26,11 @@ namespace _Scripts.Gameplay.General.Identification{
 
             GenerateId();
         }
+
+        public void GenerateRuntimeId()
+        {
+            GenerateId();
+        }
     }
     
 }

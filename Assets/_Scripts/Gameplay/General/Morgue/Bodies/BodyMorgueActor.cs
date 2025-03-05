@@ -107,6 +107,10 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         public override void Setup()
         {
             RuntimeID = GetComponent<RuntimeID>();
+            if (RuntimeID != null)
+            {
+                RuntimeID.GenerateRuntimeId();
+            }
 
             _torsoMorgueActor = GetBodyPartByTag("Human_Torso") as TorsoMorgueActor;
             _headMorgueActor = GetBodyPartByTag("Human_Head") as HeadMorgueActor;

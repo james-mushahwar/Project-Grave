@@ -20,6 +20,10 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
         public override void Setup()
         {
             RuntimeID = GetComponent<RuntimeID>();
+            if (RuntimeID != null)
+            {
+                RuntimeID.GenerateRuntimeId();
+            }
 
             _toolStorable.StorableParent = this;
 

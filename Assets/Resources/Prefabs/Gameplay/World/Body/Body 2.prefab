@@ -85,6 +85,7 @@ MonoBehaviour:
   _skinnedMeshRenderer: {fileID: 6751929848874941705}
   _meshRenderer: {fileID: 2229163728432924418}
   _meshFilter: {fileID: 3457798998075425099}
+  _virtualCamera: {fileID: 3079642177162282004}
 --- !u!114 &6276072081754572019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,7 +423,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 1621489774825907225, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
+  m_Mesh: {fileID: 7984914823672699083, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
   m_Bones:
   - {fileID: 4857705033965656198}
   - {fileID: 6352197294622002197}
@@ -724,7 +725,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 3977582393515770198, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
+  m_Mesh: {fileID: 3450836660425107863, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
 --- !u!1 &2504376071124768998
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,7 +836,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -2922436638413457, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
+  m_Mesh: {fileID: -3531417587107773713, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
 --- !u!1 &2654215333095936651
 GameObject:
   m_ObjectHideFlags: 0
@@ -971,7 +972,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3188267272804413730}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 1.418}
+  m_LocalPosition: {x: 0, y: 1.527, z: 1.418}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1103,6 +1104,7 @@ MonoBehaviour:
   _skinnedMeshRenderer: {fileID: 595503718327793968}
   _meshRenderer: {fileID: 6066432034505616386}
   _meshFilter: {fileID: 2825421729381754866}
+  _virtualCamera: {fileID: 8246706797358189140}
 --- !u!114 &736253990942161014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1237,7 +1239,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 3977582393515770198, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
+  m_Mesh: {fileID: 3450836660425107863, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
   m_Bones:
   - {fileID: 7459810558219261084}
   - {fileID: 8507495355973500649}
@@ -1458,7 +1460,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1621489774825907225, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
+  m_Mesh: {fileID: 7984914823672699083, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
 --- !u!1 &3722703929046055753
 GameObject:
   m_ObjectHideFlags: 0
@@ -1577,6 +1579,7 @@ MonoBehaviour:
   _skinnedMeshRenderer: {fileID: 1016709409444465674}
   _meshRenderer: {fileID: 3334474455945908835}
   _meshFilter: {fileID: 3023147301302828118}
+  _virtualCamera: {fileID: 1690341747505225440}
 --- !u!114 &2845633092960539945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1701,7 +1704,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -117008067927041635, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
+  m_Mesh: {fileID: 5292343718765854152, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
 --- !u!1 &3914369473558643882
 GameObject:
   m_ObjectHideFlags: 0
@@ -1836,7 +1839,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3937778240987385001}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 1.418}
+  m_LocalPosition: {x: 0.301, y: 0.215, z: 1.418}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1908,7 +1911,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3947800317468152895}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 1.4200001}
+  m_LocalPosition: {x: 0.759, y: 0.651, z: 1.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2326,7 +2329,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 8333808043443636188, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
+  m_Mesh: {fileID: -8979672350336402525, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
 --- !u!1 &5547765822498874255
 GameObject:
   m_ObjectHideFlags: 0
@@ -2641,6 +2644,7 @@ MonoBehaviour:
   _skinnedMeshRenderer: {fileID: 2239990221187759863}
   _meshRenderer: {fileID: 8928300179343481154}
   _meshFilter: {fileID: 6656999450041537292}
+  _virtualCamera: {fileID: 7495551048579742553}
 --- !u!114 &4374838436403665624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2795,7 +2799,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -4409003470509342882, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
+  m_Mesh: {fileID: -2697160182627622102, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
 --- !u!1 &6705166534108969062
 GameObject:
   m_ObjectHideFlags: 0
@@ -2821,7 +2825,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6705166534108969062}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 1.418}
+  m_LocalPosition: {x: -0.205, y: 0.268, z: 1.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2976,7 +2980,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6920377643940255124}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 1.418}
+  m_LocalPosition: {x: 0, y: 1.038, z: 1.418}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3339,7 +3343,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -2922436638413457, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
+  m_Mesh: {fileID: -3531417587107773713, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
   m_Bones:
   - {fileID: 5704324775081687264}
   - {fileID: 6978658844444199059}
@@ -3449,7 +3453,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -117008067927041635, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
+  m_Mesh: {fileID: 5292343718765854152, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
   m_Bones:
   - {fileID: 4190510966319743863}
   - {fileID: 4143872258885157188}
@@ -3633,6 +3637,7 @@ MonoBehaviour:
   _skinnedMeshRenderer: {fileID: 6898482534293072520}
   _meshRenderer: {fileID: 9141582244894964827}
   _meshFilter: {fileID: 5855983102304464932}
+  _virtualCamera: {fileID: 7315284093654839741}
 --- !u!114 &5577178633396330994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3723,7 +3728,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -4409003470509342882, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
+  m_Mesh: {fileID: -2697160182627622102, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
   m_Bones:
   - {fileID: 7865138516184331214}
   - {fileID: 1217588120608145954}
@@ -3833,7 +3838,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 8333808043443636188, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
+  m_Mesh: {fileID: -8979672350336402525, guid: 82daa890f1bc5d542963d1e6481fc34d, type: 3}
   m_Bones:
   - {fileID: 8579506187695855219}
   - {fileID: 6874529143673185618}
@@ -3893,7 +3898,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8959796737052417193}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 1.418}
+  m_LocalPosition: {x: -0.435, y: 0.653, z: 1.418}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3994,6 +3999,7 @@ MonoBehaviour:
   _skinnedMeshRenderer: {fileID: 8657831762582642666}
   _meshRenderer: {fileID: 999137558720088494}
   _meshFilter: {fileID: 6472615340518149301}
+  _virtualCamera: {fileID: 4764935075094855505}
   _headConnector:
     _socket: {fileID: 8579506187695855219}
   _lArmConnector:

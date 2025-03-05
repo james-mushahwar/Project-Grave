@@ -17,6 +17,7 @@ using _Scripts.Org;
 using _Scripts.Gameplay.General.Morgue.Bodies;
 using Unity.VisualScripting;
 using UnityEditor;
+using Cinemachine;
 
 namespace _Scripts.Gameplay.Player.Controller{
 
@@ -212,13 +213,28 @@ namespace _Scripts.Gameplay.Player.Controller{
         #region Operating
         public void Operating_OnBack(InputAction.CallbackContext callbackContext)
         {
-            Debug.Log("Attempt leave body");
-
+            if (CameraManager.Instance.IsCameraInTransition())
+            {
+                return;
+            }
+    
             bool operating = PlayerControllerState == EPlayerControllerState.Operating;
+            
+            Debug.Log("Attempt leave");
 
             if (operating)
             {
-                if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.FirstPersonView_Normal))
+                if (CameraManager.Instance.CmBrain.ActiveVirtualCamera != (ICinemachineCamera)CameraManager.Instance.GetVirtualCamera(EVirtualCameraType.OperatingTable_Above))
+                {
+                    // attempt leave focused body part
+                    bool backToOperatingAbove = CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.OperatingTable_Above);
+                    if (backToOperatingAbove)
+                    {
+                        Debug.Log("Back to above operating cameraview");
+
+                    }
+                }
+                else if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.FirstPersonView_Normal))
                 {
                     RequestPlayerControllerState(EPlayerControllerState.Normal);
 
@@ -239,6 +255,7 @@ namespace _Scripts.Gameplay.Player.Controller{
             {
                 Debug.Log("Leaving Operating on body");
             }
+            
             
         }
 
@@ -436,6 +453,11 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void OnActionInput()
         {
+            if (CameraManager.Instance.IsCameraInTransition())
+            {
+                return;
+            }
+
             Debug.Log("Action input");
             bool operating = PlayerControllerState == EPlayerControllerState.Operating;
 
@@ -450,6 +472,13 @@ namespace _Scripts.Gameplay.Player.Controller{
                 if (bodyPart != null)
                 {
                     Debug.Log("Found body part = " + bodyPart.gameObject.name);
+                    if (CameraManager.Instance.CmBrain.ActiveVirtualCamera != (ICinemachineCamera)bodyPart.VirtualCamera)
+                    {
+                        Debug.Log("Activating body part cinecam = " + bodyPart.gameObject.name);
+
+                        CameraManager.Instance.ActivateVirtualCamera(bodyPart.RuntimeID);
+                        return;
+                    }
 
                     OperationDismemberMorgueTool dismemberTool = _equippedOperatingTool as OperationDismemberMorgueTool;
                     if (dismemberTool != null)

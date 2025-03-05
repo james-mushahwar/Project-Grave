@@ -2,6 +2,7 @@
 using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,9 +26,13 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private MeshFilter _meshFilter;
 
+        [SerializeField] private CinemachineVirtualCamera _virtualCamera;
+
         public SkinnedMeshRenderer SkinnedMeshRenderer { get => _skinnedMeshRenderer; }
         public MeshRenderer MeshRenderer { get => _meshRenderer; }
         public MeshFilter MeshFilter { get => _meshFilter; }
+
+        public CinemachineVirtualCamera VirtualCamera { get => _virtualCamera; }
 
         private BodyMorgueActor _bodyMorgueActor;
         public BodyMorgueActor BodyMorgueActor
@@ -94,6 +99,15 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         public override void Setup()
         {
             RuntimeID = GetComponent<RuntimeID>();
+            if (RuntimeID != null)
+            {
+                RuntimeID.GenerateRuntimeId();
+            }
+
+            if (VirtualCamera != null)
+            {
+                CameraManager.Instance.AssignVirtualCameraType(RuntimeID, VirtualCamera);
+            }
 
             _bodyStorable.StorableParent = this;
         }

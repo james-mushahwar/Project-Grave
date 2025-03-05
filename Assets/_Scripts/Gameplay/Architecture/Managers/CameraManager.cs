@@ -188,6 +188,18 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             return assign;
         }
 
+        public CinemachineVirtualCamera GetVirtualCamera(EVirtualCameraType cameraType)
+        {
+            CinemachineVirtualCamera vCam = null;
+
+            if (_virtualCameraTypeDictionary.ContainsKey(cameraType))
+            {
+                 vCam = _virtualCameraTypeDictionary[cameraType];
+            }
+
+            return vCam;
+        }
+
         public bool ActivateVirtualCamera(EVirtualCameraType cameraType)
         {
             bool activated = false;
