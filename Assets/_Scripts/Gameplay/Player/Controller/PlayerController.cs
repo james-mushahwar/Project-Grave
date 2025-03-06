@@ -489,7 +489,17 @@ namespace _Scripts.Gameplay.Player.Controller{
                             
                             if (disconnectedPart != null)
                             {
-                                IStorage nextPlayerStorage = _playerStorage.GetNextBestStorage(true, EPlayerControllerState.Normal);
+                                if (CameraManager.Instance.CmBrain.ActiveVirtualCamera == (ICinemachineCamera)bodyPart.VirtualCamera)
+                                {
+                                    bool backToOperatingAbove = CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.OperatingTable_Above);
+                                    if (backToOperatingAbove)
+                                    {
+                                        Debug.Log("Back to above operating cameraview");
+
+                                    }
+                                }
+
+                                    IStorage nextPlayerStorage = _playerStorage.GetNextBestStorage(true, EPlayerControllerState.Normal);
                                 if (nextPlayerStorage != null)
                                 {
                                     IStorable prevStored = nextPlayerStorage.TryRemove(null);
