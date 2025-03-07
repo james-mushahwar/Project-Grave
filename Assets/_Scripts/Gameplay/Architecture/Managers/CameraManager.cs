@@ -71,8 +71,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 Ray ray = _centreCameraRay;
 
-                if (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState ==
-                             EPlayerControllerState.Operating)
+                if (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState == EPlayerControllerState.Operating || 
+                    PlayerManager.Instance.CurrentPlayerController.PlayerControllerState == EPlayerControllerState.OpenCoat) 
                 {
                     ray = _mousePointerRay;
                 }

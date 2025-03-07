@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.General.Morgue.Storage;
 using _Scripts.Org;
 using Unity.Mathematics;
 using UnityEngine;
@@ -20,6 +21,8 @@ namespace _Scripts.Gameplay.Player.Controller{
         private Transform _operatingHandsRoot;
 
         [SerializeField] private float _operatingHandsRootOffset;
+
+        [SerializeField] private List<CoatStorage> _coatStorages;
 
         private List<IStorage> _pockets = new List<IStorage>();
 
@@ -90,6 +93,8 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void Setup()
         {
+            
+
         }
 
         public void Tick()
@@ -134,6 +139,14 @@ namespace _Scripts.Gameplay.Player.Controller{
             bool stored = false;
 
             return stored;
+        }
+
+        public void ToggleCoatStorage(bool show)
+        {
+            for (int i = 0; i < _coatStorages.Count; i++)
+            {
+                _coatStorages[i].gameObject.SetActive(show);
+            }
         }
     }
     

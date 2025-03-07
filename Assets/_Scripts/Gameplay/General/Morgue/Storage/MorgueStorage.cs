@@ -9,7 +9,7 @@ namespace _Scripts.Gameplay.General.Morgue.Storage{
     
     public class MorgueStorage : MorgueActor, IStorage, IInteractable
     {
-        [SerializeField] private FStorageSlot _singleSlot;
+        [SerializeField] protected FStorageSlot _singleSlot;
 
         protected FStorageSlot StorageSlot
         {
@@ -86,12 +86,12 @@ namespace _Scripts.Gameplay.General.Morgue.Storage{
             return StorageSlot.Storable as T;
         }
 
-        public bool IsInteractable(IInteractor interactor = null)
+        public virtual bool IsInteractable(IInteractor interactor = null)
         {
             return true;
         }
 
-        public bool OnInteract(IInteractor interactor = null)
+        public virtual bool OnInteract(IInteractor interactor = null)
         {
             bool interact = false;
 

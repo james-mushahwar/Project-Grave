@@ -28,6 +28,8 @@ namespace _Scripts.Gameplay.Player.Controller{
         Normal = 0,
 
         Operating = 100,
+
+        OpenCoat = 200,
     }
 
     public class PlayerController : MonoBehaviour, IPossess, IInteractor
@@ -216,6 +218,15 @@ namespace _Scripts.Gameplay.Player.Controller{
         public void OnLook(InputAction.CallbackContext context)
         {
             _lookVector = context.ReadValue<Vector2>();
+        }
+        public void OnInventory(InputAction.CallbackContext context)
+        {
+            bool openCoat = _playerControllerState == EPlayerControllerState.Normal;
+
+            EPlayerControllerState nextState = openCoat ? EPlayerControllerState.OpenCoat : EPlayerControllerState.Normal;
+            RequestPlayerControllerState(nextState);
+
+            _playerStorage.ToggleCoatStorage(openCoat);
         }
 
         #region Operating
@@ -627,6 +638,8 @@ namespace _Scripts.Gameplay.Player.Controller{
 
                         mpi.Game.Look.performed += OnLook;
                         mpi.Game.Look.canceled += OnLook;
+
+                        mpi.Game.Inventory.performed += OnInventory;
                         break;
 
                     case EPlayerControllerState.Operating:
@@ -641,6 +654,12 @@ namespace _Scripts.Gameplay.Player.Controller{
                             mpi.Game.Operating_Scroll.started += gameIC.Operating_OnScroll;
                         }
                         //mpi.Game.Operating_Scroll.canceled += ctx => _opScroll = 0.0f;
+                        break;
+                    case EPlayerControllerState.OpenCoat:
+                        cursorLock = CursorLockMode.Confined;
+
+                        mpi.Game.Inventory.performed += OnInventory;
+                        mpi.Game.Back.started += OnInventory;
                         break;
                     default:
                         break;
@@ -674,6 +693,8 @@ namespace _Scripts.Gameplay.Player.Controller{
 
                         mpi.Game.Look.performed -= OnLook;
                         mpi.Game.Look.canceled -= OnLook;
+
+                        mpi.Game.Inventory.performed -= OnInventory;
                         break;
 
                     case EPlayerControllerState.Operating:
@@ -685,6 +706,11 @@ namespace _Scripts.Gameplay.Player.Controller{
                         {
                             mpi.Game.Operating_Scroll.started -= gameIC.Operating_OnScroll;
                         }
+                        break;
+
+                    case EPlayerControllerState.OpenCoat:
+                        mpi.Game.Inventory.performed -= OnInventory;
+                        mpi.Game.Back.started -= OnInventory;
                         break;
 
                     default:

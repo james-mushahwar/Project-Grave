@@ -980,6 +980,15 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""871b96d1-0ffd-4c7e-9794-5498efd090fa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1246,6 +1255,17 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Operating_Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""01874d04-1fc1-446f-824b-2e739ab3f000"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1284,6 +1304,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         m_Game_Back = m_Game.FindAction("Back", throwIfNotFound: true);
         m_Game_Debug_SpawnBody = m_Game.FindAction("Debug_SpawnBody", throwIfNotFound: true);
         m_Game_Operating_Scroll = m_Game.FindAction("Operating_Scroll", throwIfNotFound: true);
+        m_Game_Inventory = m_Game.FindAction("Inventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1573,6 +1594,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_Back;
     private readonly InputAction m_Game_Debug_SpawnBody;
     private readonly InputAction m_Game_Operating_Scroll;
+    private readonly InputAction m_Game_Inventory;
     public struct GameActions
     {
         private @MasterPlayerInput m_Wrapper;
@@ -1585,6 +1607,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Back => m_Wrapper.m_Game_Back;
         public InputAction @Debug_SpawnBody => m_Wrapper.m_Game_Debug_SpawnBody;
         public InputAction @Operating_Scroll => m_Wrapper.m_Game_Operating_Scroll;
+        public InputAction @Inventory => m_Wrapper.m_Game_Inventory;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1618,6 +1641,9 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
             @Operating_Scroll.started += instance.OnOperating_Scroll;
             @Operating_Scroll.performed += instance.OnOperating_Scroll;
             @Operating_Scroll.canceled += instance.OnOperating_Scroll;
+            @Inventory.started += instance.OnInventory;
+            @Inventory.performed += instance.OnInventory;
+            @Inventory.canceled += instance.OnInventory;
         }
 
         private void UnregisterCallbacks(IGameActions instance)
@@ -1646,6 +1672,9 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
             @Operating_Scroll.started -= instance.OnOperating_Scroll;
             @Operating_Scroll.performed -= instance.OnOperating_Scroll;
             @Operating_Scroll.canceled -= instance.OnOperating_Scroll;
+            @Inventory.started -= instance.OnInventory;
+            @Inventory.performed -= instance.OnInventory;
+            @Inventory.canceled -= instance.OnInventory;
         }
 
         public void RemoveCallbacks(IGameActions instance)
@@ -1697,5 +1726,6 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         void OnBack(InputAction.CallbackContext context);
         void OnDebug_SpawnBody(InputAction.CallbackContext context);
         void OnOperating_Scroll(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
     }
 }
