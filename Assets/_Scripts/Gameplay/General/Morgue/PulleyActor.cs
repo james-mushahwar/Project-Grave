@@ -1,4 +1,5 @@
 ﻿using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace _Scripts.Gameplay.General.Morgue{
             transform.localScale = Vector3.one;
         }
 
-        public bool IsInteractable()
+        public bool IsInteractable(IInteractor interactor = null)
         {
             if (_pulleyAnimation.isPlaying)
             {
@@ -61,7 +62,7 @@ namespace _Scripts.Gameplay.General.Morgue{
             return true;
         }
 
-        public bool OnInteract()
+        public bool OnInteract(IInteractor interactor = null)
         {
             if (_operatingTable != null)
             {

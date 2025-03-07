@@ -86,16 +86,22 @@ namespace _Scripts.Gameplay.General.Morgue.Storage{
             return StorageSlot.Storable as T;
         }
 
-        public bool IsInteractable()
+        public bool IsInteractable(IInteractor interactor = null)
         {
             return true;
         }
 
-        public bool OnInteract()
+        public bool OnInteract(IInteractor interactor = null)
         {
             bool interact = false;
 
-            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+            if (interactor == null)
+            {
+                return false;
+            }
+
+            PlayerController pc = interactor as PlayerController;
+
             if (pc != null)
             {
                 IStorage hands = pc.PlayerStorage.GetPlayerHands();

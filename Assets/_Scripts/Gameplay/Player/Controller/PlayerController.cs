@@ -30,7 +30,7 @@ namespace _Scripts.Gameplay.Player.Controller{
         Operating = 100,
     }
 
-    public class PlayerController : MonoBehaviour, IPossess
+    public class PlayerController : MonoBehaviour, IPossess, IInteractor
     {
         [Header("Movement Settings")]
         [SerializeField] private float moveSpeed = 5f;
@@ -40,12 +40,12 @@ namespace _Scripts.Gameplay.Player.Controller{
         [SerializeField] private Transform groundCheck;
         [SerializeField] private LayerMask groundMask;
 
-        private CharacterController characterController;
+        private CharacterController _characterController;
         private Vector3 _moveVector;
         private Vector3 _lookVector;
         private Vector3 velocity;
-        private bool isGrounded;
-        private bool isSprinting;
+        private bool _isGrounded;
+        private bool _isSprinting;
 
         private EPlayerControllerState _playerControllerState = EPlayerControllerState.NONE;
         public EPlayerControllerState PlayerControllerState
@@ -65,27 +65,35 @@ namespace _Scripts.Gameplay.Player.Controller{
         {
             get { return _playerStorage; }
         }
+
         #endregion
 
         #region Operating
         //private float _opScroll;
         private OperatingTable _operatingTable;
         private MorgueToolActor _equippedOperatingTool;
+
+
+        public MorgueToolActor EquippedOperatingTool
+        {
+            get { return _equippedOperatingTool; }
+            set { _equippedOperatingTool = value; }
+        }
         #endregion
 
         private void Start()
         {
-            characterController = GetComponent<CharacterController>();
+            _characterController = GetComponent<CharacterController>();
 
             InputManager.Instance.PossessPlayer(this);
         }
 
         public void PossessTick()
         {
-            isGrounded = characterController.isGrounded;
+            _isGrounded = _characterController.isGrounded;
             //isGrounded = Physics.CheckSphere(groundCheck.position, 0.1f, groundMask);
 
-            if (isGrounded && velocity.y < 0)
+            if (_isGrounded && velocity.y < 0)
             {
                 velocity.y = -2f; // Reset the vertical velocity when grounded
             }
@@ -140,17 +148,17 @@ namespace _Scripts.Gameplay.Player.Controller{
             // Sprinting
             if (Keyboard.current.leftShiftKey.isPressed)
             {
-                isSprinting = true;
+                _isSprinting = true;
             }
             else
             {
-                isSprinting = false;
+                _isSprinting = false;
             }
 
             // Calculate movement direction
             Vector3 move = transform.right * moveX + transform.forward * moveZ;
-            float speed = isSprinting ? sprintSpeed : moveSpeed;
-            characterController.Move(move.normalized * speed * Time.deltaTime);
+            float speed = _isSprinting ? sprintSpeed : moveSpeed;
+            _characterController.Move(move.normalized * speed * Time.deltaTime);
         }
 
         private void HandleRotation()
@@ -189,7 +197,7 @@ namespace _Scripts.Gameplay.Player.Controller{
         {
             return;
 
-            if (isGrounded && Keyboard.current.spaceKey.wasPressedThisFrame)
+            if (_isGrounded && Keyboard.current.spaceKey.wasPressedThisFrame)
             {
                 velocity.y += Mathf.Sqrt(jumpForce * -2f * gravity); // Calculate jump force
             }
@@ -198,7 +206,7 @@ namespace _Scripts.Gameplay.Player.Controller{
         private void ApplyGravity()
         {
             velocity.y += gravity * Time.deltaTime; // Apply gravity to the velocity
-            characterController.Move(velocity * Time.deltaTime); // Move the character with gravity
+            _characterController.Move(velocity * Time.deltaTime); // Move the character with gravity
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -244,9 +252,9 @@ namespace _Scripts.Gameplay.Player.Controller{
                         storedBody.ToggleCollision(true);
                     }
 
-                    if (_equippedOperatingTool != null)
+                    if (EquippedOperatingTool != null)
                     {
-                        ReturnOperatingToolToSlot(_equippedOperatingTool);
+                        ReturnOperatingToolToSlot(EquippedOperatingTool);
                     }
                     _operatingTable = null;
                 }
@@ -281,6 +289,8 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void OperatingScroll(bool forward = true)
         {
+            return;
+
             if (CameraManager.Instance.IsCameraInTransition())
             {
                 return;
@@ -292,9 +302,9 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
 
             int toolsCount = _operatingTable.OperatingToolsCount;
-            int toolIndex = _operatingTable.GetOperatingToolIndex(_equippedOperatingTool);
+            int toolIndex = _operatingTable.GetOperatingToolIndex(EquippedOperatingTool);
 
-            int newIndex = _equippedOperatingTool == null ? (forward ? 0 : toolsCount - 1) : toolIndex + (forward ? -1 : 1);
+            int newIndex = EquippedOperatingTool == null ? (forward ? 0 : toolsCount - 1) : toolIndex + (forward ? -1 : 1);
 
             if (newIndex < 0)
             {
@@ -325,7 +335,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                     bool stored = nextStorage.TryStore(newTool);
                     if (stored)
                     {
-                        _equippedOperatingTool = newTool;
+                        EquippedOperatingTool = newTool;
                     }
                 }
             }
@@ -347,7 +357,7 @@ namespace _Scripts.Gameplay.Player.Controller{
             Debug.Log("Stored old tool =  " + (storedOldTool ? "YES" : "NO"));
             if (storedOldTool)
             {
-                _equippedOperatingTool = null;
+                EquippedOperatingTool = null;
             }
 
             return storedOldTool;
@@ -480,7 +490,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                         return;
                     }
 
-                    OperationDismemberMorgueTool dismemberTool = _equippedOperatingTool as OperationDismemberMorgueTool;
+                    OperationDismemberMorgueTool dismemberTool = EquippedOperatingTool as OperationDismemberMorgueTool;
                     if (dismemberTool != null)
                     {
                         if (bodyPart.IsConnected())
@@ -499,7 +509,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                                     }
                                 }
 
-                                    IStorage nextPlayerStorage = _playerStorage.GetNextBestStorage(true, EPlayerControllerState.Normal);
+                                IStorage nextPlayerStorage = _playerStorage.GetNextBestStorage(true, EPlayerControllerState.Normal);
                                 if (nextPlayerStorage != null)
                                 {
                                     IStorable prevStored = nextPlayerStorage.TryRemove(null);
@@ -536,7 +546,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                             {
                                 IStorage hands = PlayerStorage.GetPlayerHands();
                                 BodyPartMorgueActor heldBodyPart = hands.GetStorable<BodyPartMorgueActor>();
-                                if (heldBodyPart != null && _equippedOperatingTool as OperationAttachmentMorgueTool)
+                                if (heldBodyPart != null && EquippedOperatingTool as OperationAttachmentMorgueTool)
                                 {
                                     if (selectedObject.tag == heldBodyPart.gameObject.tag)
                                     {
@@ -562,9 +572,9 @@ namespace _Scripts.Gameplay.Player.Controller{
 
                 if (interactable != null)
                 {
-                    if (interactable.IsInteractable())
+                    if (interactable.IsInteractable(this))
                     {
-                        interactable.OnInteract();
+                        interactable.OnInteract(this);
                     }
                 }
             }

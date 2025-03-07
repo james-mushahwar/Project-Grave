@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4540801057980925927}
   - component: {fileID: 8295024445241481583}
   - component: {fileID: -4408353854137092896}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Operation_Stitching
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,12 +156,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d24caca4860ee9142a2701522a79f48f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.70710653
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d24caca4860ee9142a2701522a79f48f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d24caca4860ee9142a2701522a79f48f,
         type: 3}
@@ -171,7 +171,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d24caca4860ee9142a2701522a79f48f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0.70710707
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d24caca4860ee9142a2701522a79f48f,
         type: 3}
@@ -186,7 +186,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d24caca4860ee9142a2701522a79f48f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d24caca4860ee9142a2701522a79f48f,
         type: 3}

@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using _Scripts.Gameplay.General.Identification;
+using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
+using UnityEditor;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
     
-    public abstract class MorgueToolActor : MorgueActor, IStorable
+    public abstract class MorgueToolActor : MorgueActor, IStorable, IInteractable
     {
         [SerializeField] protected FStorable _toolStorable;
 
@@ -68,6 +70,59 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
         public IStorable GetStorableParent()
         {
             return this;
+        }
+
+        public virtual bool IsInteractable(IInteractor interactor = null)
+        {
+            PlayerController pc = interactor as PlayerController;
+
+            if (interactor == null)
+            {
+                return false;
+            }
+            if (pc != null)
+            {
+                if (pc.EquippedOperatingTool == this)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public virtual bool OnInteract(IInteractor interactor = null)
+        {
+            PlayerController pc = interactor as PlayerController;
+
+            if (pc != null)
+            {
+                if (pc.EquippedOperatingTool == null)
+                {
+                    IStorage nextStorage = pc.PlayerStorage.GetNextBestStorage();
+                    if (nextStorage != null)
+                    {
+                        IStorable prevStored = nextStorage.TryRemove(null);
+                        if (prevStored != null)
+                        {
+                            //MorgueToolActor oldTool = prevStored.GetStorableParent() as MorgueToolActor;
+                            //if (oldTool != null)
+                            //{
+                            //    pc.ReturnOperatingToolToSlot(oldTool);
+                            //}
+                        }
+
+                        bool stored = nextStorage.TryStore(this);
+                        if (stored)
+                        {
+                            pc.EquippedOperatingTool = this;
+                        }
+                    }
+                }
+
+            }
+
+            return true;
         }
     }
     

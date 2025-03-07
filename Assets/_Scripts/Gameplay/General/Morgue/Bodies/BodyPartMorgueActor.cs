@@ -155,7 +155,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             }
         }
 
-        public bool IsInteractable()
+        public bool IsInteractable(IInteractor interactor = null)
         {
             bool interact = false;
 
@@ -176,7 +176,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             return interact;
         }
 
-        public bool OnInteract()
+        public bool OnInteract(IInteractor interactor = null)
         {
             //Debug.Log("Interact with body");
 
@@ -188,10 +188,10 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
             if (normal)
             {
-                if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.OperatingTable_Above))
-                {
-                    PlayerManager.Instance.CurrentPlayerController.BeginOperatingState(opTable);
-                }
+                //if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.OperatingTable_Above))
+                //{
+                //    PlayerManager.Instance.CurrentPlayerController.BeginOperatingState(opTable);
+                //}
             }
             else
             {

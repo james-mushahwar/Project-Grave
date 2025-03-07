@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using _Scripts.Gameplay.Player.Controller;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,8 +16,13 @@ namespace _Scripts.Org
 
     public interface IInteractable
     {
-        bool IsInteractable();
-        bool OnInteract();
+        bool IsInteractable(IInteractor interactor = null);
+        bool OnInteract(IInteractor interactor = null);
+    }
+
+    public interface IInteractor
+    {
+
     }
 
     public interface IOperatable
