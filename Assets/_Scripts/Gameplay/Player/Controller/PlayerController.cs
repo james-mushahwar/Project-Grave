@@ -361,9 +361,11 @@ namespace _Scripts.Gameplay.Player.Controller{
                 return false;
             }
 
-            int oldToolIndex = _operatingTable.GetOperatingToolIndex(opTool);
-            FStorageSlot opTableToolSlot = _operatingTable.GetOperatingToolStorageSlot(oldToolIndex);
-            bool storedOldTool = opTableToolSlot.TryStore(opTool);
+            //int oldToolIndex = _operatingTable.GetOperatingToolIndex(opTool);
+            //FStorageSlot opTableToolSlot = _operatingTable.GetOperatingToolStorageSlot(oldToolIndex);
+            //bool storedOldTool = opTableToolSlot.TryStore(opTool);
+
+            bool storedOldTool = _playerStorage.TryStore(opTool, EPlayerControllerState.OpenCoat);
 
             Debug.Log("Stored old tool =  " + (storedOldTool ? "YES" : "NO"));
             if (storedOldTool)

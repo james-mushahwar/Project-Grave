@@ -11,7 +11,7 @@ namespace _Scripts.Gameplay.General.Morgue.Storage{
     {
         [SerializeField] protected FStorageSlot _singleSlot;
 
-        protected FStorageSlot StorageSlot
+        public FStorageSlot StorageSlot
         {
             get { return _singleSlot; }
         }

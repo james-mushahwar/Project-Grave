@@ -76,6 +76,22 @@ namespace _Scripts.Gameplay.Player.Controller{
             return null;
         }
 
+        public IStorage GetNextBestStorageInInventory()
+        {
+            FStorageSlot pocket = null;
+
+            for (int i = 0; i < _coatStorages.Count; i++)
+            {
+                if (_coatStorages[i].IsFull() == false)
+                {
+                    pocket = _coatStorages[i].StorageSlot;
+                    break;
+                }
+
+            }
+            return pocket;
+        }
+
         public IStorage GetPlayerHands(EStorableType force = EStorableType.None)
         {
             if (force == EStorableType.None)
@@ -127,17 +143,34 @@ namespace _Scripts.Gameplay.Player.Controller{
             //mousePosition = new Vector3(mousePosition.x, mousePosition.y, zAxis);
         }
 
-        public bool TryStore(EPlayerControllerState forceState = EPlayerControllerState.NONE)
+        public bool TryStore(IStorable storable, EPlayerControllerState stateType)
         {
             bool stored = false;
+
+            if (storable == null)
+            {
+                return false;
+            }
+
+            if (stateType == EPlayerControllerState.OpenCoat)
+            {
+                IStorage bestInventoryStorage = GetNextBestStorageInInventory();
+                if (bestInventoryStorage != null) 
+                {
+                    bestInventoryStorage.TryStore(storable);
+                }
+            }
 
             return stored;
         }
 
-        public bool TryRemove(EPlayerControllerState forceState = EPlayerControllerState.NONE)
+        public bool TryRemove(IStorable storable, EPlayerControllerState stateType)
         {
             bool stored = false;
-
+            if (storable == null)
+            {
+                return false;
+            }
             return stored;
         }
 

@@ -97,26 +97,23 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
 
             if (pc != null)
             {
-                if (pc.EquippedOperatingTool == null)
+                IStorage nextStorage = pc.PlayerStorage.GetNextBestStorage();
+                if (nextStorage != null)
                 {
-                    IStorage nextStorage = pc.PlayerStorage.GetNextBestStorage();
-                    if (nextStorage != null)
+                    IStorable prevStored = nextStorage.TryRemove(null);
+                    if (prevStored != null)
                     {
-                        IStorable prevStored = nextStorage.TryRemove(null);
-                        if (prevStored != null)
+                        MorgueToolActor oldTool = prevStored.GetStorableParent() as MorgueToolActor;
+                        if (oldTool != null)
                         {
-                            //MorgueToolActor oldTool = prevStored.GetStorableParent() as MorgueToolActor;
-                            //if (oldTool != null)
-                            //{
-                            //    pc.ReturnOperatingToolToSlot(oldTool);
-                            //}
+                            pc.ReturnOperatingToolToSlot(oldTool);
                         }
+                    }
 
-                        bool stored = nextStorage.TryStore(this);
-                        if (stored)
-                        {
-                            pc.EquippedOperatingTool = this;
-                        }
+                    bool stored = nextStorage.TryStore(this);
+                    if (stored)
+                    {
+                        pc.EquippedOperatingTool = this;
                     }
                 }
 
