@@ -3,12 +3,37 @@ guid: 2b2b665f980390542b33b4349127f11d
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eyeBall_mat
+    second: {fileID: 2100000, guid: 82322be8107551b4fb2bd90d576bef12, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: face_mat_001
+    second: {fileID: 2100000, guid: 82322be8107551b4fb2bd90d576bef12, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mouth_inner_mat_001
+    second: {fileID: 2100000, guid: 82322be8107551b4fb2bd90d576bef12, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pupil_mat_001
+    second: {fileID: 2100000, guid: 82322be8107551b4fb2bd90d576bef12, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: torso_01_mat
+    second: {fileID: 2100000, guid: a5ea1cb7a7ad64a4696a7bb1636e1721, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
