@@ -23,7 +23,7 @@ namespace _Scripts.Gameplay.Player.Controller{
         }
 
         public EStorableSize StorableSize { get; }
-        public List<EStorableType> StorableTypeFilter { get; }
+        //public List<EStorableType> StorableTypeFilter { get; }
         public List<Transform> StorableSpaces { get; }
         public List<IStorable> Storables { get; }
 
