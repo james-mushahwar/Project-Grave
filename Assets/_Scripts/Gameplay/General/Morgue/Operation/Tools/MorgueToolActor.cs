@@ -44,7 +44,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
                     Vector3 worldScale = this.gameObject.transform.lossyScale;
                     Vector3 worldPosition = this.gameObject.transform.position;
 
-                    this.gameObject.transform.SetParent(storage.GetStorageSpace(_toolStorable), true);
+                    this.gameObject.transform.SetParent(storage.GetStorageSpace(_toolStorable), false);
                     //storableMono.gameObject.transform.localPosition = Vector3.zero;
                     Transform storageSpace = storage.GetStorageSpace(storable);
                     //this.gameObject.transform.rotation = storageSpace.rotation;
