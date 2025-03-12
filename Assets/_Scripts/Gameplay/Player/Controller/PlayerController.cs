@@ -18,6 +18,7 @@ using _Scripts.Gameplay.General.Morgue.Bodies;
 using Unity.VisualScripting;
 using UnityEditor;
 using Cinemachine;
+using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 
 namespace _Scripts.Gameplay.Player.Controller{
 
@@ -30,6 +31,13 @@ namespace _Scripts.Gameplay.Player.Controller{
         Operating = 100,
 
         OpenCoat = 200,
+    }
+
+    public enum EOperationType
+    {
+        NONE = -1,
+
+        Dismember = 0,
     }
 
     public class PlayerController : MonoBehaviour, IPossess, IInteractor
@@ -55,6 +63,9 @@ namespace _Scripts.Gameplay.Player.Controller{
             get => _playerControllerState;
         }
 
+        private EOperationType _operationType = EOperationType.NONE;
+        public EOperationType OperationType { get => _operationType; }
+
         [Header("Mouse Look Settings")]
         [SerializeField] private float mouseSensitivity = 100f;
         private float xRotation = 0f;
@@ -74,13 +85,28 @@ namespace _Scripts.Gameplay.Player.Controller{
         //private float _opScroll;
         private OperatingTable _operatingTable;
         private MorgueToolActor _equippedOperatingTool;
+        private BodyPartMorgueActor _bodyPartMorgueActor;
 
+        public BodyPartMorgueActor BodyPartMorgueActor { get => _bodyPartMorgueActor; }
+
+        public OperationState CurrentOperationState 
+        { 
+            get 
+            {
+                if (_bodyPartMorgueActor != null)
+                {
+                    return _bodyPartMorgueActor.OperationState;
+                }
+                return null;
+            } 
+        }
 
         public MorgueToolActor EquippedOperatingTool
         {
             get { return _equippedOperatingTool; }
             set { _equippedOperatingTool = value; }
         }
+
         #endregion
 
         private void Start()
@@ -354,6 +380,88 @@ namespace _Scripts.Gameplay.Player.Controller{
             //Debug.Log("Index is now : " + newIndex);
         }
 
+        public void Operating_ActionL(InputAction.CallbackContext callbackContext)
+        {
+            if (CameraManager.Instance.IsCameraInTransition())
+            {
+                return;
+            }
+
+            bool operating = PlayerControllerState == EPlayerControllerState.Operating;
+
+            if (operating)
+            {
+                OperationMorgueToolActor opTool = EquippedOperatingTool as OperationMorgueToolActor; 
+
+                if (opTool != null && _bodyPartMorgueActor != null)
+                {
+                    bool dismemberOperation = opTool is OperationDismemberMorgueTool;
+                    if (dismemberOperation == false)
+                    {
+                        return;
+                    }
+
+                    if (CurrentOperationState != null)
+                    {
+                        if (EquippedOperatingTool.IsAnimating())
+                        {
+                            return;
+                        }
+
+                        bool proceed = CurrentOperationState.OnActionLInput();
+                        if (proceed)
+                        {
+                            CurrentOperationState.ProceedOperation(1.0f);
+
+                            EquippedOperatingTool.Animate();
+                        }
+                    }
+                }
+            }
+
+        }
+
+        public void Operating_ActionR(InputAction.CallbackContext callbackContext)
+        {
+            if (CameraManager.Instance.IsCameraInTransition())
+            {
+                return;
+            }
+
+            bool operating = PlayerControllerState == EPlayerControllerState.Operating;
+
+            if (operating)
+            {
+                OperationMorgueToolActor opTool = EquippedOperatingTool as OperationMorgueToolActor;
+
+                if (opTool != null && _bodyPartMorgueActor != null)
+                {
+                    bool dismemberOperation = opTool is OperationDismemberMorgueTool;
+                    if (dismemberOperation == false)
+                    {
+                        return;
+                    }
+
+                    if (CurrentOperationState != null)
+                    {
+                        if (EquippedOperatingTool.IsAnimating())
+                        {
+                            return;
+                        }
+
+                        bool proceed = CurrentOperationState.OnActionRInput();
+                        if (proceed)
+                        {
+                            CurrentOperationState.ProceedOperation(1.0f);
+
+                            EquippedOperatingTool.Animate();
+                        }
+                    }
+                }
+            }
+
+        }
+
         public bool ReturnOperatingToolToSlot(MorgueToolActor opTool)
         {
             if (opTool == null)
@@ -484,7 +592,106 @@ namespace _Scripts.Gameplay.Player.Controller{
             Debug.Log("Action input");
             bool operating = PlayerControllerState == EPlayerControllerState.Operating;
 
+            //if (operating)
+            //{
+            //    BodyPartMorgueActor bodyPart = GetSelectedObject<BodyPartMorgueActor>();
+            //    if (bodyPart == null)
+            //    {
+            //        bodyPart = GetSelectedObjectParent<BodyPartMorgueActor>();
+            //    }
+
+            //    if (bodyPart != null)
+            //    {
+            //        Debug.Log("Found body part = " + bodyPart.gameObject.name);
+            //        if (CameraManager.Instance.CmBrain.ActiveVirtualCamera != (ICinemachineCamera)bodyPart.VirtualCamera)
+            //        {
+            //            Debug.Log("Activating body part cinecam = " + bodyPart.gameObject.name);
+
+            //            CameraManager.Instance.ActivateVirtualCamera(bodyPart.RuntimeID);
+            //            return;
+            //        }
+
+            //        OperationDismemberMorgueTool dismemberTool = EquippedOperatingTool as OperationDismemberMorgueTool;
+            //        if (dismemberTool != null)
+            //        {
+            //            if (bodyPart.IsConnected())
+            //            {
+            //                IConnectable disconnectedPart = bodyPart.TryDisconnect(null);
+                            
+            //                if (disconnectedPart != null)
+            //                {
+            //                    if (CameraManager.Instance.CmBrain.ActiveVirtualCamera == (ICinemachineCamera)bodyPart.VirtualCamera)
+            //                    {
+            //                        bool backToOperatingAbove = CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.OperatingTable_Above);
+            //                        if (backToOperatingAbove)
+            //                        {
+            //                            Debug.Log("Back to above operating cameraview");
+
+            //                        }
+            //                    }
+
+            //                    IStorage nextPlayerStorage = _playerStorage.GetNextBestStorage(true, EPlayerControllerState.Normal);
+            //                    if (nextPlayerStorage != null)
+            //                    {
+            //                        IStorable prevStored = nextPlayerStorage.TryRemove(null);
+            //                        if (prevStored != null)
+            //                        {
+            //                            //MorgueToolActor oldTool = prevStored.GetStorableParent() as MorgueToolActor;
+            //                            //if (oldTool != null)
+            //                            //{
+            //                            //    ReturnOperatingToolToSlot(oldTool);
+            //                            //}
+            //                        }
+
+            //                        bool stored = nextPlayerStorage.TryStore(bodyPart);
+            //                        if (stored)
+            //                        {
+            //                            Debug.Log("Stored disconnected part successfully");
+            //                        }
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        GameObject selectedObject = InputController.SelectedObject;
+
+            //        if (selectedObject != null)
+            //        {
+            //            if (selectedObject.layer == LayerMask.NameToLayer("MorgueCollision"))
+            //            {
+            //                BodyMorgueActor bodyMorgueActor = selectedObject.GetComponentInParent<BodyMorgueActor>();
+
+            //                if (bodyMorgueActor != null)
+            //                {
+            //                    IStorage hands = PlayerStorage.GetPlayerHands();
+            //                    BodyPartMorgueActor heldBodyPart = hands.GetStorable<BodyPartMorgueActor>();
+            //                    if (heldBodyPart != null && EquippedOperatingTool as OperationAttachmentMorgueTool)
+            //                    {
+            //                        if (selectedObject.tag == heldBodyPart.gameObject.tag)
+            //                        {
+            //                            IStorable removed = hands.TryRemove(heldBodyPart);
+            //                            if (removed != null)
+            //                            {
+            //                                heldBodyPart.TryConnect(bodyMorgueActor.TorsoMorgueActor);
+            //                            }
+            //                        }
+            //                    }
+
+            //                }
+
+                            
+            //            }
+            //        }
+            //    }
+
+            //}
             if (operating)
+            {
+
+            }
+            else
             {
                 BodyPartMorgueActor bodyPart = GetSelectedObject<BodyPartMorgueActor>();
                 if (bodyPart == null)
@@ -492,95 +699,21 @@ namespace _Scripts.Gameplay.Player.Controller{
                     bodyPart = GetSelectedObjectParent<BodyPartMorgueActor>();
                 }
 
-                if (bodyPart != null)
+                if (bodyPart)
                 {
-                    Debug.Log("Found body part = " + bodyPart.gameObject.name);
-                    if (CameraManager.Instance.CmBrain.ActiveVirtualCamera != (ICinemachineCamera)bodyPart.VirtualCamera)
-                    {
-                        Debug.Log("Activating body part cinecam = " + bodyPart.gameObject.name);
-
-                        CameraManager.Instance.ActivateVirtualCamera(bodyPart.RuntimeID);
-                        return;
-                    }
-
                     OperationDismemberMorgueTool dismemberTool = EquippedOperatingTool as OperationDismemberMorgueTool;
                     if (dismemberTool != null)
                     {
                         if (bodyPart.IsConnected())
                         {
-                            IConnectable disconnectedPart = bodyPart.TryDisconnect(null);
-                            
-                            if (disconnectedPart != null)
-                            {
-                                if (CameraManager.Instance.CmBrain.ActiveVirtualCamera == (ICinemachineCamera)bodyPart.VirtualCamera)
-                                {
-                                    bool backToOperatingAbove = CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.OperatingTable_Above);
-                                    if (backToOperatingAbove)
-                                    {
-                                        Debug.Log("Back to above operating cameraview");
+                            OperatingTable opTable = bodyPart.BodyMorgueActor.Stored.GetStorageParent() as OperatingTable;
+                            BeginOperatingState(opTable, bodyPart);
 
-                                    }
-                                }
-
-                                IStorage nextPlayerStorage = _playerStorage.GetNextBestStorage(true, EPlayerControllerState.Normal);
-                                if (nextPlayerStorage != null)
-                                {
-                                    IStorable prevStored = nextPlayerStorage.TryRemove(null);
-                                    if (prevStored != null)
-                                    {
-                                        //MorgueToolActor oldTool = prevStored.GetStorableParent() as MorgueToolActor;
-                                        //if (oldTool != null)
-                                        //{
-                                        //    ReturnOperatingToolToSlot(oldTool);
-                                        //}
-                                    }
-
-                                    bool stored = nextPlayerStorage.TryStore(bodyPart);
-                                    if (stored)
-                                    {
-                                        Debug.Log("Stored disconnected part successfully");
-                                    }
-                                }
-                            }
+                            bodyPart.OperationState.BeginOperationState();
                         }
                     }
                 }
-                else
-                {
-                    GameObject selectedObject = InputController.SelectedObject;
-
-                    if (selectedObject != null)
-                    {
-                        if (selectedObject.layer == LayerMask.NameToLayer("MorgueCollision"))
-                        {
-                            BodyMorgueActor bodyMorgueActor = selectedObject.GetComponentInParent<BodyMorgueActor>();
-
-                            if (bodyMorgueActor != null)
-                            {
-                                IStorage hands = PlayerStorage.GetPlayerHands();
-                                BodyPartMorgueActor heldBodyPart = hands.GetStorable<BodyPartMorgueActor>();
-                                if (heldBodyPart != null && EquippedOperatingTool as OperationAttachmentMorgueTool)
-                                {
-                                    if (selectedObject.tag == heldBodyPart.gameObject.tag)
-                                    {
-                                        IStorable removed = hands.TryRemove(heldBodyPart);
-                                        if (removed != null)
-                                        {
-                                            heldBodyPart.TryConnect(bodyMorgueActor.TorsoMorgueActor);
-                                        }
-                                    }
-                                }
-
-                            }
-
-                            
-                        }
-                    }
-                }
-
-            }
-            else
-            {
+                
                 IInteractable interactable = GetSelectedObject<IInteractable>();
 
                 if (interactable != null)
@@ -590,12 +723,17 @@ namespace _Scripts.Gameplay.Player.Controller{
                         interactable.OnInteract(this);
                     }
                 }
+                
             }
         }
 
-        public void BeginOperatingState(OperatingTable opTable)
+        public void BeginOperatingState(OperatingTable opTable, BodyPartMorgueActor bodyPart)
         {
             _operatingTable = opTable;
+
+            _operationType = EOperationType.NONE;
+
+            _bodyPartMorgueActor = bodyPart;
 
             RequestPlayerControllerState(EPlayerControllerState.Operating);
 
@@ -604,6 +742,18 @@ namespace _Scripts.Gameplay.Player.Controller{
             {
                 storedBody.ToggleCollision(false);
             }
+        }
+
+        public void EndOperatingState()
+        {
+            _operatingTable = null;
+
+            _operationType = EOperationType.NONE;
+
+            _bodyPartMorgueActor = null;
+
+            RequestPlayerControllerState(EPlayerControllerState.Normal);
+
         }
 
         public void RequestPlayerControllerState(EPlayerControllerState state)
@@ -648,6 +798,8 @@ namespace _Scripts.Gameplay.Player.Controller{
                         cursorLock = CursorLockMode.Confined;
                         //mpi.Game.Action.RemoveAllBindingOverrides();
                         mpi.Game.Back.started += Operating_OnBack;
+                        mpi.Game.Operating_ActionL.started += Operating_ActionL;
+                        mpi.Game.Operating_ActionR.started += Operating_ActionR;
 
                         mpi.Game.Operating_Scroll.Enable();
                         //mpi.Game.Operating_Scroll.started += Operating_OnScroll;
@@ -701,6 +853,8 @@ namespace _Scripts.Gameplay.Player.Controller{
 
                     case EPlayerControllerState.Operating:
                         mpi.Game.Back.started -= Operating_OnBack;
+                        mpi.Game.Operating_ActionL.started -= Operating_ActionL;
+                        mpi.Game.Operating_ActionR.started -= Operating_ActionR;
                         
                         mpi.Game.Operating_Scroll.Disable();
                         //mpi.Game.Operating_Scroll.started -= Operating_OnScroll;

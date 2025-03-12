@@ -951,6 +951,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Inventory",
+                    "type": "Button",
+                    "id": "871b96d1-0ffd-4c7e-9794-5498efd090fa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Operating_Scroll",
                     "type": "Button",
                     "id": "e1d43e26-3b18-4684-9b39-76c4f063fc19",
@@ -960,9 +969,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Inventory",
+                    "name": "Operating_ActionL",
                     "type": "Button",
-                    "id": "871b96d1-0ffd-4c7e-9794-5498efd090fa",
+                    "id": "2bbbf620-fcef-4f74-b407-3dbac39a8193",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Operating_ActionR",
+                    "type": "Button",
+                    "id": "c7954634-8646-4f68-86ba-da0321ce0cf1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -1169,6 +1187,39 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "",
+                    "id": "01874d04-1fc1-446f-824b-2e739ab3f000",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "33270179-18eb-4d94-a91c-6a5b5a40cdde",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Operating_ActionL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c5e4bfcd-731a-43a9-9465-0e5495d70abf",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Operating_ActionR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "Scroll",
                     "id": "cd794cdc-3f8a-42fe-aa9a-8b9a46d7d2c3",
                     "path": "1DAxis",
@@ -1233,17 +1284,6 @@
                     "action": "Operating_Scroll",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "01874d04-1fc1-446f-824b-2e739ab3f000",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Inventory",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         }

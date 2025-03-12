@@ -12,6 +12,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
     {
         [SerializeField] protected FStorable _toolStorable;
 
+        [SerializeField] protected GameObject _animatingTool;
+        [SerializeField] protected GameObject _animatingToolHolder;
+
+        protected bool _animateTool = false;
+
         [SerializeField] protected float _lerpMoveSpeed;
         public ref FStorable ToolStorable { get { return ref _toolStorable; } }
         //public ref FStorageSlot DefaultStorage { get { return ref _defaultStorage; } }
@@ -120,6 +125,16 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
             }
 
             return true;
+        }
+
+        public virtual bool Animate()
+        {
+            _animateTool = true;
+            return true;
+        }
+        public virtual bool IsAnimating()
+        {
+            return false;
         }
     }
     

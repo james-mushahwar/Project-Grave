@@ -973,6 +973,15 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""871b96d1-0ffd-4c7e-9794-5498efd090fa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Operating_Scroll"",
                     ""type"": ""Button"",
                     ""id"": ""e1d43e26-3b18-4684-9b39-76c4f063fc19"",
@@ -982,9 +991,18 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Inventory"",
+                    ""name"": ""Operating_ActionL"",
                     ""type"": ""Button"",
-                    ""id"": ""871b96d1-0ffd-4c7e-9794-5498efd090fa"",
+                    ""id"": ""2bbbf620-fcef-4f74-b407-3dbac39a8193"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Operating_ActionR"",
+                    ""type"": ""Button"",
+                    ""id"": ""c7954634-8646-4f68-86ba-da0321ce0cf1"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1191,6 +1209,39 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": """",
+                    ""id"": ""01874d04-1fc1-446f-824b-2e739ab3f000"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""33270179-18eb-4d94-a91c-6a5b5a40cdde"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_ActionL"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c5e4bfcd-731a-43a9-9465-0e5495d70abf"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_ActionR"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""Scroll"",
                     ""id"": ""cd794cdc-3f8a-42fe-aa9a-8b9a46d7d2c3"",
                     ""path"": ""1DAxis"",
@@ -1255,17 +1306,6 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Operating_Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""01874d04-1fc1-446f-824b-2e739ab3f000"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Inventory"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1303,8 +1343,10 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         m_Game_Look = m_Game.FindAction("Look", throwIfNotFound: true);
         m_Game_Back = m_Game.FindAction("Back", throwIfNotFound: true);
         m_Game_Debug_SpawnBody = m_Game.FindAction("Debug_SpawnBody", throwIfNotFound: true);
-        m_Game_Operating_Scroll = m_Game.FindAction("Operating_Scroll", throwIfNotFound: true);
         m_Game_Inventory = m_Game.FindAction("Inventory", throwIfNotFound: true);
+        m_Game_Operating_Scroll = m_Game.FindAction("Operating_Scroll", throwIfNotFound: true);
+        m_Game_Operating_ActionL = m_Game.FindAction("Operating_ActionL", throwIfNotFound: true);
+        m_Game_Operating_ActionR = m_Game.FindAction("Operating_ActionR", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1593,8 +1635,10 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_Look;
     private readonly InputAction m_Game_Back;
     private readonly InputAction m_Game_Debug_SpawnBody;
-    private readonly InputAction m_Game_Operating_Scroll;
     private readonly InputAction m_Game_Inventory;
+    private readonly InputAction m_Game_Operating_Scroll;
+    private readonly InputAction m_Game_Operating_ActionL;
+    private readonly InputAction m_Game_Operating_ActionR;
     public struct GameActions
     {
         private @MasterPlayerInput m_Wrapper;
@@ -1606,8 +1650,10 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Game_Look;
         public InputAction @Back => m_Wrapper.m_Game_Back;
         public InputAction @Debug_SpawnBody => m_Wrapper.m_Game_Debug_SpawnBody;
-        public InputAction @Operating_Scroll => m_Wrapper.m_Game_Operating_Scroll;
         public InputAction @Inventory => m_Wrapper.m_Game_Inventory;
+        public InputAction @Operating_Scroll => m_Wrapper.m_Game_Operating_Scroll;
+        public InputAction @Operating_ActionL => m_Wrapper.m_Game_Operating_ActionL;
+        public InputAction @Operating_ActionR => m_Wrapper.m_Game_Operating_ActionR;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1638,12 +1684,18 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
             @Debug_SpawnBody.started += instance.OnDebug_SpawnBody;
             @Debug_SpawnBody.performed += instance.OnDebug_SpawnBody;
             @Debug_SpawnBody.canceled += instance.OnDebug_SpawnBody;
-            @Operating_Scroll.started += instance.OnOperating_Scroll;
-            @Operating_Scroll.performed += instance.OnOperating_Scroll;
-            @Operating_Scroll.canceled += instance.OnOperating_Scroll;
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
+            @Operating_Scroll.started += instance.OnOperating_Scroll;
+            @Operating_Scroll.performed += instance.OnOperating_Scroll;
+            @Operating_Scroll.canceled += instance.OnOperating_Scroll;
+            @Operating_ActionL.started += instance.OnOperating_ActionL;
+            @Operating_ActionL.performed += instance.OnOperating_ActionL;
+            @Operating_ActionL.canceled += instance.OnOperating_ActionL;
+            @Operating_ActionR.started += instance.OnOperating_ActionR;
+            @Operating_ActionR.performed += instance.OnOperating_ActionR;
+            @Operating_ActionR.canceled += instance.OnOperating_ActionR;
         }
 
         private void UnregisterCallbacks(IGameActions instance)
@@ -1669,12 +1721,18 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
             @Debug_SpawnBody.started -= instance.OnDebug_SpawnBody;
             @Debug_SpawnBody.performed -= instance.OnDebug_SpawnBody;
             @Debug_SpawnBody.canceled -= instance.OnDebug_SpawnBody;
-            @Operating_Scroll.started -= instance.OnOperating_Scroll;
-            @Operating_Scroll.performed -= instance.OnOperating_Scroll;
-            @Operating_Scroll.canceled -= instance.OnOperating_Scroll;
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
+            @Operating_Scroll.started -= instance.OnOperating_Scroll;
+            @Operating_Scroll.performed -= instance.OnOperating_Scroll;
+            @Operating_Scroll.canceled -= instance.OnOperating_Scroll;
+            @Operating_ActionL.started -= instance.OnOperating_ActionL;
+            @Operating_ActionL.performed -= instance.OnOperating_ActionL;
+            @Operating_ActionL.canceled -= instance.OnOperating_ActionL;
+            @Operating_ActionR.started -= instance.OnOperating_ActionR;
+            @Operating_ActionR.performed -= instance.OnOperating_ActionR;
+            @Operating_ActionR.canceled -= instance.OnOperating_ActionR;
         }
 
         public void RemoveCallbacks(IGameActions instance)
@@ -1725,7 +1783,9 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
         void OnDebug_SpawnBody(InputAction.CallbackContext context);
-        void OnOperating_Scroll(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
+        void OnOperating_Scroll(InputAction.CallbackContext context);
+        void OnOperating_ActionL(InputAction.CallbackContext context);
+        void OnOperating_ActionR(InputAction.CallbackContext context);
     }
 }

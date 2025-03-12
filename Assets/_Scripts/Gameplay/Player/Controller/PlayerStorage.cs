@@ -119,7 +119,7 @@ namespace _Scripts.Gameplay.Player.Controller{
             bool isOperating = (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState ==
                                        EPlayerControllerState.Operating);
 
-            _operatingHandsRoot.gameObject.SetActive(isOperating);
+            //_operatingHandsRoot.gameObject.SetActive(isOperating);
 
             if (isOperating)
             {

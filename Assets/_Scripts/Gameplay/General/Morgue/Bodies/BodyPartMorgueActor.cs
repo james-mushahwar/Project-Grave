@@ -1,11 +1,13 @@
 ﻿using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Identification;
+using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
 using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -39,6 +41,10 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         {
             get { return _bodyMorgueActor; }
         }
+
+        public virtual OperationState OperationState { get => null; }
+
+        protected List<Rigidbody> _rigidBodies;
 
         public bool IsStored()
         {
@@ -109,6 +115,10 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                 CameraManager.Instance.AssignVirtualCameraType(RuntimeID, VirtualCamera);
             }
 
+            _rigidBodies = GetComponentsInChildren<Rigidbody>().ToList<Rigidbody>();
+
+            //SetToRagdoll(false);
+
             _bodyStorable.StorableParent = this;
         }
 
@@ -138,6 +148,23 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                 _meshRenderer.gameObject.SetActive(true);
 
             }
+
+            if (IsConnected())
+            {
+                if (OperationState != null && OperationState.IsComplete())
+                {
+                    IConnectable disconnectedPart = TryDisconnect(null);
+                    if (disconnectedPart != null)
+                    {
+                        OnDisconnect(null);
+
+                        SetToRagdoll(true);
+
+                        PlayerManager.Instance.CurrentPlayerController.EndOperatingState();
+                    }
+                }
+            }
+            
         }
 
         public override void ToggleProne(bool set)
@@ -198,6 +225,26 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                 Debug.Log("Operating on body");
             }
             return true;
+        }
+
+        public void SetToRagdoll(bool set)
+        {
+            SetIsKinematic(!set);
+            ToggleProne(!set);
+            //ToggleCollision(true);
+        }
+
+        protected virtual void SetIsKinematic(bool isKinematic)
+        {
+            foreach (Rigidbody rigidbody in _rigidBodies)
+            {
+                if (rigidbody.transform != this.transform)
+                {
+                    (rigidbody).detectCollisions = !isKinematic;
+                    (rigidbody).isKinematic = isKinematic;
+                    rigidbody.useGravity = !isKinematic;
+                }
+            }
         }
 
         public IStorable GetStorableParent()
@@ -283,7 +330,9 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public virtual void OnDisconnect(IConnectable parent)
         {
-            
+            _bodyMorgueActor = null;
+
+            transform.SetParent(null);
         }
 
         public virtual IConnectable TryFindConnected(IConnectable child)
