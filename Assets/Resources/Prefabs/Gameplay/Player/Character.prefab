@@ -1122,7 +1122,7 @@ MonoBehaviour:
   _rHand:
     _storableSize: 0
     _storableTypeFilter: 
-    _storageSpace: {fileID: 2175331396005366592}
+    _storageSpace: {fileID: 385748503141311436}
 --- !u!1 &4271820655096074975
 GameObject:
   m_ObjectHideFlags: 0

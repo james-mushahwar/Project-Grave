@@ -710,20 +710,55 @@ namespace _Scripts.Gameplay.Player.Controller{
                             BeginOperatingState(opTable, bodyPart);
 
                             bodyPart.OperationState.BeginOperationState();
+                            return;
                         }
                     }
                 }
-                
+
                 IInteractable interactable = GetSelectedObject<IInteractable>();
+                if (interactable == null)
+                {
+                    interactable = GetSelectedObjectParent<IInteractable>();
+                }
 
                 if (interactable != null)
                 {
                     if (interactable.IsInteractable(this))
                     {
                         interactable.OnInteract(this);
+                        return;
                     }
                 }
-                
+
+                IStorable storable = GetSelectedObject<IStorable>();
+                if (storable == null)
+                {
+                    storable = GetSelectedObjectParent<IStorable>();
+                }
+
+                if (storable != null)
+                {
+                    if (storable.IsStored() == false)
+                    {
+                        IStorage nextStorage = PlayerStorage.GetNextBestStorage();
+                        if (nextStorage != null)
+                        {
+                            IStorable prevStored = nextStorage.TryRemove(null);
+                            if (prevStored != null)
+                            {
+                                MorgueToolActor oldTool = prevStored.GetStorableParent() as MorgueToolActor;
+                                if (oldTool != null)
+                                {
+                                    ReturnOperatingToolToSlot(oldTool);
+                                }
+                            }
+
+                            bool stored = nextStorage.TryStore(storable);
+                        }
+                        return;
+                    }
+                }
+
             }
         }
 

@@ -115,7 +115,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                 CameraManager.Instance.AssignVirtualCameraType(RuntimeID, VirtualCamera);
             }
 
-            _rigidBodies = GetComponentsInChildren<Rigidbody>().ToList<Rigidbody>();
+            _rigidBodies = GetComponentsInChildren<Rigidbody>(true).ToList<Rigidbody>();
 
             //SetToRagdoll(false);
 
@@ -144,9 +144,18 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             }
             else
             {
-                _skinnedMeshRenderer.gameObject.SetActive(false);
-                _meshRenderer.gameObject.SetActive(true);
+                
+                //if (_skinnedMeshRenderer != null && _skinnedMeshRenderer.rootBone != null)
+                //{
+                //    _skinnedMeshRenderer.rootBone.localPosition = Vector3.zero;
+                //    _skinnedMeshRenderer.gameObject.SetActive(true);
+                //}
+                //else
+                //{
+                    _skinnedMeshRenderer.gameObject.SetActive(false);
+                    _meshRenderer.gameObject.SetActive(true);
 
+                //}
             }
 
             if (IsConnected())
@@ -162,6 +171,17 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
                         PlayerManager.Instance.CurrentPlayerController.EndOperatingState();
                     }
+                }
+            }
+            else
+            {
+                if (IsStored())
+                {
+                    SetToRagdoll(false);
+                }
+                else
+                {
+                    SetToRagdoll(true);
                 }
             }
             
