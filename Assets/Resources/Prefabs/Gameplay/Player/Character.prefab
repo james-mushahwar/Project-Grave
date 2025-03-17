@@ -1122,7 +1122,7 @@ MonoBehaviour:
   _rHand:
     _storableSize: 0
     _storableTypeFilter: 
-    _storageSpace: {fileID: 385748503141311436}
+    _storageSpace: {fileID: 6263852096114998128}
 --- !u!1 &4271820655096074975
 GameObject:
   m_ObjectHideFlags: 0
@@ -1824,6 +1824,7 @@ Transform:
   - {fileID: 5681711384549492631}
   - {fileID: 4198886522841673568}
   - {fileID: 2831374959024389933}
+  - {fileID: 6263852096114998128}
   m_Father: {fileID: 1819798975829729685}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2695,6 +2696,37 @@ Transform:
   m_Father: {fileID: 5981245365401231859}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8926841248617141961
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6263852096114998128}
+  m_Layer: 0
+  m_Name: R_handSkt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6263852096114998128
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8926841248617141961}
+  m_LocalRotation: {x: -0.5684847, y: 0.8118804, z: 0.10890499, w: 0.07625608}
+  m_LocalPosition: {x: -0.0231, y: -0.2226, z: -0.0609}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5981245365401231859}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: -15.28, y: 180, z: -70}
 --- !u!1001 &2880548567797259892
 PrefabInstance:
   m_ObjectHideFlags: 0
