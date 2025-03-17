@@ -24,6 +24,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField] private PlayerManager _playerManagerPrefab;
         [SerializeField] private AnimationManager _animationManagerPrefab;
         [SerializeField] private MorgueManager _morgueManagerPrefab;
+        [SerializeField] private FeedbackManager _feedbackManagerPrefab;
+        [SerializeField] private TaskManager _taskManagerPrefab;
 
         EGameState _gameState = EGameState.Bootstrap;
         public EGameState GameState
@@ -74,6 +76,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _managers.Add(GameObject.Instantiate(_animationManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_morgueManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_cameraManagerPrefab, this.transform));
+            _managers.Add(GameObject.Instantiate(_taskManagerPrefab, this.transform));
+            _managers.Add(GameObject.Instantiate(_feedbackManagerPrefab, this.transform));
         }
 
         void Start()

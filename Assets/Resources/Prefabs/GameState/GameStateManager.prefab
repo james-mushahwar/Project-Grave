@@ -56,3 +56,7 @@ MonoBehaviour:
     type: 3}
   _morgueManagerPrefab: {fileID: 8014924620646975180, guid: 13634a49e69724f40a15373bd75bfe3f,
     type: 3}
+  _feedbackManagerPrefab: {fileID: 2398821905989213024, guid: bbe00b4be2eb4354fa881e9c77e6f574,
+    type: 3}
+  _taskManagerPrefab: {fileID: 5596662822224740605, guid: 836d4101380d7b24f9843d8abe44d46b,
+    type: 3}
