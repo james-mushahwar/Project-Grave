@@ -59,6 +59,8 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
                 {
                     _operationLerpToolElapsed += Time.deltaTime;
 
+                    FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawSmooth);
+
                     if (_operationLerpToolElapsed >= _operationLerpToolDuration)
                     {
                         _operationLerpToolElapsed = 0.0f;
@@ -68,6 +70,14 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
                     }
                 }
             }
+
+            EFeedbackPattern movementFeedback = EFeedbackPattern.None;
+
+            if (showAnimatingTool && _animateTool)
+            {
+                movementFeedback = EFeedbackPattern.Operation_SawSmooth;
+            }
+            FeedbackManager.Instance.TryFeedbackPattern(movementFeedback);
         }
 
         public override void EnterHouseThroughChute()

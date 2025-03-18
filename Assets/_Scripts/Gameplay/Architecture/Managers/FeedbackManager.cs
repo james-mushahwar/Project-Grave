@@ -48,7 +48,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         #region General
         private Gamepad _gamepad;
         private EFeedbackPattern _feedbackType;
-        private FFeedbackPattern _feedbackPattern = new FFeedbackPattern();
+        private FFeedbackPattern _feedbackPattern;
         private Coroutine _stopGamepadFeedback;
         private float _feedbackTimer;
         private float _feedbackDuration;
@@ -153,11 +153,15 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             bool validPattern = (pattern != EFeedbackPattern.None && pattern != _feedbackType);
             if (!validPattern)
             {
+                if (pattern == EFeedbackPattern.None)
+                {
+                    SetNoneFeedbackPattern();
+                }
                 return false;
             }
 
             FFeedbackPattern newFeedback = GetFeedbackPattern(pattern);
-            bool canOverwite = _feedbackPattern._canBeStopped && (newFeedback._priority >= _feedbackPattern._priority);
+            bool canOverwite = _feedbackPattern == null ? true : (_feedbackPattern._canBeStopped && (newFeedback._priority >= _feedbackPattern._priority));
             return (validPattern && canOverwite);   
         }
 
