@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 89c5945cdaed0a64d85c7ee6b6c5afa7, type: 3}
   m_Name: Operation_SawSmooth_FeedbackPatternSO
   m_EditorClassIdentifier: Assembly-CSharp:_Scripts.Gameplay.Architecture.Managers:FFeedbackPattern
   _loop: 1
@@ -19,8 +19,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.0041666664
-      value: 0.30188686
+      time: 0.0028208494
+      value: 0.39357436
       inSlope: 0
       outSlope: 0
       tangentMode: 34
@@ -28,8 +28,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.99583334
-      value: 0.30188686
+      time: 1.0028208
+      value: 0.39357436
       inSlope: 0
       outSlope: 0
       tangentMode: 34
@@ -43,8 +43,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.012499988
-      value: 0.08962262
+      time: 0.0028208494
+      value: 0.39357436
       inSlope: 0
       outSlope: 0
       tangentMode: 34
@@ -52,8 +52,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1.0125
-      value: 0.08962262
+      time: 1.0028208
+      value: 0.39357436
       inSlope: 0
       outSlope: 0
       tangentMode: 34

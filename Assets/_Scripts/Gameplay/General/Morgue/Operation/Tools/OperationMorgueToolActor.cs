@@ -71,13 +71,18 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
                 }
             }
 
+
             EFeedbackPattern movementFeedback = EFeedbackPattern.None;
 
             if (showAnimatingTool && _animateTool)
             {
                 movementFeedback = EFeedbackPattern.Operation_SawSmooth;
             }
-            FeedbackManager.Instance.TryFeedbackPattern(movementFeedback);
+
+            if (PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool == this)
+            {
+               FeedbackManager.Instance.TryFeedbackPattern(movementFeedback);
+            }
         }
 
         public override void EnterHouseThroughChute()

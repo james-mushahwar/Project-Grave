@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Gameplay.Input.Feedback;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -33,34 +34,24 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         Ultra
     }
 
-    [CreateAssetMenu(menuName = "Feedback/FeedbackPattern", fileName = "FeedbackPatternSO")]
-    public class FFeedbackPattern : ScriptableObject
-    {
-        public bool _loop; // does this loop?
-        public bool _canBeStopped;
-        public EFeedbackPriority _priority;
-        public AnimationCurve _lowFrequencyPattern; // from 0 to 1 scale
-        public AnimationCurve _highFrequencyPattern; // from 0 to 1 scale
-    }
-
     public class FeedbackManager : GameManager<FeedbackManager>, IManager
     {
         #region General
         private Gamepad _gamepad;
         private EFeedbackPattern _feedbackType;
-        private FFeedbackPattern _feedbackPattern;
+        private FeedbackPatternScriptableObject _feedbackPattern;
         private Coroutine _stopGamepadFeedback;
         private float _feedbackTimer;
         private float _feedbackDuration;
         #endregion
 
         [Header("UI feedback patterns")]
-        //private FFeedbackPattern _noneFeedbackPattern; // should do nothing
+        //private FeedbackPatternScriptableObject _noneFeedbackPattern; // should do nothing
         [SerializeField]
-        private FFeedbackPattern _uiTouchFeedback;
+        private FeedbackPatternScriptableObject _uiTouchFeedback;
         [Header("Operation feedback patterns")]
         [SerializeField]
-        private FFeedbackPattern _operationSawSmoothFeedback;
+        private FeedbackPatternScriptableObject _operationSawSmoothFeedback;
 
         public void ManagedTick()
         {
@@ -124,7 +115,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public void TryFeedbackPattern(EFeedbackPattern pattern)
         {
             _gamepad = Gamepad.current;
-
+            Debug.Log("Trying feed back pattern " + pattern);
             if (_gamepad == null)
             {
                 return;
@@ -135,7 +126,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return;
             }
 
-            FFeedbackPattern newFeedback = GetFeedbackPattern(pattern);
+            FeedbackPatternScriptableObject newFeedback = GetFeedbackPattern(pattern);
 
             _feedbackPattern = newFeedback;
             _feedbackType = pattern;
@@ -160,12 +151,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return false;
             }
 
-            FFeedbackPattern newFeedback = GetFeedbackPattern(pattern);
+            FeedbackPatternScriptableObject newFeedback = GetFeedbackPattern(pattern);
             bool canOverwite = _feedbackPattern == null ? true : (_feedbackPattern._canBeStopped && (newFeedback._priority >= _feedbackPattern._priority));
             return (validPattern && canOverwite);   
         }
 
-        private FFeedbackPattern GetFeedbackPattern(EFeedbackPattern pattern)
+        private FeedbackPatternScriptableObject GetFeedbackPattern(EFeedbackPattern pattern)
         {
             switch (pattern)
             {
@@ -222,7 +213,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public virtual void ManagedPreInGameLoad()
         {
-            //_noneFeedbackPattern = new FFeedbackPattern();
+            //_noneFeedbackPattern = new FeedbackPatternScriptableObject();
             //_noneFeedbackPattern._canBeStopped = true;
             _feedbackPattern = null;
         }
