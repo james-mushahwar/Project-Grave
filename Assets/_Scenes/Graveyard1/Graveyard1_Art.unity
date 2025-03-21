@@ -10306,9 +10306,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tracks:
-  - {fileID: 8300000, guid: 7021ddb8b0fa9b044ab8ed41a4f1c0fc, type: 3}
-  - {fileID: 8300000, guid: 6aaf392722ed74544ae3ac6d5f07ef1d, type: 3}
-  - {fileID: 8300000, guid: 99b7232026924e744807ccc02ba7d351, type: 3}
+  - {fileID: 8300000, guid: eaf65520795fa7e469f221d86a52e230, type: 3}
+  - {fileID: 8300000, guid: 1f20ea2db1140c345b072ead2026ba7b, type: 3}
+  - {fileID: 8300000, guid: 2338cab1f096e014f9a8e9b4ebd5a68f, type: 3}
+  - {fileID: 8300000, guid: fb71dd14eb26f32409bff1dc1467ddfd, type: 3}
   _audioSource: {fileID: 919132148983630369}
   _playOnSetup: 1
   _playingLoopAnimation: {fileID: 919132148983630366}
@@ -10344,7 +10345,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -7025198782143879555, guid: 3589d67138f2db24b883abe75f7ed9d0,
     type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 2338cab1f096e014f9a8e9b4ebd5a68f, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -10408,7 +10409,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.498
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -10465,7 +10466,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.257
       inSlope: 0
       outSlope: 0
       tangentMode: 0
