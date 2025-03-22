@@ -602,6 +602,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1699146440041783426, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: m_Data.m_SourceObjects.m_Item0.weight
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2319431663749129673, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: m_Data.m_TargetPositionWeight
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2772312653219211622, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: m_RotationOffset.x
+      value: 4.3269963
+      objectReference: {fileID: 0}
+    - target: {fileID: 2772312653219211622, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: m_RotationOffset.z
+      value: -0.06406127
+      objectReference: {fileID: 0}
     - target: {fileID: 3578614195820394837, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
         type: 3}
       propertyPath: m_RootOrder
