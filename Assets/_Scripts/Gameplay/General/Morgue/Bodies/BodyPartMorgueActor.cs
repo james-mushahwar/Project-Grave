@@ -63,7 +63,10 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                     {
                         Vector3 localScale = storableMono.transform.localScale;
                         storableMono.gameObject.transform.SetParent(storage.GetStorageSpace(_bodyStorable), false);
-                        //storableMono.gameObject.transform.localPosition = Vector3.zero;
+
+                        storableMono.gameObject.transform.localPosition = Vector3.zero;
+                        _meshRenderer.transform.localPosition = Vector3.zero;
+                        _skinnedMeshRenderer.transform.localPosition = Vector3.zero;
                         //storableMono.gameObject.transform.rotation = StorageSpace.rotation;
                         //storableMono.gameObject.transform.localScale = localScale;
                     }
