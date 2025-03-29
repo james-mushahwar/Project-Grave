@@ -139,6 +139,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                 return;
             }
 
+            if (OperationState != null)
+            {
+                OperationState.TickOperationState();
+            }
+
             if (IsConnected())
             {
                 _skinnedMeshRenderer.gameObject.SetActive(true);

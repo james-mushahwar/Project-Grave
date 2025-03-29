@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,8 +32,6 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
 
         public override bool OnActionRInput()
         {
-
-
             if (_awaitingInputs.Contains(Architecture.Managers.EInputType.RTrigger))
             {
                 _awaitingInputs.Clear();

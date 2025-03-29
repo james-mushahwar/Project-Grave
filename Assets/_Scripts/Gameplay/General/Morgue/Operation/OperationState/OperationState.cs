@@ -1,5 +1,6 @@
 ﻿using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
+using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
 using _Scripts.Gameplay.Player.Controller;
 using MoreMountains.Feedbacks;
 using System;
@@ -39,6 +40,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             {
                 _duration = duration;
             }
+        }
+
+        public void TickOperationState()
+        {
+
         }
 
         public void ProceedOperation(float effectiveness = 1.0f)
