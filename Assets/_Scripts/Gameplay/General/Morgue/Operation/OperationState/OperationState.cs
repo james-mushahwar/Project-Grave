@@ -2,6 +2,7 @@
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
 using _Scripts.Gameplay.Player.Controller;
+using _Scripts.Org;
 using MoreMountains.Feedbacks;
 using System;
 using System.Collections;
@@ -14,10 +15,24 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
     [Serializable]
     public class OperationState
     {
+        private string _operatableRuntimeID;
+        public string OperatableRuntimeID { get => _operatableRuntimeID; set => _operatableRuntimeID = value; }
+        public IOperatable OperatableOwner
+        {
+            get
+            {
+                if (OperatableRuntimeID != null)
+                {
+                    return null;
+                }
+                return null;
+            }
+        }
+
         [SerializeField]
         private EOperationType _operationType;
 
-        private float _elapsedTime = 0.0f;
+        private float _elapsedProgress = 0.0f; // 0 to 1
         private float _proceedStep = 0.1f;
 
         [SerializeField]
@@ -30,11 +45,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
 
         protected List<EInputType> _awaitingInputs = new List<EInputType>();
 
-        public float NormalisedProgress { get { return _elapsedTime / _duration; } }
+        public float NormalisedProgress { get { return _elapsedProgress / _duration; } }
 
         public virtual void BeginOperationState(float duration = -1.0f)
         {
-            _elapsedTime = 0.0f;
+            _elapsedProgress = 0.0f;
 
             if (duration > 0.0f)
             {
@@ -42,14 +57,14 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             }
         }
 
-        public void TickOperationState()
+        public virtual void TickOperationState()
         {
 
         }
 
         public void ProceedOperation(float effectiveness = 1.0f)
         {
-            _elapsedTime += effectiveness * _proceedStep;
+            _elapsedProgress += effectiveness * _proceedStep;
         }
 
         public virtual bool OnActionLInput()

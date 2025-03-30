@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 using _Scripts.Gameplay.Player.Controller;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -27,8 +28,11 @@ namespace _Scripts.Org
 
     public interface IOperatable
     {
-        void StartOperation();
-        void StopOperation();
+        string RuntimeID { get; }
+        List<OperationState> OperationStates { get; }
+        void StartOperation(OperationState opState);
+        void TickOPeration(OperationState opState);
+        void StopOperation(OperationState opState);
     }
 
     //public interface ICarryable

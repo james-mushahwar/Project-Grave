@@ -1,14 +1,39 @@
 ﻿using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
 
     [Serializable]
     public class DismemberOperationState : OperationState
     {
+        [SerializeField]
+        private Transform _dismemberSiteTTransform;
+        [SerializeField]
+        private ParticleSystem _bloodPS;
+
+        public override void TickOperationState()
+        {
+            base.TickOperationState();
+
+            if (NormalisedProgress > 0.0f && !IsComplete())
+            {
+                if (_bloodPS.isPlaying == false)
+                {
+                    // play blood vfx every few seconds
+                    Debug.Log("Play blood fx");
+                    ParticleSystem.MainModule mainPS = _bloodPS.main;
+
+                    mainPS.startDelay = Random.RandomRange(1.0f, 5.0f);
+                    _bloodPS.Play();
+                }
+            }
+        }
+
         public override void BeginOperationState(float duration = -1)
         {
             _awaitingInputs.Clear();

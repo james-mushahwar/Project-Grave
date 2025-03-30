@@ -7,14 +7,23 @@ namespace _Scripts.Gameplay.General.Identification{
     public class RuntimeID : MonoBehaviour
     {
         [SerializeField]
-        private string id;
-        public string Id { get => id; }
+        private string _defaultID;
+        private string _runtimeID;
+        public string Id { get => _defaultID; }
+
+        private void Awake()
+        {
+            if (_runtimeID == "")
+            {
+                GenerateRuntimeId();
+            } 
+        }
 
         [ContextMenu("Generate id")]
-        private void GenerateId()
+        private void GenerateDefaultId()
         {
-            id = Guid.NewGuid().ToString();
-            Debug.Log(id);
+            _defaultID = Guid.NewGuid().ToString();
+            Debug.Log(_defaultID);
         }
 
         public void GenerateId(RuntimeIDCustomInspector invoker)
@@ -24,12 +33,13 @@ namespace _Scripts.Gameplay.General.Identification{
                 return;
             }
 
-            GenerateId();
+            GenerateDefaultId();
         }
 
         public void GenerateRuntimeId()
         {
-            GenerateId();
+            _runtimeID = Guid.NewGuid().ToString();
+            Debug.Log(_runtimeID);
         }
     }
     

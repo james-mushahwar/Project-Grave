@@ -38,6 +38,12 @@ namespace _Scripts.Gameplay.Player.Controller{
         NONE = -1,
 
         Dismember = 0,
+
+        Attaching = 100, //reattaching through stitching
+
+        Stitching = 200, //cuts
+
+        Forensic = 300,
     }
 
     public class PlayerController : MonoBehaviour, IPossess, IInteractor
