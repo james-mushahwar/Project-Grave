@@ -20,14 +20,16 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         {
             base.TickOperationState();
 
-            if (NormalisedProgress > 0.0f && !IsComplete())
+            bool playBloodFX = NormalisedProgress > 0.0f && !IsComplete();
+            if (playBloodFX)
             {
-                if (_bloodPS.isPlaying == false)
+                ParticleSystem.MainModule mainPS = _bloodPS.main;
+                bool canPlayBloodFX = _bloodPS.isPlaying == false || (_bloodPS.isEmitting == false && _bloodPS.time >= mainPS.startDelay.constant);
+                if (canPlayBloodFX)
                 {
                     // play blood vfx every few seconds
                     Debug.Log("Play blood fx");
-                    ParticleSystem.MainModule mainPS = _bloodPS.main;
-
+                    _bloodPS.Stop();
                     mainPS.startDelay = Random.RandomRange(1.0f, 5.0f);
                     _bloodPS.Play();
                 }
