@@ -1,5 +1,6 @@
 ﻿using _Scripts.Gameplay.General.Morgue;
 using _Scripts.Gameplay.General.Morgue.Bodies;
+using _Scripts.Gameplay.Input.InputController;
 using _Scripts.Org;
 using System.Collections;
 using System.Collections.Generic;
@@ -213,6 +214,43 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 }
 
             }
+        }
+
+        public BodyPartMorgueActor GetBodyPartActorParent(GameObject childGameObject) 
+        {
+            //T selected = default;
+            BodyPartMorgueActor bodyPart = null;
+
+            GameObject selectedGO = childGameObject;
+
+            if (selectedGO != null)
+            {
+                BodyMorgueActor body = childGameObject.GetComponentInParent<BodyMorgueActor>();
+                if (body == null)
+                {
+                    return null;
+                }
+
+                BodyPartMorgueActor[] bodyParts = body.GetComponentsInChildren<BodyPartMorgueActor>();
+
+                for (int i = 0; i < bodyParts.Length; i++)
+                {
+                    BodyPartMorgueActor parentBodyPart = bodyParts[i];
+
+                    if (parentBodyPart != null)
+                    {
+                        if (parentBodyPart.SkinnedMeshRenderer.gameObject == childGameObject)
+                        {
+                            bodyPart = parentBodyPart;
+                            break;
+                        }
+
+                        //if (parentBodyPart.)
+                    }
+                }
+            }
+
+            return bodyPart;
         }
     }
     

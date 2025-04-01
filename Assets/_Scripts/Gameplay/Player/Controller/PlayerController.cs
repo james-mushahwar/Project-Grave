@@ -703,14 +703,19 @@ namespace _Scripts.Gameplay.Player.Controller{
                 if (bodyPart == null)
                 {
                     bodyPart = GetSelectedObjectParent<BodyPartMorgueActor>();
+
+                    if (bodyPart == null)
+                    {
+                        bodyPart = MorgueManager.Instance.GetBodyPartActorParent(InputController.SelectedObject);
+                    }
                 }
 
-                if (bodyPart)
+                if (bodyPart != null)
                 {
                     OperationDismemberMorgueTool dismemberTool = EquippedOperatingTool as OperationDismemberMorgueTool;
                     if (dismemberTool != null)
                     {
-                        if (bodyPart.IsConnected())
+                        if (bodyPart.IsConnected() && bodyPart.OperationState != null)
                         {
                             OperatingTable opTable = bodyPart.BodyMorgueActor.Stored.GetStorageParent() as OperatingTable;
                             BeginOperatingState(opTable, bodyPart);
