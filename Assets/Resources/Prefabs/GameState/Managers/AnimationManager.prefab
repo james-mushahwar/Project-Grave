@@ -51,6 +51,7 @@ MonoBehaviour:
     m_keys: 00000000
     m_values:
     - {fileID: 3131861347268482015}
+  _animSettingsSO: {fileID: 11400000, guid: 56abc2105803fd04ead9cf9ccd6e8a8b, type: 2}
 --- !u!1 &3237709034815365238
 GameObject:
   m_ObjectHideFlags: 0
