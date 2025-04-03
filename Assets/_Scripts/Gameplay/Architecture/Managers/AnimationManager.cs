@@ -1,4 +1,5 @@
 ﻿using _Scripts.Gameplay.Animate;
+using _Scripts.Gameplay.Animate.Player;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         [SerializeField] private MorgueAnimTypeAnimationDictionary _morgueAnimTypeAnimationDictionary;
 
+        #region Animators
+        private PlayerCharacterAnimator _playerCharacterAnimator;
+        #endregion
+
         #region Stopmotion
         private List<Animator> _animators;
         private List<FakeStopMotionAnimator> _stopMotionanimators;
@@ -39,11 +44,22 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             _animators = FindObjectsOfType<Animator>().ToList();
             _stopMotionanimators = FindObjectsOfType<FakeStopMotionAnimator>().ToList();
+
+            _playerCharacterAnimator = FindObjectOfType<PlayerCharacterAnimator>();
+
+            Setup();
+        }
+
+        public void Setup()
+        {
+            _playerCharacterAnimator.Setup();
         }
 
         // tick for playing game 
         public void ManagedTick()
         {
+            _playerCharacterAnimator.ManagedTick();
+
             for (int i = 0; i < _stopMotionanimators.Count; i++)
             {
                 FakeStopMotionAnimator stopMotionAnimator = _stopMotionanimators[i];

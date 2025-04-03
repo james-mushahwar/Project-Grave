@@ -42,7 +42,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 6641085478485924818, guid: ba3846b6d6ac4ea46a1bad1f91137cb8,
+  m_Motion: {fileID: -998496362607748373, guid: ba3846b6d6ac4ea46a1bad1f91137cb8,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -69,7 +69,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 6641085478485924818, guid: ba3846b6d6ac4ea46a1bad1f91137cb8,
+  m_Motion: {fileID: -998496362607748373, guid: ba3846b6d6ac4ea46a1bad1f91137cb8,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -82,7 +82,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: New Animator Controller
+  m_Name: Player Character Animator Controller
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:
@@ -177,7 +177,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 7767229847248338920}
-    m_Position: {x: 161, y: 502, z: 0}
+    m_Position: {x: 390, y: 260, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5582321268566676076}
     m_Position: {x: 411, y: 377, z: 0}
@@ -211,7 +211,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -5059006814000262888, guid: ba3846b6d6ac4ea46a1bad1f91137cb8,
+  m_Motion: {fileID: 3060872287085348379, guid: ba3846b6d6ac4ea46a1bad1f91137cb8,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
