@@ -719,8 +719,6 @@ namespace _Scripts.Gameplay.Player.Controller{
                         {
                             OperatingTable opTable = bodyPart.BodyMorgueActor.Stored.GetStorageParent() as OperatingTable;
                             BeginOperatingState(opTable, bodyPart);
-
-                            bodyPart.OperationState.BeginOperationState();
                             return;
                         }
                     }
@@ -781,7 +779,11 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             _bodyPartMorgueActor = bodyPart;
 
+            bodyPart.OperationState.BeginOperationState();
+
             RequestPlayerControllerState(EPlayerControllerState.Operating);
+
+            AnimationManager.Instance.StartOperationState(bodyPart);
 
             BodyMorgueActor storedBody = _operatingTable.GetStorable<BodyMorgueActor>();
             if (storedBody != null)
@@ -796,10 +798,11 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             _operationType = EOperationType.NONE;
 
+            AnimationManager.Instance.EndOperationState(_bodyPartMorgueActor);
+
             _bodyPartMorgueActor = null;
 
             RequestPlayerControllerState(EPlayerControllerState.Normal);
-
         }
 
         public void RequestPlayerControllerState(EPlayerControllerState state)

@@ -66,8 +66,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
                         storableMono.gameObject.transform.localPosition = Vector3.zero;
                         _meshRenderer.transform.localPosition = Vector3.zero;
+                        storableMono.gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
                         _skinnedMeshRenderer.transform.localPosition = Vector3.zero;
-                        //storableMono.gameObject.transform.rotation = StorageSpace.rotation;
                         //storableMono.gameObject.transform.localScale = localScale;
                     }
                 }

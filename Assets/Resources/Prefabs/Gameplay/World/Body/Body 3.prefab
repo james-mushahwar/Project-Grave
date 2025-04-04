@@ -987,7 +987,7 @@ GameObject:
   m_Component:
   - component: {fileID: 177233610976775670}
   m_Layer: 0
-  m_Name: StartOpTrans
+  m_Name: DismemberStartOpTrans
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1000,14 +1000,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3156734762951122405}
-  m_LocalRotation: {x: -0.024361134, y: 0.71435905, z: 0.6985414, w: -0.033729136}
+  m_LocalRotation: {x: -0.4676755, y: 0.52554965, z: 0.51945513, w: -0.48501915}
   m_LocalPosition: {x: 0.3615, y: 1.4724, z: 0.126}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2543564306707494131}
   m_Father: {fileID: 145700881315103308}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 61.718, y: -90, z: -90}
+  m_LocalEulerAnglesHint: {x: -5.298, y: -89.416, z: -88.683}
 --- !u!1 &3188267272804413730
 GameObject:
   m_ObjectHideFlags: 0
@@ -7404,7 +7405,7 @@ GameObject:
   m_Component:
   - component: {fileID: 721260419216286315}
   m_Layer: 0
-  m_Name: EndOpTrans
+  m_Name: DismemberEndOpTrans
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7417,14 +7418,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5913116600659216460}
-  m_LocalRotation: {x: -0.024360806, y: 0.7143589, z: 0.69854146, w: -0.03372878}
+  m_LocalRotation: {x: -0.46767515, y: 0.5255505, z: 0.51945513, w: -0.4850187}
   m_LocalPosition: {x: 0.365, y: 1.459, z: -0.133}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 145700881315103308}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 63.845, y: -90, z: -90}
+  m_LocalEulerAnglesHint: {x: -5.298, y: -89.416, z: -88.683}
 --- !u!1 &6048131234698845398
 GameObject:
   m_ObjectHideFlags: 0
@@ -8954,6 +8955,37 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 142864076317629201}
+--- !u!1 &9055396606791122006
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2543564306707494131}
+  m_Layer: 0
+  m_Name: SawingTransformOffset
+  m_TagString: Operation_Offset
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2543564306707494131
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9055396606791122006}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.024, y: 0.243, z: -1.008}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 177233610976775670}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9086263335726153318
 GameObject:
   m_ObjectHideFlags: 0

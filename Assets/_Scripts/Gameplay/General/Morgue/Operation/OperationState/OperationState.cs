@@ -1,4 +1,5 @@
-﻿using _Scripts.Gameplay.Architecture.Managers;
+﻿using _Scripts.CautionaryTalesScripts;
+using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
 using _Scripts.Gameplay.Player.Controller;
@@ -40,12 +41,17 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         [SerializeField]
         private Transform _operationEndTransform;
 
+        private Transform _operationStartOffsetTransform;
+
         [SerializeField]
         private float _duration = 1.0f;
 
         protected List<EInputType> _awaitingInputs = new List<EInputType>();
 
         public float NormalisedProgress { get { return _elapsedProgress / _duration; } }
+
+        public Transform OperationStartTransform { get => _operationStartTransform; }
+        public Transform OperationStarOffsetTransform { get => _operationStartOffsetTransform; }
 
         public virtual void BeginOperationState(float duration = -1.0f)
         {
@@ -54,6 +60,12 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             if (duration > 0.0f)
             {
                 _duration = duration;
+            }
+
+            if (_operationStartOffsetTransform == null)
+            {
+                GameObject go = CTGlobal.FindGameObjectInChildWithTag(_operationStartTransform.gameObject, "Operation_Offset");
+                _operationStartOffsetTransform = go.transform;
             }
         }
 

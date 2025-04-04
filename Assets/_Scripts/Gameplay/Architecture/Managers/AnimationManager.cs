@@ -1,5 +1,7 @@
 ﻿using _Scripts.Gameplay.Animate;
 using _Scripts.Gameplay.Animate.Player;
+using _Scripts.Gameplay.General.Morgue.Bodies;
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,6 +79,26 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public float GetStopMotionFPS()
         {
             return _animSettingsSO.StopMotionFPS;
+        }
+
+        public void StartOperationState(BodyPartMorgueActor bodyPart)
+        {
+            _playerCharacterAnimator.CurrentAnimator.transform.SetParent(PlayerManager.Instance.CurrentPlayerController.CurrentOperationState.OperationStarOffsetTransform);
+            _playerCharacterAnimator.CurrentAnimator.transform.localPosition = Vector3.zero;
+            _playerCharacterAnimator.CurrentAnimator.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
+        }
+
+        public void EndOperationState(BodyPartMorgueActor bodyPart)
+        {
+            CinemachineVirtualCamera defaultVCam = CameraManager.Instance.GetVirtualCamera(EVirtualCameraType.FirstPersonView_Normal);
+
+            if (defaultVCam != null)
+            {
+                _playerCharacterAnimator.CurrentAnimator.transform.SetParent(defaultVCam.transform);
+                _playerCharacterAnimator.CurrentAnimator.transform.localPosition = Vector3.zero;
+                _playerCharacterAnimator.CurrentAnimator.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            }
         }
     }
 

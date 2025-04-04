@@ -45,20 +45,20 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
             }
 
             bool showAnimatingTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool == this && PlayerManager.Instance.CurrentPlayerController.PlayerControllerState == EPlayerControllerState.Operating;
-            _animatingTool.SetActive(showAnimatingTool);
+            //_animatingTool.SetActive(showAnimatingTool);
 
             if (_animatingTool.activeSelf)
             {
-                _animatingTool.transform.SetParent(PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.transform);
+                //_animatingTool.transform.SetParent(PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.transform);
 
-                float alpha = _operationLerpToolElapsed / _operationLerpToolDuration;
+                //float alpha = _operationLerpToolElapsed / _operationLerpToolDuration;
 
-                Vector3 newLerpOffset = Vector3.Slerp(_operationToolPreviousLocation, _operationToolTargetLocation, alpha);
+                //Vector3 newLerpOffset = Vector3.Slerp(_operationToolPreviousLocation, _operationToolTargetLocation, alpha);
 
-                Vector3 rootLocation = PlayerManager.Instance.CurrentPlayerController.CurrentOperationState.GetProgressPosition();
-                Vector3 rootRotation = PlayerManager.Instance.CurrentPlayerController.CurrentOperationState.GetProgressRotation();
-                _animatingTool.transform.localPosition = rootLocation + newLerpOffset;
-                _animatingTool.transform.eulerAngles = rootRotation;
+                //Vector3 rootLocation = PlayerManager.Instance.CurrentPlayerController.CurrentOperationState.GetProgressPosition();
+                //Vector3 rootRotation = PlayerManager.Instance.CurrentPlayerController.CurrentOperationState.GetProgressRotation();
+                //_animatingTool.transform.localPosition = rootLocation + newLerpOffset;
+                //_animatingTool.transform.eulerAngles = rootRotation;
 
                 if (_animateTool)
                 {

@@ -12,6 +12,7 @@ TagManager:
   - Human_RArm
   - Human_LLeg
   - Human_RLeg
+  - Operation_Offset
   layers:
   - Default
   - TransparentFX
