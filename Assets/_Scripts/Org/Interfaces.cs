@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 using _Scripts.Gameplay.Player.Controller;
 using Unity.VisualScripting;
@@ -399,5 +400,16 @@ namespace _Scripts.Org
         }
     }
 
+    #region TickGroup
+    public interface ITickMaster
+    {
+        bool IsUsingTickMaster();
+        Int16 GetTickID();
+    }
 
+    public interface ITickGroup
+    {
+        public UniqueTickGroup UniqueTickGroup { get; }
+    }
+    #endregion
 }
