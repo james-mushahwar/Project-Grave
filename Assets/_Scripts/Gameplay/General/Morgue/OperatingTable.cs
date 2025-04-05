@@ -27,10 +27,10 @@ namespace _Scripts.Gameplay.General.Morgue{
 
         public void Setup()
         {
-            //if (_vCamera_Above != null)
-            //{
-            //    CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_Above, _vCamera_Above);
-            //}
+            if (_vCamera_Above != null)
+            {
+                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_Above, _vCamera_Above);
+            }
 
             _tableStorageSlot.StorageParent = this;
 

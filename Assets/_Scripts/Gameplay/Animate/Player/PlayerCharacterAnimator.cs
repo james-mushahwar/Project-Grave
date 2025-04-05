@@ -52,6 +52,8 @@ namespace _Scripts.Gameplay.Animate.Player{
             OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.CurrentOperationState;
             bool isOperating = currentOpState != null;
 
+            float playbackSpeed = 1.0f;
+
             if (isOperating)
             {
                 CurrentAnimator.SetLayerWeight(_idleAnimLayer_Index, 0.0f);
@@ -85,6 +87,30 @@ namespace _Scripts.Gameplay.Animate.Player{
                     Debug.Log("Trying to play idle animation");
                 }
             }
+
+            
+            if (CurrentAnimator.speed != playbackSpeed)
+            {
+                CurrentAnimator.speed = playbackSpeed;
+            }
+        }
+
+        private float GetPlaybackSpeed()
+        {
+            float playbackSpeed = 1.0f;
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+            OperationState opState = pc.CurrentOperationState;
+            bool isOperating = false;
+
+            if (pc != null)
+            {
+                if (opState != null)
+                {
+                    isOperating = true;
+                }
+            }
+
+            return playbackSpeed;
         }
 
         public void ManagedFixedTick() 

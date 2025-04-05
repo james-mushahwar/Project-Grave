@@ -275,32 +275,35 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             if (operating)
             {
-                if (CameraManager.Instance.CmBrain.ActiveVirtualCamera != (ICinemachineCamera)CameraManager.Instance.GetVirtualCamera(EVirtualCameraType.OperatingTable_Above))
-                {
-                    // attempt leave focused body part
-                    bool backToOperatingAbove = CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.OperatingTable_Above);
-                    if (backToOperatingAbove)
-                    {
-                        Debug.Log("Back to above operating cameraview");
+                //if (CameraManager.Instance.CmBrain.ActiveVirtualCamera != (ICinemachineCamera)CameraManager.Instance.GetVirtualCamera(EVirtualCameraType.OperatingTable_Above))
+                //{
+                //    // attempt leave focused body part
+                //    bool backToOperatingAbove = CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.OperatingTable_Above);
+                //    if (backToOperatingAbove)
+                //    {
+                //        Debug.Log("Back to above operating cameraview");
 
-                    }
-                }
-                else if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.FirstPersonView_Normal))
-                {
-                    RequestPlayerControllerState(EPlayerControllerState.Normal);
+                //    }
+                //}
+                //else
+                EndOperatingState();
 
-                    BodyMorgueActor storedBody = _operatingTable.GetStorable<BodyMorgueActor>();
-                    if (storedBody != null)
-                    {
-                        storedBody.ToggleCollision(true);
-                    }
+                //if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.FirstPersonView_Normal))
+                //{
+                //    RequestPlayerControllerState(EPlayerControllerState.Normal);
 
-                    if (EquippedOperatingTool != null)
-                    {
-                        ReturnOperatingToolToSlot(EquippedOperatingTool);
-                    }
-                    _operatingTable = null;
-                }
+                //    BodyMorgueActor storedBody = _operatingTable.GetStorable<BodyMorgueActor>();
+                //    if (storedBody != null)
+                //    {
+                //        storedBody.ToggleCollision(true);
+                //    }
+
+                //    if (EquippedOperatingTool != null)
+                //    {
+                //        //ReturnOperatingToolToSlot(EquippedOperatingTool);
+                //    }
+                //    _operatingTable = null;
+                //}
             }
             else
             {
@@ -773,36 +776,53 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void BeginOperatingState(OperatingTable opTable, BodyPartMorgueActor bodyPart)
         {
-            _operatingTable = opTable;
-
-            _operationType = EOperationType.NONE;
-
-            _bodyPartMorgueActor = bodyPart;
-
-            bodyPart.OperationState.BeginOperationState();
-
-            RequestPlayerControllerState(EPlayerControllerState.Operating);
-
-            AnimationManager.Instance.StartOperationState(bodyPart);
-
-            BodyMorgueActor storedBody = _operatingTable.GetStorable<BodyMorgueActor>();
-            if (storedBody != null)
+            if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.OperatingTable_Above))
             {
-                storedBody.ToggleCollision(false);
+                _operatingTable = opTable;
+
+                _operationType = EOperationType.NONE;
+
+                _bodyPartMorgueActor = bodyPart;
+
+                bodyPart.OperationState.BeginOperationState();
+
+                
+
+                RequestPlayerControllerState(EPlayerControllerState.Operating);
+
+                AnimationManager.Instance.StartOperationState(bodyPart);
+
+                BodyMorgueActor storedBody = _operatingTable.GetStorable<BodyMorgueActor>();
+                if (storedBody != null)
+                {
+                    storedBody.ToggleCollision(false);
+                }
             }
         }
 
         public void EndOperatingState()
         {
-            _operatingTable = null;
+            if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.FirstPersonView_Normal))
+            {
+                if (_operatingTable != null)
+                {
+                    BodyMorgueActor storedBody = _operatingTable.GetStorable<BodyMorgueActor>();
+                    if (storedBody != null)
+                    {
+                        storedBody.ToggleCollision(true);
+                    }
+                }
 
-            _operationType = EOperationType.NONE;
+                _operatingTable = null;
 
-            AnimationManager.Instance.EndOperationState(_bodyPartMorgueActor);
+                _operationType = EOperationType.NONE;
 
-            _bodyPartMorgueActor = null;
+                AnimationManager.Instance.EndOperationState(_bodyPartMorgueActor);
 
-            RequestPlayerControllerState(EPlayerControllerState.Normal);
+                _bodyPartMorgueActor = null;
+
+                RequestPlayerControllerState(EPlayerControllerState.Normal);
+            }
         }
 
         public void RequestPlayerControllerState(EPlayerControllerState state)
