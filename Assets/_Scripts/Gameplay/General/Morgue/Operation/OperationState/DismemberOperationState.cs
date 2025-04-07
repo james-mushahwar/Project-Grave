@@ -19,6 +19,8 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         [SerializeField]
         private AudioHandler _bloodAudioHandler;
 
+        IEnumerator _bloodFXEnumeratorHandle;
+
         public override void TickOperationState()
         {
             base.TickOperationState();
@@ -27,14 +29,17 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             if (playBloodFX)
             {
                 ParticleSystem.MainModule mainPS = _bloodPS.main;
-                bool canPlayBloodFX = _bloodPS.isPlaying == false || (_bloodPS.isEmitting == false && _bloodPS.time >= mainPS.startDelay.constant);
+                bool canPlayBloodFX = _bloodFXEnumeratorHandle == null;
                 if (canPlayBloodFX)
                 {
                     // play blood vfx every few seconds
                     Debug.Log("Play blood fx");
-                    _bloodPS.Stop();
-                    mainPS.startDelay = Random.RandomRange(1.0f, 5.0f);
-                    _bloodPS.Play();
+                    
+                    float delay = Random.RandomRange(1.0f, 5.0f);
+
+                    OperationManager.Instance.StartCoroutine(PlayBloodFX(delay));
+                    _bloodFXEnumeratorHandle = PlayBloodFX(delay);
+                    OperationManager.Instance.StartCoroutine(_bloodFXEnumeratorHandle);
                 }
             }
         }
@@ -43,11 +48,12 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         {
             yield return new WaitForSeconds(delay);
 
-            ParticleSystem.MainModule mainPS = _bloodPS.main;
-            
+            _bloodPS.Stop();
             _bloodPS.Play();
 
-            AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.COUNT, _bloodPS.transform.position);
+            AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_BloodSplatter1, _bloodPS.transform.position);
+
+            _bloodFXEnumeratorHandle = null;
         }
 
         public override void BeginOperationState(float duration = -1)

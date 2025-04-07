@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee235e3940f5dd40ad86b8272d99de8, type: 3}
   m_Name: New Audio Concurrency Group SO
   m_EditorClassIdentifier: 
-  _maxConcurrentAudioGroup: 2
+  _maxConcurrentAudioGroup: 8
   _audioConcurrencyRule: 1

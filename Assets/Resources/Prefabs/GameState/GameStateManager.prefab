@@ -62,3 +62,5 @@ MonoBehaviour:
     type: 3}
   _taskManagerPrefab: {fileID: 5596662822224740605, guid: 836d4101380d7b24f9843d8abe44d46b,
     type: 3}
+  _operationManagerPrefab: {fileID: 3169366804645831910, guid: 79b0c46871e62c44288aeb5229adf51c,
+    type: 3}

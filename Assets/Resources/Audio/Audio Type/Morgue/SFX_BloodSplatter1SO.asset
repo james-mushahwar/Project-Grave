@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4519251591805b3479d33f26a21bfdda, type: 3}
-  m_Name: New Audio Type Scriptable Object
+  m_Name: SFX_BloodSplatter1SO
   m_EditorClassIdentifier: 
-  _audioType: 0
+  _audioType: 1000
   _audioConcurrency:
     _audioTypeConcurrency:
       _audioType: 0
