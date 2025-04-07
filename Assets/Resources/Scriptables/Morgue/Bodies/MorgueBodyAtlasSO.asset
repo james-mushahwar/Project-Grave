@@ -19,13 +19,16 @@ MonoBehaviour:
         _staticMesh: {fileID: 7230815384975375763, guid: 8d7bb59b364bb1b4aa92b0019b70cab5,
           type: 3}
         _staticMeshMaterials:
-        - {fileID: 2100000, guid: 62924d8f8c457c44db1d841ae34248e0, type: 2}
-        - {fileID: 2100000, guid: f4a9c58b832f3f64e8746253c3291953, type: 2}
-        - {fileID: 2100000, guid: 8e51dcce56c51a64d917299950b8cba7, type: 2}
-        - {fileID: 2100000, guid: e83b4401390897945ad730090c210a04, type: 2}
+        - {fileID: 2095707507676360050, guid: 8d7bb59b364bb1b4aa92b0019b70cab5, type: 3}
+        - {fileID: 2220681887494703239, guid: 8d7bb59b364bb1b4aa92b0019b70cab5, type: 3}
+        - {fileID: 2719136028619924615, guid: 8d7bb59b364bb1b4aa92b0019b70cab5, type: 3}
+        - {fileID: -8760059388537520024, guid: 8d7bb59b364bb1b4aa92b0019b70cab5, type: 3}
         _skinnedMesh: {fileID: -8979672350336402525, guid: 82daa890f1bc5d542963d1e6481fc34d,
           type: 3}
         _skinnedMeshMaterials:
+        - {fileID: 2100000, guid: c8ac4abbc00d5a54889bf2c71aa7ad44, type: 2}
+        - {fileID: 2100000, guid: c8ac4abbc00d5a54889bf2c71aa7ad44, type: 2}
+        - {fileID: 2100000, guid: c8ac4abbc00d5a54889bf2c71aa7ad44, type: 2}
         - {fileID: 2100000, guid: c8ac4abbc00d5a54889bf2c71aa7ad44, type: 2}
       _torsoMeshes:
         _staticMesh: {fileID: -2431129412440249943, guid: 6ee3e8602047bb9499a3c5fc8c22fee4,
