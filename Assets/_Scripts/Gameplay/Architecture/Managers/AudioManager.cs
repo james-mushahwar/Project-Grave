@@ -16,55 +16,25 @@ namespace _Scripts.Gameplay.Architecture.Managers{
     public enum EAudioType
     {
         //SFX
-
-        //general code = 0000
-        // small enemies
-        SFX_Enemy_SmallEnemy_DetectedPlayer                = 0000,
-        SFX_Enemy_SmallEnemy_LostPlayer                    ,
-        SFX_Enemy_SmallEnemy_Alerted                       ,
+        //player = 0
         
-        // medium enemies
+        //morgue bodies and parts = 1000
+        SFX_BloodSplatter1 = 1000,
+        //tools = 2000
 
-        // large enemies
+        //NPC = 3000
 
-        //player code = 1000
-        SFX_Player_TakeDamage                              = 1000,
-        SFX_Player_BasicAttack1                            ,
-        SFX_Player_BasicAttack2                            ,
-        SFX_Player_BasicAttack3                            ,
-        SFX_Player_BasicAttack4                            ,
-        SFX_Player_BasicAttackImpact1                      ,
-        SFX_Player_BasicAttackImpact2                      ,
-        SFX_Player_BasicAttackImpact3                      ,
-        SFX_Player_BasicAttackImpact4                      ,
-        SFX_Player_BasicAttackImpact5                      ,
-        SFX_Player_BasicAttackImpactWithLiquid1            ,
-        SFX_Player_BasicAttackImpactWithLiquid2            ,
-        SFX_Player_BasicAttackImpactWithLiquid3            ,
-        SFX_Player_BasicAttackImpactWithLiquid4            ,
-        SFX_Player_BasicAttackImpactWithLiquid5            ,
-        SFX_Player_Exposed                                 ,
-        SFX_Player_BondStart                               ,
-        SFX_Player_BondExit                                ,
-        SFX_Player_PossessStart                            ,
-        SFX_Player_Jump                                    ,
-        SFX_Player_Dash                                    ,
-        SFX_Player_Landed                                  ,
-        SFX_Player_Death                                   ,
-        SFX_Player_Respawn                                 ,
-                                                   
-        // specific enemies code = 2000                              
-        SFX_Enemy_BombDroid_BombDropAttack                 = 2000,
-        SFX_Enemy_BombDroid_ChargeBombAttack               ,
-        SFX_Enemy_BombDroid_Movement                       ,
+        //Environment = 4000
 
-        //environment = 3000                          
-        SFX_Environment_BombDroidBomb_Explosion            = 3000,
-        SFX_Environment_SpaceDoor_Open                     ,
-        SFX_Environment_SpaceDoor_Close                    ,
-        SFX_Environment_SaveStation_PowerUp                ,
-        SFX_Environment_SaveStation_PowerDown              ,
-        SFX_Environment_SaveStation_Save                   ,
+        //
+
+        //
+
+        //
+
+        //
+
+        //General (UI etc.) = 9000
 
         COUNT
     }
@@ -334,9 +304,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         #endregion
 
-        protected override void Awake()
+        public virtual void ManagedPostInitialiseGameState()
         {
-            base.Awake();
+            //base.Awake();
 
             // audio types
             List<EAudioType> audioTypes = new List<EAudioType>();
@@ -349,16 +319,16 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 }
             }
 
-            _audioSFXPaths[0] = "Audio/SFX/General/";
-            _audioSFXPaths[1] = "Audio/SFX/Player/";
-            _audioSFXPaths[2] = "Audio/SFX/Enemy/";
-            _audioSFXPaths[3] = "Audio/SFX/Environment/";
-            _audioSFXPaths[4] = "";
+            _audioSFXPaths[0] = "Audio/SFX/Player/";
+            _audioSFXPaths[1] = "Audio/SFX/Morgue/";
+            _audioSFXPaths[2] = "Audio/SFX/Tools/";
+            _audioSFXPaths[3] = "Audio/SFX/NPC/";
+            _audioSFXPaths[4] = "Audio/SFX/Environment/";
             _audioSFXPaths[5] = "";
             _audioSFXPaths[6] = "";
             _audioSFXPaths[7] = "";
             _audioSFXPaths[8] = "";
-            _audioSFXPaths[9] = "";
+            _audioSFXPaths[9] = "Audio/SFX/General/";
 
 
             UnityEngine.Object[] audioTypeSOAssets = Resources.LoadAll("Audio/Audio Type/");

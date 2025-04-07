@@ -18,6 +18,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [Header("Scriptables")]
 
         [Header("Managers")]
+        [SerializeField] private AudioManager _audioManagerPrefab;
         [SerializeField] private CameraManager _cameraManagerPrefab;
         [SerializeField] private InputManager _inputManagerPrefab;
         [SerializeField] private UIManager _uiManagerPrefab;
@@ -71,6 +72,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private void CreateManagers()
         {
             _managers.Add(GameObject.Instantiate(_inputManagerPrefab, this.transform));
+            _managers.Add(GameObject.Instantiate(_audioManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_uiManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_playerManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_animationManagerPrefab, this.transform));

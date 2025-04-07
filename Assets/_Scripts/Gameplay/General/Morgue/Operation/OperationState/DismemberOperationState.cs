@@ -1,4 +1,5 @@
-﻿using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
+﻿using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
 using DG.Tweening;
 using System;
 using System.Collections;
@@ -15,6 +16,8 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         private Transform _dismemberSiteTTransform;
         [SerializeField]
         private ParticleSystem _bloodPS;
+        [SerializeField]
+        private AudioHandler _bloodAudioHandler;
 
         public override void TickOperationState()
         {
@@ -34,6 +37,17 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
                     _bloodPS.Play();
                 }
             }
+        }
+
+        private IEnumerator PlayBloodFX(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+
+            ParticleSystem.MainModule mainPS = _bloodPS.main;
+            
+            _bloodPS.Play();
+
+            AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.COUNT, _bloodPS.transform.position);
         }
 
         public override void BeginOperationState(float duration = -1)
