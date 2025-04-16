@@ -28,10 +28,17 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public FStorageSlot GetPrimaryHand(EPlayerControllerState forceState = EPlayerControllerState.NONE)
         {
-            EPlayerControllerState playerState = forceState != EPlayerControllerState.NONE ? forceState : PlayerManager.Instance.CurrentPlayerController.PlayerControllerState;
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
 
-            bool isOperating = (playerState ==
-                                EPlayerControllerState.Operating);
+            if (pc == null)
+            {
+                return null;
+            }
+
+            EPlayerControllerState playerState = forceState != EPlayerControllerState.NONE ? forceState : pc.PlayerControllerState;
+
+            bool isOperating = OperationManager.Instance.IsInAnyOperatingMode();
+
             if (isOperating)
             {
                 return (_leftHanded ? _operatingHands.LHand : _operatingHands.RHand);
@@ -43,10 +50,17 @@ namespace _Scripts.Gameplay.Player.Controller{
         }
         public FStorageSlot GetSecondaryHand(EPlayerControllerState forceState = EPlayerControllerState.NONE)
         {
-            EPlayerControllerState playerState = forceState != EPlayerControllerState.NONE ? forceState : PlayerManager.Instance.CurrentPlayerController.PlayerControllerState;
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
 
-            bool isOperating = (playerState ==
-                                EPlayerControllerState.Operating);
+            if (pc == null)
+            {
+                return null;
+            }
+
+            EPlayerControllerState playerState = forceState != EPlayerControllerState.NONE ? forceState : pc.PlayerControllerState;
+
+            bool isOperating = OperationManager.Instance.IsInAnyOperatingMode();
+
             if (isOperating)
             {
                 return (_leftHanded ? _operatingHands.RHand : _operatingHands.LHand);
@@ -116,8 +130,14 @@ namespace _Scripts.Gameplay.Player.Controller{
         public void Tick()
         {
             // operating hands position
-            bool isOperating = (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState ==
-                                       EPlayerControllerState.Operating);
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+
+            if (pc == null)
+            {
+                return ;
+            }
+
+            bool isOperating = OperationManager.Instance.IsInAnyOperatingMode();
 
             //_operatingHandsRoot.gameObject.SetActive(isOperating);
 

@@ -21,6 +21,10 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             base.Tick();
         }
 
+        public override void RebuildOperationSites()
+        {
+        }
+
         //public override void OnDisconnect(IConnectable parent)
         //{
         //    throw new System.NotImplementedException();

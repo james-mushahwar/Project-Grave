@@ -8,16 +8,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using _Scripts.Gameplay.General.Morgue.Operation.OperationSite;
 using UnityEditor;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Bodies{
     
-    public abstract class BodyPartMorgueActor : MorgueActor, IConnectable, IStorable
+    public abstract class BodyPartMorgueActor : MorgueActor, IConnectable, IStorable, ISelect
     {
         private Collider _collider;
 
         //[SerializeField] private FPropConnector _connector;
+        [SerializeField] private EVirtualCameraType _operationOverviewType = EVirtualCameraType.OperatingTable_Above;
+
+        public EVirtualCameraType OperationCameraType
+        {
+            get { return _operationOverviewType; }
+        }
+
+        private Vector3 _defaultLocalScale;
 
         [SerializeField] private FStorable _bodyStorable;
         public EStorableSize StorableSize { get => _bodyStorable.StorableSize; }
@@ -43,6 +52,31 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         }
 
         public virtual OperationState OperationState { get => null; }
+        public virtual List<OperationState> AllOperationStates { get => null; }
+
+        [SerializeField]
+        protected List<OperationSite> _operationSites = new List<OperationSite>();
+        public virtual List<OperationSite> OperationSites
+        {
+            get
+            {
+                if (_rebuildOperationSites)
+                {
+                    _rebuildOperationSites = false;
+                    RebuildOperationSites();
+                }
+                
+                return _operationSites;
+            }
+        }
+
+        protected bool _rebuildOperationSites = true;
+
+        public bool RebuildOpSites
+        {
+            get => _rebuildOperationSites;
+            set => _rebuildOperationSites = value;
+        }
 
         protected List<Rigidbody> _rigidBodies;
 
@@ -121,6 +155,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             _rigidBodies = GetComponentsInChildren<Rigidbody>(true).ToList<Rigidbody>();
 
             //SetToRagdoll(false);
+
+            _defaultLocalScale = transform.localScale;
 
             _bodyStorable.StorableParent = this;
         }
@@ -374,6 +410,19 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         }
 
         public virtual Transform Transform { get; }
+        public void OnSelected()
+        {
+            //transform.localScale = _defaultLocalScale * 1.5f;
+
+            
+        }
+
+        public void OnDeselected()
+        {
+            //transform.localScale = _defaultLocalScale;
+        }
+
+        public abstract void RebuildOperationSites();
     }
     
 }

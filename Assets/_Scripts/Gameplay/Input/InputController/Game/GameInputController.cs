@@ -6,6 +6,7 @@ using _Scripts.Org;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using _Scripts.Gameplay.General.Morgue.Bodies;
 
 namespace _Scripts.Gameplay.Input.InputController.Game{
 
@@ -92,7 +93,17 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
             ISelect selectable = null;
             if (_selectedObject != null)
             {
-                selectable = _selectedObject.GetComponent<ISelect>();
+                selectable = GetSelectedObject<ISelect>();
+
+               if (selectable == null)
+               {
+                   selectable = GetSelectedObjectParent<BodyPartMorgueActor>();
+
+                   if (selectable == null)
+                   {
+                       selectable = MorgueManager.Instance.GetBodyPartActorParent(SelectedObject);
+                   }
+                }
             }
 
             if (_selectable == null || _selectable != selectable)
@@ -131,7 +142,7 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
         }
 
         #region Operating
-        public void Operating_OnScroll(InputAction.CallbackContext callbackContext)
+        public void Operating_OnCycle(InputAction.CallbackContext callbackContext)
         {
             float scroll = callbackContext.ReadValue<float>();
             //Debug.Log("Scroll is : " + scroll);
@@ -150,6 +161,46 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
                 }
             }
             
+        }
+
+        public void Operating_ScrollVert(InputAction.CallbackContext callbackContext)
+        {
+            float input = callbackContext.ReadValue<float>();
+            //Debug.Log("Scroll is : " + scroll);
+
+            if (input != 0.0f)
+            {
+                if (input < 0.0f)
+                {
+                    DirectionInput = new Vector2(0.0f, -1.0f);
+                    _directionInputValid = true;
+                }
+                else
+                {
+                    DirectionInput = new Vector2(0.0f, 1.0f);
+                    _directionInputValid = true;
+                }
+            }
+        }
+
+        public void Operating_ScrollHorz(InputAction.CallbackContext callbackContext)
+        {
+            float input = callbackContext.ReadValue<float>();
+            //Debug.Log("Scroll is : " + scroll);
+
+            if (input != 0.0f)
+            {
+                if (input < 0.0f)
+                {
+                    DirectionInput = new Vector2(-1.0f, 0.0f);
+                    _directionInputValid = true;
+                }
+                else
+                {
+                    DirectionInput = new Vector2(1.0f, 0.0f);
+                    _directionInputValid = true;
+                }
+            }
         }
         #endregion
     }

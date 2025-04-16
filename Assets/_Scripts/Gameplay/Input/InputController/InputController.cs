@@ -95,6 +95,8 @@ namespace _Scripts.Gameplay.Input.InputController{
             set { _rightTriggerDown = value; }
         }
 
+        protected bool _directionInputValid = false;
+        protected bool _moveInputValid = false;
         protected bool _northInputValid = false;
         protected bool _southInputValid = false;
         protected bool _eastInputValid = false;
@@ -232,6 +234,56 @@ namespace _Scripts.Gameplay.Input.InputController{
         {
 
         }
+
+        #region Selected Object
+
+        public T GetSelectedObject<T>(GameObject selectedGameObject = null) where T : class
+        {
+            T selected = default;
+
+            GameObject selectedGO = selectedGameObject != null ? selectedGameObject : SelectedObject;
+
+            T selectedType = SelectedObject as T;
+
+            if (selectedGO != null)
+            {
+                selected = selectedGO.GetComponent<T>();
+                if (selected != null)
+                {
+                    return selected;
+                }
+            }
+            else if (selectedType != null)
+            {
+                selected = selectedType as T;
+                if (selected != null)
+                {
+                    return selected;
+                }
+            }
+
+            return selected;
+        }
+
+        public T GetSelectedObjectParent<T>(GameObject selectedGameObject = null) where T : class
+        {
+            T selected = default;
+
+            GameObject selectedGO = selectedGameObject != null ? selectedGameObject : SelectedObject;
+
+            if (selectedGO != null)
+            {
+                selected = selectedGO.GetComponentInParent<T>();
+                if (selected != null)
+                {
+                    return selected;
+                }
+            }
+
+            return selected;
+        }
+
+        #endregion
     }
 
 }

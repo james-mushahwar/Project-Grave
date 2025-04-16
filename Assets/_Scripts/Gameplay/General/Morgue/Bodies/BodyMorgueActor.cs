@@ -158,8 +158,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
             bool normal = PlayerManager.Instance.CurrentPlayerController.PlayerControllerState ==
                           EPlayerControllerState.Normal;
-            bool operating = PlayerManager.Instance.CurrentPlayerController.PlayerControllerState ==
-                             EPlayerControllerState.Operating;
+            bool operating = OperationManager.Instance.IsInAnyOperatingMode();
 
             if (_bodyStorable.Stored != null)
             {

@@ -3,6 +3,7 @@ using Cinemachine;
 using MoreMountains.Tools;
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Gameplay.UI.Reticle;
 using UnityEngine;
 
@@ -51,7 +52,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // before play begins 
         public virtual void ManagedPrePlayGame()
         {
-            if (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState == Player.Controller.EPlayerControllerState.Operating)
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+            if (OperationManager.Instance.IsInAnyOperatingMode(pc))
             {
                 _gameplayOperationViewGroup.SetActive(true);
             }

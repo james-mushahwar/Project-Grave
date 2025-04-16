@@ -69,14 +69,34 @@ namespace _Scripts.Gameplay.Player.Controller{
             get => _playerControllerState;
         }
 
-        private EOperationType _operationType = EOperationType.NONE;
-        public EOperationType OperationType { get => _operationType; }
+        public EOperationType OperationType
+        {
+            get
+            {
+                if (CurrentOperationState != null)
+                {
+                    return CurrentOperationState.OperationType;
+                }
+
+                return EOperationType.NONE;
+            }
+        }
 
         [Header("Mouse Look Settings")]
         [SerializeField] private float mouseSensitivity = 100f;
         private float xRotation = 0f;
 
         public InputController InputController { get; private set; }
+
+        #region PlayerCharacter
+        [SerializeField]
+        private Transform _playerCharacterHolder;
+
+        public Transform PlayerCharacterHolder
+        {
+            get { return _playerCharacterHolder; }
+        }
+        #endregion
 
         #region PlayerStorage
         [SerializeField] private PlayerStorage _playerStorage;
@@ -112,7 +132,6 @@ namespace _Scripts.Gameplay.Player.Controller{
             get { return _equippedOperatingTool; }
             set { _equippedOperatingTool = value; }
         }
-
         #endregion
 
         private void Start()
@@ -132,7 +151,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                 velocity.y = -2f; // Reset the vertical velocity when grounded
             }
 
-            IInteractable interactable = GetSelectedObject<IInteractable>();
+            IInteractable interactable = InputController.GetSelectedObject<IInteractable>();
             UIManager.Instance.ShowInteractReticle = interactable != null;
         }
 
@@ -149,7 +168,7 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void PossessFixedTick()
         {
-            bool operating = PlayerControllerState == EPlayerControllerState.Operating;
+            bool operating = OperationManager.Instance.IsInAnyOperatingMode();
 
             if (InputController.CheckAndNullifyInput(EInputType.SButton))
             {
@@ -268,9 +287,9 @@ namespace _Scripts.Gameplay.Player.Controller{
             {
                 return;
             }
-    
-            bool operating = PlayerControllerState == EPlayerControllerState.Operating;
-            
+
+            bool operating = OperationManager.Instance.IsInAnyOperatingMode();
+
             Debug.Log("Attempt leave");
 
             if (operating)
@@ -396,7 +415,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                 return;
             }
 
-            bool operating = PlayerControllerState == EPlayerControllerState.Operating;
+            bool operating = OperationManager.Instance.IsInAnyOperatingMode();
 
             if (operating)
             {
@@ -437,7 +456,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                 return;
             }
 
-            bool operating = PlayerControllerState == EPlayerControllerState.Operating;
+            bool operating = OperationManager.Instance.IsInAnyOperatingMode();
 
             if (operating)
             {
@@ -534,51 +553,6 @@ namespace _Scripts.Gameplay.Player.Controller{
             InputController = null;
         }
 
-        public T GetSelectedObject<T>() where T : class
-        {
-            T selected = default;
-
-            GameObject selectedGO = InputController.SelectedObject;
-            T selectedType = InputController.Selectable as T;
-
-            if (selectedGO != null)
-            {
-                selected = selectedGO.GetComponent<T>();
-                if (selected != null)
-                {
-                    return selected;
-                }
-            }
-            else if (selectedType != null)
-            {
-                selected = selectedType as T;
-                if (selected != null)
-                {
-                    return selected;
-                }
-            }
-
-            return selected;
-        }
-
-        public T GetSelectedObjectParent<T>() where T : class
-        {
-            T selected = default;
-
-            GameObject selectedGO = InputController.SelectedObject;
-
-            if (selectedGO != null)
-            {
-                selected = selectedGO.GetComponentInParent<T>();
-                if (selected != null)
-                {
-                    return selected;
-                }
-            }
-
-            return selected;
-        }
-
         public T GetInputController<T>() where T : InputController
         {
             T inputController = null;
@@ -599,7 +573,7 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
 
             Debug.Log("Action input");
-            bool operating = PlayerControllerState == EPlayerControllerState.Operating;
+            bool operating = OperationManager.Instance.IsInAnyOperatingMode();
 
             //if (operating)
             //{
@@ -626,7 +600,7 @@ namespace _Scripts.Gameplay.Player.Controller{
             //            if (bodyPart.IsConnected())
             //            {
             //                IConnectable disconnectedPart = bodyPart.TryDisconnect(null);
-                            
+
             //                if (disconnectedPart != null)
             //                {
             //                    if (CameraManager.Instance.CmBrain.ActiveVirtualCamera == (ICinemachineCamera)bodyPart.VirtualCamera)
@@ -690,7 +664,7 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             //                }
 
-                            
+
             //            }
             //        }
             //    }
@@ -702,10 +676,10 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
             else
             {
-                BodyPartMorgueActor bodyPart = GetSelectedObject<BodyPartMorgueActor>();
+                BodyPartMorgueActor bodyPart = InputController.GetSelectedObject<BodyPartMorgueActor>();
                 if (bodyPart == null)
                 {
-                    bodyPart = GetSelectedObjectParent<BodyPartMorgueActor>();
+                    bodyPart = InputController.GetSelectedObjectParent<BodyPartMorgueActor>();
 
                     if (bodyPart == null)
                     {
@@ -715,22 +689,33 @@ namespace _Scripts.Gameplay.Player.Controller{
 
                 if (bodyPart != null)
                 {
-                    OperationDismemberMorgueTool dismemberTool = EquippedOperatingTool as OperationDismemberMorgueTool;
-                    if (dismemberTool != null)
+                    // is it a body part that can be inspected? - on operating table?
+                    if (bodyPart.IsConnected() && bodyPart.OperationState != null)
                     {
-                        if (bodyPart.IsConnected() && bodyPart.OperationState != null)
+                        OperatingTable opTable = bodyPart.BodyMorgueActor.Stored.GetStorageParent() as OperatingTable;
+                        if (opTable != null)
                         {
-                            OperatingTable opTable = bodyPart.BodyMorgueActor.Stored.GetStorageParent() as OperatingTable;
-                            BeginOperatingState(opTable, bodyPart);
+                            BeginOperatingOverview(opTable, bodyPart);
                             return;
                         }
                     }
+
+                    //OperationDismemberMorgueTool dismemberTool = EquippedOperatingTool as OperationDismemberMorgueTool;
+                    //if (dismemberTool != null)
+                    //{
+                    //    if (bodyPart.IsConnected() && bodyPart.OperationState != null)
+                    //    {
+                    //        //OperatingTable opTable = bodyPart.BodyMorgueActor.Stored.GetStorageParent() as OperatingTable;
+                    //        BeginOperatingState(opTable, bodyPart);
+                    //        return;
+                    //    }
+                    //}
                 }
 
-                IInteractable interactable = GetSelectedObject<IInteractable>();
+                IInteractable interactable = InputController.GetSelectedObject<IInteractable>();
                 if (interactable == null)
                 {
-                    interactable = GetSelectedObjectParent<IInteractable>();
+                    interactable = InputController.GetSelectedObjectParent<IInteractable>();
                 }
 
                 if (interactable != null)
@@ -742,10 +727,10 @@ namespace _Scripts.Gameplay.Player.Controller{
                     }
                 }
 
-                IStorable storable = GetSelectedObject<IStorable>();
+                IStorable storable = InputController.GetSelectedObject<IStorable>();
                 if (storable == null)
                 {
-                    storable = GetSelectedObjectParent<IStorable>();
+                    storable = InputController.GetSelectedObjectParent<IStorable>();
                 }
 
                 if (storable != null)
@@ -774,29 +759,55 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
         }
 
-        public void BeginOperatingState(OperatingTable opTable, BodyPartMorgueActor bodyPart)
+        public void BeginOperatingOverview(OperatingTable opTable, BodyPartMorgueActor bodyPart)
         {
-            if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.OperatingTable_Above))
+            EVirtualCameraType cameraType = EVirtualCameraType.OperatingTable_Above;
+            if (bodyPart.OperationCameraType != EVirtualCameraType.NONE)
+            {
+                cameraType = bodyPart.OperationCameraType;
+            }
+
+            if (CameraManager.Instance.ActivateVirtualCamera(cameraType))
             {
                 _operatingTable = opTable;
 
-                _operationType = EOperationType.NONE;
-
                 _bodyPartMorgueActor = bodyPart;
 
-                bodyPart.OperationState.BeginOperationState();
+                OperationManager.Instance.OnStartBodyPartOperationOverview(bodyPart);
 
-                
+                //bodyPart.OperationState.BeginOperationState();
 
                 RequestPlayerControllerState(EPlayerControllerState.Operating);
 
-                AnimationManager.Instance.StartOperationState(bodyPart);
+                //AnimationManager.Instance.StartOperationState(bodyPart);
 
                 BodyMorgueActor storedBody = _operatingTable.GetStorable<BodyMorgueActor>();
                 if (storedBody != null)
                 {
                     storedBody.ToggleCollision(false);
                 }
+            }
+        }
+
+        public void BeginOperatingState(OperatingTable opTable, BodyPartMorgueActor bodyPart)
+        {
+            if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.OperatingTable_Above))
+            {
+                _operatingTable = opTable;
+
+                _bodyPartMorgueActor = bodyPart;
+
+                bodyPart.OperationState.BeginOperationState();
+
+                //RequestPlayerControllerState(EPlayerControllerState.Operating);
+
+                AnimationManager.Instance.StartOperationState(bodyPart);
+
+                //BodyMorgueActor storedBody = _operatingTable.GetStorable<BodyMorgueActor>();
+                //if (storedBody != null)
+                //{
+                //    storedBody.ToggleCollision(false);
+                //}
             }
         }
 
@@ -814,8 +825,6 @@ namespace _Scripts.Gameplay.Player.Controller{
                 }
 
                 _operatingTable = null;
-
-                _operationType = EOperationType.NONE;
 
                 AnimationManager.Instance.EndOperationState(_bodyPartMorgueActor);
 
@@ -870,13 +879,16 @@ namespace _Scripts.Gameplay.Player.Controller{
                         mpi.Game.Operating_ActionL.started += Operating_ActionL;
                         mpi.Game.Operating_ActionR.started += Operating_ActionR;
 
-                        mpi.Game.Operating_Scroll.Enable();
+                        mpi.Game.Operating_Cycle.Enable();
                         //mpi.Game.Operating_Scroll.started += Operating_OnScroll;
                         if (gameIC)
                         {
-                            mpi.Game.Operating_Scroll.started += gameIC.Operating_OnScroll;
+                            mpi.Game.Operating_Cycle.started += gameIC.Operating_OnCycle;
                         }
                         //mpi.Game.Operating_Scroll.canceled += ctx => _opScroll = 0.0f;
+
+                        mpi.Game.Operating_ScrollVert.Enable();
+                        mpi.Game.Operating_ScrollHorz.Enable();
                         break;
                     case EPlayerControllerState.OpenCoat:
                         cursorLock = CursorLockMode.Confined;
@@ -925,12 +937,15 @@ namespace _Scripts.Gameplay.Player.Controller{
                         mpi.Game.Operating_ActionL.started -= Operating_ActionL;
                         mpi.Game.Operating_ActionR.started -= Operating_ActionR;
                         
-                        mpi.Game.Operating_Scroll.Disable();
+                        mpi.Game.Operating_Cycle.Disable();
                         //mpi.Game.Operating_Scroll.started -= Operating_OnScroll;
                         if (gameIC)
                         {
-                            mpi.Game.Operating_Scroll.started -= gameIC.Operating_OnScroll;
+                            mpi.Game.Operating_Cycle.started -= gameIC.Operating_OnCycle;
                         }
+                        mpi.Game.Operating_ScrollVert.Disable();
+                        mpi.Game.Operating_ScrollHorz.Disable();
+
                         break;
 
                     case EPlayerControllerState.OpenCoat:

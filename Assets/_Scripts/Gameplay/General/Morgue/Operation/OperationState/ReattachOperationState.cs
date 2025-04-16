@@ -1,16 +1,15 @@
 ﻿using _Scripts.Gameplay.Architecture.Managers;
-using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
-using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+
 namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
 
     [Serializable]
-    public class DismemberOperationState : OperationState
+    public class ReattachOperationState : OperationState
     {
         [SerializeField]
         private Transform _dismemberSiteTransform;
@@ -34,7 +33,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
                 {
                     // play blood vfx every few seconds
                     Debug.Log("Play blood fx");
-                    
+
                     float delay = Random.RandomRange(1.0f, 5.0f);
 
                     OperationManager.Instance.StartCoroutine(PlayBloodFX(delay));
@@ -95,5 +94,5 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             return IsComplete() == false;
         }
     }
-    
+
 }

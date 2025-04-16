@@ -10,12 +10,19 @@ using _Scripts.Gameplay.General.Identification;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
-    public enum EVirtualCameraType : uint
+    public enum EVirtualCameraType : int
     {
+        NONE = -1,
         //player
         FirstPersonView_Normal = 0,
         //scene
         OperatingTable_Above = 100,
+        OperatingTable_Torso_Overview,
+        OperatingTable_Head_Overview,
+        OperatingTable_RArm_Overview,
+        OperatingTable_RLeg_Overview,
+        OperatingTable_LArm_Overview,
+        OperatingTable_LLeg_Overview,
     }
 
     public class CameraManager : GameManager<CameraManager>, IManager

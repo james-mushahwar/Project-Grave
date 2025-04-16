@@ -960,9 +960,27 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Operating_Scroll",
+                    "name": "Operating_Cycle",
                     "type": "Button",
                     "id": "e1d43e26-3b18-4684-9b39-76c4f063fc19",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Operating_ScrollVert",
+                    "type": "Button",
+                    "id": "7e91d09f-f848-4303-ad64-2bf599e61dc8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Operating_ScrollHorz",
+                    "type": "Button",
+                    "id": "29292156-c03d-413e-80d4-8e855081c2e9",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -1259,7 +1277,7 @@
                     "interactions": "",
                     "processors": "Clamp(min=-1,max=1)",
                     "groups": "",
-                    "action": "Operating_Scroll",
+                    "action": "Operating_Cycle",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -1270,7 +1288,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Operating_Scroll",
+                    "action": "Operating_Cycle",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -1281,7 +1299,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Operating_Scroll",
+                    "action": "Operating_Cycle",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -1292,7 +1310,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Operating_Scroll",
+                    "action": "Operating_Cycle",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -1303,7 +1321,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Operating_Scroll",
+                    "action": "Operating_Cycle",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -1314,7 +1332,73 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Operating_Scroll",
+                    "action": "Operating_Cycle",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Dpad L/R",
+                    "id": "4297983e-86cd-455f-af3b-0689a8051f89",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Operating_ScrollHorz",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "83b8a8a4-e80d-42f4-8c0c-10404958dba5",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Operating_ScrollHorz",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "4611656a-6ac5-4fdc-b18c-13b0d1282fd0",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Operating_ScrollHorz",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Dpad Up/Down",
+                    "id": "809fb997-298d-43f8-8cda-d5574f462ba8",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Operating_ScrollVert",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "342684b3-1024-4bd3-bae6-2a0e055b4dd0",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Operating_ScrollVert",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "ce43abad-32cb-42de-adfe-77f72110c462",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Operating_ScrollVert",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

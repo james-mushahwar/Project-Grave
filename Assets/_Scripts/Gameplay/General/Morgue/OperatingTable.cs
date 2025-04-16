@@ -18,7 +18,13 @@ namespace _Scripts.Gameplay.General.Morgue{
         [SerializeField]
         private List<EMorgueAnimType> _morgueAnimTypes = new List<EMorgueAnimType>();
 
-        [SerializeField] private CinemachineVirtualCamera _vCamera_Above;
+        [SerializeField] private CinemachineVirtualCamera _vCamera_AboveView;
+        [SerializeField] private CinemachineVirtualCamera _vCamera_TorsoView;
+        [SerializeField] private CinemachineVirtualCamera _vCamera_HeadView;
+        [SerializeField] private CinemachineVirtualCamera _vCamera_RArmView;
+        [SerializeField] private CinemachineVirtualCamera _vCamera_RLegView;
+        [SerializeField] private CinemachineVirtualCamera _vCamera_LArmView;
+        [SerializeField] private CinemachineVirtualCamera _vCamera_LLegView; 
 
         [SerializeField] private List<MorgueToolActor> _operatingTools = new List<MorgueToolActor>();
         public int OperatingToolsCount { get { return _operatingTools.Count; } }
@@ -27,9 +33,15 @@ namespace _Scripts.Gameplay.General.Morgue{
 
         public void Setup()
         {
-            if (_vCamera_Above != null)
+            if (_vCamera_AboveView != null)
             {
-                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_Above, _vCamera_Above);
+                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_Above, _vCamera_AboveView);
+                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_Head_Overview, _vCamera_HeadView);
+                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_Torso_Overview, _vCamera_TorsoView);
+                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_RArm_Overview, _vCamera_RArmView);
+                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_RLeg_Overview, _vCamera_RLegView);
+                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_LArm_Overview, _vCamera_LArmView);
+                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_LLeg_Overview, _vCamera_LLegView);
             }
 
             _tableStorageSlot.StorageParent = this;

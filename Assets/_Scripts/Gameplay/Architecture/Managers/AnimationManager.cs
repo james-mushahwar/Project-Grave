@@ -5,6 +5,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using _Scripts.Gameplay.Player.Controller;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
@@ -91,11 +92,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public void EndOperationState(BodyPartMorgueActor bodyPart)
         {
-            CinemachineVirtualCamera defaultVCam = CameraManager.Instance.GetVirtualCamera(EVirtualCameraType.FirstPersonView_Normal);
+            //CinemachineVirtualCamera defaultVCam = CameraManager.Instance.GetVirtualCamera(EVirtualCameraType.FirstPersonView_Normal);
+            Transform playerCharHolder = PlayerManager.Instance.CurrentPlayerController.PlayerCharacterHolder;
 
-            if (defaultVCam != null)
+            if (playerCharHolder != null)
             {
-                _playerCharacterAnimator.CurrentAnimator.transform.SetParent(defaultVCam.transform);
+                _playerCharacterAnimator.CurrentAnimator.transform.SetParent(playerCharHolder);
                 _playerCharacterAnimator.CurrentAnimator.transform.localPosition = Vector3.zero;
                 _playerCharacterAnimator.CurrentAnimator.transform.localRotation = Quaternion.Euler(Vector3.zero);
             }

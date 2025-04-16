@@ -6,7 +6,9 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
     
     public class LegMorgueActor : BodyPartMorgueActor
     {
-        
+        public override void RebuildOperationSites()
+        {
+        }
     }
     
 }

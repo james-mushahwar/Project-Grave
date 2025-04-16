@@ -79,6 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fa439ad8bcb14e4fb8b1be4f867188a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _operationOverviewType: 105
   _bodyStorable:
     _storableSize: 10
     _storableType: 0
@@ -93,6 +94,37 @@ MonoBehaviour:
     _duration: 1
     _dismemberSiteTTransform: {fileID: 0}
     _bloodPS: {fileID: 0}
+    _bloodAudioHandler:
+      _attachAudioSource: 0
+      _position: {x: 0, y: 0, z: 0}
+      _defaultVolumeAlpha: 0
+      _defaultPitchAlpha: 0
+      _audioType: 0
+      _active: 0
+      _release: 0
+      _audioSource: {fileID: 0}
+      _handleParametersSO: {fileID: 0}
+      _loops: 0
+      _canReplayCurrentlyPlayingSource: 0
+  _reattachOperationState:
+    _operationType: 0
+    _operationStartTransform: {fileID: 0}
+    _operationEndTransform: {fileID: 0}
+    _duration: 1
+    _dismemberSiteTTransform: {fileID: 0}
+    _bloodPS: {fileID: 0}
+    _bloodAudioHandler:
+      _attachAudioSource: 0
+      _position: {x: 0, y: 0, z: 0}
+      _defaultVolumeAlpha: 0
+      _defaultPitchAlpha: 0
+      _audioType: 0
+      _active: 0
+      _release: 0
+      _audioSource: {fileID: 0}
+      _handleParametersSO: {fileID: 0}
+      _loops: 0
+      _canReplayCurrentlyPlayingSource: 0
 --- !u!114 &6276072081754572019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1160,6 +1192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f7f45e7056cae48aa5e453d740d8ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _operationOverviewType: 102
   _bodyStorable:
     _storableSize: 0
     _storableType: 0
@@ -1638,6 +1671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fa439ad8bcb14e4fb8b1be4f867188a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _operationOverviewType: 103
   _bodyStorable:
     _storableSize: 0
     _storableType: 0
@@ -1652,6 +1686,37 @@ MonoBehaviour:
     _duration: 1
     _dismemberSiteTTransform: {fileID: 0}
     _bloodPS: {fileID: 5243619660665542530}
+    _bloodAudioHandler:
+      _attachAudioSource: 0
+      _position: {x: 0, y: 0, z: 0}
+      _defaultVolumeAlpha: 0
+      _defaultPitchAlpha: 0
+      _audioType: 0
+      _active: 0
+      _release: 0
+      _audioSource: {fileID: 0}
+      _handleParametersSO: {fileID: 0}
+      _loops: 0
+      _canReplayCurrentlyPlayingSource: 0
+  _reattachOperationState:
+    _operationType: 100
+    _operationStartTransform: {fileID: 0}
+    _operationEndTransform: {fileID: 0}
+    _duration: 1
+    _dismemberSiteTTransform: {fileID: 0}
+    _bloodPS: {fileID: 0}
+    _bloodAudioHandler:
+      _attachAudioSource: 0
+      _position: {x: 0, y: 0, z: 0}
+      _defaultVolumeAlpha: 0
+      _defaultPitchAlpha: 0
+      _audioType: 0
+      _active: 0
+      _release: 0
+      _audioSource: {fileID: 0}
+      _handleParametersSO: {fileID: 0}
+      _loops: 0
+      _canReplayCurrentlyPlayingSource: 0
 --- !u!114 &2845633092960539945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7620,6 +7685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d31f66da05da1845a35c07ad0639c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _operationOverviewType: 106
   _bodyStorable:
     _storableSize: 0
     _storableType: 0
@@ -8641,6 +8707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d31f66da05da1845a35c07ad0639c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _operationOverviewType: 104
   _bodyStorable:
     _storableSize: 0
     _storableType: 0
@@ -9034,6 +9101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 714cf9929d2999d468df9d0a1c8c9af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _operationOverviewType: 101
   _bodyStorable:
     _storableSize: 10
     _storableType: 0

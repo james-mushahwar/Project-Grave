@@ -982,9 +982,27 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Operating_Scroll"",
+                    ""name"": ""Operating_Cycle"",
                     ""type"": ""Button"",
                     ""id"": ""e1d43e26-3b18-4684-9b39-76c4f063fc19"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Operating_ScrollVert"",
+                    ""type"": ""Button"",
+                    ""id"": ""7e91d09f-f848-4303-ad64-2bf599e61dc8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Operating_ScrollHorz"",
+                    ""type"": ""Button"",
+                    ""id"": ""29292156-c03d-413e-80d4-8e855081c2e9"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1281,7 +1299,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": ""Clamp(min=-1,max=1)"",
                     ""groups"": """",
-                    ""action"": ""Operating_Scroll"",
+                    ""action"": ""Operating_Cycle"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -1292,7 +1310,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Operating_Scroll"",
+                    ""action"": ""Operating_Cycle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -1303,7 +1321,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Operating_Scroll"",
+                    ""action"": ""Operating_Cycle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -1314,7 +1332,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Operating_Scroll"",
+                    ""action"": ""Operating_Cycle"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -1325,7 +1343,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Operating_Scroll"",
+                    ""action"": ""Operating_Cycle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -1336,7 +1354,73 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Operating_Scroll"",
+                    ""action"": ""Operating_Cycle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Dpad L/R"",
+                    ""id"": ""4297983e-86cd-455f-af3b-0689a8051f89"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_ScrollHorz"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""83b8a8a4-e80d-42f4-8c0c-10404958dba5"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_ScrollHorz"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""4611656a-6ac5-4fdc-b18c-13b0d1282fd0"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_ScrollHorz"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Dpad Up/Down"",
+                    ""id"": ""809fb997-298d-43f8-8cda-d5574f462ba8"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_ScrollVert"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""342684b3-1024-4bd3-bae6-2a0e055b4dd0"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_ScrollVert"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""ce43abad-32cb-42de-adfe-77f72110c462"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_ScrollVert"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -1377,7 +1461,9 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         m_Game_Back = m_Game.FindAction("Back", throwIfNotFound: true);
         m_Game_Debug_SpawnBody = m_Game.FindAction("Debug_SpawnBody", throwIfNotFound: true);
         m_Game_Inventory = m_Game.FindAction("Inventory", throwIfNotFound: true);
-        m_Game_Operating_Scroll = m_Game.FindAction("Operating_Scroll", throwIfNotFound: true);
+        m_Game_Operating_Cycle = m_Game.FindAction("Operating_Cycle", throwIfNotFound: true);
+        m_Game_Operating_ScrollVert = m_Game.FindAction("Operating_ScrollVert", throwIfNotFound: true);
+        m_Game_Operating_ScrollHorz = m_Game.FindAction("Operating_ScrollHorz", throwIfNotFound: true);
         m_Game_Operating_ActionL = m_Game.FindAction("Operating_ActionL", throwIfNotFound: true);
         m_Game_Operating_ActionR = m_Game.FindAction("Operating_ActionR", throwIfNotFound: true);
     }
@@ -1669,7 +1755,9 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_Back;
     private readonly InputAction m_Game_Debug_SpawnBody;
     private readonly InputAction m_Game_Inventory;
-    private readonly InputAction m_Game_Operating_Scroll;
+    private readonly InputAction m_Game_Operating_Cycle;
+    private readonly InputAction m_Game_Operating_ScrollVert;
+    private readonly InputAction m_Game_Operating_ScrollHorz;
     private readonly InputAction m_Game_Operating_ActionL;
     private readonly InputAction m_Game_Operating_ActionR;
     public struct GameActions
@@ -1684,7 +1772,9 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Back => m_Wrapper.m_Game_Back;
         public InputAction @Debug_SpawnBody => m_Wrapper.m_Game_Debug_SpawnBody;
         public InputAction @Inventory => m_Wrapper.m_Game_Inventory;
-        public InputAction @Operating_Scroll => m_Wrapper.m_Game_Operating_Scroll;
+        public InputAction @Operating_Cycle => m_Wrapper.m_Game_Operating_Cycle;
+        public InputAction @Operating_ScrollVert => m_Wrapper.m_Game_Operating_ScrollVert;
+        public InputAction @Operating_ScrollHorz => m_Wrapper.m_Game_Operating_ScrollHorz;
         public InputAction @Operating_ActionL => m_Wrapper.m_Game_Operating_ActionL;
         public InputAction @Operating_ActionR => m_Wrapper.m_Game_Operating_ActionR;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
@@ -1720,9 +1810,15 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
-            @Operating_Scroll.started += instance.OnOperating_Scroll;
-            @Operating_Scroll.performed += instance.OnOperating_Scroll;
-            @Operating_Scroll.canceled += instance.OnOperating_Scroll;
+            @Operating_Cycle.started += instance.OnOperating_Cycle;
+            @Operating_Cycle.performed += instance.OnOperating_Cycle;
+            @Operating_Cycle.canceled += instance.OnOperating_Cycle;
+            @Operating_ScrollVert.started += instance.OnOperating_ScrollVert;
+            @Operating_ScrollVert.performed += instance.OnOperating_ScrollVert;
+            @Operating_ScrollVert.canceled += instance.OnOperating_ScrollVert;
+            @Operating_ScrollHorz.started += instance.OnOperating_ScrollHorz;
+            @Operating_ScrollHorz.performed += instance.OnOperating_ScrollHorz;
+            @Operating_ScrollHorz.canceled += instance.OnOperating_ScrollHorz;
             @Operating_ActionL.started += instance.OnOperating_ActionL;
             @Operating_ActionL.performed += instance.OnOperating_ActionL;
             @Operating_ActionL.canceled += instance.OnOperating_ActionL;
@@ -1757,9 +1853,15 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
-            @Operating_Scroll.started -= instance.OnOperating_Scroll;
-            @Operating_Scroll.performed -= instance.OnOperating_Scroll;
-            @Operating_Scroll.canceled -= instance.OnOperating_Scroll;
+            @Operating_Cycle.started -= instance.OnOperating_Cycle;
+            @Operating_Cycle.performed -= instance.OnOperating_Cycle;
+            @Operating_Cycle.canceled -= instance.OnOperating_Cycle;
+            @Operating_ScrollVert.started -= instance.OnOperating_ScrollVert;
+            @Operating_ScrollVert.performed -= instance.OnOperating_ScrollVert;
+            @Operating_ScrollVert.canceled -= instance.OnOperating_ScrollVert;
+            @Operating_ScrollHorz.started -= instance.OnOperating_ScrollHorz;
+            @Operating_ScrollHorz.performed -= instance.OnOperating_ScrollHorz;
+            @Operating_ScrollHorz.canceled -= instance.OnOperating_ScrollHorz;
             @Operating_ActionL.started -= instance.OnOperating_ActionL;
             @Operating_ActionL.performed -= instance.OnOperating_ActionL;
             @Operating_ActionL.canceled -= instance.OnOperating_ActionL;
@@ -1817,7 +1919,9 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         void OnBack(InputAction.CallbackContext context);
         void OnDebug_SpawnBody(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
-        void OnOperating_Scroll(InputAction.CallbackContext context);
+        void OnOperating_Cycle(InputAction.CallbackContext context);
+        void OnOperating_ScrollVert(InputAction.CallbackContext context);
+        void OnOperating_ScrollHorz(InputAction.CallbackContext context);
         void OnOperating_ActionL(InputAction.CallbackContext context);
         void OnOperating_ActionR(InputAction.CallbackContext context);
     }

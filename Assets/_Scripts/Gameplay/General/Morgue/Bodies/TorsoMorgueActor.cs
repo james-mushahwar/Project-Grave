@@ -182,6 +182,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             return found;
         }
 
+        public override void RebuildOperationSites()
+        {
+            
+        }
+
         public override void OnDisconnect(IConnectable parent)
         {
 

@@ -11,6 +11,7 @@ namespace _Scripts.Gameplay.UI.Reticle{
     {
         [SerializeField] private Image _reticleDefaultImage;
         [SerializeField] private Image _reticleInteractImage;
+        [SerializeField] private Image _reticleInspectImage;
         //[SerializeField] private Sprite _defaultReticleSprite;
         //[SerializeField] private Sprite _interactReticleSprite;
 

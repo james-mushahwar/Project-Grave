@@ -32,6 +32,10 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
 
         [SerializeField]
         private EOperationType _operationType;
+        public EOperationType OperationType
+        {
+            get => _operationType; 
+        }
 
         private float _elapsedProgress = 0.0f; // 0 to 1
         private float _proceedStep = 0.1f;
@@ -64,7 +68,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
 
             if (_operationStartOffsetTransform == null)
             {
-                GameObject go = CTGlobal.FindGameObjectInChildWithTag(_operationStartTransform.gameObject, "Operation_Offset");
+                GameObject go = CTGlobal.FindGameObjectInChildWithTag(OperationStartTransform.gameObject, "Operation_Offset");
                 _operationStartOffsetTransform = go.transform;
             }
         }
@@ -93,7 +97,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         {
             float alpha = NormalisedProgress;
 
-            Vector3 progressPos = Vector3.Slerp(_operationStartTransform.localPosition, _operationEndTransform.localPosition, alpha);
+            Vector3 progressPos = Vector3.Slerp(OperationStartTransform.localPosition, _operationEndTransform.localPosition, alpha);
 
             return progressPos;
         }
@@ -102,7 +106,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         {
             float alpha = NormalisedProgress;
 
-            Vector3 progressRot = Vector3.Slerp(_operationStartTransform.localEulerAngles, _operationEndTransform.localEulerAngles, alpha);
+            Vector3 progressRot = Vector3.Slerp(OperationStartTransform.localEulerAngles, _operationEndTransform.localEulerAngles, alpha);
 
             return progressRot;
         }
@@ -110,6 +114,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         public virtual bool IsComplete()
         {
             return NormalisedProgress >= 1.0f;
+        }
+
+        public virtual bool IsFeasible()
+        {
+            return false;
         }
     }
 }
