@@ -35,6 +35,7 @@ namespace _Scripts.Gameplay.Input.InputController{
         #region Inputs
         private Vector2 _movementInput;
         private Vector2 _directionInput;
+        private Vector2 _dPadInput;
         private bool _northButtonDown;
         private bool _southButtonDown;
         private bool _eastButtonDown;
@@ -49,10 +50,15 @@ namespace _Scripts.Gameplay.Input.InputController{
             get => _movementInput;
             set { _movementInput = value; }
         }
-        protected Vector2 DirectionInput
+        public Vector2 DirectionInput
         {
             get { return _directionInput; }
             set { _directionInput = value; }
+        }
+        public Vector2 DPadInput
+        {
+            get { return _dPadInput; }
+            set { _dPadInput = value; }
         }
         public bool NorthButtonDown
         {
@@ -95,7 +101,7 @@ namespace _Scripts.Gameplay.Input.InputController{
             set { _rightTriggerDown = value; }
         }
 
-        protected bool _directionInputValid = false;
+        protected bool _dPadInputValid = false;
         protected bool _moveInputValid = false;
         protected bool _northInputValid = false;
         protected bool _southInputValid = false;
@@ -106,6 +112,7 @@ namespace _Scripts.Gameplay.Input.InputController{
         protected bool _leftTriggerInputValid = false;
         protected bool _rightTriggerInputValid = false;
 
+        public bool IsDPadInputValid { get => _dPadInputValid; }
         public bool IsNorthInputValid { get => _northInputValid; }
         public bool IsSouthInputValid { get => _southInputValid; }
         public bool IsEastInputValid { get => _eastInputValid; }
@@ -137,6 +144,11 @@ namespace _Scripts.Gameplay.Input.InputController{
                 isActive = _rightBumperDown;
                 isValid = _rightBumperInputValid;
             }
+            else if (inputType == EInputType.DPadN || inputType == EInputType.DPadS || inputType == EInputType.DPadE || inputType == EInputType.DPadW)
+            {
+                isActive = _dPadInput.SqrMagnitude() != 0.0f;
+                isValid = _dPadInputValid;
+            }
 
             bool success = false;
 
@@ -161,7 +173,39 @@ namespace _Scripts.Gameplay.Input.InputController{
 
         public virtual void NullifyInput(EInputType inputType, bool nullifyDown = false)
         {
-            if (inputType == EInputType.SButton)
+            if (inputType == EInputType.DPadN)
+            {
+                if (nullifyDown)
+                {
+                    _dPadInput = Vector2.zero;
+                }
+                _dPadInputValid = false;
+            }
+            else if (inputType == EInputType.DPadS)
+            {
+                if (nullifyDown)
+                {
+                    _dPadInput = Vector2.zero;
+                }
+                _dPadInputValid = false;
+            }
+            else if (inputType == EInputType.DPadE)
+            {
+                if (nullifyDown)
+                {
+                    _dPadInput = Vector2.zero;
+                }
+                _dPadInputValid = false;
+            }
+            else if (inputType == EInputType.DPadW)
+            {
+                if (nullifyDown)
+                {
+                    _dPadInput = Vector2.zero;
+                }
+                _dPadInputValid = false;
+            }
+            else if (inputType == EInputType.SButton)
             {
                 if (nullifyDown)
                 {

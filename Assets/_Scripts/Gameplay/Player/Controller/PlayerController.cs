@@ -173,6 +173,7 @@ namespace _Scripts.Gameplay.Player.Controller{
             if (InputController.CheckAndNullifyInput(EInputType.SButton))
             {
                 OnActionInput();
+                return;
             }
 
             //scroll
@@ -181,10 +182,18 @@ namespace _Scripts.Gameplay.Player.Controller{
                 if (InputController.CheckAndNullifyInput(EInputType.LBumper))
                 {
                     OperatingScroll(false);
+                    return;
                 }
                 else if (InputController.CheckAndNullifyInput(EInputType.RBumper))
                 {
                     OperatingScroll(true);
+                    return;
+                }
+
+                Vector2 dpadDirection = InputController.DPadInput;
+                if (InputController.CheckAndNullifyInput(EInputType.DPadN) || InputController.CheckAndNullifyInput(EInputType.DPadS) || InputController.CheckAndNullifyInput(EInputType.DPadE) || InputController.CheckAndNullifyInput(EInputType.DPadW))
+                {
+                    Operating_OnDPadInput(dpadDirection);
                 }
             }
         }
@@ -488,6 +497,50 @@ namespace _Scripts.Gameplay.Player.Controller{
                 }
             }
 
+        }
+
+        public void Operating_OnDPadInput(Vector2 dPadInput)
+        {
+            if (dPadInput.SqrMagnitude() == 0.0f)
+            {
+                return;
+            }
+
+            float direction = dPadInput.x != 0.0f ? dPadInput.x : dPadInput.y;
+            bool vertInput = dPadInput.x != 0.0f;
+
+            bool operatingOverview = OperationManager.Instance.IsInOperationOverview();
+
+            if (operatingOverview)
+            {
+                if (direction > 0.0f)
+                {
+                    // positive - north and east
+                    if (vertInput)
+                    {
+                        Debug.Log("Hey I'm North");
+                    }
+                    else
+                    {
+                        Debug.Log("Hey I'm East");
+
+                    }
+                }
+                else
+                {
+                    // negative - south and west
+                    if (vertInput)
+                    {
+                        Debug.Log("Hey I'm South");
+
+                    }
+                    else
+                    {
+                        Debug.Log("Hey I'm West");
+
+                    }
+                }
+            }
         }
 
         public bool ReturnOperatingToolToSlot(MorgueToolActor opTool)
@@ -889,6 +942,13 @@ namespace _Scripts.Gameplay.Player.Controller{
 
                         mpi.Game.Operating_ScrollVert.Enable();
                         mpi.Game.Operating_ScrollHorz.Enable();
+
+                        if (gameIC)
+                        {
+                            mpi.Game.Operating_ScrollVert.started += gameIC.Operating_ScrollVert;
+                            mpi.Game.Operating_ScrollHorz.started += gameIC.Operating_ScrollHorz;
+                        }
+
                         break;
                     case EPlayerControllerState.OpenCoat:
                         cursorLock = CursorLockMode.Confined;
@@ -945,6 +1005,12 @@ namespace _Scripts.Gameplay.Player.Controller{
                         }
                         mpi.Game.Operating_ScrollVert.Disable();
                         mpi.Game.Operating_ScrollHorz.Disable();
+
+                        if (gameIC)
+                        {
+                            mpi.Game.Operating_ScrollVert.started -= gameIC.Operating_ScrollVert;
+                            mpi.Game.Operating_ScrollHorz.started -= gameIC.Operating_ScrollHorz;
+                        }
 
                         break;
 

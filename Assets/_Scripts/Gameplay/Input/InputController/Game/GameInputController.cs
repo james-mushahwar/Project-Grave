@@ -172,13 +172,13 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
             {
                 if (input < 0.0f)
                 {
-                    DirectionInput = new Vector2(0.0f, -1.0f);
-                    _directionInputValid = true;
+                    DPadInput = new Vector2(0.0f, -1.0f);
+                    _dPadInputValid = true;
                 }
                 else
                 {
-                    DirectionInput = new Vector2(0.0f, 1.0f);
-                    _directionInputValid = true;
+                    DPadInput = new Vector2(0.0f, 1.0f);
+                    _dPadInputValid = true;
                 }
             }
         }
@@ -192,13 +192,13 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
             {
                 if (input < 0.0f)
                 {
-                    DirectionInput = new Vector2(-1.0f, 0.0f);
-                    _directionInputValid = true;
+                    DPadInput = new Vector2(-1.0f, 0.0f);
+                    _dPadInputValid = true;
                 }
                 else
                 {
-                    DirectionInput = new Vector2(1.0f, 0.0f);
-                    _directionInputValid = true;
+                    DPadInput = new Vector2(1.0f, 0.0f);
+                    _dPadInputValid = true;
                 }
             }
         }

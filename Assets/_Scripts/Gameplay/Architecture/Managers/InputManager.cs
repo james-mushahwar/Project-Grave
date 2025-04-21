@@ -24,6 +24,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
     {
         Movement,       //Lstick
         Direction,      //Rstick
+        DPadN,          //
+        DPadS,          //
+        DPadE,          //
+        DPadW,          //
         NButton,        //Y 
         SButton,        //A
         EButton,        //B
