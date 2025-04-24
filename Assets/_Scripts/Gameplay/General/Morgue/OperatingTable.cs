@@ -8,42 +8,44 @@ using _Scripts.Gameplay.Player.Controller;
 using Cinemachine;
 using UnityEngine;
 using _Scripts.Gameplay.General.Morgue.Bodies;
+using _Scripts.Gameplay.General.Identification;
 
 namespace _Scripts.Gameplay.General.Morgue{
 
-    public class OperatingTable : MonoBehaviour, IMorgueTickable, IStorage
+    public class OperatingTable : MonoBehaviour, IMorgueTickable, IStorage, IIdentifiable
     {
         [SerializeField] private FStorageSlot _tableStorageSlot;
 
         [SerializeField]
         private List<EMorgueAnimType> _morgueAnimTypes = new List<EMorgueAnimType>();
 
-        [SerializeField] private CinemachineVirtualCamera _vCamera_AboveView;
-        [SerializeField] private CinemachineVirtualCamera _vCamera_TorsoView;
-        [SerializeField] private CinemachineVirtualCamera _vCamera_HeadView;
-        [SerializeField] private CinemachineVirtualCamera _vCamera_RArmView;
-        [SerializeField] private CinemachineVirtualCamera _vCamera_RLegView;
-        [SerializeField] private CinemachineVirtualCamera _vCamera_LArmView;
-        [SerializeField] private CinemachineVirtualCamera _vCamera_LLegView; 
+        [SerializeField] private FVirtualCamera _vCamera_AboveView;
+        [SerializeField] private FVirtualCamera _vCamera_TorsoView;
+        [SerializeField] private FVirtualCamera _vCamera_HeadView;
+        [SerializeField] private FVirtualCamera _vCamera_RArmView;
+        [SerializeField] private FVirtualCamera _vCamera_RLegView;
+        [SerializeField] private FVirtualCamera _vCamera_LArmView;
+        [SerializeField] private FVirtualCamera _vCamera_LLegView; 
 
         [SerializeField] private List<MorgueToolActor> _operatingTools = new List<MorgueToolActor>();
         public int OperatingToolsCount { get { return _operatingTools.Count; } }
+
+        [SerializeField]
+        private RuntimeID _runtimeID;
+        public RuntimeID RuntimeID => _runtimeID;
 
         [SerializeField] protected List<FStorageSlot> _opToolStorageSlots = new List<FStorageSlot>();
 
         public void Setup()
         {
-            if (_vCamera_AboveView != null)
-            {
-                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_Above, _vCamera_AboveView);
-                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_Head_Overview, _vCamera_HeadView);
-                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_Torso_Overview, _vCamera_TorsoView);
-                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_RArm_Overview, _vCamera_RArmView);
-                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_RLeg_Overview, _vCamera_RLegView);
-                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_LArm_Overview, _vCamera_LArmView);
-                CameraManager.Instance.AssignVirtualCameraType(EVirtualCameraType.OperatingTable_LLeg_Overview, _vCamera_LLegView);
-            }
-
+            CameraManager.Instance.AssignVirtualCameraType(_runtimeID, _vCamera_AboveView.CamType, _vCamera_AboveView.VirtualCamera);
+            CameraManager.Instance.AssignVirtualCameraType(_runtimeID, _vCamera_HeadView.CamType,  _vCamera_HeadView.VirtualCamera);
+            CameraManager.Instance.AssignVirtualCameraType(_runtimeID, _vCamera_TorsoView.CamType, _vCamera_TorsoView.VirtualCamera);
+            CameraManager.Instance.AssignVirtualCameraType(_runtimeID, _vCamera_RArmView.CamType,  _vCamera_RArmView.VirtualCamera);
+            CameraManager.Instance.AssignVirtualCameraType(_runtimeID, _vCamera_RLegView.CamType,  _vCamera_RLegView.VirtualCamera);
+            CameraManager.Instance.AssignVirtualCameraType(_runtimeID, _vCamera_LArmView.CamType,  _vCamera_LArmView.VirtualCamera);
+            CameraManager.Instance.AssignVirtualCameraType(_runtimeID, _vCamera_LLegView.CamType,  _vCamera_LLegView.VirtualCamera);
+            
             _tableStorageSlot.StorageParent = this;
 
             for (int i = 0; i < _opToolStorageSlots.Count; i++)

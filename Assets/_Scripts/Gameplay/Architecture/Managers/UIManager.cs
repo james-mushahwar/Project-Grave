@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Gameplay.UI.Reticle;
 using UnityEngine;
+using _Scripts.Gameplay.UI.Operation;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
     
@@ -20,6 +21,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private GameObject _gameplayOperationViewGroup;
 
         [SerializeField] private UIReticle _uiReticle;
+        [SerializeField] private UIOperation _uiOperation;
 
         private bool _showInteractReticle = false;
         public bool ShowInteractReticle
@@ -28,6 +30,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             set { _showInteractReticle = value; }
         }
 
+        public Canvas GameplayCanvas { get => _gameplayCanvas; }
         #endregion
 
         // as gamestate is being generated
@@ -52,17 +55,24 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // before play begins 
         public virtual void ManagedPrePlayGame()
         {
-            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
-            if (OperationManager.Instance.IsInAnyOperatingMode(pc))
-            {
-                _gameplayOperationViewGroup.SetActive(true);
-            }
+            
         }
 
         // tick for playing game 
         public virtual void ManagedTick()
         {
             _uiReticle.ManagedTick();
+
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+
+            _gameplayNormalViewGroup.SetActive(pc.PlayerControllerState == EPlayerControllerState.Normal);
+            _gameplayOperationViewGroup.SetActive(OperationManager.Instance.IsInAnyOperatingMode(pc));
+
+            //operation ui
+            if (_gameplayOperationViewGroup.activeInHierarchy)
+            {
+                _uiOperation.ManagedTick();
+            }
         }
         // late update tick for playing game 
         public virtual void ManagedLateTick()

@@ -7,6 +7,7 @@ using static UnityEngine.Rendering.HDROutputUtils;
 using UnityEngine.InputSystem;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Gameplay.General.Identification;
+using System;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -23,6 +24,31 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         OperatingTable_RLeg_Overview,
         OperatingTable_LArm_Overview,
         OperatingTable_LLeg_Overview,
+
+        //Operation states
+        OperationState_Torso = 200,
+        OperationState_Head,
+        OperationState_RArm,
+        OperationState_RLeg,
+        OperationState_LArm,
+        OperationState_LLeg,
+
+
+        // Generic
+        General_Default = 10000,
+        General_Operation
+    }
+
+    [Serializable]
+    public struct FVirtualCamera
+    {
+        [SerializeField]
+        private EVirtualCameraType _camType;
+        [SerializeField]
+        private CinemachineVirtualCamera _virtualCamera;
+
+        public EVirtualCameraType CamType { get => _camType; }
+        public CinemachineVirtualCamera VirtualCamera { get => _virtualCamera; }
     }
 
     public class CameraManager : GameManager<CameraManager>, IManager
@@ -58,6 +84,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
         }
 
+        private EVirtualCameraType _currentVCamType;
+        public EVirtualCameraType CurrentVCamType
+        {
+            get { return _currentVCamType; }
+        }
+
         private bool _cameraTransitionBuffer;
 
         private Ray _centreCameraRay;
@@ -87,8 +119,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
         }
 
-        [SerializeField] private VirtualCameraTypeDictionary _virtualCameraTypeDictionary;
-        [SerializeField] private RuntimeIDVirtualCameraDictionary _runtimeIdVirtualCameraDictionary;
+        //private VirtualCameraTypeDictionary _virtualCameraTypeDictionary;
+        private Dictionary<string, Dictionary<EVirtualCameraType, CinemachineVirtualCamera>> _runtimeIdVirtualCameraDictionary = new Dictionary<string, Dictionary<EVirtualCameraType, CinemachineVirtualCamera>>();
+        //private RuntimeIDVirtualCameraDictionary _runtimeIdVirtualCameraDictionary;
 
         // as gamestate is being generated
         public virtual void ManagedPreInitialiseGameState() { }
@@ -120,12 +153,13 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     MainCamera.transform.localPosition = Vector3.zero;
                     MainCamera.transform.rotation = Quaternion.identity;
 
-                    CinemachineVirtualCamera firstPersonVCam =
-                        go.GetComponentInChildren<CinemachineVirtualCamera>();
+                    //CinemachineVirtualCamera firstPersonVCam = go.GetComponentInChildren<CinemachineVirtualCamera>();
 
-                    if (firstPersonVCam != null)
+                    FVirtualCamera vCam = PlayerManager.Instance.CurrentPlayerController.FirstPersonVCam;
+                    if (vCam.VirtualCamera != null)
                     {
-                        AssignVirtualCameraType(EVirtualCameraType.FirstPersonView_Normal, firstPersonVCam);
+                        AssignVirtualCameraType(PlayerManager.Instance.CurrentPlayerController.RuntimeID, vCam.CamType, vCam.VirtualCamera);
+                        _currentVCamType = EVirtualCameraType.FirstPersonView_Normal;
                     }
                 }
             }
@@ -141,10 +175,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             _centreCameraRay = MainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             _mousePointerRay = MainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        }
-        // late update tick for playing game 
-        public virtual void ManagedLateTick()
-        {
+
             if (CmBrain != null)
             {
                 bool inTransition = IsCameraInTransition();
@@ -157,7 +188,40 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 bool inputState = !inTransition;
 
                 InputManager.Instance.TryToggleAllInput(inputState);
+
+                EVirtualCameraType vCamType = EVirtualCameraType.NONE;
+                RuntimeID id = null;
+
+                if (OperationManager.Instance.IsInOperationOverview())
+                {
+                    if (PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor != null)
+                    {
+                        vCamType = PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.OperationOverviewVirtualCamera.CamType;
+                        id = PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.RuntimeID;
+                    }
+                }
+                else if (OperationManager.Instance.IsOperating())
+                {
+                    if (OperationManager.Instance.CurrentOperationState != null)
+                    {
+                        vCamType = OperationManager.Instance.CurrentOperationState.OperationStateVirtualCamera.CamType;
+                        id = OperationManager.Instance.CurrentOperationState.RuntimeID;
+                    }
+                }
+                else
+                {
+                    vCamType = EVirtualCameraType.FirstPersonView_Normal;
+                    id = PlayerManager.Instance.CurrentPlayerController.RuntimeID;
+                }
+
+                bool activate = ActivateVirtualCamera(id, vCamType);
+
             }
+        }
+        // late update tick for playing game 
+        public virtual void ManagedLateTick()
+        {
+            
         }
 
         public virtual void ManagedFixedTick()
@@ -170,51 +234,59 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // after world (level, area, zone) unloading
         public virtual void ManagedPostTearddownGame() { }
 
-        public bool AssignVirtualCameraType(EVirtualCameraType cameraType, CinemachineVirtualCamera vCam)
+        //public bool AssignVirtualCameraType(EVirtualCameraType cameraType, CinemachineVirtualCamera vCam)
+        //{
+        //    bool assign = false;
+
+        //    if (_virtualCameraTypeDictionary.ContainsKey(cameraType) == false)
+        //    {
+        //        _virtualCameraTypeDictionary.Add(cameraType, vCam);
+        //        assign = true;
+        //    }
+
+        //    return assign;
+        //}
+        public bool AssignVirtualCameraType(RuntimeID runtimeID, EVirtualCameraType cameraType, CinemachineVirtualCamera vCam)
         {
             bool assign = false;
 
-            if (_virtualCameraTypeDictionary.ContainsKey(cameraType) == false)
+            if (_runtimeIdVirtualCameraDictionary.ContainsKey(runtimeID.RuntimeId) == false)
             {
-                _virtualCameraTypeDictionary.Add(cameraType, vCam);
+                _runtimeIdVirtualCameraDictionary.Add(runtimeID.RuntimeId, new Dictionary<EVirtualCameraType, CinemachineVirtualCamera>());
+            }
+
+            if (_runtimeIdVirtualCameraDictionary.ContainsKey(runtimeID.RuntimeId))
+            {
+                _runtimeIdVirtualCameraDictionary[runtimeID.RuntimeId].Add(cameraType, vCam);
+
                 assign = true;
             }
 
             return assign;
         }
-        public bool AssignVirtualCameraType(RuntimeID runtimeID, CinemachineVirtualCamera vCam)
-        {
-            bool assign = false;
 
-            if (_runtimeIdVirtualCameraDictionary.ContainsKey(runtimeID) == false)
-            {
-                _runtimeIdVirtualCameraDictionary.Add(runtimeID, vCam);
-                assign = true;
-            }
-
-            return assign;
-        }
-
-        public CinemachineVirtualCamera GetVirtualCamera(EVirtualCameraType cameraType)
+        public CinemachineVirtualCamera GetVirtualCamera(RuntimeID runtimeID, EVirtualCameraType cameraType)
         {
             CinemachineVirtualCamera vCam = null;
 
-            if (_virtualCameraTypeDictionary.ContainsKey(cameraType))
+            if (_runtimeIdVirtualCameraDictionary.ContainsKey(runtimeID.RuntimeId))
             {
-                 vCam = _virtualCameraTypeDictionary[cameraType];
+                 _runtimeIdVirtualCameraDictionary[runtimeID.RuntimeId].TryGetValue(cameraType, out vCam);
             }
 
             return vCam;
         }
 
-        public bool ActivateVirtualCamera(EVirtualCameraType cameraType)
+        public bool ActivateVirtualCamera(RuntimeID runtimeID, EVirtualCameraType cameraType)
         {
             bool activated = false;
 
-            if (_virtualCameraTypeDictionary.ContainsKey(cameraType))
+            if (_runtimeIdVirtualCameraDictionary.ContainsKey(runtimeID.RuntimeId))
             {
-                CinemachineVirtualCamera vCam =_virtualCameraTypeDictionary[cameraType];
-                if (vCam != null)
+                CinemachineVirtualCamera vCam = null;
+                bool found = _runtimeIdVirtualCameraDictionary[runtimeID.RuntimeId].TryGetValue(cameraType, out vCam);
+
+                if (found && vCam != null && (!CmBrain.ActiveVirtualCamera.Equals(vCam)))
                 {
                     if (CmBrain.ActiveVirtualCamera.VirtualCameraGameObject != null)
                     {
@@ -224,28 +296,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     vCam.gameObject.SetActive(true);
                     _cameraTransitionBuffer = true;
                     activated = true;
-                }
-            }
-
-            return activated;
-        }
-        public bool ActivateVirtualCamera(RuntimeID runtimeID)
-        {
-            bool activated = false;
-
-            if (_runtimeIdVirtualCameraDictionary.ContainsKey(runtimeID))
-            {
-                CinemachineVirtualCamera vCam = _runtimeIdVirtualCameraDictionary[runtimeID];
-                if (vCam != null)
-                {
-                    if (CmBrain.ActiveVirtualCamera.VirtualCameraGameObject != null)
-                    {
-                        CmBrain.ActiveVirtualCamera.VirtualCameraGameObject.SetActive(false);
-                    }
-
-                    vCam.gameObject.SetActive(true);
-                    _cameraTransitionBuffer = true;
-                    activated = true;
+                    _currentVCamType = cameraType;
                 }
             }
 

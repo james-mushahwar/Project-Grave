@@ -1231,6 +1231,7 @@ GameObject:
   - component: {fileID: 1872430802243746451}
   - component: {fileID: -7272714701905973157}
   - component: {fileID: 8222856910486905347}
+  - component: {fileID: 3397587830450472617}
   m_Layer: 0
   m_Name: Operating Table
   m_TagString: Untagged
@@ -1286,18 +1287,33 @@ MonoBehaviour:
     _storableTypeFilter: 
     _storageSpace: {fileID: 4888507264320669248}
   _morgueAnimTypes: 00000000
-  _vCamera_AboveView: {fileID: 2128122360453803272}
-  _vCamera_TorsoView: {fileID: 8370209003741597038}
-  _vCamera_HeadView: {fileID: 6066081425598935581}
-  _vCamera_RArmView: {fileID: 1123839067938638811}
-  _vCamera_RLegView: {fileID: 5498780274129889391}
-  _vCamera_LArmView: {fileID: 2605900490819598502}
-  _vCamera_LLegView: {fileID: 6624465914371485385}
+  _vCamera_AboveView:
+    _camType: 100
+    _virtualCamera: {fileID: 2128122360453803272}
+  _vCamera_TorsoView:
+    _camType: 101
+    _virtualCamera: {fileID: 8370209003741597038}
+  _vCamera_HeadView:
+    _camType: 102
+    _virtualCamera: {fileID: 6066081425598935581}
+  _vCamera_RArmView:
+    _camType: 103
+    _virtualCamera: {fileID: 1123839067938638811}
+  _vCamera_RLegView:
+    _camType: 104
+    _virtualCamera: {fileID: 5498780274129889391}
+  _vCamera_LArmView:
+    _camType: 105
+    _virtualCamera: {fileID: 2605900490819598502}
+  _vCamera_LLegView:
+    _camType: 106
+    _virtualCamera: {fileID: 6624465914371485385}
   _operatingTools:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  _runtimeID: {fileID: 3397587830450472617}
   _opToolStorageSlots:
   - _storableSize: 0
     _storableTypeFilter: 
@@ -1319,6 +1335,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6938955139711103593}
   m_Mesh: {fileID: 0}
+--- !u!114 &3397587830450472617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6938955139711103593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c326a8f33ea0544a80821936d6e98be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultID: a7d26bda-0e2d-4b9c-9dea-4d20fcc583bf
 --- !u!1 &7854268982860061539
 GameObject:
   m_ObjectHideFlags: 0

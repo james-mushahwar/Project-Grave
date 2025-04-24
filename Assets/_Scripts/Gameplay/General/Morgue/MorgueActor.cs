@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue{
     
-    public abstract class MorgueActor : MonoBehaviour, IMorgueTickable
+    public abstract class MorgueActor : MonoBehaviour, IMorgueTickable, IIdentifiable
     {
         private RuntimeID _runtimeID;
         public RuntimeID RuntimeID { get { return _runtimeID; } protected set { _runtimeID = value; } }

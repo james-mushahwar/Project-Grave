@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationSite;
 using Unity.VisualScripting;
 using UnityEngine;
+using _Scripts.Gameplay.Architecture.Managers;
 
 namespace _Scripts.Gameplay.General.Morgue.Bodies{
     
@@ -13,6 +14,21 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         private DismemberOperationState _dismemberOperationState;
         [SerializeField]
         private ReattachOperationState _reattachOperationState;
+        [SerializeField]
+        private ReattachOperationState _reattachForearmOperationState;
+
+        public override List<OperationState> AllOperationStates
+        {
+            get
+            {
+                List<OperationState> opStates = new List<OperationState>();
+
+                opStates.Add(_dismemberOperationState);
+                opStates.Add(_reattachOperationState);
+                opStates.Add(_reattachForearmOperationState);
+                return opStates;
+            }
+        }
 
         [SerializeField] 
         private OperationSite _armJointOperationSite;
@@ -20,7 +36,12 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         {
             get
             {
-                if (BodyMorgueActor == null)
+                //if (BodyMorgueActor == null)
+                //{
+                //    return null;
+                //}
+
+                if (_armJointOperationSite == null)
                 {
                     return null;
                 }
@@ -34,23 +55,68 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             }
         }
 
+        [SerializeField]
+        private OperationSite _armForearmInsideOperationSite;
+        public OperationSite ArmForearmInsideOperationSite
+        {
+            get
+            {
+                //if (BodyMorgueActor == null)
+                //{
+                //    return null;
+                //}
+
+                if (_armForearmInsideOperationSite == null)
+                {
+                    return null;
+                }
+
+                if (_armForearmInsideOperationSite.IsValid() == false)
+                {
+                    return null;
+                }
+
+                return _armForearmInsideOperationSite;
+            }
+        }
+
         public override OperationState OperationState => _dismemberOperationState;
 
         public override void Setup()
         {
             base.Setup();
 
-            _dismemberOperationState.OperatableRuntimeID = RuntimeID.Id;
+            RebuildOperationSites();
+
+            _dismemberOperationState.SetupOperationState();
+            _reattachOperationState.SetupOperationState();
+            _reattachForearmOperationState.SetupOperationState();
         }
 
         public override void RebuildOperationSites()
         {
             _operationSites.Clear();
 
-            OperationSite armJointOperationSite = ArmJointOperationSite;
+            OperationSite armJointOperationSite = _armJointOperationSite;
             if (armJointOperationSite != null)
             {
+                armJointOperationSite.ClearStates();
+
+                armJointOperationSite.AddState(_dismemberOperationState);
+                armJointOperationSite.AddState(_reattachOperationState);
+                
                 _operationSites.Add(armJointOperationSite);
+            }
+
+            OperationSite armForearmInsideOperationSite = _armForearmInsideOperationSite;
+            if (armForearmInsideOperationSite != null)
+            {
+                armForearmInsideOperationSite.ClearStates();
+
+                armForearmInsideOperationSite.AddState(_reattachForearmOperationState);
+
+                _operationSites.Add(armForearmInsideOperationSite);
+
             }
         }
     }

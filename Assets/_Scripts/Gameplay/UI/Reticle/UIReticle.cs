@@ -45,6 +45,18 @@ namespace _Scripts.Gameplay.UI.Reticle{
 
             if (uiMan != null)
             {
+                bool showAnyReticle = true;
+
+                if (PlayerManager.Instance.CurrentPlayerController != null)
+                {
+                    if (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState != Player.Controller.EPlayerControllerState.Normal)
+                    {
+                        showAnyReticle = false;
+                    }
+                }
+
+                this.gameObject.SetActive(showAnyReticle);
+
                 Image nextReticle = _reticleDefaultImage;
 
                 if (uiMan.ShowInteractReticle)

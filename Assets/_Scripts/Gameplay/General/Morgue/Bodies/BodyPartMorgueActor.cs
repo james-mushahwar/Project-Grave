@@ -19,13 +19,6 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         private Collider _collider;
 
         //[SerializeField] private FPropConnector _connector;
-        [SerializeField] private EVirtualCameraType _operationOverviewType = EVirtualCameraType.OperatingTable_Above;
-
-        public EVirtualCameraType OperationCameraType
-        {
-            get { return _operationOverviewType; }
-        }
-
         private Vector3 _defaultLocalScale;
 
         [SerializeField] private FStorable _bodyStorable;
@@ -37,13 +30,12 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private MeshFilter _meshFilter;
 
-        [SerializeField] private CinemachineVirtualCamera _virtualCamera;
+        [SerializeField] private FVirtualCamera _operationOverviewVirtualCamera;
+        public FVirtualCamera OperationOverviewVirtualCamera { get => _operationOverviewVirtualCamera; }
 
         public SkinnedMeshRenderer SkinnedMeshRenderer { get => _skinnedMeshRenderer; }
         public MeshRenderer MeshRenderer { get => _meshRenderer; }
         public MeshFilter MeshFilter { get => _meshFilter; }
-
-        public CinemachineVirtualCamera VirtualCamera { get => _virtualCamera; }
 
         private BodyMorgueActor _bodyMorgueActor;
         public BodyMorgueActor BodyMorgueActor
@@ -54,7 +46,6 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         public virtual OperationState OperationState { get => null; }
         public virtual List<OperationState> AllOperationStates { get => null; }
 
-        [SerializeField]
         protected List<OperationSite> _operationSites = new List<OperationSite>();
         public virtual List<OperationSite> OperationSites
         {
@@ -145,11 +136,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             if (RuntimeID != null)
             {
                 RuntimeID.GenerateRuntimeId();
-            }
 
-            if (VirtualCamera != null)
-            {
-                CameraManager.Instance.AssignVirtualCameraType(RuntimeID, VirtualCamera);
+                CameraManager.Instance.AssignVirtualCameraType(RuntimeID, OperationOverviewVirtualCamera.CamType, OperationOverviewVirtualCamera.VirtualCamera);
             }
 
             _rigidBodies = GetComponentsInChildren<Rigidbody>(true).ToList<Rigidbody>();
@@ -410,6 +398,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         }
 
         public virtual Transform Transform { get; }
+
         public void OnSelected()
         {
             //transform.localScale = _defaultLocalScale * 1.5f;

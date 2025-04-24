@@ -36,7 +36,7 @@ public class MorgueAnimTypeAnimationDictionary : SerializableDictionary<EMorgueA
 [Serializable]
 public class VirtualCameraTypeDictionary : SerializableDictionary<EVirtualCameraType, CinemachineVirtualCamera> { }
 [Serializable]
-public class RuntimeIDVirtualCameraDictionary : SerializableDictionary<RuntimeID, CinemachineVirtualCamera> { }
+public class RuntimeIDVirtualCameraDictionary : SerializableDictionary<RuntimeID, SerializableDictionary<EVirtualCameraType, CinemachineVirtualCamera>> { }
 
 [Serializable]
 public class HumanMorgueBodyVariantDictionary : SerializableDictionary<EMorgueBodyVariant, HumanMorgueBodyVariant> { }

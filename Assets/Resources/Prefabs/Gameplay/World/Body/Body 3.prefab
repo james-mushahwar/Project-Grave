@@ -79,20 +79,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fa439ad8bcb14e4fb8b1be4f867188a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _operationOverviewType: 105
   _bodyStorable:
     _storableSize: 10
     _storableType: 0
   _skinnedMeshRenderer: {fileID: 7026971223350046189}
   _meshRenderer: {fileID: 2229163728432924418}
   _meshFilter: {fileID: 3457798998075425099}
-  _virtualCamera: {fileID: 3079642177162282004}
+  _operationOverviewVirtualCamera:
+    _camType: 0
+    _virtualCamera: {fileID: 0}
   _dismemberOperationState:
     _operationType: 0
+    _operationStateVirtualCamera:
+      _camType: 0
+      _virtualCamera: {fileID: 0}
     _operationStartTransform: {fileID: 0}
     _operationEndTransform: {fileID: 0}
     _duration: 1
-    _dismemberSiteTTransform: {fileID: 0}
+    _runtimeID: {fileID: 0}
+    _dismemberSiteTransform: {fileID: 0}
     _bloodPS: {fileID: 0}
     _bloodAudioHandler:
       _attachAudioSource: 0
@@ -108,10 +113,14 @@ MonoBehaviour:
       _canReplayCurrentlyPlayingSource: 0
   _reattachOperationState:
     _operationType: 0
+    _operationStateVirtualCamera:
+      _camType: 0
+      _virtualCamera: {fileID: 0}
     _operationStartTransform: {fileID: 0}
     _operationEndTransform: {fileID: 0}
     _duration: 1
-    _dismemberSiteTTransform: {fileID: 0}
+    _runtimeID: {fileID: 0}
+    _dismemberSiteTransform: {fileID: 0}
     _bloodPS: {fileID: 0}
     _bloodAudioHandler:
       _attachAudioSource: 0
@@ -125,6 +134,31 @@ MonoBehaviour:
       _handleParametersSO: {fileID: 0}
       _loops: 0
       _canReplayCurrentlyPlayingSource: 0
+  _reattachForearmOperationState:
+    _operationType: 0
+    _operationStateVirtualCamera:
+      _camType: 0
+      _virtualCamera: {fileID: 0}
+    _operationStartTransform: {fileID: 0}
+    _operationEndTransform: {fileID: 0}
+    _duration: 1
+    _runtimeID: {fileID: 0}
+    _dismemberSiteTransform: {fileID: 0}
+    _bloodPS: {fileID: 0}
+    _bloodAudioHandler:
+      _attachAudioSource: 0
+      _position: {x: 0, y: 0, z: 0}
+      _defaultVolumeAlpha: 0
+      _defaultPitchAlpha: 0
+      _audioType: 0
+      _active: 0
+      _release: 0
+      _audioSource: {fileID: 0}
+      _handleParametersSO: {fileID: 0}
+      _loops: 0
+      _canReplayCurrentlyPlayingSource: 0
+  _armJointOperationSite: {fileID: 0}
+  _armForearmInsideOperationSite: {fileID: 0}
 --- !u!114 &6276072081754572019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1192,14 +1226,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f7f45e7056cae48aa5e453d740d8ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _operationOverviewType: 102
   _bodyStorable:
     _storableSize: 0
     _storableType: 0
   _skinnedMeshRenderer: {fileID: 8379520998439126788}
   _meshRenderer: {fileID: 6066432034505616386}
   _meshFilter: {fileID: 2825421729381754866}
-  _virtualCamera: {fileID: 8246706797358189140}
+  _operationOverviewVirtualCamera:
+    _camType: 0
+    _virtualCamera: {fileID: 0}
 --- !u!114 &736253990942161014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1656,6 +1691,8 @@ Transform:
   - {fileID: 177233610976775670}
   - {fileID: 721260419216286315}
   - {fileID: 8731266200130972005}
+  - {fileID: 1536289991530829031}
+  - {fileID: 401575741003534322}
   m_Father: {fileID: 2249712109187098691}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1671,20 +1708,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fa439ad8bcb14e4fb8b1be4f867188a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _operationOverviewType: 103
   _bodyStorable:
     _storableSize: 0
     _storableType: 0
   _skinnedMeshRenderer: {fileID: 3617965555972906714}
   _meshRenderer: {fileID: 3334474455945908835}
   _meshFilter: {fileID: 3023147301302828118}
-  _virtualCamera: {fileID: 1690341747505225440}
+  _operationOverviewVirtualCamera:
+    _camType: 0
+    _virtualCamera: {fileID: 1690341747505225440}
   _dismemberOperationState:
     _operationType: 0
+    _operationStateVirtualCamera:
+      _camType: 10001
+      _virtualCamera: {fileID: 1690341747505225440}
     _operationStartTransform: {fileID: 177233610976775670}
     _operationEndTransform: {fileID: 721260419216286315}
     _duration: 1
-    _dismemberSiteTTransform: {fileID: 0}
+    _runtimeID: {fileID: 2845633092960539945}
+    _dismemberSiteTransform: {fileID: 0}
     _bloodPS: {fileID: 5243619660665542530}
     _bloodAudioHandler:
       _attachAudioSource: 0
@@ -1700,10 +1742,14 @@ MonoBehaviour:
       _canReplayCurrentlyPlayingSource: 0
   _reattachOperationState:
     _operationType: 100
+    _operationStateVirtualCamera:
+      _camType: 10000
+      _virtualCamera: {fileID: 1690341747505225440}
     _operationStartTransform: {fileID: 0}
     _operationEndTransform: {fileID: 0}
     _duration: 1
-    _dismemberSiteTTransform: {fileID: 0}
+    _runtimeID: {fileID: 2845633092960539945}
+    _dismemberSiteTransform: {fileID: 0}
     _bloodPS: {fileID: 0}
     _bloodAudioHandler:
       _attachAudioSource: 0
@@ -1717,6 +1763,31 @@ MonoBehaviour:
       _handleParametersSO: {fileID: 0}
       _loops: 0
       _canReplayCurrentlyPlayingSource: 0
+  _reattachForearmOperationState:
+    _operationType: 200
+    _operationStateVirtualCamera:
+      _camType: 202
+      _virtualCamera: {fileID: 1690341747505225440}
+    _operationStartTransform: {fileID: 0}
+    _operationEndTransform: {fileID: 0}
+    _duration: 1
+    _runtimeID: {fileID: 2845633092960539945}
+    _dismemberSiteTransform: {fileID: 0}
+    _bloodPS: {fileID: 0}
+    _bloodAudioHandler:
+      _attachAudioSource: 0
+      _position: {x: 0, y: 0, z: 0}
+      _defaultVolumeAlpha: 0
+      _defaultPitchAlpha: 0
+      _audioType: 0
+      _active: 0
+      _release: 0
+      _audioSource: {fileID: 0}
+      _handleParametersSO: {fileID: 0}
+      _loops: 0
+      _canReplayCurrentlyPlayingSource: 0
+  _armJointOperationSite: {fileID: 4402791451331408787}
+  _armForearmInsideOperationSite: {fileID: 106098793767195351}
 --- !u!114 &2845633092960539945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1729,7 +1800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c326a8f33ea0544a80821936d6e98be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultID: 
+  _defaultID: 54e9104a-3f4e-4eb8-bdf6-1ebe974a547c
 --- !u!1 &3904873431143361108
 GameObject:
   m_ObjectHideFlags: 0
@@ -2047,15 +2118,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3947800317468152895}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0.759, y: 0.651, z: 1.42}
+  m_LocalRotation: {x: -0.6603757, y: 0.6603757, z: 0.2527923, w: -0.2527923}
+  m_LocalPosition: {x: 1.216, y: 1.387, z: 0.615}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4429618804203326276}
   m_Father: {fileID: 145700881315103308}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 221.894, z: -90}
 --- !u!114 &1690341747505225440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7167,6 +7238,55 @@ Transform:
   m_Father: {fileID: 6874529143673185618}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5134425027490387777
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1536289991530829031}
+  - component: {fileID: 4402791451331408787}
+  m_Layer: 0
+  m_Name: ArrmToTorsoJointOpSite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1536289991530829031
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5134425027490387777}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 610317456078556287}
+  m_Father: {fileID: 145700881315103308}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4402791451331408787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5134425027490387777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dcd0caee03ddec48a2306cdac77942d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uiMarkerTransform: {fileID: 610317456078556287}
+  _virtualCamera:
+    _camType: 10000
+    _virtualCamera: {fileID: 1690341747505225440}
 --- !u!1 &5182570555437004928
 GameObject:
   m_ObjectHideFlags: 0
@@ -7685,14 +7805,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d31f66da05da1845a35c07ad0639c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _operationOverviewType: 106
   _bodyStorable:
     _storableSize: 0
     _storableType: 0
   _skinnedMeshRenderer: {fileID: 4385637875039825130}
   _meshRenderer: {fileID: 8928300179343481154}
   _meshFilter: {fileID: 6656999450041537292}
-  _virtualCamera: {fileID: 7495551048579742553}
+  _operationOverviewVirtualCamera:
+    _camType: 0
+    _virtualCamera: {fileID: 0}
 --- !u!114 &4374838436403665624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7876,6 +7997,37 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1 &6538639060752994697
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6544904696860790459}
+  m_Layer: 0
+  m_Name: MarkerTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6544904696860790459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6538639060752994697}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.832, y: 1.319, z: 0.023}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 401575741003534322}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6705166534108969062
 GameObject:
   m_ObjectHideFlags: 0
@@ -8197,6 +8349,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _defaultID: b3a9bee2-6e80-4732-a7ed-76292153973c
+--- !u!1 &7210033133182848951
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 610317456078556287}
+  m_Layer: 0
+  m_Name: MarkerTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &610317456078556287
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7210033133182848951}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.377, y: 1.446, z: 0.113}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1536289991530829031}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7346694115669899449
 GameObject:
   m_ObjectHideFlags: 0
@@ -8707,14 +8890,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d31f66da05da1845a35c07ad0639c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _operationOverviewType: 104
   _bodyStorable:
     _storableSize: 0
     _storableType: 0
   _skinnedMeshRenderer: {fileID: 4565827216711569223}
   _meshRenderer: {fileID: 9141582244894964827}
   _meshFilter: {fileID: 5855983102304464932}
-  _virtualCamera: {fileID: 7315284093654839741}
+  _operationOverviewVirtualCamera:
+    _camType: 0
+    _virtualCamera: {fileID: 0}
 --- !u!114 &5577178633396330994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9022,6 +9206,55 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 142864076317629201}
+--- !u!1 &9013822735515079967
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 401575741003534322}
+  - component: {fileID: 106098793767195351}
+  m_Layer: 0
+  m_Name: ArmInsideForearmOpSite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &401575741003534322
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9013822735515079967}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6544904696860790459}
+  m_Father: {fileID: 145700881315103308}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &106098793767195351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9013822735515079967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dcd0caee03ddec48a2306cdac77942d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uiMarkerTransform: {fileID: 6544904696860790459}
+  _virtualCamera:
+    _camType: 10001
+    _virtualCamera: {fileID: 1690341747505225440}
 --- !u!1 &9055396606791122006
 GameObject:
   m_ObjectHideFlags: 0
@@ -9101,14 +9334,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 714cf9929d2999d468df9d0a1c8c9af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _operationOverviewType: 101
   _bodyStorable:
     _storableSize: 10
     _storableType: 0
   _skinnedMeshRenderer: {fileID: 2116382164477831277}
   _meshRenderer: {fileID: 999137558720088494}
   _meshFilter: {fileID: 6472615340518149301}
-  _virtualCamera: {fileID: 4764935075094855505}
+  _operationOverviewVirtualCamera:
+    _camType: 0
+    _virtualCamera: {fileID: 0}
   _headConnector:
     _socket: {fileID: 8579506187695855219}
   _lArmConnector:

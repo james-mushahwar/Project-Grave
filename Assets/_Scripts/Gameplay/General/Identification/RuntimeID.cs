@@ -8,8 +8,20 @@ namespace _Scripts.Gameplay.General.Identification{
     {
         [SerializeField]
         private string _defaultID;
-        private string _runtimeID;
-        public string Id { get => _defaultID; }
+        private string _runtimeID = "";
+        public string DefaultId { get => _defaultID; }
+        public string RuntimeId 
+        { 
+            get
+            {
+                if (_runtimeID == "")
+                {
+                    GenerateRuntimeId();
+                }
+
+                return _runtimeID;
+            }
+        }
 
         private void Awake()
         {
@@ -40,6 +52,11 @@ namespace _Scripts.Gameplay.General.Identification{
         {
             _runtimeID = Guid.NewGuid().ToString();
             Debug.Log(_runtimeID);
+        }
+
+        private void Reset()
+        {
+            GenerateDefaultId();
         }
     }
     

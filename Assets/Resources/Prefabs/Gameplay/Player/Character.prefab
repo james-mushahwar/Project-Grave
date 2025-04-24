@@ -2223,6 +2223,7 @@ GameObject:
   - component: {fileID: 796603637656036508}
   - component: {fileID: 5593198990031617578}
   - component: {fileID: 1181883562566041312}
+  - component: {fileID: 7724529274728595347}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -2272,6 +2273,10 @@ MonoBehaviour:
   mouseSensitivity: 120
   _playerCharacterHolder: {fileID: 7362743322704732915}
   _playerStorage: {fileID: 4932697406848840331}
+  _runtimeID: {fileID: 7724529274728595347}
+  _firstPersonVCam:
+    _camType: 0
+    _virtualCamera: {fileID: 5631976570910680889}
 --- !u!143 &5593198990031617578
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2312,6 +2317,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _normalAnimator: {fileID: 1205490877409942147}
   _operatingAnimator: {fileID: 0}
+--- !u!114 &7724529274728595347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6575505415537421913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c326a8f33ea0544a80821936d6e98be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultID: 6ea2586e-4d33-4ccc-824e-dca1a8bb0455
 --- !u!1 &6611518824939122639
 GameObject:
   m_ObjectHideFlags: 0

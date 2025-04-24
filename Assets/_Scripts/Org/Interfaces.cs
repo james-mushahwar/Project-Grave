@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 using _Scripts.Gameplay.Player.Controller;
 using Unity.VisualScripting;
@@ -410,6 +411,13 @@ namespace _Scripts.Org
     public interface ITickGroup
     {
         public UniqueTickGroup UniqueTickGroup { get; }
+    }
+    #endregion
+
+    #region Identity
+    public interface IIdentifiable
+    {
+        public RuntimeID RuntimeID { get; }
     }
     #endregion
 }

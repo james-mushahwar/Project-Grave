@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Gameplay.Player.Controller;
 using UnityEngine;
+using _Scripts.Gameplay.General.Morgue.Operation.OperationSite;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
     
@@ -13,7 +14,44 @@ namespace _Scripts.Gameplay.Architecture.Managers{
     {
         private Dictionary<string, OperationState[]> _runtimeOperationStates; // id is body part, array of states per body part
 
+        private List<OperationSite> _overviewOperationSites = new List<OperationSite>();
+        public List<OperationSite> OverviewOperationSites
+        {
+            get
+            {
+                return _overviewOperationSites;
+            }
+        }
+        public int _operationSitesIndex;
+
+        public OperationSite CurrentOperationSite
+        {
+            get
+            {
+                if (_operationSitesIndex < 0 || _operationSitesIndex >= _overviewOperationSites.Count)
+                {
+                    return null;
+                }
+
+                return _overviewOperationSites[_operationSitesIndex];
+            }
+        }
+
         private List<OperationState> _overviewOperationStates = new List<OperationState>();
+        private int _operationStatesIndex;
+
+        public OperationState CurrentOperationState
+        {
+            get
+            {
+                if (_operationStatesIndex < 0 || _operationStatesIndex >= _overviewOperationStates.Count)
+                {
+                    return null;
+                }
+
+                return _overviewOperationStates[_operationStatesIndex];
+            }
+        }
 
         // as gamestate is being generated
         public virtual void ManagedPreInitialiseGameState() { }
@@ -36,7 +74,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // tick for playing game 
         public virtual void ManagedTick()
         {
-
+            if (IsInAnyOperatingMode())
+            {
+                Debug.Log("OPeration site is " + CurrentOperationSite + " and OPeration state is: " + CurrentOperationState);
+            }
         }
         // late update tick for playing game 
         public virtual void ManagedLateTick() { }
@@ -146,36 +187,48 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return;
             }
 
-            List<OperationState> _allStates = new List<OperationState>();
+            List<OperationSite> bodyPartOpSites = new List<OperationSite>();
 
-            _allStates = bodyPart.AllOperationStates;
+            bodyPartOpSites = bodyPart.OperationSites;
 
-            if (_allStates == null)
+            if (bodyPartOpSites == null)
             {
                 return;
             }
 
-            for (int i = _allStates.Count - 1; i >= 0; i--)
+            for (int i = bodyPartOpSites.Count - 1; i >= 0; i--)
             {
-                OperationState opState = _allStates[i];
-                bool ignoreState = IsOperationAvailable(opState) == false;
+                OperationSite opSite = bodyPartOpSites[i];
 
-                if (ignoreState)
+                List<OperationState> opStates = opSite.GetOperationStates();
+
+                for (int j = 0; j < opStates.Count; j++)
                 {
-                    continue;
+                    OperationState opState = opStates[j];
+
+                    bool ignoreState = IsOperationAvailable(opState) == false;
+
+                    if (ignoreState)
+                    {
+                        continue;
+                    }
+
+                    bool isFeasibleOperation = IsOperationFeasible(opState);
+
+                    if (!isFeasibleOperation)
+                    {
+                        continue;
+                    }
+
+                    _overviewOperationStates.Add(opState);
                 }
 
-                bool isFeasibleOperation = IsOperationFeasible(opState);
-
-                if (!isFeasibleOperation)
-                {
-                    continue;
-                }
-
-                _overviewOperationStates.Add(opState);
+                _overviewOperationSites.Add(opSite);
             }
 
             SortOperationStates(ref _overviewOperationStates);
+
+            _operationSitesIndex = 0;
         }
 
         private void SortOperationStates(ref List<OperationState> opStates)
@@ -190,8 +243,40 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return;
             }
 
+            _operationStatesIndex = 0;
             //tbd
         }
+
+        public void ScrollOperationSite(bool forward)
+        {
+            _operationSitesIndex += (forward ? 1 : -1);
+
+            if (_operationSitesIndex >= _overviewOperationSites.Count)
+            {
+                _operationSitesIndex = 0;
+            }
+            else if (_operationSitesIndex < 0)
+            {
+                _operationSitesIndex = _overviewOperationSites.Count - 1;
+            }
+
+            _operationStatesIndex = 0;
+        }
+
+        public void ScrollOperationState(bool forward)
+        {
+            _operationStatesIndex += (forward ? 1 : -1);
+
+            if (_operationStatesIndex >= _overviewOperationStates.Count)
+            {
+                _operationStatesIndex = 0;
+            }
+            else if (_operationStatesIndex < 0)
+            {
+                _operationStatesIndex = _overviewOperationStates.Count - 1;
+            }
+        }
+
     }
-    
+
 }

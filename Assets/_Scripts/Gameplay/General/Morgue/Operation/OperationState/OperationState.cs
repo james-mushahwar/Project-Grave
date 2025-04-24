@@ -1,5 +1,6 @@
 ﻿using _Scripts.CautionaryTalesScripts;
 using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
 using _Scripts.Gameplay.Player.Controller;
@@ -14,15 +15,13 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
 
     // an Operation State contains info about the progress of a certain proedue, what that operation is specifically and other info
     [Serializable]
-    public class OperationState
+    public class OperationState : IIdentifiable
     {
-        private string _operatableRuntimeID;
-        public string OperatableRuntimeID { get => _operatableRuntimeID; set => _operatableRuntimeID = value; }
         public IOperatable OperatableOwner
         {
             get
             {
-                if (OperatableRuntimeID != null)
+                if (RuntimeID != null)
                 {
                     return null;
                 }
@@ -36,6 +35,9 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         {
             get => _operationType; 
         }
+
+        [SerializeField] private FVirtualCamera _operationStateVirtualCamera;
+        public FVirtualCamera OperationStateVirtualCamera { get => _operationStateVirtualCamera; }
 
         private float _elapsedProgress = 0.0f; // 0 to 1
         private float _proceedStep = 0.1f;
@@ -56,6 +58,18 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
 
         public Transform OperationStartTransform { get => _operationStartTransform; }
         public Transform OperationStarOffsetTransform { get => _operationStartOffsetTransform; }
+
+        [SerializeField]
+        private RuntimeID _runtimeID;
+        public RuntimeID RuntimeID { get { return _runtimeID; } }
+
+        public void SetupOperationState()
+        {
+            if (RuntimeID != null)
+            {
+                CameraManager.Instance.AssignVirtualCameraType(RuntimeID, _operationStateVirtualCamera.CamType, _operationStateVirtualCamera.VirtualCamera);
+            }
+        }
 
         public virtual void BeginOperationState(float duration = -1.0f)
         {
