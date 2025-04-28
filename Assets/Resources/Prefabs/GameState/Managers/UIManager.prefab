@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4492742266272679772}
   - component: {fileID: 5088648175308820944}
   - component: {fileID: 720250738902406591}
+  - component: {fileID: 2833272109831439594}
   m_Layer: 0
   m_Name: StatesActionButton (1)
   m_TagString: Untagged
@@ -38,7 +39,7 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &5088648175308820944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,6 +92,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 282777604495380425}
   m_CullTransparentMesh: 1
+--- !u!114 &2833272109831439594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282777604495380425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dc0fd73f9531b442a2d886cca3b9aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 6416714447274875141}
+  _pulseOnHighlight: 0
+  _enlargeOnHighlight: 1
+  _targetScaleOnHighlight: 2
+  _pulseDuration: 1
 --- !u!1 &493689340883959661
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,6 +278,7 @@ MonoBehaviour:
   _pulseOnHighlight: 1
   _enlargeOnHighlight: 0
   _targetScaleOnHighlight: 2
+  _pulseDuration: 1
 --- !u!1 &869884906920530110
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,11 +317,11 @@ RectTransform:
   m_Father: {fileID: 6279496018259848209}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 700, y: 100}
-  m_Pivot: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -732.00006}
+  m_SizeDelta: {x: -1054, y: -686}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &5118037489806881066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,6 +441,7 @@ MonoBehaviour:
   _pulseOnHighlight: 1
   _enlargeOnHighlight: 0
   _targetScaleOnHighlight: 2
+  _pulseDuration: 1
 --- !u!1 &1388782106121405470
 GameObject:
   m_ObjectHideFlags: 0
@@ -693,6 +713,7 @@ GameObject:
   - component: {fileID: 2146201520897551161}
   - component: {fileID: 6570665538940659497}
   - component: {fileID: 8165469298325649312}
+  - component: {fileID: 1569906488995526420}
   m_Layer: 0
   m_Name: StatesActionButton (5)
   m_TagString: Untagged
@@ -720,7 +741,7 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &6570665538940659497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -773,6 +794,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2607403643604649684}
   m_CullTransparentMesh: 1
+--- !u!114 &1569906488995526420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2607403643604649684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dc0fd73f9531b442a2d886cca3b9aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 5149819325956096541}
+  _pulseOnHighlight: 0
+  _enlargeOnHighlight: 1
+  _targetScaleOnHighlight: 2
+  _pulseDuration: 1
 --- !u!1 &2837242197378776877
 GameObject:
   m_ObjectHideFlags: 0
@@ -937,6 +975,7 @@ GameObject:
   - component: {fileID: 2024637526935433545}
   - component: {fileID: 1235162701016469223}
   - component: {fileID: 7677948953050667717}
+  - component: {fileID: 7493224012955522044}
   m_Layer: 0
   m_Name: StatesActionButton (3)
   m_TagString: Untagged
@@ -964,7 +1003,7 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1235162701016469223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1017,6 +1056,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3685561622484296702}
   m_CullTransparentMesh: 1
+--- !u!114 &7493224012955522044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3685561622484296702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dc0fd73f9531b442a2d886cca3b9aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 6163363276494314873}
+  _pulseOnHighlight: 0
+  _enlargeOnHighlight: 1
+  _targetScaleOnHighlight: 2
+  _pulseDuration: 1
 --- !u!1 &3764132095163623411
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,6 +1084,7 @@ GameObject:
   - component: {fileID: 6474913563855472631}
   - component: {fileID: 9153721449923747140}
   - component: {fileID: 492855544307343315}
+  - component: {fileID: 5064669963370048348}
   m_Layer: 0
   m_Name: StatesActionButton (2)
   m_TagString: Untagged
@@ -1055,7 +1112,7 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &9153721449923747140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1108,6 +1165,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3764132095163623411}
   m_CullTransparentMesh: 1
+--- !u!114 &5064669963370048348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3764132095163623411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dc0fd73f9531b442a2d886cca3b9aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 3872226623332509260}
+  _pulseOnHighlight: 0
+  _enlargeOnHighlight: 1
+  _targetScaleOnHighlight: 2
+  _pulseDuration: 1
 --- !u!1 &3844572005427225449
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,6 +1275,7 @@ MonoBehaviour:
   _pulseOnHighlight: 1
   _enlargeOnHighlight: 0
   _targetScaleOnHighlight: 2
+  _pulseDuration: 1
 --- !u!1 &3881510572445913855
 GameObject:
   m_ObjectHideFlags: 0
@@ -1263,6 +1338,7 @@ GameObject:
   - component: {fileID: 599525444007266453}
   - component: {fileID: 7903917171145232022}
   - component: {fileID: 1441799567725873641}
+  - component: {fileID: 4979034216831313759}
   m_Layer: 0
   m_Name: StatesActionButton
   m_TagString: Untagged
@@ -1290,7 +1366,7 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &7903917171145232022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1355,6 +1431,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4426564193114504469}
   m_CullTransparentMesh: 1
+--- !u!114 &4979034216831313759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4426564193114504469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dc0fd73f9531b442a2d886cca3b9aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 3236046475789637566}
+  _pulseOnHighlight: 0
+  _enlargeOnHighlight: 1
+  _targetScaleOnHighlight: 2
+  _pulseDuration: 1
 --- !u!1 &4506847864596415282
 GameObject:
   m_ObjectHideFlags: 0
@@ -1649,6 +1742,7 @@ MonoBehaviour:
   _pulseOnHighlight: 1
   _enlargeOnHighlight: 0
   _targetScaleOnHighlight: 2
+  _pulseDuration: 1
 --- !u!1 &5159253816213053393
 GameObject:
   m_ObjectHideFlags: 0
@@ -1895,6 +1989,7 @@ MonoBehaviour:
   _pulseOnHighlight: 1
   _enlargeOnHighlight: 0
   _targetScaleOnHighlight: 2
+  _pulseDuration: 1
 --- !u!1 &5797227341350308837
 GameObject:
   m_ObjectHideFlags: 0
@@ -2231,6 +2326,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _operationStatesGroup: {fileID: 8754023282027421284}
+  _statesMarkers:
+  - {fileID: 4979034216831313759}
+  - {fileID: 2833272109831439594}
+  - {fileID: 5064669963370048348}
+  - {fileID: 7493224012955522044}
+  - {fileID: 8571049917563641908}
+  - {fileID: 1569906488995526420}
   _operationSitesGroup: {fileID: 8490121309297603973}
   _siteMarkers:
   - {fileID: 1088852582720310888}
@@ -2484,6 +2586,7 @@ MonoBehaviour:
   _pulseOnHighlight: 1
   _enlargeOnHighlight: 0
   _targetScaleOnHighlight: 2
+  _pulseDuration: 1
 --- !u!1 &8338742789638052548
 GameObject:
   m_ObjectHideFlags: 0
@@ -2495,6 +2598,7 @@ GameObject:
   - component: {fileID: 6251024748233715350}
   - component: {fileID: 1942646668326157498}
   - component: {fileID: 8931825456067262427}
+  - component: {fileID: 8571049917563641908}
   m_Layer: 0
   m_Name: StatesActionButton (4)
   m_TagString: Untagged
@@ -2522,7 +2626,7 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1942646668326157498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2575,6 +2679,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8338742789638052548}
   m_CullTransparentMesh: 1
+--- !u!114 &8571049917563641908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8338742789638052548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dc0fd73f9531b442a2d886cca3b9aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 1907849690636990991}
+  _pulseOnHighlight: 0
+  _enlargeOnHighlight: 1
+  _targetScaleOnHighlight: 2
+  _pulseDuration: 1
 --- !u!1 &8490121309297603973
 GameObject:
   m_ObjectHideFlags: 0
@@ -2644,10 +2765,10 @@ RectTransform:
   m_Father: {fileID: 1117507825677448498}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 14.54541, y: -17.112122}
-  m_SizeDelta: {x: 1733.4756, y: 886.4169}
+  m_SizeDelta: {x: 1753.4756, y: 786.4169}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8786600873177950024
 GameObject:

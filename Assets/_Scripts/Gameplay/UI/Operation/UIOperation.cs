@@ -1,5 +1,6 @@
 ﻿using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationSite;
+using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Gameplay.UI.Marker;
 using DG.Tweening;
@@ -15,6 +16,7 @@ namespace _Scripts.Gameplay.UI.Operation{
     public class UIOperation : MonoBehaviour, IManaged
     {
         [SerializeField] private GameObject _operationStatesGroup;
+        [SerializeField] private List<UIMarker> _statesMarkers;
         [SerializeField] private GameObject _operationSitesGroup;
         [SerializeField] private List<UIMarker> _siteMarkers;
 
@@ -69,6 +71,26 @@ namespace _Scripts.Gameplay.UI.Operation{
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(UIManager.Instance.GameplayCanvas.transform as RectTransform, screenPosition, UIManager.Instance.GameplayCanvas.worldCamera, out anchoredPosition);
                 // Set UI element position
                 siteMarker.SetPosition(anchoredPosition);
+            }
+
+            for (int i = 0; i < _siteMarkers.Count; i++)
+            {
+                _statesMarkers[i].SetShow(false);
+            }
+
+            for (int i = 0; i < OperationManager.Instance.OverviewOperationStates.Count; i++)
+            {
+                if (i > _statesMarkers.Count)
+                {
+                    continue;
+                }
+
+                UIMarker stateMarker = _statesMarkers[i];
+                OperationState opState = OperationManager.Instance.OverviewOperationStates[i];
+
+                stateMarker.SetShow(true);
+
+                stateMarker.SetHighlight(opState == OperationManager.Instance.CurrentOperationState);
             }
         }
     }

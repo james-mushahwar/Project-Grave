@@ -22,7 +22,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return _overviewOperationSites;
             }
         }
-        public int _operationSitesIndex;
+        public int _operationSitesIndex = 0;
 
         public OperationSite CurrentOperationSite
         {
@@ -38,7 +38,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         }
 
         private List<OperationState> _overviewOperationStates = new List<OperationState>();
-        private int _operationStatesIndex;
+        public List<OperationState> OverviewOperationStates
+        {
+            get
+            {
+                return _overviewOperationStates;
+            }
+        }
+        private int _operationStatesIndex = 0;
 
         public OperationState CurrentOperationState
         {
@@ -196,55 +203,59 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return;
             }
 
+            _operationSitesIndex = 0;
+
             for (int i = bodyPartOpSites.Count - 1; i >= 0; i--)
             {
                 OperationSite opSite = bodyPartOpSites[i];
-
-                List<OperationState> opStates = opSite.GetOperationStates();
-
-                for (int j = 0; j < opStates.Count; j++)
-                {
-                    OperationState opState = opStates[j];
-
-                    bool ignoreState = IsOperationAvailable(opState) == false;
-
-                    if (ignoreState)
-                    {
-                        continue;
-                    }
-
-                    bool isFeasibleOperation = IsOperationFeasible(opState);
-
-                    if (!isFeasibleOperation)
-                    {
-                        continue;
-                    }
-
-                    _overviewOperationStates.Add(opState);
-                }
-
                 _overviewOperationSites.Add(opSite);
+
+                if (opSite == CurrentOperationSite)
+                { 
+                    SortOperationStates(opSite);
+                }
             }
 
-            SortOperationStates(ref _overviewOperationStates);
-
-            _operationSitesIndex = 0;
         }
 
-        private void SortOperationStates(ref List<OperationState> opStates)
+        public void SortOperationStates()
         {
-            if (opStates == null)
-            {
-                opStates = _overviewOperationStates;
-            }
+            OperationSite opSite = CurrentOperationSite;
 
-            if (opStates == null)
+            if (opSite == null)
             {
                 return;
             }
 
+            SortOperationStates(opSite);
+        }
+        public void SortOperationStates(OperationSite opSite)
+        {
             _operationStatesIndex = 0;
+            _overviewOperationStates.Clear();
             //tbd
+
+            List<OperationState> opStates = opSite.GetOperationStates();
+            for (int j = 0; j < opStates.Count; j++)
+            {
+                OperationState opState = opStates[j];
+
+                bool ignoreState = IsOperationAvailable(opState) == false;
+
+                if (ignoreState)
+                {
+                    continue;
+                }
+
+                bool isFeasibleOperation = IsOperationFeasible(opState);
+
+                if (!isFeasibleOperation)
+                {
+                    continue;
+                }
+
+                _overviewOperationStates.Add(opState);
+            }
         }
 
         public void ScrollOperationSite(bool forward)
@@ -261,6 +272,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
 
             _operationStatesIndex = 0;
+            SortOperationStates();
         }
 
         public void ScrollOperationState(bool forward)
