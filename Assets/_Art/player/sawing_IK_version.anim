@@ -1304,7 +1304,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Rig_IK_r_arm_sawing/IK_arm_r_sawing_2BoneConstraint/grp_IK_r_arm_code_CTRL_position/grp_IK_r_arm_sawing_Animation_IK
+    path: Rig_IK_r_arm_sawing/IK_arm_r_sawing_2boneConstraint/grp_IK_r_arm_code_CTRL_position/grp_IK_r_arm_sawing_Animation_IK
   m_ScaleCurves:
   - curve:
       serializedVersion: 2
@@ -1632,8 +1632,8 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_Weight
-    path: Rig_IK_r_arm_sawing/IK_arm_r_sawing_2BoneConstraint
+    attribute: m_Data.m_TargetPositionWeight
+    path: Rig_IK_r_arm_sawing/IK_arm_r_sawing_2boneConstraint
     classID: 114
     script: {fileID: 11500000, guid: aeda7bfbf984f2a4da5ab4b8967b115d, type: 3}
     flags: 0
@@ -1662,8 +1662,8 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_Data.m_TargetPositionWeight
-    path: Rig_IK_r_arm_sawing/IK_arm_r_sawing_2BoneConstraint
+    attribute: m_Weight
+    path: Rig_IK_r_arm_sawing/IK_arm_r_sawing_2boneConstraint
     classID: 114
     script: {fileID: 11500000, guid: aeda7bfbf984f2a4da5ab4b8967b115d, type: 3}
     flags: 0
@@ -1703,7 +1703,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 781343428
+      path: 3891305448
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -2099,8 +2099,8 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2680801885
-      attribute: 1257374345
+      path: 1387115141
+      attribute: 299198735
       script: {fileID: 11500000, guid: aeda7bfbf984f2a4da5ab4b8967b115d, type: 3}
       typeID: 114
       customType: 0
@@ -2108,8 +2108,8 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2680801885
-      attribute: 299198735
+      path: 1387115141
+      attribute: 1257374345
       script: {fileID: 11500000, guid: aeda7bfbf984f2a4da5ab4b8967b115d, type: 3}
       typeID: 114
       customType: 0
@@ -8324,66 +8324,6 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_Weight
-    path: Rig_IK_r_arm_sawing/IK_arm_r_sawing_2BoneConstraint
-    classID: 114
-    script: {fileID: 11500000, guid: aeda7bfbf984f2a4da5ab4b8967b115d, type: 3}
-    flags: 0
-  - serializedVersion: 2
-    curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_Data.m_TargetPositionWeight
-    path: Rig_IK_r_arm_sawing/IK_arm_r_sawing_2BoneConstraint
-    classID: 114
-    script: {fileID: 11500000, guid: aeda7bfbf984f2a4da5ab4b8967b115d, type: 3}
-    flags: 0
-  - serializedVersion: 2
-    curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
         value: 0.211
         inSlope: 0
         outSlope: 0
@@ -8413,7 +8353,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Rig_IK_r_arm_sawing/IK_arm_r_sawing_2BoneConstraint/grp_IK_r_arm_code_CTRL_position/grp_IK_r_arm_sawing_Animation_IK
+    path: Rig_IK_r_arm_sawing/IK_arm_r_sawing_2boneConstraint/grp_IK_r_arm_code_CTRL_position/grp_IK_r_arm_sawing_Animation_IK
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -8452,7 +8392,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Rig_IK_r_arm_sawing/IK_arm_r_sawing_2BoneConstraint/grp_IK_r_arm_code_CTRL_position/grp_IK_r_arm_sawing_Animation_IK
+    path: Rig_IK_r_arm_sawing/IK_arm_r_sawing_2boneConstraint/grp_IK_r_arm_code_CTRL_position/grp_IK_r_arm_sawing_Animation_IK
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -8491,9 +8431,69 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Rig_IK_r_arm_sawing/IK_arm_r_sawing_2BoneConstraint/grp_IK_r_arm_code_CTRL_position/grp_IK_r_arm_sawing_Animation_IK
+    path: Rig_IK_r_arm_sawing/IK_arm_r_sawing_2boneConstraint/grp_IK_r_arm_code_CTRL_position/grp_IK_r_arm_sawing_Animation_IK
     classID: 4
     script: {fileID: 0}
+    flags: 0
+  - serializedVersion: 2
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Data.m_TargetPositionWeight
+    path: Rig_IK_r_arm_sawing/IK_arm_r_sawing_2boneConstraint
+    classID: 114
+    script: {fileID: 11500000, guid: aeda7bfbf984f2a4da5ab4b8967b115d, type: 3}
+    flags: 0
+  - serializedVersion: 2
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Weight
+    path: Rig_IK_r_arm_sawing/IK_arm_r_sawing_2boneConstraint
+    classID: 114
+    script: {fileID: 11500000, guid: aeda7bfbf984f2a4da5ab4b8967b115d, type: 3}
     flags: 0
   m_EulerEditorCurves:
   - serializedVersion: 2

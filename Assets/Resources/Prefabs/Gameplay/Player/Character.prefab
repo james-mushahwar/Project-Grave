@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 5327203676593046769}
   - component: {fileID: 2319431663749129673}
   m_Layer: 0
-  m_Name: IK_arm_r_sawing
+  m_Name: IK_arm_r_sawing_2boneConstraint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,12 +87,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 468345722461670356}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.026893565, y: 0.7118035, z: -0.026499076, w: 0.7013632}
+  m_LocalPosition: {x: 0.4251375, y: 0.0052589327, z: 1.0117881}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5629156229927382719}
+  - {fileID: 8927493895835314858}
   m_Father: {fileID: 8391137437770363600}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -115,7 +115,7 @@ MonoBehaviour:
     m_Tip: {fileID: 1819798975829729685}
     m_Target: {fileID: 5629156229927382719}
     m_Hint: {fileID: 0}
-    m_TargetPositionWeight: 0.2
+    m_TargetPositionWeight: 1
     m_TargetRotationWeight: 0
     m_HintWeight: 1
     m_MaintainTargetPositionOffset: 0
@@ -145,7 +145,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 525811738602575639}
   m_LocalRotation: {x: -0, y: 0.000000007450579, z: 0.0000000020706892, w: 1}
-  m_LocalPosition: {x: -0.033999994, y: -1.625, z: -0.052}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -371,13 +371,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1358805955609380601}
-  m_LocalRotation: {x: -0, y: 0.000000007450579, z: 0.0000000020706892, w: 1}
-  m_LocalPosition: {x: -0.033999994, y: -1.625, z: -0.052}
+  m_LocalRotation: {x: 0.026893565, y: -0.7118035, z: 0.026499076, w: 0.7013632}
+  m_LocalPosition: {x: 1.1904182, y: -1.544838, z: -0.44337022}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3629567331266408074}
-  m_Father: {fileID: 3459713307154172005}
+  m_Father: {fileID: 5629156229927382719}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1527990320904003784
@@ -1286,7 +1286,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5629156229927382719}
   m_Layer: 0
-  m_Name: grp_IK_r_arm_sawing_Offset
+  m_Name: grp_IK_r_arm_sawing_Animation_IK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1299,14 +1299,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3754695401775111676}
-  m_LocalRotation: {x: -0.085831694, y: 0.3407187, z: -0.015134482, w: 0.9361169}
-  m_LocalPosition: {x: 0.6, y: 1.7, z: 0.8}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5327203676593046769}
+  m_Children:
+  - {fileID: 3113204539938844596}
+  m_Father: {fileID: 8927493895835314858}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3841284315405544604
 GameObject:
   m_ObjectHideFlags: 0
@@ -1460,7 +1461,6 @@ Transform:
   - {fileID: 4491430734468065215}
   - {fileID: 7743556522713536263}
   - {fileID: 8391137437770363600}
-  - {fileID: 3113204539938844596}
   m_Father: {fileID: 7362743322704732915}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1875,6 +1875,38 @@ Transform:
   m_Children:
   - {fileID: 2286562130798205526}
   m_Father: {fileID: 7802273172865535093}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5403579740211404955
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8927493895835314858}
+  m_Layer: 0
+  m_Name: grp_IK_r_arm_code_CTRL_position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8927493895835314858
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5403579740211404955}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5629156229927382719}
+  m_Father: {fileID: 5327203676593046769}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5626017498981430128
