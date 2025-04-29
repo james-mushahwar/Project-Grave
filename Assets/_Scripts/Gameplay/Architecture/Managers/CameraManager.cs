@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Gameplay.General.Identification;
 using System;
+using _Scripts.Gameplay.General.Morgue;
+using UnityEditor;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -191,13 +193,18 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
                 EVirtualCameraType vCamType = EVirtualCameraType.NONE;
                 RuntimeID id = null;
+                CinemachineVirtualCamera vCam = null;
 
                 if (OperationManager.Instance.IsInOperationOverview())
                 {
                     if (PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor != null)
                     {
+                        OperatingTable opTable = PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.BodyMorgueActor.Stored.GetStorageParent() as OperatingTable;
                         vCamType = PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.OperationOverviewVirtualCamera.CamType;
-                        id = PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.RuntimeID;
+                        id = opTable.RuntimeID;
+
+                        vCam = opTable.GetVirtualCamera(vCamType);
+                        //id = PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.RuntimeID;
                     }
                 }
                 else if (OperationManager.Instance.IsOperating())
@@ -214,7 +221,16 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     id = PlayerManager.Instance.CurrentPlayerController.RuntimeID;
                 }
 
-                bool activate = ActivateVirtualCamera(id, vCamType);
+
+                bool activate = false;
+                if (vCam != null)
+                {
+                    activate = ActivateVirtualCamera(vCam);
+                }
+                else
+                {
+                    activate = ActivateVirtualCamera(id, vCamType);
+                }
 
             }
         }
@@ -300,6 +316,26 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 }
             }
 
+            return activated;
+        }
+
+        public bool ActivateVirtualCamera(CinemachineVirtualCamera vCam)
+        {
+            bool activated = false;
+
+            if (vCam != null && (!CmBrain.ActiveVirtualCamera.Equals(vCam)))
+            {
+                if (CmBrain.ActiveVirtualCamera.VirtualCameraGameObject != null)
+                {
+                    CmBrain.ActiveVirtualCamera.VirtualCameraGameObject.SetActive(false);
+                }
+
+                vCam.gameObject.SetActive(true);
+                _cameraTransitionBuffer = true;
+                activated = true;
+                //_currentVCamType = cameraType;
+            }
+            
             return activated;
         }
 

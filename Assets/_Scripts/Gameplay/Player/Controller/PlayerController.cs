@@ -22,6 +22,7 @@ using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationSite;
 using IIdentifiable = _Scripts.Org.IIdentifiable;
 using _Scripts.Gameplay.General.Identification;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace _Scripts.Gameplay.Player.Controller{
 
@@ -76,9 +77,9 @@ namespace _Scripts.Gameplay.Player.Controller{
         {
             get
             {
-                if (CurrentOperationState != null)
+                if (ChosenOperationState != null)
                 {
-                    return CurrentOperationState.OperationType;
+                    return ChosenOperationState.OperationType;
                 }
 
                 return EOperationType.NONE;
@@ -122,7 +123,7 @@ namespace _Scripts.Gameplay.Player.Controller{
         private OperationSite _selectedOperationSite;
 
         private OperationState _chosenOperationState;
-        public OperationState CurrentOperationState 
+        public OperationState ChosenOperationState 
         { 
             get 
             {
@@ -456,17 +457,17 @@ namespace _Scripts.Gameplay.Player.Controller{
                         return;
                     }
 
-                    if (CurrentOperationState != null)
+                    if (ChosenOperationState != null)
                     {
                         if (EquippedOperatingTool.IsAnimating())
                         {
                             return;
                         }
 
-                        bool proceed = CurrentOperationState.OnActionLInput();
+                        bool proceed = ChosenOperationState.OnActionLInput();
                         if (proceed)
                         {
-                            CurrentOperationState.ProceedOperation(1.0f);
+                            ChosenOperationState.ProceedOperation(1.0f);
 
                             EquippedOperatingTool.Animate();
                         }
@@ -497,17 +498,17 @@ namespace _Scripts.Gameplay.Player.Controller{
                         return;
                     }
 
-                    if (CurrentOperationState != null)
+                    if (ChosenOperationState != null)
                     {
                         if (EquippedOperatingTool.IsAnimating())
                         {
                             return;
                         }
 
-                        bool proceed = CurrentOperationState.OnActionRInput();
+                        bool proceed = ChosenOperationState.OnActionRInput();
                         if (proceed)
                         {
-                            CurrentOperationState.ProceedOperation(1.0f);
+                            ChosenOperationState.ProceedOperation(1.0f);
 
                             EquippedOperatingTool.Animate();
                         }
@@ -744,7 +745,14 @@ namespace _Scripts.Gameplay.Player.Controller{
             //}
             if (operating)
             {
-
+                if (OperationManager.Instance.CurrentOperationSite != null)
+                {
+                    if (_chosenOperationState == null)
+                    {
+                        BeginOperatingState();
+                        return;
+                    }
+                }
             }
             else
             {
@@ -865,24 +873,19 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
         }
 
-        public void BeginOperatingState(OperatingTable opTable, BodyPartMorgueActor bodyPart)
+        public void BeginOperatingState()
         {
             //if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.OperatingTable_Above))
             //{
                 
             //}
-
-            _operatingTable = opTable;
-
-            _bodyPartMorgueActor = bodyPart;
-
             _chosenOperationState = OperationManager.Instance.CurrentOperationState;
 
-            bodyPart.OperationState.BeginOperationState();
+            _bodyPartMorgueActor.OperationState.BeginOperationState();
 
             //RequestPlayerControllerState(EPlayerControllerState.Operating);
 
-            AnimationManager.Instance.StartOperationState(bodyPart);
+            AnimationManager.Instance.StartOperationState(_bodyPartMorgueActor);
 
             //BodyMorgueActor storedBody = _operatingTable.GetStorable<BodyMorgueActor>();
             //if (storedBody != null)
@@ -898,24 +901,33 @@ namespace _Scripts.Gameplay.Player.Controller{
                 
             //}
 
-            if (_operatingTable != null)
+            if (_chosenOperationState != null)
             {
-                BodyMorgueActor storedBody = _operatingTable.GetStorable<BodyMorgueActor>();
-                if (storedBody != null)
-                {
-                    storedBody.ToggleCollision(true);
-                }
+                _chosenOperationState = null;
+                AnimationManager.Instance.EndOperationState(_bodyPartMorgueActor);
+
             }
+            else
+            {
+                if (_operatingTable != null)
+                {
+                    BodyMorgueActor storedBody = _operatingTable.GetStorable<BodyMorgueActor>();
+                    if (storedBody != null)
+                    {
+                        storedBody.ToggleCollision(true);
+                    }
+                }
 
-            _operatingTable = null;
+                _operatingTable = null;
 
-            _chosenOperationState = null;
+                //_chosenOperationState = null;
 
-            AnimationManager.Instance.EndOperationState(_bodyPartMorgueActor);
+                //AnimationManager.Instance.EndOperationState(_bodyPartMorgueActor);
 
-            _bodyPartMorgueActor = null;
+                _bodyPartMorgueActor = null;
 
-            RequestPlayerControllerState(EPlayerControllerState.Normal);
+                RequestPlayerControllerState(EPlayerControllerState.Normal);
+            }
         }
 
         public void RequestPlayerControllerState(EPlayerControllerState state)

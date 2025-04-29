@@ -84,7 +84,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public void StartOperationState(BodyPartMorgueActor bodyPart)
         {
-            _playerCharacterAnimator.CurrentAnimator.transform.SetParent(PlayerManager.Instance.CurrentPlayerController.CurrentOperationState.OperationStarOffsetTransform);
+            _playerCharacterAnimator.CurrentAnimator.transform.SetParent(PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStarOffsetTransform);
             _playerCharacterAnimator.CurrentAnimator.transform.localPosition = Vector3.zero;
             _playerCharacterAnimator.CurrentAnimator.transform.localRotation = Quaternion.Euler(Vector3.zero);
 

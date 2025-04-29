@@ -49,7 +49,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         public void ManagedTick() 
         {
-            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.CurrentOperationState;
+            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
             bool isOperating = currentOpState != null;
 
             float playbackSpeed = 1.0f;
@@ -99,7 +99,7 @@ namespace _Scripts.Gameplay.Animate.Player{
         {
             float playbackSpeed = 1.0f;
             PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
-            OperationState opState = pc.CurrentOperationState;
+            OperationState opState = pc.ChosenOperationState;
             bool isOperating = false;
 
             if (pc != null)

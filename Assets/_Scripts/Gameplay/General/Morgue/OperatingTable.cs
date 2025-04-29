@@ -82,6 +82,18 @@ namespace _Scripts.Gameplay.General.Morgue{
             }
         }
 
+        public CinemachineVirtualCamera GetVirtualCamera(EVirtualCameraType camType)
+        {
+            CinemachineVirtualCamera vCam = null;
+
+            if (camType == EVirtualCameraType.OperatingTable_RArm_Overview)
+            {
+                vCam = _vCamera_RArmView.VirtualCamera;
+            }
+
+            return vCam;
+        }
+
         public IStorable TryRemove(IStorable storable)
         {
             IStorable removed = null;
