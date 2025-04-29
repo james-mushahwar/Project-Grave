@@ -114,6 +114,11 @@ namespace _Scripts.Gameplay.Player.Controller{
         #region Operating
         //private float _opScroll;
         private OperatingTable _operatingTable;
+        public OperatingTable OperatingTable
+        { 
+            get { return _operatingTable; } 
+        }
+
         private MorgueToolActor _equippedOperatingTool;
         private BodyPartMorgueActor _bodyPartMorgueActor;
 
@@ -447,29 +452,21 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             if (operating)
             {
-                OperationMorgueToolActor opTool = EquippedOperatingTool as OperationMorgueToolActor; 
-
-                if (opTool != null && _bodyPartMorgueActor != null)
+                if (_bodyPartMorgueActor != null)
                 {
-                    bool dismemberOperation = opTool is OperationDismemberMorgueTool;
-                    if (dismemberOperation == false)
-                    {
-                        return;
-                    }
-
                     if (ChosenOperationState != null)
                     {
-                        if (EquippedOperatingTool.IsAnimating())
-                        {
-                            return;
-                        }
+                        //if (EquippedOperatingTool.IsAnimating())
+                        //{
+                        //    return;
+                        //}
 
                         bool proceed = ChosenOperationState.OnActionLInput();
                         if (proceed)
                         {
                             ChosenOperationState.ProceedOperation(1.0f);
 
-                            EquippedOperatingTool.Animate();
+                            //EquippedOperatingTool.Animate();
                         }
                     }
                 }
@@ -488,29 +485,21 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             if (operating)
             {
-                OperationMorgueToolActor opTool = EquippedOperatingTool as OperationMorgueToolActor;
-
-                if (opTool != null && _bodyPartMorgueActor != null)
+                if (_bodyPartMorgueActor != null)
                 {
-                    bool dismemberOperation = opTool is OperationDismemberMorgueTool;
-                    if (dismemberOperation == false)
-                    {
-                        return;
-                    }
-
                     if (ChosenOperationState != null)
                     {
-                        if (EquippedOperatingTool.IsAnimating())
-                        {
-                            return;
-                        }
+                        //if (EquippedOperatingTool.IsAnimating())
+                        //{
+                        //    return;
+                        //}
 
                         bool proceed = ChosenOperationState.OnActionRInput();
                         if (proceed)
                         {
                             ChosenOperationState.ProceedOperation(1.0f);
 
-                            EquippedOperatingTool.Animate();
+                            //EquippedOperatingTool.Animate();
                         }
                     }
                 }
@@ -898,16 +887,30 @@ namespace _Scripts.Gameplay.Player.Controller{
         {
             //if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.FirstPersonView_Normal))
             //{
-                
+
             //}
+            bool leaveOpTable = false;
+
+            if (_bodyPartMorgueActor != null)
+            {
+                if (_bodyPartMorgueActor.BodyMorgueActor == null)
+                {
+                    _bodyPartMorgueActor = null;
+                    leaveOpTable = true;
+                }
+            }
+            else if (_chosenOperationState == null)
+            {
+                leaveOpTable = true;
+            }
 
             if (_chosenOperationState != null)
             {
                 _chosenOperationState = null;
                 AnimationManager.Instance.EndOperationState(_bodyPartMorgueActor);
-
             }
-            else
+            
+            if (leaveOpTable)
             {
                 if (_operatingTable != null)
                 {

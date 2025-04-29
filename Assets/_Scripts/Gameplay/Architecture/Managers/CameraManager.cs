@@ -197,15 +197,20 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
                 if (OperationManager.Instance.IsInOperationOverview())
                 {
-                    if (PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor != null)
+                    if (PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor != null && PlayerManager.Instance.CurrentPlayerController.OperatingTable != null)
                     {
-                        OperatingTable opTable = PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.BodyMorgueActor.Stored.GetStorageParent() as OperatingTable;
+                        OperatingTable opTable = PlayerManager.Instance.CurrentPlayerController.OperatingTable;
                         vCamType = PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.OperationOverviewVirtualCamera.CamType;
                         id = opTable.RuntimeID;
 
                         vCam = opTable.GetVirtualCamera(vCamType);
                         //id = PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.RuntimeID;
                     }
+                    //else if (PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor == null)
+                    //{
+                    //    vCamType = EVirtualCameraType.FirstPersonView_Normal;
+                    //    id = PlayerManager.Instance.CurrentPlayerController.RuntimeID;
+                    //}
                 }
                 else if (OperationManager.Instance.IsOperating())
                 {
