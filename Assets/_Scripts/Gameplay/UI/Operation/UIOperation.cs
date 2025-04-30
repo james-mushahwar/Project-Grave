@@ -39,8 +39,10 @@ namespace _Scripts.Gameplay.UI.Operation{
         {
             PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
 
-            _operationStatesGroup.SetActive(OperationManager.Instance.CurrentOperationSite != null);
-            _operationSitesGroup.SetActive(OperationManager.Instance.CurrentOperationSite != null);
+            bool showSitesGroup = OperationManager.Instance.IsInOperationOverview(pc);
+            bool showStatesGroup = showSitesGroup;
+            _operationStatesGroup.SetActive(showSitesGroup);
+            _operationSitesGroup.SetActive(showStatesGroup);
 
             for (int i = 0; i < _siteMarkers.Count; i++)
             {
@@ -75,6 +77,7 @@ namespace _Scripts.Gameplay.UI.Operation{
 
             for (int i = 0; i < _siteMarkers.Count; i++)
             {
+                _statesMarkers[i].SetImage(null);
                 _statesMarkers[i].SetShow(false);
             }
 
@@ -91,6 +94,10 @@ namespace _Scripts.Gameplay.UI.Operation{
                 stateMarker.SetShow(true);
 
                 stateMarker.SetHighlight(opState == OperationManager.Instance.CurrentOperationState);
+
+                Sprite opStateSprite = UIManager.Instance.GetOperationStateIcon(opState.OperationType);
+
+                stateMarker.SetImage(opStateSprite);
             }
         }
     }

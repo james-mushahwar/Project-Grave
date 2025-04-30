@@ -7,6 +7,7 @@ using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Gameplay.UI.Reticle;
 using UnityEngine;
 using _Scripts.Gameplay.UI.Operation;
+using System;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
     
@@ -23,6 +24,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField] private UIReticle _uiReticle;
         [SerializeField] private UIOperation _uiOperation;
 
+        [SerializeField] private Sprite _opDismemberTypeIcon;
+        [SerializeField] private Sprite _opAttachmentTypeIcon;
+        [SerializeField] private Sprite _opInspectTypeIcon;
+
         private bool _showInteractReticle = false;
         public bool ShowInteractReticle
         {
@@ -31,6 +36,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         }
 
         public Canvas GameplayCanvas { get => _gameplayCanvas; }
+        public Sprite OpDismemberTypeIcon { get => _opDismemberTypeIcon; }
+        public Sprite OpAttachmentTypeIcon { get => _opAttachmentTypeIcon; }
+        public Sprite OpInspectTypeIcon { get => _opInspectTypeIcon; }
         #endregion
 
         // as gamestate is being generated
@@ -90,6 +98,33 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // after world (level, area, zone) unloading
         public virtual void ManagedPostTearddownGame() { }
 
+        public Sprite GetOperationStateIcon(EOperationType operationType)
+        {
+            Sprite sprite = null;
+
+            switch (operationType)
+            {
+                case EOperationType.Dismember:
+                    sprite = _opDismemberTypeIcon; 
+                    break;
+
+                case EOperationType.Attaching:
+                    sprite = _opAttachmentTypeIcon;
+                    break;
+
+                case EOperationType.Stitching:
+                    sprite = _opAttachmentTypeIcon;
+                    break;
+                case EOperationType.Forensic:
+                    sprite = _opInspectTypeIcon;
+                    break;
+
+                default:
+                    break;
+            }
+
+            return sprite;
+        }
     }
 
 }

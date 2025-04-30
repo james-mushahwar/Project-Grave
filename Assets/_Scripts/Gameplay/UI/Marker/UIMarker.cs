@@ -10,6 +10,7 @@ namespace _Scripts.Gameplay.UI.Marker{
     {
         [SerializeField]
         private Image _image;
+        private Sprite _defaultSprite;
 
         [Header("Highlight settings")]
         [SerializeField]
@@ -28,6 +29,7 @@ namespace _Scripts.Gameplay.UI.Marker{
         private void Awake()
         {
             _defaultMarkerImageScale = _image.rectTransform.localScale;
+            _defaultSprite = _image.sprite;
         }
 
         public void SetShow(bool show)
@@ -59,6 +61,15 @@ namespace _Scripts.Gameplay.UI.Marker{
                     _image.rectTransform.localScale = _defaultMarkerImageScale;
                 }
             }
+        }
+
+        public void SetImage(Sprite sprite)
+        {
+            if (sprite == null)
+            {
+                sprite = _defaultSprite;
+            }
+            _image.sprite = sprite;
         }
 
         private void Pulse()

@@ -1327,6 +1327,11 @@ MonoBehaviour:
   _gameplayOperationViewGroup: {fileID: 6059746887681421767}
   _uiReticle: {fileID: 1631493889962428489}
   _uiOperation: {fileID: 1464208397628846442}
+  _opDismemberTypeIcon: {fileID: 21300000, guid: d1cde640c36ffeb4ea43ec35fd37c4ea,
+    type: 3}
+  _opAttachmentTypeIcon: {fileID: 21300000, guid: c3bc8045ccf4123478b5a6b5176bff7d,
+    type: 3}
+  _opInspectTypeIcon: {fileID: 0}
 --- !u!1 &4426564193114504469
 GameObject:
   m_ObjectHideFlags: 0
