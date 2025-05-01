@@ -899,7 +899,8 @@ namespace _Scripts.Gameplay.Player.Controller{
                     leaveOpTable = true;
                 }
             }
-            else if (_chosenOperationState == null)
+            
+            if (_chosenOperationState == null)
             {
                 leaveOpTable = true;
             }

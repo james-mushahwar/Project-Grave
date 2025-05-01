@@ -43,7 +43,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             // anim hash
             _idleLoopAnim_Hash = Animator.StringToHash("idle");
-            _sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_progress_start");
+            _sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_IK_version");
             //_sawingProgressEndLoopAnim_Hash = Animator.StringToHash("sawing_progress_end");
         }
 
