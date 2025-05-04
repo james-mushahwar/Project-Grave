@@ -154,7 +154,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             _bodyMorgueActor = GetComponentInParent<BodyMorgueActor>();
             if (_bodyMorgueActor != null)
             {
-                //BodyMorgueActor.RefreshBones(SkinnedMeshRenderer);
+                BodyMorgueActor.RefreshBones(SkinnedMeshRenderer);
 
             }
 
