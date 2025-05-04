@@ -269,9 +269,16 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             Transform[] newBones = new Transform[skinnedMesh.bones.Length];
             for (int i = 0; i < skinnedMesh.bones.Length; i++)
             {
-                if (boneDictionary.TryGetValue(skinnedMesh.bones[i].name, out Transform newBone))
+                if (skinnedMesh.bones[i] != null)
                 {
-                    newBones[i] = newBone;
+                    if (boneDictionary.TryGetValue(skinnedMesh.bones[i].name, out Transform newBone))
+                    {
+                        newBones[i] = newBone;
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Null bone found in skinnedMesh: " + skinnedMesh.name + " and gameobject: " + gameObject.name);
                 }
             }
 
