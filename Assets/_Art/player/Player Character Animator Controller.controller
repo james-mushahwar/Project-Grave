@@ -90,14 +90,14 @@ AnimatorState:
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -998496362607748373, guid: ba3846b6d6ac4ea46a1bad1f91137cb8,
     type: 3}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: Operating_SpeedMultiplier
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -136,7 +136,13 @@ AnimatorController:
   m_PrefabAsset: {fileID: 0}
   m_Name: Player Character Animator Controller
   serializedVersion: 5
-  m_AnimatorParameters: []
+  m_AnimatorParameters:
+  - m_Name: Operating_SpeedMultiplier
+    m_Type: 1
+    m_DefaultFloat: 1
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -258,7 +264,7 @@ AnimatorStateMachine:
     m_Position: {x: 390, y: 260, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5582321268566676076}
-    m_Position: {x: 411, y: 377, z: 0}
+    m_Position: {x: 390, y: 320, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7925989699686451867}
     m_Position: {x: 810, y: 320, z: 0}
@@ -267,7 +273,7 @@ AnimatorStateMachine:
     m_Position: {x: 810, y: 260, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8365193984026183827}
-    m_Position: {x: 137.8295, y: 412.9952, z: 0}
+    m_Position: {x: 390, y: 390, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

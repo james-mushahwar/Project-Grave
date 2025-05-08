@@ -3,6 +3,8 @@ using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 using _Scripts.Gameplay.Player.Controller;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
+using Unity.Collections;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.Animate.Player{
@@ -15,6 +17,9 @@ namespace _Scripts.Gameplay.Animate.Player{
         private Animator _operatingAnimator;
 
         public Animator CurrentAnimator { get { return _normalAnimator; } }
+
+        private Tweener _playbackSpeedTweener;
+        private float OperatingSpeedTweened;
 
         private int _idleAnimLayer_Index;
         private int _sawingStartAnimLayer_Index;
@@ -52,7 +57,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
             bool isOperating = currentOpState != null;
 
-            float playbackSpeed = 1.0f;
+            
 
             if (isOperating)
             {
@@ -72,6 +77,15 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 CurrentAnimator.SetLayerWeight(_sawingStartAnimLayer_Index, 1.0f);
                 //CurrentAnimator.SetLayerWeight(_sawingEndAnimLayer_Index, progress);
+
+                if (_playbackSpeedTweener.IsActive() == false)
+                {
+                    _playbackSpeedTweener = DOTween.To(() => OperatingSpeedTweened, x => OperatingSpeedTweened = x, 1.0f, 2)
+                        .SetLoops(-1, LoopType.Yoyo);
+                    _playbackSpeedTweener.Play();
+                }
+
+                CurrentAnimator.SetFloat("Operating_SpeedMultiplier", OperatingSpeedTweened);
             }
             else
             {
@@ -86,12 +100,6 @@ namespace _Scripts.Gameplay.Animate.Player{
                     //CurrentAnimator.PlayInFixedTime(_idleLoopAnim_Hash);
                     Debug.Log("Trying to play idle animation");
                 }
-            }
-
-            
-            if (CurrentAnimator.speed != playbackSpeed)
-            {
-                CurrentAnimator.speed = playbackSpeed;
             }
         }
 
