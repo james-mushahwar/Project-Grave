@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Gameplay.General.Morgue.Storage;
 using _Scripts.Org;
 using Unity.Mathematics;
@@ -200,6 +201,29 @@ namespace _Scripts.Gameplay.Player.Controller{
             {
                 _coatStorages[i].gameObject.SetActive(show);
             }
+        }
+
+        public MorgueToolActor GetToolOfType(EOperationType opType)
+        {
+            MorgueToolActor tool = null;
+
+            for (int i = 0; i < _coatStorages.Count; i++)
+            {
+                MorgueToolActor nextTool = _coatStorages[i].OperatingTool;
+
+                if (nextTool == null)
+                {
+                    continue;
+                }
+
+                if (opType == OperationManager.Instance.GetToolOperationType(nextTool))
+                {
+                    tool = nextTool;
+                    break;
+                }
+            }
+
+            return tool;
         }
     }
     

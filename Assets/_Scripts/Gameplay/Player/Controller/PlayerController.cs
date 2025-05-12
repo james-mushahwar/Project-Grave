@@ -868,9 +868,33 @@ namespace _Scripts.Gameplay.Player.Controller{
             //{
                 
             //}
+            if (OperationManager.Instance.CurrentOperationState == null)
+            {
+                Debug.LogError("No chosen operation state, can't begin op state");
+                return;
+            }
+            MorgueToolActor toolToUse = _playerStorage.GetToolOfType(OperationManager.Instance.CurrentOperationState.OperationType);
+
+            if (toolToUse == null)
+            {
+                Debug.LogError("No valid tool to equip for operation state! Operation type is: " + OperationManager.Instance.CurrentOperationState.OperationType);
+                return;
+            }
+
             _chosenOperationState = OperationManager.Instance.CurrentOperationState;
 
             _bodyPartMorgueActor.OperationState.BeginOperationState();
+
+
+            if (toolToUse != null)
+            {
+                bool equipped = toolToUse.OnInteract(this);
+
+                if (equipped)
+                {
+                    toolToUse.gameObject.SetActive(true);
+                }
+            }
 
             //RequestPlayerControllerState(EPlayerControllerState.Operating);
 

@@ -5,6 +5,7 @@ using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Gameplay.Player.Controller;
 using UnityEngine;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationSite;
+using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
     
@@ -205,6 +206,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             _operationSitesIndex = 0;
 
+            _overviewOperationSites.Clear();
+
             for (int i = bodyPartOpSites.Count - 1; i >= 0; i--)
             {
                 OperationSite opSite = bodyPartOpSites[i];
@@ -289,6 +292,25 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
         }
 
+        public EOperationType GetToolOperationType(MorgueToolActor opTool)
+        {
+            EOperationType opType = EOperationType.NONE;
+
+            if (opTool as OperationAttachmentMorgueTool)
+            {
+                opType = EOperationType.Attaching;
+            }
+            else if (opTool as OperationCuttingMorgueTool)
+            {
+                opType = EOperationType.Dismember;
+            }
+            else if (opTool as OperationDismemberMorgueTool)
+            {
+                opType = EOperationType.Dismember;
+            }
+
+            return opType;
+        }
     }
 
 }

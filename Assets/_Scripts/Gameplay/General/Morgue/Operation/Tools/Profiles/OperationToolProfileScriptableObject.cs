@@ -13,7 +13,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
         [SerializeField]
         private float _startingProgressThreshold;
 
-        public float  Evaluate(float alpha)
+        public float Evaluate(float alpha)
         {
             return _toolProgressCurve.Evaluate(alpha);
         }
