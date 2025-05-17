@@ -8,7 +8,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
     
     public class OperationDismemberMorgueTool : OperationMorgueToolActor
     {
-        
+         
     }
     
 }

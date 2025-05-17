@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Unity.Collections;
 using UnityEngine;
+using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 
 namespace _Scripts.Gameplay.Animate.Player{
     
@@ -22,12 +23,19 @@ namespace _Scripts.Gameplay.Animate.Player{
         private float OperatingSpeedTweened;
 
         private int _idleAnimLayer_Index;
-        private int _sawingStartAnimLayer_Index;
-        private int _sawingEndAnimLayer_Index;
 
         private int _idleLoopAnim_Hash;
         private int _sawingProgressStartLoopAnim_Hash;
-        private int _sawingProgressEndLoopAnim_Hash;
+
+        [SerializeField]
+        private Transform _rigControlTransform;
+        [SerializeField]
+        private Transform _rigHandChildTransform;
+        public Transform RigControlTransform
+        {
+            get { return _rigControlTransform; }
+        }
+        private Vector3 _rigControlDefaultLocalPosition;
 
         public bool CanTick { get => true; set => throw new System.NotImplementedException(); }
 
@@ -43,39 +51,39 @@ namespace _Scripts.Gameplay.Animate.Player{
         {
             // layers
             _idleAnimLayer_Index = CurrentAnimator.GetLayerIndex("Base Layer");
-            _sawingStartAnimLayer_Index = CurrentAnimator.GetLayerIndex("sawing_progress_start");
+            //_sawingStartAnimLayer_Index = CurrentAnimator.GetLayerIndex("sawing_progress_start");
             //_sawingEndAnimLayer_Index = CurrentAnimator.GetLayerIndex("sawing_progress_end");
 
             // anim hash
             _idleLoopAnim_Hash = Animator.StringToHash("idle");
             _sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_IK_version");
             //_sawingProgressEndLoopAnim_Hash = Animator.StringToHash("sawing_progress_end");
+            _rigControlDefaultLocalPosition = _rigControlTransform.localPosition;
         }
 
         public void ManagedTick() 
         {
             OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
             bool isOperating = currentOpState != null;
-
-            
+            bool animInTransition = CurrentAnimator.IsInTransition(_idleAnimLayer_Index);
 
             if (isOperating)
             {
-                CurrentAnimator.SetLayerWeight(_idleAnimLayer_Index, 0.0f);
-                AnimatorStateInfo sawingStartAnimatorStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_sawingStartAnimLayer_Index);
+                //CurrentAnimator.SetLayerWeight(_idleAnimLayer_Index, 0.0f);
+                AnimatorStateInfo idleAnimLayStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_idleAnimLayer_Index);
                 //AnimatorStateInfo sawingEndAnimatorStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_sawingEndAnimLayer_Index);
 
-                if (sawingStartAnimatorStateInfo.shortNameHash.Equals(_sawingProgressStartLoopAnim_Hash) == false) //|| sawingEndAnimatorStateInfo.shortNameHash.Equals(_sawingProgressEndLoopAnim_Hash) == false)
+                if (!animInTransition && idleAnimLayStateInfo.shortNameHash.Equals(_sawingProgressStartLoopAnim_Hash) == false) //|| sawingEndAnimatorStateInfo.shortNameHash.Equals(_sawingProgressEndLoopAnim_Hash) == false)
                 {
 
-                    //CurrentAnimator.CrossFade(_sawingProgressStartLoopAnim_Hash, 0.5f);
+                    CurrentAnimator.CrossFade(_sawingProgressStartLoopAnim_Hash, 0.5f);
                     //CurrentAnimator.PlayInFixedTime(_sawingProgressStartLoopAnim_Hash);
                     Debug.Log("Trying to play sawing animation");
                 }
 
                 float progress = currentOpState.NormalisedProgress;
 
-                CurrentAnimator.SetLayerWeight(_sawingStartAnimLayer_Index, 1.0f);
+                //CurrentAnimator.SetLayerWeight(_sawingStartAnimLayer_Index, 1.0f);
                 //CurrentAnimator.SetLayerWeight(_sawingEndAnimLayer_Index, progress);
 
                 if (_playbackSpeedTweener.IsActive() == false)
@@ -89,16 +97,17 @@ namespace _Scripts.Gameplay.Animate.Player{
             }
             else
             {
-                CurrentAnimator.SetLayerWeight(_sawingStartAnimLayer_Index, 0.0f);
+                //CurrentAnimator.SetLayerWeight(_sawingStartAnimLayer_Index, 0.0f);
                 //CurrentAnimator.SetLayerWeight(_sawingEndAnimLayer_Index, 0.0f);
 
                 AnimatorStateInfo baseAnimatorStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_idleAnimLayer_Index);
 
-                if (baseAnimatorStateInfo.shortNameHash.Equals(_idleLoopAnim_Hash) == false)
+                if (!animInTransition && baseAnimatorStateInfo.shortNameHash.Equals(_idleLoopAnim_Hash) == false)
                 {
-                    //CurrentAnimator.CrossFade(_idleLoopAnim_Hash, 0.0f);
+                    CurrentAnimator.CrossFade(_idleLoopAnim_Hash, 0.5f);
                     //CurrentAnimator.PlayInFixedTime(_idleLoopAnim_Hash);
                     Debug.Log("Trying to play idle animation");
+                    SetRigControlPosition(_rigControlDefaultLocalPosition, true);
                 }
             }
         }
@@ -127,6 +136,46 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         public void ManagedLateTick() 
         { 
+        }
+
+        public void ResetRig()
+        {
+            if (_rigHandChildTransform)
+            {
+                _rigHandChildTransform.localPosition = Vector3.zero;
+            }
+        }
+
+        public void SetRigControlPosition(Vector3 pos, bool local = false)
+        {
+            if (local)
+            {
+                _rigControlTransform.localPosition = pos;
+            }
+            else
+            {
+                _rigControlTransform.position = pos;
+            }
+        }
+
+        public Vector3 GetToolStartToHeldSocket()
+        {
+            Vector3 difference = Vector3.zero;
+
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+            MorgueToolActor equippedTool = pc.EquippedOperatingTool;
+
+            if (equippedTool != null)
+            {
+                MonoBehaviour monoTool = equippedTool.GetStorableParent() as MonoBehaviour;
+                if (monoTool != null)
+                {
+                    difference = equippedTool.ToolStartingTransform.position - monoTool.transform.parent.position;
+                }
+                
+            }
+
+            return difference;
         }
     }
     

@@ -57,7 +57,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         public float NormalisedProgress { get { return _elapsedProgress / _duration; } }
 
         public Transform OperationStartTransform { get => _operationStartTransform; }
-        public Transform OperationStarOffsetTransform { get => _operationStartOffsetTransform; }
+        public Transform OperationStartOffsetTransform { get => _operationStartOffsetTransform; }
 
         [SerializeField]
         private RuntimeID _runtimeID;

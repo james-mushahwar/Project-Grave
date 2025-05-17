@@ -12,8 +12,12 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
     {
         [SerializeField] protected FStorable _toolStorable;
 
-        [SerializeField] protected GameObject _animatingTool;
-        [SerializeField] protected GameObject _animatingToolHolder;
+        [SerializeField] protected Transform _toolStartingTransform;
+
+        public Transform ToolStartingTransform
+        {
+            get { return _toolStartingTransform; }
+        }
 
         protected bool _animateTool = false;
 

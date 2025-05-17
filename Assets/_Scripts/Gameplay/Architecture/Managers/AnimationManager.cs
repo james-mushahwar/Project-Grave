@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using _Scripts.Gameplay.Player.Controller;
 using UnityEngine;
+using _Scripts.Gameplay.General.Morgue.Operation.Tools;
+using MoreMountains.Feedbacks;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -84,10 +86,21 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public void StartOperationState(BodyPartMorgueActor bodyPart)
         {
-            _playerCharacterAnimator.CurrentAnimator.transform.SetParent(PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStarOffsetTransform);
+            Vector3 startLocation = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.position;
+            _playerCharacterAnimator.CurrentAnimator.transform.SetParent(PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartOffsetTransform);
             _playerCharacterAnimator.CurrentAnimator.transform.localPosition = Vector3.zero;
             _playerCharacterAnimator.CurrentAnimator.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
+            MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
+            Vector3 handDistance = Vector3.zero;
+            Vector3 direction = -PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
+            if (equippedTool != null)
+            {
+                handDistance = _playerCharacterAnimator.GetToolStartToHeldSocket();
+            }
+
+            Vector3 worldPos = startLocation + (direction * handDistance.magnitude);
+            _playerCharacterAnimator.SetRigControlPosition(worldPos);
         }
 
         public void EndOperationState(BodyPartMorgueActor bodyPart)
@@ -102,6 +115,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 _playerCharacterAnimator.CurrentAnimator.transform.localRotation = Quaternion.Euler(Vector3.zero);
             }
         }
+
+       
     }
 
 }

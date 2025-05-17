@@ -47,7 +47,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
             bool showAnimatingTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool == this && PlayerManager.Instance.CurrentPlayerController.PlayerControllerState == EPlayerControllerState.Operating;
             //_animatingTool.SetActive(showAnimatingTool);
 
-            if (_animatingTool.activeSelf)
+            if (true)
             {
                 //_animatingTool.transform.SetParent(PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.transform);
 
