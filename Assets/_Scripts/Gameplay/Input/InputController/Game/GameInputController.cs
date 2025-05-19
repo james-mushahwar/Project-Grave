@@ -166,7 +166,7 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
         public void Operating_ScrollVert(InputAction.CallbackContext callbackContext)
         {
             float input = callbackContext.ReadValue<float>();
-            //Debug.Log("Scroll is : " + scroll);
+            //Debug.Log("VertScroll is : " + input);
 
             if (input != 0.0f)
             {
@@ -186,7 +186,7 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
         public void Operating_ScrollHorz(InputAction.CallbackContext callbackContext)
         {
             float input = callbackContext.ReadValue<float>();
-            //Debug.Log("Scroll is : " + scroll);
+            //Debug.Log("HorzScroll is : " + input);
 
             if (input != 0.0f)
             {

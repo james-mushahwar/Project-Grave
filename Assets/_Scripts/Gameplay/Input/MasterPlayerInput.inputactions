@@ -969,6 +969,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Operating_Navigate",
+                    "type": "Value",
+                    "id": "d909adeb-7675-4ec1-893e-ff8779c98cfa",
+                    "expectedControlType": "Vector2",
+                    "processors": "NormalizeVector2",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Operating_ScrollVert",
                     "type": "Button",
                     "id": "7e91d09f-f848-4303-ad64-2bf599e61dc8",
@@ -1385,7 +1394,7 @@
                     "id": "0415a8ed-2231-49c2-9a68-a9ec78d44d8d",
                     "path": "1DAxis",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "AxisDeadzone",
                     "groups": "",
                     "action": "Operating_ScrollHorz",
                     "isComposite": true,
@@ -1405,7 +1414,7 @@
                 {
                     "name": "positive",
                     "id": "e7f7bc8d-ff6e-4b6d-885b-f1e2d24f6f56",
-                    "path": "<Gamepad>/rightStick/right",
+                    "path": "<Gamepad>/leftStick/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1517,7 +1526,7 @@
                     "id": "d1efcffe-e873-4cee-9177-86513b86498c",
                     "path": "1DAxis",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "AxisDeadzone",
                     "groups": "",
                     "action": "Operating_ScrollVert",
                     "isComposite": true,
@@ -1610,6 +1619,72 @@
                     "action": "Operating_ScrollVert",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "7890ff51-8457-4473-819b-c3ec0121faa2",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Operating_Navigate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "eaba8c37-2e0b-45df-ae80-70bdf3650ddc",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Operating_Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "a1db43b3-58e3-4cdb-83e7-25c534d36dd2",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Operating_Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "2887ad1c-6b04-4db3-98f4-5bc50fd6b400",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Operating_Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "1f2ce59e-0a6d-4b5b-80e6-819531865b9c",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Operating_Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "7136b6cf-60e6-4ee3-8f1f-b9507e0698c0",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "StickDeadzone",
+                    "groups": "",
+                    "action": "Operating_Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

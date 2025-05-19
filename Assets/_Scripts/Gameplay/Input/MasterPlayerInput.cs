@@ -1055,6 +1055,15 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Operating_Navigate"",
+                    ""type"": ""Value"",
+                    ""id"": ""d909adeb-7675-4ec1-893e-ff8779c98cfa"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": ""NormalizeVector2"",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Operating_ScrollVert"",
                     ""type"": ""Button"",
                     ""id"": ""7e91d09f-f848-4303-ad64-2bf599e61dc8"",
@@ -1471,7 +1480,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""id"": ""0415a8ed-2231-49c2-9a68-a9ec78d44d8d"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""AxisDeadzone"",
                     ""groups"": """",
                     ""action"": ""Operating_ScrollHorz"",
                     ""isComposite"": true,
@@ -1491,7 +1500,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""e7f7bc8d-ff6e-4b6d-885b-f1e2d24f6f56"",
-                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1603,7 +1612,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""id"": ""d1efcffe-e873-4cee-9177-86513b86498c"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""AxisDeadzone"",
                     ""groups"": """",
                     ""action"": ""Operating_ScrollVert"",
                     ""isComposite"": true,
@@ -1696,6 +1705,72 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Operating_ScrollVert"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""7890ff51-8457-4473-819b-c3ec0121faa2"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_Navigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""eaba8c37-2e0b-45df-ae80-70bdf3650ddc"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""a1db43b3-58e3-4cdb-83e7-25c534d36dd2"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""2887ad1c-6b04-4db3-98f4-5bc50fd6b400"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""1f2ce59e-0a6d-4b5b-80e6-819531865b9c"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Operating_Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7136b6cf-60e6-4ee3-8f1f-b9507e0698c0"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone"",
+                    ""groups"": """",
+                    ""action"": ""Operating_Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1735,6 +1810,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         m_Game_Debug_SpawnBody = m_Game.FindAction("Debug_SpawnBody", throwIfNotFound: true);
         m_Game_Inventory = m_Game.FindAction("Inventory", throwIfNotFound: true);
         m_Game_Operating_Cycle = m_Game.FindAction("Operating_Cycle", throwIfNotFound: true);
+        m_Game_Operating_Navigate = m_Game.FindAction("Operating_Navigate", throwIfNotFound: true);
         m_Game_Operating_ScrollVert = m_Game.FindAction("Operating_ScrollVert", throwIfNotFound: true);
         m_Game_Operating_ScrollHorz = m_Game.FindAction("Operating_ScrollHorz", throwIfNotFound: true);
         m_Game_Operating_ActionL = m_Game.FindAction("Operating_ActionL", throwIfNotFound: true);
@@ -2198,6 +2274,7 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_Debug_SpawnBody;
     private readonly InputAction m_Game_Inventory;
     private readonly InputAction m_Game_Operating_Cycle;
+    private readonly InputAction m_Game_Operating_Navigate;
     private readonly InputAction m_Game_Operating_ScrollVert;
     private readonly InputAction m_Game_Operating_ScrollHorz;
     private readonly InputAction m_Game_Operating_ActionL;
@@ -2249,6 +2326,10 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Game/Operating_Cycle".
         /// </summary>
         public InputAction @Operating_Cycle => m_Wrapper.m_Game_Operating_Cycle;
+        /// <summary>
+        /// Provides access to the underlying input action "Game/Operating_Navigate".
+        /// </summary>
+        public InputAction @Operating_Navigate => m_Wrapper.m_Game_Operating_Navigate;
         /// <summary>
         /// Provides access to the underlying input action "Game/Operating_ScrollVert".
         /// </summary>
@@ -2318,6 +2399,9 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
             @Operating_Cycle.started += instance.OnOperating_Cycle;
             @Operating_Cycle.performed += instance.OnOperating_Cycle;
             @Operating_Cycle.canceled += instance.OnOperating_Cycle;
+            @Operating_Navigate.started += instance.OnOperating_Navigate;
+            @Operating_Navigate.performed += instance.OnOperating_Navigate;
+            @Operating_Navigate.canceled += instance.OnOperating_Navigate;
             @Operating_ScrollVert.started += instance.OnOperating_ScrollVert;
             @Operating_ScrollVert.performed += instance.OnOperating_ScrollVert;
             @Operating_ScrollVert.canceled += instance.OnOperating_ScrollVert;
@@ -2368,6 +2452,9 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
             @Operating_Cycle.started -= instance.OnOperating_Cycle;
             @Operating_Cycle.performed -= instance.OnOperating_Cycle;
             @Operating_Cycle.canceled -= instance.OnOperating_Cycle;
+            @Operating_Navigate.started -= instance.OnOperating_Navigate;
+            @Operating_Navigate.performed -= instance.OnOperating_Navigate;
+            @Operating_Navigate.canceled -= instance.OnOperating_Navigate;
             @Operating_ScrollVert.started -= instance.OnOperating_ScrollVert;
             @Operating_ScrollVert.performed -= instance.OnOperating_ScrollVert;
             @Operating_ScrollVert.canceled -= instance.OnOperating_ScrollVert;
@@ -2625,6 +2712,13 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnOperating_Cycle(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Operating_Navigate" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnOperating_Navigate(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Operating_ScrollVert" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

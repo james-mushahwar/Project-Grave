@@ -67,6 +67,9 @@ namespace _Scripts.Gameplay.Player.Controller{
         private bool _isGrounded;
         private bool _isSprinting;
 
+        private float _operatingHorz;
+        private float _operatingVert;
+
         private EPlayerControllerState _playerControllerState = EPlayerControllerState.NONE;
         public EPlayerControllerState PlayerControllerState
         {
@@ -314,6 +317,15 @@ namespace _Scripts.Gameplay.Player.Controller{
         }
 
         #region Operating
+
+        public void Operating_OnNavigate(InputAction.CallbackContext context)
+        {
+            Vector2 input = context.ReadValue<Vector2>();
+
+            _operatingHorz = input.x;
+            _operatingVert = input.y;
+        }
+
         public void Operating_OnBack(InputAction.CallbackContext callbackContext)
         {
             if (CameraManager.Instance.IsCameraInTransition())
@@ -526,12 +538,12 @@ namespace _Scripts.Gameplay.Player.Controller{
                     // positive - north and east
                     if (vertInput)
                     {
-                        Debug.Log("Hey I'm North");
+                        //Debug.Log("Hey I'm North");
                         OperationManager.Instance.ScrollOperationSite(true);
                     }
                     else
                     {
-                        Debug.Log("Hey I'm East");
+                        //Debug.Log("Hey I'm East");
                         OperationManager.Instance.ScrollOperationState(true);
                     }
                 }
@@ -540,12 +552,12 @@ namespace _Scripts.Gameplay.Player.Controller{
                     // negative - south and west
                     if (vertInput)
                     {
-                        Debug.Log("Hey I'm South");
+                        //Debug.Log("Hey I'm South");
                         OperationManager.Instance.ScrollOperationSite(false);
                     }
                     else
                     {
-                        Debug.Log("Hey I'm West");
+                        //Debug.Log("Hey I'm West");
                         OperationManager.Instance.ScrollOperationState(false);
                     }
                 }
@@ -1011,13 +1023,19 @@ namespace _Scripts.Gameplay.Player.Controller{
                         }
                         //mpi.Game.Operating_Scroll.canceled += ctx => _opScroll = 0.0f;
 
-                        mpi.Game.Operating_ScrollVert.Enable();
-                        mpi.Game.Operating_ScrollHorz.Enable();
+                        
+                        mpi.Game.Operating_Navigate.Enable();
+                        mpi.Game.Operating_Navigate.performed += Operating_OnNavigate;
+                        mpi.Game.Operating_Navigate.canceled += Operating_OnNavigate;
 
                         if (gameIC)
                         {
-                            mpi.Game.Operating_ScrollVert.started += gameIC.Operating_ScrollVert;
-                            mpi.Game.Operating_ScrollHorz.started += gameIC.Operating_ScrollHorz;
+                            mpi.Game.Operating_ScrollVert.Enable();
+                            mpi.Game.Operating_ScrollHorz.Enable();
+                            mpi.Game.Operating_ScrollVert.performed += gameIC.Operating_ScrollVert;
+                            mpi.Game.Operating_ScrollVert.canceled += gameIC.Operating_ScrollVert;
+                            mpi.Game.Operating_ScrollHorz.performed += gameIC.Operating_ScrollHorz;
+                            mpi.Game.Operating_ScrollHorz.canceled += gameIC.Operating_ScrollHorz;
                         }
 
                         break;
@@ -1074,13 +1092,20 @@ namespace _Scripts.Gameplay.Player.Controller{
                         {
                             mpi.Game.Operating_Cycle.started -= gameIC.Operating_OnCycle;
                         }
+                        
+                        mpi.Game.Operating_Navigate.Disable();
+                        mpi.Game.Operating_Navigate.performed -= Operating_OnNavigate;
+                        mpi.Game.Operating_Navigate.canceled -= Operating_OnNavigate;
+
                         mpi.Game.Operating_ScrollVert.Disable();
                         mpi.Game.Operating_ScrollHorz.Disable();
 
                         if (gameIC)
                         {
-                            mpi.Game.Operating_ScrollVert.started -= gameIC.Operating_ScrollVert;
-                            mpi.Game.Operating_ScrollHorz.started -= gameIC.Operating_ScrollHorz;
+                            mpi.Game.Operating_ScrollVert.performed -= gameIC.Operating_ScrollVert;
+                            mpi.Game.Operating_ScrollVert.canceled -= gameIC.Operating_ScrollVert;
+                            mpi.Game.Operating_ScrollHorz.performed -= gameIC.Operating_ScrollHorz;
+                            mpi.Game.Operating_ScrollHorz.canceled -= gameIC.Operating_ScrollHorz;
                         }
 
                         break;

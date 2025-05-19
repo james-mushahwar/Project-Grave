@@ -7,6 +7,8 @@ using DG.Tweening;
 using Unity.Collections;
 using UnityEngine;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
+using UnityEditor.Build;
+using UnityEngine.Animations.Rigging;
 
 namespace _Scripts.Gameplay.Animate.Player{
     
@@ -27,15 +29,24 @@ namespace _Scripts.Gameplay.Animate.Player{
         private int _idleLoopAnim_Hash;
         private int _sawingProgressStartLoopAnim_Hash;
 
+        [Header("Rig")] 
+        [SerializeField] 
+        private Rig _rigPosition;
         [SerializeField]
-        private Transform _rigControlTransform;
+        private Transform _rigHandPositionTransform;
         [SerializeField]
         private Transform _rigHandChildTransform;
-        public Transform RigControlTransform
+        public Transform RigHandPositionTransform
         {
-            get { return _rigControlTransform; }
+            get { return _rigHandPositionTransform; }
         }
         private Vector3 _rigControlDefaultLocalPosition;
+
+        [SerializeField] 
+        private Rig _rigRotation;
+        [SerializeField] 
+        private Transform _rigHandRotationTransform;
+
 
         public bool CanTick { get => true; set => throw new System.NotImplementedException(); }
 
@@ -58,7 +69,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             _idleLoopAnim_Hash = Animator.StringToHash("idle");
             _sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_IK_version");
             //_sawingProgressEndLoopAnim_Hash = Animator.StringToHash("sawing_progress_end");
-            _rigControlDefaultLocalPosition = _rigControlTransform.localPosition;
+            _rigControlDefaultLocalPosition = _rigHandPositionTransform.localPosition;
         }
 
         public void ManagedTick() 
@@ -79,6 +90,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                     CurrentAnimator.CrossFade(_sawingProgressStartLoopAnim_Hash, 0.5f);
                     //CurrentAnimator.PlayInFixedTime(_sawingProgressStartLoopAnim_Hash);
                     Debug.Log("Trying to play sawing animation");
+                    SetRigWeight(1.0f, 1.0f);
                 }
 
                 float progress = currentOpState.NormalisedProgress;
@@ -94,6 +106,9 @@ namespace _Scripts.Gameplay.Animate.Player{
                 }
 
                 CurrentAnimator.SetFloat("Operating_SpeedMultiplier", OperatingSpeedTweened);
+
+                Vector3 worldRot = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.forward;
+                SetRigControlRotation(worldRot);
             }
             else
             {
@@ -107,7 +122,9 @@ namespace _Scripts.Gameplay.Animate.Player{
                     CurrentAnimator.CrossFade(_idleLoopAnim_Hash, 0.5f);
                     //CurrentAnimator.PlayInFixedTime(_idleLoopAnim_Hash);
                     Debug.Log("Trying to play idle animation");
-                    SetRigControlPosition(_rigControlDefaultLocalPosition, true);
+                    //SetRigControlPosition(_rigControlDefaultLocalPosition, true);
+                    //SetRigWeight(0.0f, 0.0f);
+                    ResetRig();
                 }
             }
         }
@@ -140,21 +157,49 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         public void ResetRig()
         {
-            if (_rigHandChildTransform)
-            {
-                _rigHandChildTransform.localPosition = Vector3.zero;
-            }
+            SetRigControlPosition(_rigControlDefaultLocalPosition, true);
+
+            _rigHandChildTransform.localPosition = Vector3.zero;
+            _rigHandRotationTransform.localEulerAngles = Vector3.zero;
+
+            SetRigWeight(0.0f, 0.0f);
+
         }
 
         public void SetRigControlPosition(Vector3 pos, bool local = false)
         {
             if (local)
             {
-                _rigControlTransform.localPosition = pos;
+                _rigHandPositionTransform.localPosition = pos;
             }
             else
             {
-                _rigControlTransform.position = pos;
+                _rigHandPositionTransform.position = pos;
+            }
+        }
+
+        public void SetRigControlRotation(Vector3 rot, bool local = false)
+        {
+            if (local)
+            {
+                _rigHandRotationTransform.localEulerAngles = rot;
+            }
+            else
+            {
+                _rigHandRotationTransform.eulerAngles = rot;
+            }
+        }
+
+        public void SetRigWeight(float posWeight = -1.0f, float rotWeight = -1.0f)
+        {
+            if (posWeight >= 0.0f)
+            {
+                _rigPosition.weight = posWeight;
+            }
+
+            if (rotWeight >= 0.0f)
+            {
+                _rigRotation.weight = rotWeight;
             }
         }
 

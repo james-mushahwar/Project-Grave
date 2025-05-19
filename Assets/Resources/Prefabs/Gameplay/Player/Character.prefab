@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 1
+  m_Weight: 0
   m_Effectors:
   - m_Transform: {fileID: 0}
     m_Style:
@@ -396,7 +396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 1
+  m_Weight: 0
   m_Effectors:
   - m_Transform: {fileID: 0}
     m_Style:
@@ -433,7 +433,7 @@ MonoBehaviour:
       m_Length: 1
       m_Item0:
         transform: {fileID: 400267871406986048}
-        weight: 0.25
+        weight: 1
       m_Item1:
         transform: {fileID: 0}
         weight: 0
@@ -2412,8 +2412,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _normalAnimator: {fileID: 1205490877409942147}
   _operatingAnimator: {fileID: 0}
-  _rigControlTransform: {fileID: 8927493895835314858}
+  _rigPosition: {fileID: 8688706137083434904}
+  _rigHandPositionTransform: {fileID: 8927493895835314858}
   _rigHandChildTransform: {fileID: 5629156229927382719}
+  _rigRotation: {fileID: 1527990320904003784}
+  _rigHandRotationTransform: {fileID: 400267871406986048}
 --- !u!114 &7724529274728595347
 MonoBehaviour:
   m_ObjectHideFlags: 0

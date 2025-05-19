@@ -101,6 +101,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             Vector3 worldPos = startLocation + (direction * handDistance.magnitude);
             _playerCharacterAnimator.SetRigControlPosition(worldPos);
+
+            Vector3 worldRot = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState
+                .OperationStartTransform.right;
+            _playerCharacterAnimator.SetRigControlRotation(worldRot);
         }
 
         public void EndOperationState(BodyPartMorgueActor bodyPart)

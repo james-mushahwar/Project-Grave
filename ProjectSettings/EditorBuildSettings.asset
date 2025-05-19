@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/Graveyard1/Graveyard1_Art.unity
     guid: e1ee5ed6e46335f428ef33932d7ea182
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: d236cd297ea7600469eae2bc08a352d8,
+      type: 2}
+  m_UseUCBPForAssetBundles: 0
