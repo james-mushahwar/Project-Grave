@@ -153,6 +153,28 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 Vector3 worldRot = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
                 //SetRigControlRotation(worldRot);
+
+                EFeedbackPattern movementFeedback = EFeedbackPattern.None;
+
+                if (currentOpState is DismemberOperationState)
+                {
+                    if (_operatingMomentumWaitInputTimer <= 0.0f)
+                    {
+                        if (_operatingMomentum < _operatingMomentumValidInputCutoff)
+                        {
+                            movementFeedback = EFeedbackPattern.Operation_SawJammed;
+                        }
+                        else
+                        {
+                            movementFeedback = EFeedbackPattern.Operation_SawSmooth;
+                        }
+                    }
+
+                    if (equippedTool != null)
+                    {
+                        FeedbackManager.Instance.TryFeedbackPattern(movementFeedback);
+                    }
+                }
             }
             else
             {
@@ -307,6 +329,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 if (penalty)
                 {
                     momentumPenalty = _operatingMomentumPenaltyCurve.Evaluate(_operatingMomentum);
+                    FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawBreak);
                 }
             }
             else

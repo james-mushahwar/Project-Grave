@@ -51,7 +51,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private FeedbackPatternScriptableObject _uiTouchFeedback;
         [Header("Operation feedback patterns")]
         [SerializeField]
+        private FeedbackPatternScriptableObject _operationValidInputFeedback;
+        //Sawing
+        [SerializeField]
         private FeedbackPatternScriptableObject _operationSawSmoothFeedback;
+        [SerializeField]
+        private FeedbackPatternScriptableObject _operationSawJammedFeedback;
+        [SerializeField]
+        private FeedbackPatternScriptableObject _operationSawBreakFeedback;
 
         public void ManagedTick()
         {
@@ -123,6 +130,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             if (!IsFeedbackValid(pattern))
             {
+                Debug.LogWarning("Feedback pattern: " + pattern + " does not exist");
+
                 return;
             }
 
@@ -162,6 +171,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 case EFeedbackPattern.Operation_SawSmooth:
                     return _operationSawSmoothFeedback;
+
                 default:
                     return null;
             }

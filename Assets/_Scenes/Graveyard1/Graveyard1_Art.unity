@@ -8355,6 +8355,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Operating Table
       objectReference: {fileID: 0}
+    - target: {fileID: 7365671515689854463, guid: e94ca3a9fcce9af408defe6ed2bdf0d6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8222856910486905347, guid: e94ca3a9fcce9af408defe6ed2bdf0d6,
         type: 3}
       propertyPath: m_Mesh

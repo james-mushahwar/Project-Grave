@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7335731093771212556}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2398821905989213024
 MonoBehaviour:
@@ -45,5 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uiTouchFeedback: {fileID: 0}
+  _operationValidInputFeedback: {fileID: 11400000, guid: aeb53fa26b000ac42b306a40aa6864cb,
+    type: 2}
   _operationSawSmoothFeedback: {fileID: 11400000, guid: 7fd47f9071be64e41a7c45fc23badbe6,
+    type: 2}
+  _operationSawJammedFeedback: {fileID: 11400000, guid: af2ad3fb36dafdd41b09a5d0fe27122e,
+    type: 2}
+  _operationSawBreakFeedback: {fileID: 11400000, guid: 7fa464f26534f5b49be47978b463c3d2,
     type: 2}

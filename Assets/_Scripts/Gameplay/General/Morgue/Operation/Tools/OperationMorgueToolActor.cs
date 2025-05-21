@@ -47,47 +47,47 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
             bool showAnimatingTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool == this && PlayerManager.Instance.CurrentPlayerController.PlayerControllerState == EPlayerControllerState.Operating;
             //_animatingTool.SetActive(showAnimatingTool);
 
-            if (true)
-            {
-                //_animatingTool.transform.SetParent(PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.transform);
+            //if (true)
+            //{
+            //    //_animatingTool.transform.SetParent(PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.transform);
 
-                //float alpha = _operationLerpToolElapsed / _operationLerpToolDuration;
+            //    //float alpha = _operationLerpToolElapsed / _operationLerpToolDuration;
 
-                //Vector3 newLerpOffset = Vector3.Slerp(_operationToolPreviousLocation, _operationToolTargetLocation, alpha);
+            //    //Vector3 newLerpOffset = Vector3.Slerp(_operationToolPreviousLocation, _operationToolTargetLocation, alpha);
 
-                //Vector3 rootLocation = PlayerManager.Instance.CurrentPlayerController.CurrentOperationState.GetProgressPosition();
-                //Vector3 rootRotation = PlayerManager.Instance.CurrentPlayerController.CurrentOperationState.GetProgressRotation();
-                //_animatingTool.transform.localPosition = rootLocation + newLerpOffset;
-                //_animatingTool.transform.eulerAngles = rootRotation;
+            //    //Vector3 rootLocation = PlayerManager.Instance.CurrentPlayerController.CurrentOperationState.GetProgressPosition();
+            //    //Vector3 rootRotation = PlayerManager.Instance.CurrentPlayerController.CurrentOperationState.GetProgressRotation();
+            //    //_animatingTool.transform.localPosition = rootLocation + newLerpOffset;
+            //    //_animatingTool.transform.eulerAngles = rootRotation;
 
-                if (_animateTool)
-                {
-                    _operationLerpToolElapsed += Time.deltaTime;
+            //    if (_animateTool)
+            //    {
+            //        _operationLerpToolElapsed += Time.deltaTime;
 
-                    FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawSmooth);
+            //        FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawSmooth);
 
-                    if (_operationLerpToolElapsed >= _operationLerpToolDuration)
-                    {
-                        _operationLerpToolElapsed = 0.0f;
-                        _operationToolPreviousLocation = _operationToolTargetLocation;
-                        _operationToolTargetLocation *= -1.0f;
-                        _animateTool = false;
-                    }
-                }
-            }
+            //        if (_operationLerpToolElapsed >= _operationLerpToolDuration)
+            //        {
+            //            _operationLerpToolElapsed = 0.0f;
+            //            _operationToolPreviousLocation = _operationToolTargetLocation;
+            //            _operationToolTargetLocation *= -1.0f;
+            //            _animateTool = false;
+            //        }
+            //    }
+            //}
 
 
-            EFeedbackPattern movementFeedback = EFeedbackPattern.None;
+            //EFeedbackPattern movementFeedback = EFeedbackPattern.None;
 
-            if (showAnimatingTool && _animateTool)
-            {
-                movementFeedback = EFeedbackPattern.Operation_SawSmooth;
-            }
+            //if (showAnimatingTool && _animateTool)
+            //{
+            //    movementFeedback = EFeedbackPattern.Operation_SawSmooth;
+            //}
 
-            if (PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool == this)
-            {
-               FeedbackManager.Instance.TryFeedbackPattern(movementFeedback);
-            }
+            //if (PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool == this)
+            //{
+            //   FeedbackManager.Instance.TryFeedbackPattern(movementFeedback);
+            //}
         }
 
         public override void EnterHouseThroughChute()
