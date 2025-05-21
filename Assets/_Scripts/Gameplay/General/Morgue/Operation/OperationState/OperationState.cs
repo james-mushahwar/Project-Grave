@@ -1,8 +1,10 @@
 ﻿using _Scripts.CautionaryTalesScripts;
 using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Identification;
+using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
+using _Scripts.Gameplay.Input.InputController;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
 using MoreMountains.Feedbacks;
@@ -46,8 +48,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         private Transform _operationStartTransform;
         [SerializeField]
         private Transform _operationEndTransform;
-
+        [SerializeField]
         private Transform _operationStartOffsetTransform;
+
+        [SerializeField]
+        private BodyPartMorgueActor _bodyPartMorgueActor;
 
         [SerializeField]
         private float _duration = 1.0f;
@@ -62,6 +67,14 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         [SerializeField]
         private RuntimeID _runtimeID;
         public RuntimeID RuntimeID { get { return _runtimeID; } }
+
+        [SerializeField]
+        private string _beginOperation_BodyAnimName;
+
+        public string BeginOperationBodyAnimName
+        {
+            get { return _beginOperation_BodyAnimName; }
+        }
 
         public void SetupOperationState()
         {
@@ -82,19 +95,25 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
 
             if (_operationStartOffsetTransform == null)
             {
-                GameObject go = CTGlobal.FindGameObjectInChildWithTag(OperationStartTransform.gameObject, "Operation_Offset");
-                _operationStartOffsetTransform = go.transform;
+                //GameObject go = CTGlobal.FindGameObjectInChildWithTag(OperationStartTransform.gameObject, "Operation_Offset");
+                //_operationStartOffsetTransform = go.transform;
             }
         }
 
         public virtual void TickOperationState()
         {
-
+            if (_bodyPartMorgueActor != null)
+            {
+                if (_bodyPartMorgueActor.BodyMorgueActor != null)
+                {
+                    _bodyPartMorgueActor.BodyMorgueActor.TickOperation(NormalisedProgress);
+                }
+            }
         }
 
         public void ProceedOperation(float effectiveness = 1.0f)
         {
-            _elapsedProgress += effectiveness * _proceedStep;
+            _elapsedProgress += effectiveness * _proceedStep * Time.deltaTime;
         }
 
         public virtual bool OnActionLInput()
@@ -107,11 +126,19 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             return true;
         }
 
-        public virtual Vector3 GetProgressPosition()
+        public virtual Vector3 GetProgressPosition(bool localPos = false)
         {
             float alpha = NormalisedProgress;
 
-            Vector3 progressPos = Vector3.Slerp(OperationStartTransform.localPosition, _operationEndTransform.localPosition, alpha);
+            Vector3 progressPos = Vector3.zero;
+            if (localPos)
+            {
+                progressPos = Vector3.Slerp(OperationStartTransform.localPosition, _operationEndTransform.localPosition, alpha);
+            }
+            else
+            {
+                progressPos = Vector3.Slerp(OperationStartTransform.position, _operationEndTransform.position, alpha);
+            }
 
             return progressPos;
         }

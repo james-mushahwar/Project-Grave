@@ -5,6 +5,7 @@ using System.Data.SqlTypes;
 using _Scripts.CautionaryTalesScripts;
 using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Identification;
+using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 using _Scripts.Gameplay.Input.InputController.Game;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
@@ -48,6 +49,9 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         private GameObject _bodyGeometryPlaceholder;
         [SerializeField]
         private GameObject _bodyRigGO;
+
+        [SerializeField]
+        private BodyMorgueActorAnimator _bodyAnimator;
 
         public bool IsStored()
         {
@@ -142,6 +146,9 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             _rArmPlaceholderGO.SetActive(GetBodyPartByTag("Human_RArm") == null);
             _lLegPlaceholderGO.SetActive(GetBodyPartByTag("Human_LLeg") == null);
             _rLegPlaceholderGO.SetActive(GetBodyPartByTag("Human_RLeg") == null);
+
+            OperationState currentOp = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+
         }
 
         public override void ToggleProne(bool set)
@@ -289,6 +296,20 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             {
                 skinnedMesh.rootBone = rootBoneGO.transform;
             }
+        }
+
+        public void BeginOperation()
+        {
+            OperationState currentOp = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+            if (currentOp != null)
+            {
+                _bodyAnimator.PlayAnimation(currentOp.BeginOperationBodyAnimName, 1.0f , 0.0f, true);
+            }
+        }
+
+        public void TickOperation(float elapsedTime)
+        {
+            _bodyAnimator.SetAnimPoistion(elapsedTime);
         }
     }
     

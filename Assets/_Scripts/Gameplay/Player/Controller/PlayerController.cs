@@ -23,6 +23,7 @@ using _Scripts.Gameplay.General.Morgue.Operation.OperationSite;
 using IIdentifiable = _Scripts.Org.IIdentifiable;
 using _Scripts.Gameplay.General.Identification;
 using static UnityEngine.Rendering.DebugUI;
+using _Scripts.Gameplay.Animate.Player;
 
 namespace _Scripts.Gameplay.Player.Controller{
 
@@ -103,6 +104,8 @@ namespace _Scripts.Gameplay.Player.Controller{
         {
             get { return _playerCharacterHolder; }
         }
+        [SerializeField]
+        private PlayerCharacterAnimator _playerCharacterAnimator;
         #endregion
 
         #region PlayerStorage
@@ -473,13 +476,15 @@ namespace _Scripts.Gameplay.Player.Controller{
                         //    return;
                         //}
 
-                        bool proceed = ChosenOperationState.OnActionLInput();
-                        if (proceed)
-                        {
-                            ChosenOperationState.ProceedOperation(1.0f);
+                        _playerCharacterAnimator.OnActionLRInput();
 
-                            //EquippedOperatingTool.Animate();
-                        }
+                        //bool proceed = ChosenOperationState.OnActionLInput();
+                        //if (proceed)
+                        //{
+                        //    ChosenOperationState.ProceedOperation(1.0f);
+
+                        //    //EquippedOperatingTool.Animate();
+                        //}
                     }
                 }
             }
@@ -506,13 +511,14 @@ namespace _Scripts.Gameplay.Player.Controller{
                         //    return;
                         //}
 
-                        bool proceed = ChosenOperationState.OnActionRInput();
-                        if (proceed)
-                        {
-                            ChosenOperationState.ProceedOperation(1.0f);
+                        _playerCharacterAnimator.OnActionLRInput();
+                        //bool proceed = ChosenOperationState.OnActionRInput();
+                        //if (proceed)
+                        //{
+                        //    ChosenOperationState.ProceedOperation(1.0f);
 
-                            //EquippedOperatingTool.Animate();
-                        }
+                        //    //EquippedOperatingTool.Animate();
+                        //}
                     }
                 }
             }
@@ -895,7 +901,8 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             _chosenOperationState = OperationManager.Instance.CurrentOperationState;
 
-            _bodyPartMorgueActor.OperationState.BeginOperationState();
+            _bodyPartMorgueActor.BeginOperation();
+            //_bodyPartMorgueActor.OperationState.BeginOperationState();
 
 
             if (toolToUse != null)

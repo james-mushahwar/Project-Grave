@@ -412,6 +412,12 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         }
 
         public abstract void RebuildOperationSites();
+
+        public virtual void BeginOperation()
+        {
+            OperationState.BeginOperationState();
+            _bodyMorgueActor?.BeginOperation();
+        }
     }
     
 }

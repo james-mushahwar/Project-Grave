@@ -2368,6 +2368,7 @@ MonoBehaviour:
     m_Bits: 64
   mouseSensitivity: 120
   _playerCharacterHolder: {fileID: 7362743322704732915}
+  _playerCharacterAnimator: {fileID: 1181883562566041312}
   _playerStorage: {fileID: 4932697406848840331}
   _runtimeID: {fileID: 7724529274728595347}
   _firstPersonVCam:
@@ -2417,6 +2418,91 @@ MonoBehaviour:
   _rigHandChildTransform: {fileID: 5629156229927382719}
   _rigRotation: {fileID: 1527990320904003784}
   _rigHandRotationTransform: {fileID: 400267871406986048}
+  _rigHandRotationNaturalOffset: {x: 80.1, y: 0, z: 0}
+  _operatingMomentumDecayCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.16
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.070754714
+      inSlope: -0.053838503
+      outSlope: -0.053838503
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.02920407
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _operatingMomentumAdditiveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.3
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9990579
+      value: 0.07232702
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _operatingMomentumPenaltyCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6807047
+      value: 0.19242544
+      inSlope: 0.051700167
+      outSlope: 0.051700167
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.059333216
+    - serializedVersion: 3
+      time: 0.99717385
+      value: 0.35
+      inSlope: -0.14305939
+      outSlope: -0.14305939
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08335049
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _operatingMomentumValidInputCutoff: 0.9
+  _operatingMomentumInvalidInputDelay: 0.9
+  _operatingMomentumWaitInputDelay: 0.68
 --- !u!114 &7724529274728595347
 MonoBehaviour:
   m_ObjectHideFlags: 0

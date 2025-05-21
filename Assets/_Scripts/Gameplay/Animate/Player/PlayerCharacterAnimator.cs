@@ -9,6 +9,7 @@ using UnityEngine;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using UnityEditor.Build;
 using UnityEngine.Animations.Rigging;
+using System.Security.Cryptography.X509Certificates;
 
 namespace _Scripts.Gameplay.Animate.Player{
     
@@ -46,7 +47,26 @@ namespace _Scripts.Gameplay.Animate.Player{
         private Rig _rigRotation;
         [SerializeField] 
         private Transform _rigHandRotationTransform;
+        [SerializeField]
+        Vector3 _rigHandRotationNaturalOffset;
 
+        private float _operatingMomentum; // 0 to 1 scale 
+        [SerializeField]
+        AnimationCurve _operatingMomentumDecayCurve; // rate at which momentum decays when momentum is between 0 to 1.
+        [SerializeField]
+        private AnimationCurve _operatingMomentumAdditiveCurve; // additional momnetum gained on valid input when momentum is between 0 to 1.
+        [SerializeField]
+        private AnimationCurve _operatingMomentumPenaltyCurve; // momentum lost on invalid input when momentum is between 0 to 1.
+        [SerializeField]
+        private float _operatingMomentumValidInputCutoff; // gain additive momentum when current momentum is below cutoff.
+        [SerializeField]
+        private float _operatingMomentumInvalidInputDelay; // time penalty for incorrect input when momentum is bove cutoff.
+        [SerializeField]
+        private float _operatingMomentumWaitInputDelay; // time to wait for next allowed input (so user can't spam input)
+
+        private float _operatingMomentumWaitInputTimer = 0.0f;
+        private float _operatingMomentumInvalidInputTimer = 0.0f;
+        private bool _operatingMomentumAcceptInput = true;
 
         public bool CanTick { get => true; set => throw new System.NotImplementedException(); }
 
@@ -78,6 +98,8 @@ namespace _Scripts.Gameplay.Animate.Player{
             bool isOperating = currentOpState != null;
             bool animInTransition = CurrentAnimator.IsInTransition(_idleAnimLayer_Index);
 
+            _operatingMomentumInvalidInputTimer = Mathf.Clamp(_operatingMomentumInvalidInputTimer - Time.deltaTime, 0.0f, _operatingMomentumInvalidInputDelay);
+
             if (isOperating)
             {
                 //CurrentAnimator.SetLayerWeight(_idleAnimLayer_Index, 0.0f);
@@ -93,22 +115,44 @@ namespace _Scripts.Gameplay.Animate.Player{
                     SetRigWeight(1.0f, 1.0f);
                 }
 
+                // progress operation
+                if (PlayerManager.Instance.CurrentPlayerController.ChosenOperationState != null)
+                {
+                    PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.ProceedOperation(_operatingMomentum);
+                }
+                float decay = _operatingMomentumDecayCurve.Evaluate(_operatingMomentum) * Time.deltaTime;
+                _operatingMomentum = Mathf.Clamp(_operatingMomentum - decay, 0.0f, 1.0f);
+
+                Debug.Log("Operating momentum = " + _operatingMomentum);
+
+                //update rig hand offset
                 float progress = currentOpState.NormalisedProgress;
+                Vector3 progressPosition = currentOpState.GetProgressPosition();
+                MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
+                Vector3 handDistance = Vector3.zero;
+                Vector3 direction = -PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
+                if (equippedTool != null)
+                {
+                    handDistance = GetToolStartToHeldSocket();
+                }
+                Vector3 worldPos = progressPosition + (direction * handDistance.magnitude);
+                SetRigControlPosition(worldPos);
 
                 //CurrentAnimator.SetLayerWeight(_sawingStartAnimLayer_Index, 1.0f);
                 //CurrentAnimator.SetLayerWeight(_sawingEndAnimLayer_Index, progress);
 
-                if (_playbackSpeedTweener.IsActive() == false)
-                {
-                    _playbackSpeedTweener = DOTween.To(() => OperatingSpeedTweened, x => OperatingSpeedTweened = x, 1.0f, 2)
-                        .SetLoops(-1, LoopType.Yoyo);
-                    _playbackSpeedTweener.Play();
-                }
+                //if (_playbackSpeedTweener.IsActive() == false)
+                //{
+                //    _playbackSpeedTweener = DOTween.To(() => OperatingSpeedTweened, x => OperatingSpeedTweened = x, 1.0f, 2)
+                //        .SetLoops(-1, LoopType.Yoyo);
+                //    _playbackSpeedTweener.Play();
+                //}
 
-                CurrentAnimator.SetFloat("Operating_SpeedMultiplier", OperatingSpeedTweened);
+                //CurrentAnimator.SetFloat("Operating_SpeedMultiplier", OperatingSpeedTweened);
+                CurrentAnimator.SetFloat("Operating_SpeedMultiplier", _operatingMomentum);
 
-                Vector3 worldRot = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.forward;
-                SetRigControlRotation(worldRot);
+                Vector3 worldRot = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
+                //SetRigControlRotation(worldRot);
             }
             else
             {
@@ -119,12 +163,13 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 if (!animInTransition && baseAnimatorStateInfo.shortNameHash.Equals(_idleLoopAnim_Hash) == false)
                 {
-                    CurrentAnimator.CrossFade(_idleLoopAnim_Hash, 0.5f);
+                    CurrentAnimator.CrossFade(_idleLoopAnim_Hash, 0.0f);
                     //CurrentAnimator.PlayInFixedTime(_idleLoopAnim_Hash);
                     Debug.Log("Trying to play idle animation");
                     //SetRigControlPosition(_rigControlDefaultLocalPosition, true);
                     //SetRigWeight(0.0f, 0.0f);
                     ResetRig();
+                    _operatingMomentum = 0.0f;
                 }
             }
         }
@@ -182,11 +227,11 @@ namespace _Scripts.Gameplay.Animate.Player{
         {
             if (local)
             {
-                _rigHandRotationTransform.localEulerAngles = rot;
+                _rigHandRotationTransform.localEulerAngles = rot + _rigHandRotationNaturalOffset;
             }
             else
             {
-                _rigHandRotationTransform.eulerAngles = rot;
+                _rigHandRotationTransform.eulerAngles = rot + _rigHandRotationNaturalOffset;
             }
         }
 
@@ -222,6 +267,58 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             return difference;
         }
+
+        #region Operation animation
+
+        public void OnActionLRInput()
+        {
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+            MorgueToolActor equippedTool = pc.EquippedOperatingTool;
+
+            if (equippedTool == null)
+            {
+                return;
+            }
+
+            bool validInput = true;
+            bool penalty = false;
+            bool perfectTiming = false;
+
+            if (!perfectTiming)
+            {
+                if (_operatingMomentumInvalidInputTimer > 0.0f)
+                {
+                    _operatingMomentumInvalidInputTimer = _operatingMomentumInvalidInputDelay;
+                    validInput = false;
+                }
+                else if (_operatingMomentumValidInputCutoff < _operatingMomentum)
+                {
+                    penalty = true;
+
+                    validInput = false;
+                }
+            }
+
+            float momentumPenalty = 0.0f;
+            float momentumBoost = 0.0f;
+
+            if (!validInput)
+            {
+                if (penalty)
+                {
+                    momentumPenalty = _operatingMomentumPenaltyCurve.Evaluate(_operatingMomentum);
+                }
+            }
+            else
+            {
+                momentumBoost = _operatingMomentumAdditiveCurve.Evaluate(_operatingMomentum);
+
+            }
+
+            _operatingMomentum += (momentumBoost - momentumPenalty);
+        }
+
+        #endregion
     }
-    
+
 }
