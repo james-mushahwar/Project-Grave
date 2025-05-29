@@ -20,6 +20,9 @@ namespace _Scripts.Gameplay.UI.Operation{
         [SerializeField] private GameObject _operationSitesGroup;
         [SerializeField] private List<UIMarker> _siteMarkers;
 
+        [SerializeField] private GameObject _operationSawingGroup;
+        [SerializeField] private Slider _operationSawing_Slider;
+
         public void Setup()
         {
         }
@@ -43,6 +46,8 @@ namespace _Scripts.Gameplay.UI.Operation{
             bool showStatesGroup = showSitesGroup;
             _operationStatesGroup.SetActive(showSitesGroup);
             _operationSitesGroup.SetActive(showStatesGroup);
+            bool showOperationSawingGroup = pc.ChosenOperationState != null && pc.ChosenOperationState.OperationType == EOperationType.Dismember;
+            _operationSawingGroup.SetActive(showOperationSawingGroup);
 
             for (int i = 0; i < _siteMarkers.Count; i++)
             {
@@ -98,6 +103,11 @@ namespace _Scripts.Gameplay.UI.Operation{
                 Sprite opStateSprite = UIManager.Instance.GetOperationStateIcon(opState.OperationType);
 
                 stateMarker.SetImage(opStateSprite);
+            }
+
+            if (showOperationSawingGroup)
+            {
+                _operationSawing_Slider.value = pc.PlayerCharacterAnimator.OperatingMomentum;
             }
         }
     }

@@ -978,6 +978,39 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _operatingMomentumDecayDelayCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.119998574
+      inSlope: 0.06984711
+      outSlope: 0.06984711
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 0.15492213
+      inSlope: 0.24032454
+      outSlope: 0.24032454
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.17806005
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.30000305
+      inSlope: -0.0518803
+      outSlope: -0.0518803
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.18376058
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _operatingMomentumAdditiveCurve:
     serializedVersion: 2
     m_Curve:

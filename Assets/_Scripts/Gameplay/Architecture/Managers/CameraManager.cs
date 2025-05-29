@@ -132,7 +132,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             if (MainCamera != null)
             {
-                
+                MainCamera.enabled = false;
             }
 
         }

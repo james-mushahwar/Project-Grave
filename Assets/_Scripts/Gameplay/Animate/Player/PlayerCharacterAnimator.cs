@@ -54,19 +54,27 @@ namespace _Scripts.Gameplay.Animate.Player{
         [SerializeField]
         AnimationCurve _operatingMomentumDecayCurve; // rate at which momentum decays when momentum is between 0 to 1.
         [SerializeField]
+        AnimationCurve _operatingMomentumDecayDelayCurve; // delay the momentum holds for before decaying after input
+        [SerializeField]
         private AnimationCurve _operatingMomentumAdditiveCurve; // additional momnetum gained on valid input when momentum is between 0 to 1.
         [SerializeField]
         private AnimationCurve _operatingMomentumPenaltyCurve; // momentum lost on invalid input when momentum is between 0 to 1.
         [SerializeField]
         private float _operatingMomentumValidInputCutoff; // gain additive momentum when current momentum is below cutoff.
         [SerializeField]
-        private float _operatingMomentumInvalidInputDelay; // time penalty for incorrect input when momentum is bove cutoff.
+        private float _operatingMomentumInvalidInputDelay; // time penalty for incorrect input when momentum is above cutoff.
         [SerializeField]
         private float _operatingMomentumWaitInputDelay; // time to wait for next allowed input (so user can't spam input)
 
-        private float _operatingMomentumWaitInputTimer = 0.0f;
+        //private float _operatingMomentumWaitInputTimer = 0.0f;
+        private float _operatingMomentumDecayDelayTimer = 0.0f;
         private float _operatingMomentumInvalidInputTimer = 0.0f;
-        private bool _operatingMomentumAcceptInput = true;
+        //private bool _operatingMomentumAcceptInput = true;
+
+        public float OperatingMomentum
+        {
+            get { return _operatingMomentum; }
+        }
 
         public bool CanTick { get => true; set => throw new System.NotImplementedException(); }
 
@@ -120,7 +128,19 @@ namespace _Scripts.Gameplay.Animate.Player{
                 {
                     PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.ProceedOperation(_operatingMomentum);
                 }
-                float decay = _operatingMomentumDecayCurve.Evaluate(_operatingMomentum) * Time.deltaTime;
+
+                bool shouldDecayMomentum = _operatingMomentumDecayDelayTimer == 0.0f;
+
+                float decay = 0.0f;
+                if (shouldDecayMomentum)
+                {
+                    decay = _operatingMomentumDecayCurve.Evaluate(_operatingMomentum) * Time.deltaTime;
+                }
+                else
+                {
+                    _operatingMomentumDecayDelayTimer = Mathf.Clamp(_operatingMomentumDecayDelayTimer - Time.deltaTime, 0.0f, 10.0f);
+                }
+
                 _operatingMomentum = Mathf.Clamp(_operatingMomentum - decay, 0.0f, 1.0f);
 
                 Debug.Log("Operating momentum = " + _operatingMomentum);
@@ -158,7 +178,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 if (currentOpState is DismemberOperationState)
                 {
-                    if (_operatingMomentumWaitInputTimer <= 0.0f)
+                    if (_operatingMomentumInvalidInputTimer <= 0.0f)
                     {
                         if (_operatingMomentum < _operatingMomentumValidInputCutoff)
                         {
@@ -319,6 +339,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                     validInput = false;
                 }
+
             }
 
             float momentumPenalty = 0.0f;
@@ -330,15 +351,25 @@ namespace _Scripts.Gameplay.Animate.Player{
                 {
                     momentumPenalty = _operatingMomentumPenaltyCurve.Evaluate(_operatingMomentum);
                     FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawBreak);
+                    VolumeManager.Instance.OnOperationPenaltyInput();
                 }
             }
             else
             {
                 momentumBoost = _operatingMomentumAdditiveCurve.Evaluate(_operatingMomentum);
-
+                VolumeManager.Instance.OnOperationSuccessInput();
             }
 
             _operatingMomentum += (momentumBoost - momentumPenalty);
+            if (validInput)
+            {
+                _operatingMomentumDecayDelayTimer = _operatingMomentumDecayDelayCurve.Evaluate(_operatingMomentum);
+            }
+            else
+            {
+                _operatingMomentumDecayDelayTimer = 0.0f;
+            }
+
         }
 
         #endregion

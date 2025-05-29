@@ -13,6 +13,7 @@ TagManager:
   - Human_LLeg
   - Human_RLeg
   - Operation_Offset
+  - GlobalVolume
   layers:
   - Default
   - TransparentFX

@@ -106,6 +106,11 @@ namespace _Scripts.Gameplay.Player.Controller{
         }
         [SerializeField]
         private PlayerCharacterAnimator _playerCharacterAnimator;
+
+        public PlayerCharacterAnimator PlayerCharacterAnimator
+        {
+            get { return _playerCharacterAnimator; }
+        }
         #endregion
 
         #region PlayerStorage
