@@ -16,8 +16,8 @@ namespace _Scripts.Gameplay.Player.Controller{
         private bool _leftHanded = false;
         [SerializeField]
         private PlayerHands _hands;
-        [SerializeField] 
-        private PlayerHands _operatingHands;
+        //[SerializeField] 
+        //private PlayerHands _operatingHands;
         [SerializeField]
         private Transform _operatingHandsRoot;
 
@@ -40,11 +40,11 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             bool isOperating = OperationManager.Instance.IsInAnyOperatingMode();
 
-            if (isOperating)
-            {
-                return (_leftHanded ? _operatingHands.LHand : _operatingHands.RHand);
-            }
-            else
+            //if (isOperating)
+            //{
+            //    return (_leftHanded ? _operatingHands.LHand : _operatingHands.RHand);
+            //}
+            //else
             {
                 return (_leftHanded ? _hands.LHand : _hands.RHand);
             }
@@ -62,11 +62,11 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             bool isOperating = OperationManager.Instance.IsInAnyOperatingMode();
 
-            if (isOperating)
-            {
-                return (_leftHanded ? _operatingHands.RHand : _operatingHands.LHand);
-            }
-            else
+            //if (isOperating)
+            //{
+            //    return (_leftHanded ? _operatingHands.RHand : _operatingHands.LHand);
+            //}
+            //else
             {
                 return (_leftHanded ? _hands.RHand : _hands.LHand);
             }
@@ -114,10 +114,10 @@ namespace _Scripts.Gameplay.Player.Controller{
                 return _hands;
             }
 
-            if (force == EStorableType.Operation)
-            {
-                return _operatingHands;
-            }
+            //if (force == EStorableType.Operation)
+            //{
+            //    return _operatingHands;
+            //}
 
             return null;
         }
