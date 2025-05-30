@@ -178,7 +178,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 if (currentOpState is DismemberOperationState)
                 {
-                    if (_operatingMomentumInvalidInputTimer <= 0.0f)
+                    if (_operatingMomentumInvalidInputTimer <= 0.0f )
                     {
                         if (_operatingMomentum < _operatingMomentumValidInputCutoff)
                         {
@@ -192,6 +192,8 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                     if (equippedTool != null)
                     {
+                        float moveSpeedFactor = _operatingMomentum;
+                        FeedbackManager.Instance.SetFrequencyFactor(moveSpeedFactor, moveSpeedFactor);
                         FeedbackManager.Instance.TryFeedbackPattern(movementFeedback);
                     }
                 }

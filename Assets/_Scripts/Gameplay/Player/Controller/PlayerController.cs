@@ -255,7 +255,8 @@ namespace _Scripts.Gameplay.Player.Controller{
             // Calculate movement direction
             Vector3 move = transform.right * moveX + transform.forward * moveZ;
             float speed = _isSprinting ? sprintSpeed : moveSpeed;
-            _characterController.Move(move.normalized * speed * Time.deltaTime);
+            Debug.Log("Move X is " + moveX + " and Move Z is " + moveZ);
+            _characterController.Move(move * speed * Time.deltaTime);
         }
 
         private void HandleRotation()
@@ -937,6 +938,8 @@ namespace _Scripts.Gameplay.Player.Controller{
             //{
 
             //}
+            FeedbackManager.Instance.StopFeedbackPattern();
+
             bool leaveOpTable = false;
 
             if (_bodyPartMorgueActor != null)

@@ -43,6 +43,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private Coroutine _stopGamepadFeedback;
         private float _feedbackTimer;
         private float _feedbackDuration;
+
+        private float _lowFrequencyFactor = 1.0f;
+        private float _highFrequencyFactor = 1.0f;
         #endregion
 
         [Header("UI feedback patterns")]
@@ -86,8 +89,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
             else
             {
-                float lowFreq = _feedbackPattern._lowFrequencyPattern.Evaluate(_feedbackTimer);
-                float highFreq = _feedbackPattern._highFrequencyPattern.Evaluate(_feedbackTimer);
+                float lowFreq = _feedbackPattern._lowFrequencyPattern.Evaluate(_feedbackTimer) * _lowFrequencyFactor;
+                float highFreq = _feedbackPattern._highFrequencyPattern.Evaluate(_feedbackTimer) * _highFrequencyFactor;
+
+                SetFrequencyFactor(1.0f, 1.0f); //reset on tick
+
                 _gamepad.SetMotorSpeeds(lowFreq, highFreq);
             }
 
@@ -104,6 +110,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _feedbackType = EFeedbackPattern.None;
             _feedbackTimer = 0.0f;
             _feedbackDuration = 0.0f;
+            SetFrequencyFactor(1.0f, 1.0f);
             _gamepad.SetMotorSpeeds(0.0f, 0.0f);
         }
 
@@ -171,7 +178,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 case EFeedbackPattern.Operation_SawSmooth:
                     return _operationSawSmoothFeedback;
-
+                case EFeedbackPattern.Operation_SawJammed:
+                    return _operationSawJammedFeedback;
+                case EFeedbackPattern.Operation_SawBreak:
+                    return _operationSawBreakFeedback;
                 default:
                     return null;
             }
@@ -207,6 +217,19 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             if (stopPattern)
             {
                 SetNoneFeedbackPattern();
+            }
+        }
+
+        public void SetFrequencyFactor(float low = -1.0f, float high = -1.0f)
+        {
+            if (low >= 0.0f)
+            {
+                _lowFrequencyFactor = low;
+            }
+
+            if (high >= 0.0f)
+            {
+                _highFrequencyFactor = high;
             }
         }
 
