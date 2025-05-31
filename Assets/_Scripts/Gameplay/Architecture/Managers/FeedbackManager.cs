@@ -137,7 +137,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             if (!IsFeedbackValid(pattern))
             {
-                Debug.LogWarning("Feedback pattern: " + pattern + " does not exist");
+                //Debug.LogWarning("Feedback pattern: " + pattern + " does not exist");
 
                 return;
             }

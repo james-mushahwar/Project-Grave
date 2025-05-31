@@ -7,7 +7,7 @@ namespace _Scripts.Editortools.Draw {
     {
         #region Arrows
         // two points
-        public static void ForPointsDebug(Vector3 start, Vector3 end, float arrowHeadLength = 0.25f, float arrowHeadAngle = 20.0f)
+        public static void ForPointsDebug(Vector3 start, Vector3 end, float arrowHeadLength = 10.0f, float arrowHeadAngle = 20.0f)
         {
             Debug.DrawLine(start, end);
     

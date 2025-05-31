@@ -10,6 +10,7 @@ using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using UnityEditor.Build;
 using UnityEngine.Animations.Rigging;
 using System.Security.Cryptography.X509Certificates;
+using _Scripts.Editortools.Draw;
 
 namespace _Scripts.Gameplay.Animate.Player{
     
@@ -146,7 +147,6 @@ namespace _Scripts.Gameplay.Animate.Player{
                 Debug.Log("Operating momentum = " + _operatingMomentum);
 
                 //update rig hand offset
-                float progress = currentOpState.NormalisedProgress;
                 Vector3 progressPosition = currentOpState.GetProgressPosition();
                 MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
                 Vector3 handDistance = Vector3.zero;
@@ -155,7 +155,8 @@ namespace _Scripts.Gameplay.Animate.Player{
                 {
                     handDistance = GetToolStartToHeldSocket();
                 }
-                Vector3 worldPos = progressPosition + (direction * handDistance.magnitude);
+
+                Vector3 worldPos = progressPosition + handDistance;//(direction * handDistance.magnitude);
                 SetRigControlPosition(worldPos);
 
                 //CurrentAnimator.SetLayerWeight(_sawingStartAnimLayer_Index, 1.0f);
@@ -210,8 +211,6 @@ namespace _Scripts.Gameplay.Animate.Player{
                     CurrentAnimator.CrossFade(_idleLoopAnim_Hash, 0.0f);
                     //CurrentAnimator.PlayInFixedTime(_idleLoopAnim_Hash);
                     Debug.Log("Trying to play idle animation");
-                    //SetRigControlPosition(_rigControlDefaultLocalPosition, true);
-                    //SetRigWeight(0.0f, 0.0f);
                     ResetRig();
                     _operatingMomentum = 0.0f;
                 }
@@ -286,10 +285,10 @@ namespace _Scripts.Gameplay.Animate.Player{
                 _rigPosition.weight = posWeight;
             }
 
-            if (rotWeight >= 0.0f)
-            {
-                _rigRotation.weight = rotWeight;
-            }
+            //if (rotWeight >= 0.0f)
+            //{
+            //    _rigRotation.weight = rotWeight;
+            //}
         }
 
         public Vector3 GetToolStartToHeldSocket()
@@ -305,6 +304,10 @@ namespace _Scripts.Gameplay.Animate.Player{
                 if (monoTool != null)
                 {
                     difference = equippedTool.ToolStartingTransform.position - monoTool.transform.parent.position;
+
+                    DrawGizmos.ForPointsDebug(equippedTool.ToolStartingTransform.position,
+                        monoTool.transform.parent.position);
+                    //DrawGizmos.ForArrowGizmo(equippedTool.ToolStartingTransform.position, monoTool.transform.parent.position, Color.beige);
                 }
                 
             }
