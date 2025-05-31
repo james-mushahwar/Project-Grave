@@ -125,7 +125,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _leftHanded: 0
   _hands: {fileID: 7188639273327027184}
-  _operatingHands: {fileID: 5804749406724510400}
   _operatingHandsRoot: {fileID: 7802273172865535093}
   _operatingHandsRootOffset: 0.5
   _coatStorages:
@@ -1603,6 +1602,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890286802364306794, guid: db5cbaa4d5085af419d2a97206176d3f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.281
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890286802364306794, guid: db5cbaa4d5085af419d2a97206176d3f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890286802364306794, guid: db5cbaa4d5085af419d2a97206176d3f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.9198
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
