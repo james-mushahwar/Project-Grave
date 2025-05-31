@@ -950,7 +950,7 @@ MonoBehaviour:
   _rigPosition: {fileID: 8688706137083434904}
   _rigHandPositionTransform: {fileID: 8927493895835314858}
   _rigHandChildTransform: {fileID: 5629156229927382719}
-  _rigRotation: {fileID: 1527990320904003784}
+  _rigRotation: {fileID: 0}
   _rigHandRotationTransform: {fileID: 400267871406986048}
   _rigHandRotationNaturalOffset: {x: 80.1, y: 0, z: 0}
   _operatingMomentumDecayCurve:
@@ -1618,7 +1618,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.9198
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7791466867125668460, guid: db5cbaa4d5085af419d2a97206176d3f,
+        type: 3}
+      propertyPath: m_RigLayers.Array.data[1].m_Rig
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2136776347979100441, guid: db5cbaa4d5085af419d2a97206176d3f, type: 3}
+    - {fileID: 2235840895599030611, guid: db5cbaa4d5085af419d2a97206176d3f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1635,18 +1642,6 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 735158124185342363}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1527990320904003784 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2235840895599030611, guid: db5cbaa4d5085af419d2a97206176d3f,
-    type: 3}
-  m_PrefabInstance: {fileID: 735158124185342363}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1819798975829729685 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1401455035123773454, guid: db5cbaa4d5085af419d2a97206176d3f,
