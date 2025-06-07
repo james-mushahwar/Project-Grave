@@ -1,4 +1,5 @@
 ﻿using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Org;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -55,15 +56,15 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             _bloodFXEnumeratorHandle = null;
         }
 
-        public override void BeginOperationState(float duration = -1)
+        public override void BeginOperationState(IOperator operatorOwner, bool reset, float duration = -1.0f)
         {
             _awaitingInputs.Clear();
             _awaitingInputs.Add(Architecture.Managers.EInputType.RTrigger);
 
-            base.BeginOperationState(duration);
+            base.BeginOperationState(operatorOwner, reset, duration);
         }
 
-        public override bool OnActionLInput()
+        public override bool OnActionLInput(bool pressed)
         {
             if (_awaitingInputs.Contains(Architecture.Managers.EInputType.LTrigger))
             {
@@ -76,7 +77,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             return false;
         }
 
-        public override bool OnActionRInput()
+        public override bool OnActionRInput(bool pressed)
         {
             if (_awaitingInputs.Contains(Architecture.Managers.EInputType.RTrigger))
             {

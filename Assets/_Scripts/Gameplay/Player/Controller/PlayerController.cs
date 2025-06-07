@@ -51,7 +51,7 @@ namespace _Scripts.Gameplay.Player.Controller{
         Forensic = 300,
     }
 
-    public class PlayerController : MonoBehaviour, IPossess, IInteractor, IIdentifiable
+    public class PlayerController : MonoBehaviour, IPossess, IInteractor, IIdentifiable, IOperator
     {
         [Header("Movement Settings")]
         [SerializeField] private float moveSpeed = 5f;
@@ -168,6 +168,14 @@ namespace _Scripts.Gameplay.Player.Controller{
         private FVirtualCamera _firstPersonVCam;
 
         public FVirtualCamera FirstPersonVCam { get => _firstPersonVCam; }
+
+        public float OperatingSpeed
+        {
+            get 
+            {
+                return _playerCharacterAnimator.CurrentMomentum;
+            }
+        }
 
         private void Start()
         {
@@ -461,7 +469,7 @@ namespace _Scripts.Gameplay.Player.Controller{
             //Debug.Log("Index is now : " + newIndex);
         }
 
-        public void Operating_ActionL(InputAction.CallbackContext callbackContext)
+        public void Operating_ActionLPressed(InputAction.CallbackContext callbackContext)
         {
             if (CameraManager.Instance.IsCameraInTransition())
             {
@@ -480,6 +488,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                         //{
                         //    return;
                         //}
+                        ChosenOperationState.OnActionLInput(true);
 
                         _playerCharacterAnimator.OnActionLRInput();
 
@@ -496,7 +505,7 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         }
 
-        public void Operating_ActionR(InputAction.CallbackContext callbackContext)
+        public void Operating_ActionRPressed(InputAction.CallbackContext callbackContext)
         {
             if (CameraManager.Instance.IsCameraInTransition())
             {
@@ -906,9 +915,8 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             _chosenOperationState = OperationManager.Instance.CurrentOperationState;
 
-            _bodyPartMorgueActor.BeginOperation();
+            _bodyPartMorgueActor.StartOperation(_chosenOperationState, this);
             //_bodyPartMorgueActor.OperationState.BeginOperationState();
-
 
             if (toolToUse != null)
             {
@@ -1026,8 +1034,8 @@ namespace _Scripts.Gameplay.Player.Controller{
                         cursorLock = CursorLockMode.Confined;
                         //mpi.Game.Action.RemoveAllBindingOverrides();
                         mpi.Game.Back.started += Operating_OnBack;
-                        mpi.Game.Operating_ActionL.started += Operating_ActionL;
-                        mpi.Game.Operating_ActionR.started += Operating_ActionR;
+                        mpi.Game.Operating_ActionL.started += Operating_ActionLPressed;
+                        mpi.Game.Operating_ActionR.started += Operating_ActionRPressed;
 
                         mpi.Game.Operating_Cycle.Enable();
                         //mpi.Game.Operating_Scroll.started += Operating_OnScroll;
@@ -1097,8 +1105,8 @@ namespace _Scripts.Gameplay.Player.Controller{
 
                     case EPlayerControllerState.Operating:
                         mpi.Game.Back.started -= Operating_OnBack;
-                        mpi.Game.Operating_ActionL.started -= Operating_ActionL;
-                        mpi.Game.Operating_ActionR.started -= Operating_ActionR;
+                        mpi.Game.Operating_ActionL.started -= Operating_ActionLPressed;
+                        mpi.Game.Operating_ActionR.started -= Operating_ActionRPressed;
                         
                         mpi.Game.Operating_Cycle.Disable();
                         //mpi.Game.Operating_Scroll.started -= Operating_OnScroll;

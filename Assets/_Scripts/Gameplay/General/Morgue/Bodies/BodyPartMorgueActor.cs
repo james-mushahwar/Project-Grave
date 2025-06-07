@@ -11,10 +11,11 @@ using System.Linq;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationSite;
 using UnityEditor;
 using UnityEngine;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace _Scripts.Gameplay.General.Morgue.Bodies{
     
-    public abstract class BodyPartMorgueActor : MorgueActor, IConnectable, IStorable, ISelect
+    public abstract class BodyPartMorgueActor : MorgueActor, IConnectable, IStorable, ISelect, IOperatable
     {
         private Collider _collider;
 
@@ -399,11 +400,25 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public virtual Transform Transform { get; }
 
+        string IOperatable.RuntimeID
+        {
+            get { return null; }
+        }
+
+        private IOperator _operator;
+        public IOperator Operator
+        {
+            get
+            {
+                return _operator;
+            }
+        }
+
+        public List<OperationState> OperationStates => OperationStates;
+
         public void OnSelected()
         {
             //transform.localScale = _defaultLocalScale * 1.5f;
-
-            
         }
 
         public void OnDeselected()
@@ -413,10 +428,21 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public abstract void RebuildOperationSites();
 
-        public virtual void BeginOperation()
+        public void StartOperation(OperationState opState, IOperator opOwner)
         {
-            OperationState.BeginOperationState();
+            _operator = opOwner;
+            opState.BeginOperationState(opOwner, false);
             _bodyMorgueActor?.BeginOperation();
+        }
+
+        public void TickOperation(OperationState opState)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StopOperation(OperationState opState)
+        {
+            throw new NotImplementedException();
         }
     }
     

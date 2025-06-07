@@ -71,11 +71,22 @@ namespace _Scripts.Gameplay.Animate.Player{
         private float _operatingMomentumDecayDelayTimer = 0.0f;
         private float _operatingMomentumInvalidInputTimer = 0.0f;
         //private bool _operatingMomentumAcceptInput = true;
-
         public float OperatingMomentum
         {
-            get { return _operatingMomentum; }
+            get
+            {
+                return _operatingMomentum;
+            }
         }
+
+        public float CurrentMomentum
+        {
+            get 
+            { 
+                return _overridenMomentum >= 0 ? _overridenMomentum : _operatingMomentum; 
+            }
+        }
+        private float _overridenMomentum = -1;
 
         public bool CanTick { get => true; set => throw new System.NotImplementedException(); }
 

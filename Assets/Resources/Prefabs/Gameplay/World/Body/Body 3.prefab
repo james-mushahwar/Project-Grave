@@ -100,6 +100,7 @@ MonoBehaviour:
     _duration: 1
     _runtimeID: {fileID: 0}
     _beginOperation_BodyAnimName: 
+    _opMinigame: {fileID: 0}
     _dismemberSiteTransform: {fileID: 0}
     _bloodPS: {fileID: 0}
     _bloodAudioHandler:
@@ -126,6 +127,7 @@ MonoBehaviour:
     _duration: 1
     _runtimeID: {fileID: 0}
     _beginOperation_BodyAnimName: 
+    _opMinigame: {fileID: 0}
     _dismemberSiteTransform: {fileID: 0}
     _bloodPS: {fileID: 0}
     _bloodAudioHandler:
@@ -152,6 +154,7 @@ MonoBehaviour:
     _duration: 1
     _runtimeID: {fileID: 0}
     _beginOperation_BodyAnimName: 
+    _opMinigame: {fileID: 0}
     _dismemberSiteTransform: {fileID: 0}
     _bloodPS: {fileID: 0}
     _bloodAudioHandler:
@@ -1699,6 +1702,7 @@ MonoBehaviour:
     _duration: 1
     _runtimeID: {fileID: 2845633092960539945}
     _beginOperation_BodyAnimName: sawing_flesh_seperate
+    _opMinigame: {fileID: 11400000, guid: 7ec7c396c72bab741bab926a533f5021, type: 2}
     _dismemberSiteTransform: {fileID: 0}
     _bloodPS: {fileID: 5243619660665542530}
     _bloodAudioHandler:
@@ -1725,6 +1729,7 @@ MonoBehaviour:
     _duration: 1
     _runtimeID: {fileID: 2845633092960539945}
     _beginOperation_BodyAnimName: 
+    _opMinigame: {fileID: 0}
     _dismemberSiteTransform: {fileID: 0}
     _bloodPS: {fileID: 0}
     _bloodAudioHandler:
@@ -1751,6 +1756,7 @@ MonoBehaviour:
     _duration: 1
     _runtimeID: {fileID: 2845633092960539945}
     _beginOperation_BodyAnimName: 
+    _opMinigame: {fileID: 0}
     _dismemberSiteTransform: {fileID: 0}
     _bloodPS: {fileID: 0}
     _bloodAudioHandler:

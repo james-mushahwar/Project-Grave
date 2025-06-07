@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue{
     
-    public abstract class MorgueActor : MonoBehaviour, IMorgueTickable, IIdentifiable
+    public abstract class MorgueActor : MonoBehaviour, IMorgueTickable, IIdentifiable, IMorgueReactable
     {
         private RuntimeID _runtimeID;
         public RuntimeID RuntimeID { get { return _runtimeID; } protected set { _runtimeID = value; } }
@@ -22,6 +22,10 @@ namespace _Scripts.Gameplay.General.Morgue{
 
         public abstract void Tick();
 
+        public virtual void OnReaction(EMorgueStimulus stimulus)
+        {
+            
+        }
     }
     
 }

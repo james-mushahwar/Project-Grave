@@ -41,6 +41,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public virtual void ManagedPreTearddownGame() { }
         // after world (level, area, zone) unloading
         public virtual void ManagedPostTearddownGame() { }
+
+        public virtual void OnStimulusReceived(EMorgueStimulus stimulus, GameObject rootGO = null) { }
     }
 
     // for gameobjects managed by game managers

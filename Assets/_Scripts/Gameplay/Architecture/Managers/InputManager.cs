@@ -43,6 +43,15 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         COUNT
     }
 
+    public enum EDirectionType
+    {
+        NONE,
+        North,
+        East,
+        South,
+        West
+    }
+
     public class InputManager : GameManager<InputManager>, IManager
     {
         private MasterPlayerInput _masterPlayerInput;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -23,6 +24,13 @@ namespace _Scripts.CautionaryTalesScripts{
             }
 
             return null;
+        }
+
+        public static List<T> FindAllObjectsOfType<T>(GameObject parent) where T : class
+        {
+            List<T> objectsFound = parent.GetComponentsInChildren<T>().ToList<T>();
+            
+            return objectsFound;
         }
         #endregion
 

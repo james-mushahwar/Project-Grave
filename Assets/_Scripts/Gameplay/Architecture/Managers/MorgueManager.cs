@@ -1,4 +1,5 @@
-﻿using _Scripts.Gameplay.General.Morgue;
+﻿using _Scripts.CautionaryTalesScripts;
+using _Scripts.Gameplay.General.Morgue;
 using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Gameplay.Input.InputController;
 using _Scripts.Org;
@@ -251,6 +252,19 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
 
             return bodyPart;
+        }
+
+        //reactions
+        public void OnStimulusReceived(EMorgueStimulus stimulus, GameObject rootGO = null)
+        {
+            if (rootGO != null)
+            {
+                List<IMorgueReactable> morgueReactables = CTGlobal.FindAllObjectsOfType<IMorgueReactable>(rootGO);
+                foreach(IMorgueReactable reactable in morgueReactables)
+                {
+                    reactable.OnReaction(stimulus);
+                }
+            }
         }
     }
     

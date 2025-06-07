@@ -17,6 +17,19 @@ namespace _Scripts.Org
         void Tick();
     }
 
+    public enum EMorgueStimulus
+    {
+        //OPERATION
+        Operation_SuccessInput, 
+        Operation_FailureInput, 
+        Operation_CancelInput,
+        COUNT
+    }
+    public interface IMorgueReactable
+    {
+        void OnReaction(EMorgueStimulus stimulus);
+    }
+
     public interface IInteractable
     {
         bool IsInteractable(IInteractor interactor = null);
@@ -31,10 +44,16 @@ namespace _Scripts.Org
     public interface IOperatable
     {
         string RuntimeID { get; }
+        IOperator Operator { get; }
         List<OperationState> OperationStates { get; }
-        void StartOperation(OperationState opState);
-        void TickOPeration(OperationState opState);
+        void StartOperation(OperationState opState, IOperator opOwner);
+        void TickOperation(OperationState opState);
         void StopOperation(OperationState opState);
+    }
+
+    public interface IOperator
+    {
+        float OperatingSpeed { get; }
     }
 
     //public interface ICarryable

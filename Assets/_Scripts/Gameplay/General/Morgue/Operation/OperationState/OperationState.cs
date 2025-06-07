@@ -2,6 +2,7 @@
 using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.General.Morgue.Bodies;
+using _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMinigames;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
 using _Scripts.Gameplay.Input.InputController;
@@ -17,7 +18,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
 
     // an Operation State contains info about the progress of a certain proedue, what that operation is specifically and other info
     [Serializable]
-    public class OperationState : IIdentifiable
+    public abstract class OperationState : IIdentifiable
     {
         public IOperatable OperatableOwner
         {
@@ -37,6 +38,9 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         {
             get => _operationType; 
         }
+
+        private IOperator _operator;
+        private bool _runWithoutOperator;
 
         [SerializeField] private FVirtualCamera _operationStateVirtualCamera;
         public FVirtualCamera OperationStateVirtualCamera { get => _operationStateVirtualCamera; }
@@ -76,6 +80,12 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             get { return _beginOperation_BodyAnimName; }
         }
 
+        public IOperator Operator { get => _operator; }
+        public bool RunWithoutOperator { get => _runWithoutOperator; }
+
+        [SerializeField]
+        protected OperationMinigameScriptableObject _opMinigame;
+
         public void SetupOperationState()
         {
             if (RuntimeID != null)
@@ -84,47 +94,53 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             }
         }
 
-        public virtual void BeginOperationState(float duration = -1.0f)
+        public virtual void BeginOperationState(IOperator operatorOwner, bool reset, float duration = -1.0f)
         {
-            _elapsedProgress = 0.0f;
+            if (reset)
+            {
+                _elapsedProgress = 0.0f;
+            }
+
+            _operator = operatorOwner;
+            _runWithoutOperator = _operator == null;
 
             if (duration > 0.0f)
             {
                 _duration = duration;
             }
-
-            if (_operationStartOffsetTransform == null)
-            {
-                //GameObject go = CTGlobal.FindGameObjectInChildWithTag(OperationStartTransform.gameObject, "Operation_Offset");
-                //_operationStartOffsetTransform = go.transform;
-            }
         }
 
         public virtual void TickOperationState()
         {
-            if (_bodyPartMorgueActor != null)
+            if (_runWithoutOperator)
             {
-                if (_bodyPartMorgueActor.BodyMorgueActor != null)
+
+            }
+            else if (_operator != null)
+            {
+                if (_bodyPartMorgueActor != null)
                 {
-                    _bodyPartMorgueActor.BodyMorgueActor.TickOperation(NormalisedProgress);
+                    if (_bodyPartMorgueActor.BodyMorgueActor != null)
+                    {
+                        _bodyPartMorgueActor.BodyMorgueActor.TickOperation(NormalisedProgress);
+                    }
                 }
             }
         }
 
         public void ProceedOperation(float effectiveness = 1.0f)
         {
-            _elapsedProgress += effectiveness * _proceedStep * Time.deltaTime;
+            bool proceedOp = _runWithoutOperator || _operator != null;
+            if (proceedOp)
+            {
+                effectiveness = _operator != null ? _operator.OperatingSpeed : effectiveness;
+                _elapsedProgress += effectiveness * _proceedStep * Time.deltaTime;
+            }
         }
 
-        public virtual bool OnActionLInput()
-        {
-            return true;
-        }
-
-        public virtual bool OnActionRInput()
-        {
-            return true;
-        }
+        //inputs
+        public abstract bool OnActionLInput(bool pressed);
+        public abstract bool OnActionRInput(bool pressed);
 
         public virtual Vector3 GetProgressPosition(bool localPos = false)
         {
@@ -161,5 +177,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         {
             return false;
         }
+
+
     }
 }

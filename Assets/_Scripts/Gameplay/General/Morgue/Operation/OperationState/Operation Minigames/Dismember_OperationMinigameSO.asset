@@ -1,0 +1,156 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ad25a7d3903714cbfdecc195356531, type: 3}
+  m_Name: Dismember_OperationMinigameSO
+  m_EditorClassIdentifier: 
+  _operatingMomentumDecayCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.16
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.070754714
+      inSlope: -0.053838503
+      outSlope: -0.053838503
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.02920407
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _operatingMomentumDecayDelayCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.119998574
+      inSlope: 0.06984711
+      outSlope: 0.06984711
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 0.15492213
+      inSlope: 0.24032454
+      outSlope: 0.24032454
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.17806005
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.30000305
+      inSlope: -0.0518803
+      outSlope: -0.0518803
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.18376058
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _operatingMomentumAdditiveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.3
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9990579
+      value: 0.07232702
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _operatingMomentumBoostCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.15000153
+      inSlope: -0.05001068
+      outSlope: -0.05001068
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.099990845
+      inSlope: -0.05001068
+      outSlope: -0.05001068
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _operatingMomentumPenaltyCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6807047
+      value: 0.19242544
+      inSlope: 0.051700167
+      outSlope: 0.051700167
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.059333216
+    - serializedVersion: 3
+      time: 0.99717385
+      value: 0.35
+      inSlope: -0.14305939
+      outSlope: -0.14305939
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08335049
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _operatingMomentumValidInputCutoff: 0
+  _operatingMomentumInvalidInputDelay: 0.5
+  _operatingMomentumWaitInputDelay: 0.5
+  _perfectTimingMinimumMomentum: 0.4

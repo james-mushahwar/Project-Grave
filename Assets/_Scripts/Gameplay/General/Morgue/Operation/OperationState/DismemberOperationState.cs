@@ -1,5 +1,10 @@
-﻿using _Scripts.Gameplay.Architecture.Managers;
+﻿using _Scripts.Gameplay.Animate.Player;
+using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMinigames;
+using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
+using _Scripts.Gameplay.Player.Controller;
+using _Scripts.Org;
 using DG.Tweening;
 using System;
 using System.Collections;
@@ -56,38 +61,91 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             _bloodFXEnumeratorHandle = null;
         }
 
-        public override void BeginOperationState(float duration = -1)
+        public override void BeginOperationState(IOperator operatorOwner, bool reset, float duration = -1.0f)
         {
-            _awaitingInputs.Clear();
-            _awaitingInputs.Add(Architecture.Managers.EInputType.RTrigger);
+            base.BeginOperationState(operatorOwner, reset, duration);
 
-            base.BeginOperationState(duration);
+            _opMinigame.OnMinigameStart(operatorOwner);
+
+            //_awaitingInputs.Clear();
+            //_awaitingInputs.Add(Architecture.Managers.EInputType.RTrigger);
         }
 
-        public override bool OnActionLInput()
+        public override bool OnActionLInput(bool pressed)
         {
-            if (_awaitingInputs.Contains(Architecture.Managers.EInputType.LTrigger))
-            {
-                _awaitingInputs.Clear();
-                _awaitingInputs.Add(Architecture.Managers.EInputType.RTrigger);
+            //if (_awaitingInputs.Contains(Architecture.Managers.EInputType.LTrigger))
+            //{
+            //    _awaitingInputs.Clear();
+            //    _awaitingInputs.Add(Architecture.Managers.EInputType.RTrigger);
 
+            //    return true;
+            //}
+
+            //return false;
+
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+            MorgueToolActor equippedTool = pc.EquippedOperatingTool;
+            PlayerCharacterAnimator animator = pc.PlayerCharacterAnimator;
+
+            if (equippedTool == null)
+            {
+                return false;
+            }
+
+            if (!RunWithoutOperator)
+            {
                 return true;
             }
 
-            return false;
+            bool release = !pressed;
+            EInputType inputType = EInputType.LTrigger;
+            bool success = true;
+
+            if (_opMinigame != null)
+            {
+                success = _opMinigame.OnInput(inputType, pressed);
+            }
+
+            return success;
+
         }
 
-        public override bool OnActionRInput()
+        public override bool OnActionRInput(bool pressed)
         {
-            if (_awaitingInputs.Contains(Architecture.Managers.EInputType.RTrigger))
-            {
-                _awaitingInputs.Clear();
-                _awaitingInputs.Add(Architecture.Managers.EInputType.LTrigger);
+            //if (_awaitingInputs.Contains(Architecture.Managers.EInputType.RTrigger))
+            //{
+            //    _awaitingInputs.Clear();
+            //    _awaitingInputs.Add(Architecture.Managers.EInputType.LTrigger);
 
+            //    return true;
+            //}
+
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+            MorgueToolActor equippedTool = pc.EquippedOperatingTool;
+            PlayerCharacterAnimator animator = pc.PlayerCharacterAnimator;
+
+            if (equippedTool == null)
+            {
+                return false;
+            }
+
+            if (!RunWithoutOperator)
+            {
                 return true;
             }
 
-            return false;
+            bool release = !pressed;
+            EInputType inputType = EInputType.RTrigger;
+            bool success = true;
+
+            if (_opMinigame != null)
+            {
+                success = _opMinigame.OnInput(inputType, pressed);
+            }
+
+            return success;
+
+            //return false;
         }
 
         public override bool IsFeasible()
