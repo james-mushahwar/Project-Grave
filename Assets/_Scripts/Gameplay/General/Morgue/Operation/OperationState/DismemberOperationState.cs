@@ -92,7 +92,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
                 return false;
             }
 
-            if (!RunWithoutOperator)
+            if (RunWithoutOperator)
             {
                 return true;
             }
@@ -129,7 +129,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
                 return false;
             }
 
-            if (!RunWithoutOperator)
+            if (RunWithoutOperator)
             {
                 return true;
             }
@@ -144,8 +144,6 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             }
 
             return success;
-
-            //return false;
         }
 
         public override bool IsFeasible()

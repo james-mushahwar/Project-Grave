@@ -114,10 +114,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         {
             if (_runWithoutOperator)
             {
-
+                _opMinigame.OnMinigameTick();
             }
             else if (_operator != null)
             {
+                _opMinigame.OnMinigameTick();
                 if (_bodyPartMorgueActor != null)
                 {
                     if (_bodyPartMorgueActor.BodyMorgueActor != null)
