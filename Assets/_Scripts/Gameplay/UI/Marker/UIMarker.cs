@@ -96,6 +96,20 @@ namespace _Scripts.Gameplay.UI.Marker{
             _image.rectTransform.anchoredPosition = position;
 
         }
+
+        public void SetScale(bool inverse)
+        {
+            Vector3 scale = _image.rectTransform.localScale;
+
+            if (inverse)
+            {
+                _image.rectTransform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            }
+            else
+            {
+                _image.rectTransform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+            }
+        }
     }
     
 }

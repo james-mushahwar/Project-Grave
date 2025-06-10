@@ -16,6 +16,8 @@ using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
 
+
+
     // an Operation State contains info about the progress of a certain proedue, what that operation is specifically and other info
     [Serializable]
     public abstract class OperationState : IIdentifiable
@@ -66,6 +68,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         public float NormalisedProgress { get { return _elapsedProgress / _duration; } }
 
         public Transform OperationStartTransform { get => _operationStartTransform; }
+        public Transform OperationEndTransform { get => _operationEndTransform; }
         public Transform OperationStartOffsetTransform { get => _operationStartOffsetTransform; }
 
         [SerializeField]
@@ -114,7 +117,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         {
             if (_runWithoutOperator)
             {
-                _opMinigame.OnMinigameTick();
+                //_opMinigame.OnMinigameTick();
             }
             else if (_operator != null)
             {
@@ -137,6 +140,16 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
                 effectiveness = _operator != null ? _operator.OperatingSpeed : effectiveness;
                 _elapsedProgress += effectiveness * _proceedStep * Time.deltaTime;
             }
+        }
+
+        public void EndOperationState()
+        {
+            if (_opMinigame)
+            {
+                _opMinigame.OnMinigameEnd();
+            }
+
+            _operator = null;
         }
 
         //inputs

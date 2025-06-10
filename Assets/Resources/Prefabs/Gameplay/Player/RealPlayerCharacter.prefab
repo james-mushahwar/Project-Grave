@@ -953,123 +953,12 @@ MonoBehaviour:
   _rigRotation: {fileID: 0}
   _rigHandRotationTransform: {fileID: 400267871406986048}
   _rigHandRotationNaturalOffset: {x: 0, y: 0, z: 0}
-  _operatingMomentumDecayCurve:
+  _operatingAnimationSpeedDampnerCurve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.16
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0.070754714
-      inSlope: -0.053838503
-      outSlope: -0.053838503
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.02920407
-      outWeight: 0.33333334
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _operatingMomentumDecayDelayCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.119998574
-      inSlope: 0.06984711
-      outSlope: 0.06984711
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 0.15492213
-      inSlope: 0.24032454
-      outSlope: 0.24032454
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.17806005
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0.30000305
-      inSlope: -0.0518803
-      outSlope: -0.0518803
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.18376058
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _operatingMomentumAdditiveCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.3
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9990579
-      value: 0.07232702
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _operatingMomentumPenaltyCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.6807047
-      value: 0.19242544
-      inSlope: 0.051700167
-      outSlope: 0.051700167
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.059333216
-    - serializedVersion: 3
-      time: 0.99717385
-      value: 0.35
-      inSlope: -0.14305939
-      outSlope: -0.14305939
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.08335049
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _operatingMomentumValidInputCutoff: 0.9
-  _operatingMomentumInvalidInputDelay: 0.9
-  _operatingMomentumWaitInputDelay: 0.68
 --- !u!114 &7724529274728595347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1865,123 +1754,30 @@ MonoBehaviour:
   _rigRotation: {fileID: 0}
   _rigHandRotationTransform: {fileID: 400267871406986048}
   _rigHandRotationNaturalOffset: {x: 0, y: 0, z: 0}
-  _operatingMomentumDecayCurve:
+  _operatingAnimationSpeedDampnerCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.16
+      value: 0
       inSlope: 0
       outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0.070754714
-      inSlope: -0.053838503
-      outSlope: -0.053838503
       tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.02920407
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _operatingMomentumDecayDelayCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.119998574
-      inSlope: 0.06984711
-      outSlope: 0.06984711
-      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 0.15492213
-      inSlope: 0.24032454
-      outSlope: 0.24032454
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.17806005
-      outWeight: 0.33333334
+      outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0.30000305
-      inSlope: -0.0518803
-      outSlope: -0.0518803
+      value: 1.5000007
+      inSlope: 2.431056
+      outSlope: 2.431056
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.18376058
+      inWeight: 0.025906682
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _operatingMomentumAdditiveCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.3
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9990579
-      value: 0.07232702
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _operatingMomentumPenaltyCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.6807047
-      value: 0.19242544
-      inSlope: 0.051700167
-      outSlope: 0.051700167
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.059333216
-    - serializedVersion: 3
-      time: 0.99717385
-      value: 0.35
-      inSlope: -0.14305939
-      outSlope: -0.14305939
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.08335049
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _operatingMomentumValidInputCutoff: 0.9
-  _operatingMomentumInvalidInputDelay: 0.9
-  _operatingMomentumWaitInputDelay: 0.68
 --- !u!4 &5629156229927382719 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4912593415758216996, guid: db5cbaa4d5085af419d2a97206176d3f,

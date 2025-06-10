@@ -8354,6 +8354,7 @@ MonoBehaviour:
   _bodyGeometryPlaceholder: {fileID: 3658051860864663620}
   _bodyRigGO: {fileID: 3020762441041837081}
   _bodyAnimator: {fileID: 260029114929901745}
+  _endOperation_AnimName: idle_test
 --- !u!114 &6024438693973078892
 MonoBehaviour:
   m_ObjectHideFlags: 0

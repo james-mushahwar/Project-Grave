@@ -95,6 +95,9 @@ namespace _Scripts.Gameplay.Animate.Player{
             }
         }
 
+        [SerializeField]
+        private AnimationCurve _operatingAnimationSpeedDampnerCurve;
+
         public bool CanTick { get => true; set => throw new System.NotImplementedException(); }
 
         public void Disable()
@@ -156,18 +159,24 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 //_operatingMomentum = Mathf.Clamp(_operatingMomentum - decay, 0.0f, 1.0f);
                 _operatingMomentum = _minigameMomentum;
+                MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
+
+                float effectiveness = 1.0f;
+                if (equippedTool != null)
+                {
+                    effectiveness = equippedTool.ToolProfile.GetMomentumEffectivenessFactor(_operatingMomentum);
+                }
 
                 // progress operation
                 if (PlayerManager.Instance.CurrentPlayerController.ChosenOperationState != null)
                 {
-                    PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.ProceedOperation(_operatingMomentum);
+                    PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.ProceedOperation(_operatingMomentum * effectiveness);
                 }
 
                 Debug.Log("Operating momentum = " + _operatingMomentum);
 
                 //update rig hand offset
                 Vector3 progressPosition = currentOpState.GetProgressPosition();
-                MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
                 Vector3 handDistance = Vector3.zero;
                 Vector3 direction = -PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
                 if (equippedTool != null)
@@ -189,7 +198,8 @@ namespace _Scripts.Gameplay.Animate.Player{
                 //}
 
                 //CurrentAnimator.SetFloat("Operating_SpeedMultiplier", OperatingSpeedTweened);
-                CurrentAnimator.SetFloat("Operating_SpeedMultiplier", _operatingMomentum);
+                float animationSpeedMultiplier = _operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum);
+                CurrentAnimator.SetFloat("Operating_SpeedMultiplier", animationSpeedMultiplier);
 
                 Vector3 worldRot = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
                 //SetRigControlRotation(worldRot);

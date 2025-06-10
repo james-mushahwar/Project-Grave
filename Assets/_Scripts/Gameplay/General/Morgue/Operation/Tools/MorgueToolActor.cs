@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using _Scripts.Gameplay.General.Identification;
+using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
 using UnityEditor;
@@ -27,6 +28,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
         public EStorableSize StorableSize { get => _toolStorable.StorableSize; }
 
         public IStorage Stored => _toolStorable.Stored;
+
+        [SerializeField]
+        private ToolProfileScriptableObject _toolProfile;
+
+        public ToolProfileScriptableObject ToolProfile { get => _toolProfile; }
 
         public override void Setup()
         {

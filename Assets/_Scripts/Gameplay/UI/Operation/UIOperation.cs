@@ -1,4 +1,5 @@
-﻿using _Scripts.Gameplay.Architecture.Managers;
+﻿using _Scripts.Gameplay.Animate.Player;
+using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationSite;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 using _Scripts.Gameplay.Player.Controller;
@@ -22,6 +23,11 @@ namespace _Scripts.Gameplay.UI.Operation{
 
         [SerializeField] private GameObject _operationSawingGroup;
         [SerializeField] private Slider _operationSawing_Slider;
+
+        [SerializeField] private UIMarker _operationDirectionIndicator;
+        [SerializeField] private float _operationShowDirectionMaxMomentum;
+        [SerializeField] private Sprite _operationDirectionLeft;
+        [SerializeField] private Sprite _operationDirectionRight;
 
         public void Setup()
         {
@@ -105,9 +111,33 @@ namespace _Scripts.Gameplay.UI.Operation{
                 stateMarker.SetImage(opStateSprite);
             }
 
+            _operationDirectionIndicator.SetShow(false);
             if (showOperationSawingGroup)
             {
                 _operationSawing_Slider.value = pc.PlayerCharacterAnimator.OperatingMomentum;
+
+                bool showDirection = true;
+                if (pc != null)
+                {
+                    showDirection = pc.PlayerCharacterAnimator.OperatingMomentum < _operationShowDirectionMaxMomentum;
+                }
+                _operationDirectionIndicator.SetShow(showDirection);
+
+                bool right = pc.PlayerCharacterAnimator.GetOperatingDirection() == EDirectionType.East;
+                Sprite directionSprite = right ? _operationDirectionRight : _operationDirectionLeft;
+                _operationDirectionIndicator.SetImage(directionSprite);
+
+                Transform startTrans = pc.ChosenOperationState.OperationEndTransform;
+                // Get the world position of the target
+                Vector3 worldPosition = startTrans.position;
+                // Convert to screen position
+                Vector3 screenPosition = CameraManager.Instance.MainCamera.WorldToScreenPoint(worldPosition);
+                // Convert screen position to local position in Canvas
+                Vector2 anchoredPosition;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(UIManager.Instance.GameplayCanvas.transform as RectTransform, screenPosition, UIManager.Instance.GameplayCanvas.worldCamera, out anchoredPosition);
+                // Set UI element position
+                _operationDirectionIndicator.SetPosition(anchoredPosition);
+                _operationDirectionIndicator.SetScale(right);
             }
         }
     }

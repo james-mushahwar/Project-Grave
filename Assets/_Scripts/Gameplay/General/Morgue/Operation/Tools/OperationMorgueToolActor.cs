@@ -13,10 +13,6 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
         [SerializeField]
         private EOperationType _operationType;
 
-        private ToolProfileScriptableObject _toolProfile;
-
-        public ToolProfileScriptableObject ToolProfile { get => _toolProfile; }
-
         private Vector3 _operationToolPreviousLocation = Vector3.up * 0.1f;
         private Vector3 _operationToolTargetLocation = Vector3.down * 0.1f;
         private float _operationLerpToolDuration = 0.67f;

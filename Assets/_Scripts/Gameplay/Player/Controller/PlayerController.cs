@@ -948,6 +948,7 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             if (_bodyPartMorgueActor != null)
             {
+                _bodyPartMorgueActor.StopOperation(_chosenOperationState);
                 if (_bodyPartMorgueActor.BodyMorgueActor == null)
                 {
                     _bodyPartMorgueActor = null;

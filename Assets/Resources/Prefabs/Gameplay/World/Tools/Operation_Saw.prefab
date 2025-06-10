@@ -105,6 +105,7 @@ MonoBehaviour:
     _storableType: 0
   _toolStartingTransform: {fileID: 461930222814865098}
   _lerpMoveSpeed: 6.5
+  _toolProfile: {fileID: 11400000, guid: 4a021cb7eb9c51e4f959dd69c2da2184, type: 2}
   _operationType: 0
 --- !u!1001 &2404750383178582725
 PrefabInstance:

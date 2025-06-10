@@ -16,8 +16,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0.16
+      time: 0.01
+      value: 0.12999733
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -25,8 +25,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
-      value: 0.070754714
+      time: 0.9981692
+      value: 0.2070291
       inSlope: -0.053838503
       outSlope: -0.053838503
       tangentMode: 0
@@ -74,7 +74,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.3
+      value: 0.095986515
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -82,8 +82,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.9990579
-      value: 0.07232702
+      time: 1
+      value: 0.031171568
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -130,17 +130,17 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.6807047
-      value: 0.19242544
-      inSlope: 0.051700167
-      outSlope: 0.051700167
+      time: 0.68
+      value: 0.26274168
+      inSlope: 0.44660044
+      outSlope: 0.44660044
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.07330731
       outWeight: 0.059333216
     - serializedVersion: 3
-      time: 0.99717385
-      value: 0.35
+      time: 1
+      value: 0.42031622
       inSlope: -0.14305939
       outSlope: -0.14305939
       tangentMode: 0
@@ -150,7 +150,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _operatingMomentumValidInputCutoff: 0
+  _operatingMomentumIgnorePenaltiesCutoff: 0.25
   _operatingMomentumInvalidInputDelay: 0.5
   _operatingMomentumWaitInputDelay: 0.5
   _perfectTimingMinimumMomentum: 0.4
