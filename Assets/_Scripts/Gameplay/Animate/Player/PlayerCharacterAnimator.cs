@@ -84,6 +84,7 @@ namespace _Scripts.Gameplay.Animate.Player{
         }
         private float _overridenMomentum = -1;
         private bool _inPerfectZone = false;
+        private bool _perfectTimingAvailable = false;
         private bool _perfectTimingActive = false;
         private EDirectionType _operatingDirection = EDirectionType.West;
 
@@ -481,6 +482,16 @@ namespace _Scripts.Gameplay.Animate.Player{
             {
                 _perfectTimingActive = set;
             }
+        }
+
+        public bool GetPerfectTimingAvailable()
+        {
+            return _perfectTimingAvailable;
+        }
+
+        public void SetPerfectTimingAvailable(bool set)
+        {
+            _perfectTimingAvailable = set;
         }
 
         #endregion

@@ -324,15 +324,21 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
                 PlayerCharacterAnimator animator = pc.PlayerCharacterAnimator;
 
-                _enterPerfectZonePS.transform.position = pc.EquippedOperatingTool.transform.position;
-                //_enterPerfectZonePS.transform.SetParent(pc.EquippedOperatingTool.transform, false);
-                _enterPerfectZonePS.Stop();
-                _enterPerfectZonePS.Play();
+                if (animator != null)
+                {
+                    if (animator.GetPerfectTimingAvailable())
+                    {
+                        _enterPerfectZonePS.transform.position = pc.EquippedOperatingTool.transform.position;
+                        //_enterPerfectZonePS.transform.SetParent(pc.EquippedOperatingTool.transform, false);
+                        _enterPerfectZonePS.Stop();
+                        _enterPerfectZonePS.Play();
+                    }
+                }
             }
             else
             {
                 //_enterPerfectZonePS.transform.SetParent(transform, false);
-                //_enterPerfectZonePS.Stop();
+                _enterPerfectZonePS.Stop();
             }
         }
     }

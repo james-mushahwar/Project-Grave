@@ -93,6 +93,7 @@ MonoBehaviour:
     _operationStateVirtualCamera:
       _camType: 0
       _virtualCamera: {fileID: 0}
+    _proceedStep: 0.1
     _operationStartTransform: {fileID: 0}
     _operationEndTransform: {fileID: 0}
     _operationStartOffsetTransform: {fileID: 0}
@@ -120,6 +121,7 @@ MonoBehaviour:
     _operationStateVirtualCamera:
       _camType: 0
       _virtualCamera: {fileID: 0}
+    _proceedStep: 0.1
     _operationStartTransform: {fileID: 0}
     _operationEndTransform: {fileID: 0}
     _operationStartOffsetTransform: {fileID: 0}
@@ -147,6 +149,7 @@ MonoBehaviour:
     _operationStateVirtualCamera:
       _camType: 0
       _virtualCamera: {fileID: 0}
+    _proceedStep: 0.1
     _operationStartTransform: {fileID: 0}
     _operationEndTransform: {fileID: 0}
     _operationStartOffsetTransform: {fileID: 0}
@@ -1695,6 +1698,7 @@ MonoBehaviour:
     _operationStateVirtualCamera:
       _camType: 10001
       _virtualCamera: {fileID: 1690341747505225440}
+    _proceedStep: 0.5
     _operationStartTransform: {fileID: 177233610976775670}
     _operationEndTransform: {fileID: 721260419216286315}
     _operationStartOffsetTransform: {fileID: 2543564306707494131}
@@ -1722,6 +1726,7 @@ MonoBehaviour:
     _operationStateVirtualCamera:
       _camType: 10000
       _virtualCamera: {fileID: 1690341747505225440}
+    _proceedStep: 0.1
     _operationStartTransform: {fileID: 0}
     _operationEndTransform: {fileID: 0}
     _operationStartOffsetTransform: {fileID: 0}
@@ -1749,6 +1754,7 @@ MonoBehaviour:
     _operationStateVirtualCamera:
       _camType: 202
       _virtualCamera: {fileID: 1690341747505225440}
+    _proceedStep: 0.1
     _operationStartTransform: {fileID: 0}
     _operationEndTransform: {fileID: 0}
     _operationStartOffsetTransform: {fileID: 0}

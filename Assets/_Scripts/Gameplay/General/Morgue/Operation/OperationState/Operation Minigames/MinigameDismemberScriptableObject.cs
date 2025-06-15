@@ -12,7 +12,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         [SerializeField]
         AnimationCurve _operatingMomentumDecayCurve; // rate at which momentum decays when momentum is between 0 to 1.
         [SerializeField]
-        AnimationCurve _operatingMomentumDecayDelayCurve; // delay the momentum holds for before decaying after input
+        AnimationCurve _operatingMomentumDecayDelayCurve; // delay the momentum holds for before decaying after input outside of perfect timing
         [SerializeField]
         private AnimationCurve _operatingMomentumAdditiveCurve; // momentum gained over time when valid input is held
         [SerializeField]
@@ -39,6 +39,8 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
             if (_playerAnimator)
             {
                 _playerAnimator.SetOperatingDirection(EDirectionType.West);
+                _playerAnimator.SetPerfectTimingActive(false);
+                _playerAnimator.SetPerfectTimingAvailable(false);
                 _playerAnimator.MinigameMomentum = 0.0f;
             }
 
@@ -179,8 +181,9 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         {
             bool perfectTimingAvailable = true;
             bool correctDirection = true;
+            bool inPerfectZone = _playerAnimator.GetPerfectZoneAvailable();
 
-            if (_runtimeStats.PerfectTimingTimer > 0.0f)
+            if (_runtimeStats.PerfectTimingTimer > 0.0f && !inPerfectZone)
             {
                 _runtimeStats.PerfectTimingTimer =  Mathf.Clamp(_runtimeStats.PerfectTimingTimer - Time.deltaTime, 0.0f, 1.0f);
                 if (_runtimeStats.PerfectTimingTimer == 0.0f)
@@ -191,12 +194,12 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
 
             if (_playerAnimator != null)
             {
-                bool inPerfectZone = _playerAnimator.GetPerfectZoneAvailable();
-                perfectTimingAvailable = _runtimeStats.OperatingMomentum >= _perfectTimingMinimumMomentum && _playerAnimator.GetPerfectTimingActive();
+                perfectTimingAvailable = _runtimeStats.OperatingMomentum >= _perfectTimingMinimumMomentum && inPerfectZone;
                 correctDirection = _playerAnimator.GetOperatingDirection() == _runtimeStats.InputDirection;
             }
 
             _runtimeStats.PerfectTimingAvailable = perfectTimingAvailable;
+            _playerAnimator.SetPerfectTimingAvailable(_runtimeStats.OperatingMomentum >= _perfectTimingMinimumMomentum);
 
             float momentumChange = 0.0f;
             //bool updateMomentum = ((_inputHeld && correctDirection) || !_inputHeld) && !_playerAnimator.GetPerfectTimingActive();
@@ -206,19 +209,19 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
 
             if (updateMomentum)
             {
-                if (!correctDirection && _runtimeStats.InputHeld)
+                if (!correctDirection && _runtimeStats.InputHeld && !_playerAnimator.GetPerfectTimingActive())
                 {
                     //slow down
                     momentumChange = -1.0f;
                     decay = _operatingMomentumDecayCurve.Evaluate(_runtimeStats.OperatingMomentum) * 2.0f;
                 }
-                else if (!_runtimeStats.InputHeld)
+                else if (!_runtimeStats.InputHeld && !_playerAnimator.GetPerfectTimingActive())
                 {
                     //slow down
                     momentumChange = -1.0f;
                     decay = _operatingMomentumDecayCurve.Evaluate(_runtimeStats.OperatingMomentum);
                 }
-                else
+                else if (_runtimeStats.InputHeld && correctDirection)
                 {
                     momentumChange = 1.0f;
                     heldRate = _operatingMomentumAdditiveCurve.Evaluate(_runtimeStats.OperatingMomentum);

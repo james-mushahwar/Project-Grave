@@ -48,6 +48,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         public FVirtualCamera OperationStateVirtualCamera { get => _operationStateVirtualCamera; }
 
         private float _elapsedProgress = 0.0f; // 0 to 1
+        [SerializeField]
         private float _proceedStep = 0.1f;
 
         [SerializeField]
@@ -137,8 +138,9 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             bool proceedOp = _runWithoutOperator || _operator != null;
             if (proceedOp)
             {
-                effectiveness = _operator != null ? _operator.OperatingSpeed : effectiveness;
-                _elapsedProgress += effectiveness * _proceedStep * Time.deltaTime;
+                //float step = _operator != null ? _operator.OperatingSpeed : _proceedStep;
+                float step = _proceedStep;
+                _elapsedProgress += effectiveness * step * Time.deltaTime;
             }
         }
 
