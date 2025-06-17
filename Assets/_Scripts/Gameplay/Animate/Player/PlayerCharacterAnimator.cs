@@ -53,6 +53,9 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         private float _operatingMomentum; // 0 to 1 scale 
         private float _minigameMomentum; // momentum from any current operation minigame, 0 to 1 scale
+        private float _operatingDirectionChangeTimer;
+        [SerializeField]
+        private AnimationCurve _operatingDirectionChangeDecayDelayCurve;
 
         //private float _operatingMomentumWaitInputTimer = 0.0f;
         //private float _operatingMomentumDecayDelayTimer = 0.0f;
@@ -75,6 +78,11 @@ namespace _Scripts.Gameplay.Animate.Player{
             set => _minigameMomentum = value;
         }
 
+        public float OperatingDirectionChangeTimer
+        {
+            get => _operatingDirectionChangeTimer; 
+        }
+        
         public float CurrentMomentum
         {
             get 
@@ -144,6 +152,12 @@ namespace _Scripts.Gameplay.Animate.Player{
                     //CurrentAnimator.PlayInFixedTime(_sawingProgressStartLoopAnim_Hash);
                     Debug.Log("Trying to play sawing animation");
                     SetRigWeight(1.0f, 1.0f);
+                }
+
+                if (_operatingDirectionChangeTimer > 0.0f)
+                {
+                    _operatingDirectionChangeTimer -= Time.deltaTime;
+                    _operatingDirectionChangeTimer = Mathf.Clamp(_operatingDirectionChangeTimer, 0.0f, 10.0f);
                 }
 
                 //bool shouldDecayMomentum = _operatingMomentumDecayDelayTimer == 0.0f;
@@ -459,6 +473,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             }
 
             SetOperatingDirection(position == EDirectionType.West ? EDirectionType.East : EDirectionType.West);
+            SetChangeDirectionTimer();
         }
 
         public EDirectionType GetOperatingDirection()
@@ -494,6 +509,17 @@ namespace _Scripts.Gameplay.Animate.Player{
             _perfectTimingAvailable = set;
         }
 
+        public void SetChangeDirectionTimer(float overrideMomentum = -1.0f)
+        {
+            if (overrideMomentum < 0.0f)
+            {
+                overrideMomentum = _minigameMomentum;
+            }
+
+            float value = _operatingDirectionChangeDecayDelayCurve.Evaluate(overrideMomentum);
+
+            _operatingDirectionChangeTimer = value;
+        }
         #endregion
     }
 

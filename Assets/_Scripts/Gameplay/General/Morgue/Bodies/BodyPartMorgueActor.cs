@@ -443,7 +443,10 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         public void StopOperation(OperationState opState)
         {
             _operator = null;
-            opState.EndOperationState();
+            if (opState != null)
+            {
+                opState.EndOperationState();
+            }
         }
     }
     

@@ -41,6 +41,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                 _playerAnimator.SetOperatingDirection(EDirectionType.West);
                 _playerAnimator.SetPerfectTimingActive(false);
                 _playerAnimator.SetPerfectTimingAvailable(false);
+                _playerAnimator.SetChangeDirectionTimer(0.0f);
                 _playerAnimator.MinigameMomentum = 0.0f;
             }
 
@@ -135,6 +136,8 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                         // momentum boost
                         boost = _operatingMomentumBoostCurve.Evaluate(_runtimeStats.OperatingMomentum);
                         VolumeManager.Instance.OnOperationSuccessInput();
+                        MorgueManager.Instance.OnStimulusReceived(EMorgueStimulus.Operation_SuccessInput, _pc.OperatingTable.gameObject);
+
                     }
                 }
                 else if (_runtimeStats.OperatingMomentum <= 0.1f)
@@ -182,6 +185,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
             bool perfectTimingAvailable = true;
             bool correctDirection = true;
             bool inPerfectZone = _playerAnimator.GetPerfectZoneAvailable();
+            bool isInChangeDirectionWindow = _playerAnimator.OperatingDirectionChangeTimer > 0.0f;
 
             if (_runtimeStats.PerfectTimingTimer > 0.0f && !inPerfectZone)
             {
@@ -209,13 +213,13 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
 
             if (updateMomentum)
             {
-                if (!correctDirection && _runtimeStats.InputHeld && !_playerAnimator.GetPerfectTimingActive())
+                if (!correctDirection && !isInChangeDirectionWindow && _runtimeStats.InputHeld && !_playerAnimator.GetPerfectTimingActive())
                 {
                     //slow down
                     momentumChange = -1.0f;
                     decay = _operatingMomentumDecayCurve.Evaluate(_runtimeStats.OperatingMomentum) * 2.0f;
                 }
-                else if (!_runtimeStats.InputHeld && !_playerAnimator.GetPerfectTimingActive())
+                else if (!_runtimeStats.InputHeld && !isInChangeDirectionWindow && !_playerAnimator.GetPerfectTimingActive())
                 {
                     //slow down
                     momentumChange = -1.0f;
