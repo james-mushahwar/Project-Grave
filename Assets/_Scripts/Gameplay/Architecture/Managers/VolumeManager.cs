@@ -1,53 +1,47 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Org;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-namespace _Scripts.Gameplay.Architecture.Managers{
-    
+namespace _Scripts.Gameplay.Architecture.Managers
+{
+    [Serializable]
+    public class VolumeProfileTarget
+    {
+        [Header("Target")]
+        [SerializeField]
+        private EVolumeOverride _override;
+        [SerializeField]
+        private bool _isValueAdditive;
+        [SerializeField]
+        private float _value;
+        [SerializeField]
+        private float _duration;
+        [SerializeField]
+        private Ease _ease;
+
+        public EVolumeOverride Override { get => _override; }
+        public float Value { get => _value; }
+        public float Duration { get => _duration; }
+        public Ease Ease { get => _ease; }
+        public bool IsValueAdditive { get => _isValueAdditive; }
+    }
+
+
     public class VolumeManager : GameManager<VolumeManager>, IManager
     {
         private Volume _globalVolume;
         private float _globalVolumeWeight;
 
-        [Header("Bloom")] 
-        [SerializeField] 
-        private float _bloomIntensityBondableHit;
-        [SerializeField] 
-        private float _bloomIntensityBondableHitDuration;
-        [SerializeField] 
-        private Ease _bloomIntensityBondableHitEase;
-        [SerializeField] 
-        private float _bloomIntensityBondableExposed;
-        [SerializeField] 
-        private float _bloomIntensityBondableExposedDuration;
-        [SerializeField] 
-        private Ease _bloomIntensityBondableExposedEase;
-
+        [Header("Bloom")]
         private Bloom _globalVolumeBloom;
         private float _bloomDefaultIntensity;
 
-        [Header("Film grain")]
-        private FilmGrain _globalVolumeFilmGrain;
-        private FilmGrainLookup _filmGrainDefaultType;
-        private float _filmGrainDefaultIntensity;
-
         [Header("Vignette")]
-        [SerializeField]
-        private float _vignetteIntensityPlayerDamage;
-        [SerializeField]
-        private float _vignetteIntensityPlayerDamageDuration;
-        [SerializeField]
-        private Ease _vignetteIntensityPlayerDamageEase = Ease.InCubic;
-        [SerializeField]
-        private float _vignetteIntensityPlayerKilled;
-        [SerializeField]
-        private float _vignetteIntensityPlayerKilledDuration;
-        [SerializeField]
-        private Ease _vignetteIntensityPlayerKilledEase = Ease.InOutSine;
-
         private Vignette _globalVolumeVignette;
         private Color _vignetteColour;
         private Vector2 _vignetteCenter;
@@ -55,22 +49,20 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private float _vignetteSmoothness;
         private bool _vignetteRounded;
 
-        [Header("Chromatic Aberration")] 
-        [SerializeField] 
-        private float _chromaticAberrationPlayerDamage;
-        [SerializeField]
-        private float _chromaticAberrationPlayerDamageDuration;
-        [SerializeField]
-        private Ease _chromaticAberrationPlayerDamagedEase = Ease.InCubic;
-        [SerializeField]
-        private float _chromaticAberrationPlayerKilled;
-        [SerializeField]
-        private float _chromaticAberrationPlayerKilledDuration;
-        [SerializeField]
-        private Ease _chromaticAberrationPlayerKilledEase = Ease.InOutSine;
+        [Header("Film grain")]
+        private FilmGrain _globalVolumeFilmGrain;
+        private FilmGrainLookup _filmGrainDefaultType;
+        private float _filmGrainDefaultIntensity;
 
+        [Header("Chromatic Aberration")] 
         private ChromaticAberration _globalVolumeChromaticAberration;
         private float _chromaticAberrationIntensity;
+
+        [Header("Operation")]
+        [SerializeField]
+        private VolumeProfileTarget _successfulOperationInput;
+        [SerializeField]
+        private VolumeProfileTarget _penaltyOperationInput;
 
         #region General
         //Tweeners
@@ -158,7 +150,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 // bloom
                 KillActiveTween(ref _bloomIntensityTweener);
-                TweenFloat(ref _bloomIntensityTweener, _bloomDefaultIntensity, _bloomIntensityBondableHit, _bloomIntensityBondableHitDuration, _globalVolumeBloom.intensity, _bloomIntensityBondableHitEase);
+                float value = _successfulOperationInput.IsValueAdditive ? _successfulOperationInput.Value + _bloomDefaultIntensity : _successfulOperationInput.Value;
+                TweenFloat(ref _bloomIntensityTweener, _bloomDefaultIntensity, value, _successfulOperationInput.Duration, _globalVolumeBloom.intensity, _successfulOperationInput.Ease);
                 _bloomIntensityTweener.OnComplete(() => TweenFloat(ref _bloomIntensityTweener, _globalVolumeBloom.intensity.value, _bloomDefaultIntensity, 0.075f, _globalVolumeBloom.intensity, Ease.OutExpo));
             }
         }
@@ -169,7 +162,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 // bloom
                 KillActiveTween(ref _bloomIntensityTweener);
-                TweenFloat(ref _bloomIntensityTweener, _bloomDefaultIntensity, _bloomIntensityBondableExposed, 0.75f, _globalVolumeBloom.intensity, _bloomIntensityBondableExposedEase);
+                float value = _penaltyOperationInput.IsValueAdditive ? _penaltyOperationInput.Value + _bloomDefaultIntensity : _penaltyOperationInput.Value;
+                TweenFloat(ref _bloomIntensityTweener, _bloomDefaultIntensity, value, _penaltyOperationInput.Duration, _globalVolumeBloom.intensity, _penaltyOperationInput.Ease);
                 _bloomIntensityTweener.OnComplete(() => TweenFloat(ref _bloomIntensityTweener, _globalVolumeBloom.intensity.value, _bloomDefaultIntensity, 0.1f, _globalVolumeBloom.intensity, Ease.OutExpo));
             }
         }
@@ -183,7 +177,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 //Chromatic aberration
                 KillActiveTween(ref _chromaticAberrationIntensityTweener);
-                TweenFloat(ref _chromaticAberrationIntensityTweener, _chromaticAberrationIntensity, _chromaticAberrationPlayerDamage, _chromaticAberrationPlayerDamageDuration, _globalVolumeChromaticAberration.intensity, _chromaticAberrationPlayerDamagedEase);
+                //TweenFloat(ref _chromaticAberrationIntensityTweener, _chromaticAberrationIntensity, _chromaticAberrationPlayerDamage, _chromaticAberrationPlayerDamageDuration, _globalVolumeChromaticAberration.intensity, _chromaticAberrationPlayerDamagedEase);
                 _chromaticAberrationIntensityTweener.OnComplete(() => _globalVolumeChromaticAberration.intensity.value = _chromaticAberrationIntensity);
             }
 
@@ -191,7 +185,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 //vignette
                 KillActiveTween(ref _vignetteIntensityTweener);
-                TweenFloat(ref _vignetteIntensityTweener, _vignetteIntensity, _vignetteIntensityPlayerDamage, _vignetteIntensityPlayerDamageDuration, _globalVolumeVignette.intensity, _vignetteIntensityPlayerDamageEase);
+                //TweenFloat(ref _vignetteIntensityTweener, _vignetteIntensity, _vignetteIntensityPlayerDamage, _vignetteIntensityPlayerDamageDuration, _globalVolumeVignette.intensity, _vignetteIntensityPlayerDamageEase);
                 _vignetteIntensityTweener.OnComplete(() => _globalVolumeVignette.intensity.value = _vignetteIntensity);
             }
         }
@@ -202,14 +196,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 //chromatic aberration
                 KillActiveTween(ref _chromaticAberrationIntensityTweener);
-                TweenFloat(ref _chromaticAberrationIntensityTweener, _chromaticAberrationIntensity, _chromaticAberrationPlayerKilled, _chromaticAberrationPlayerKilledDuration, _globalVolumeChromaticAberration.intensity, _chromaticAberrationPlayerKilledEase);
+                //TweenFloat(ref _chromaticAberrationIntensityTweener, _chromaticAberrationIntensity, _chromaticAberrationPlayerKilled, _chromaticAberrationPlayerKilledDuration, _globalVolumeChromaticAberration.intensity, _chromaticAberrationPlayerKilledEase);
             }
 
             if (_globalVolumeVignette != null)
             {
                 //vignette
                 KillActiveTween(ref _vignetteIntensityTweener);
-                TweenFloat(ref _vignetteIntensityTweener, _vignetteIntensity, _vignetteIntensityPlayerKilled, _vignetteIntensityPlayerKilledDuration, _globalVolumeVignette.intensity, _vignetteIntensityPlayerKilledEase);
+                //TweenFloat(ref _vignetteIntensityTweener, _vignetteIntensity, _vignetteIntensityPlayerKilled, _vignetteIntensityPlayerKilledDuration, _globalVolumeVignette.intensity, _vignetteIntensityPlayerKilledEase);
             }
         }
 

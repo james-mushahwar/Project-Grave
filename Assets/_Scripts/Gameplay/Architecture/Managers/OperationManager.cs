@@ -1,6 +1,7 @@
 ﻿using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Gameplay.Animate.Player;
 using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Gameplay.Player.Controller;
 using UnityEngine;
@@ -60,6 +61,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return _overviewOperationStates[_operationStatesIndex];
             }
         }
+
+        [Header("VFX")] 
+        [SerializeField] private ParticleSystem _enterPerfectZonePS;
+        //[SerializeField] private ParticleSystem _exitPerfectZonePS;
 
         // as gamestate is being generated
         public virtual void ManagedPreInitialiseGameState() { }
@@ -310,6 +315,31 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
 
             return opType;
+        }
+
+        public void TriggerPerfectZone(bool on)
+        {
+            if (on)
+            {
+                PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+                PlayerCharacterAnimator animator = pc.PlayerCharacterAnimator;
+
+                if (animator != null)
+                {
+                    if (animator.GetPerfectTimingAvailable())
+                    {
+                        _enterPerfectZonePS.transform.position = pc.EquippedOperatingTool.transform.position;
+                        //_enterPerfectZonePS.transform.SetParent(pc.EquippedOperatingTool.transform, false);
+                        _enterPerfectZonePS.Stop();
+                        _enterPerfectZonePS.Play();
+                    }
+                }
+            }
+            else
+            {
+                //_enterPerfectZonePS.transform.SetParent(transform, false);
+                _enterPerfectZonePS.Stop();
+            }
         }
     }
 

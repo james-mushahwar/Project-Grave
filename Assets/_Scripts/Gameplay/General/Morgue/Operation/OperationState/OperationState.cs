@@ -16,6 +16,8 @@ using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
 
+
+
     // an Operation State contains info about the progress of a certain proedue, what that operation is specifically and other info
     [Serializable]
     public abstract class OperationState : IIdentifiable
@@ -46,6 +48,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         public FVirtualCamera OperationStateVirtualCamera { get => _operationStateVirtualCamera; }
 
         private float _elapsedProgress = 0.0f; // 0 to 1
+        [SerializeField]
         private float _proceedStep = 0.1f;
 
         [SerializeField]
@@ -66,6 +69,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         public float NormalisedProgress { get { return _elapsedProgress / _duration; } }
 
         public Transform OperationStartTransform { get => _operationStartTransform; }
+        public Transform OperationEndTransform { get => _operationEndTransform; }
         public Transform OperationStartOffsetTransform { get => _operationStartOffsetTransform; }
 
         [SerializeField]
@@ -114,10 +118,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         {
             if (_runWithoutOperator)
             {
-
+                //_opMinigame.OnMinigameTick();
             }
             else if (_operator != null)
             {
+                _opMinigame.OnMinigameTick();
                 if (_bodyPartMorgueActor != null)
                 {
                     if (_bodyPartMorgueActor.BodyMorgueActor != null)
@@ -133,9 +138,20 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             bool proceedOp = _runWithoutOperator || _operator != null;
             if (proceedOp)
             {
-                effectiveness = _operator != null ? _operator.OperatingSpeed : effectiveness;
-                _elapsedProgress += effectiveness * _proceedStep * Time.deltaTime;
+                //float step = _operator != null ? _operator.OperatingSpeed : _proceedStep;
+                float step = _proceedStep;
+                _elapsedProgress += effectiveness * step * Time.deltaTime;
             }
+        }
+
+        public void EndOperationState()
+        {
+            if (_opMinigame)
+            {
+                _opMinigame.OnMinigameEnd();
+            }
+
+            _operator = null;
         }
 
         //inputs

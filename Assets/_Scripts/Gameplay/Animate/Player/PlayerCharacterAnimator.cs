@@ -52,24 +52,14 @@ namespace _Scripts.Gameplay.Animate.Player{
         Vector3 _rigHandRotationNaturalOffset;
 
         private float _operatingMomentum; // 0 to 1 scale 
+        private float _minigameMomentum; // momentum from any current operation minigame, 0 to 1 scale
+        private float _operatingDirectionChangeTimer;
         [SerializeField]
-        AnimationCurve _operatingMomentumDecayCurve; // rate at which momentum decays when momentum is between 0 to 1.
-        [SerializeField]
-        AnimationCurve _operatingMomentumDecayDelayCurve; // delay the momentum holds for before decaying after input
-        [SerializeField]
-        private AnimationCurve _operatingMomentumAdditiveCurve; // additional momnetum gained on valid input when momentum is between 0 to 1.
-        [SerializeField]
-        private AnimationCurve _operatingMomentumPenaltyCurve; // momentum lost on invalid input when momentum is between 0 to 1.
-        [SerializeField]
-        private float _operatingMomentumValidInputCutoff; // gain additive momentum when current momentum is below cutoff.
-        [SerializeField]
-        private float _operatingMomentumInvalidInputDelay; // time penalty for incorrect input when momentum is above cutoff.
-        [SerializeField]
-        private float _operatingMomentumWaitInputDelay; // time to wait for next allowed input (so user can't spam input)
+        private AnimationCurve _operatingDirectionChangeDecayDelayCurve;
 
         //private float _operatingMomentumWaitInputTimer = 0.0f;
-        private float _operatingMomentumDecayDelayTimer = 0.0f;
-        private float _operatingMomentumInvalidInputTimer = 0.0f;
+        //private float _operatingMomentumDecayDelayTimer = 0.0f;
+        //private float _operatingMomentumInvalidInputTimer = 0.0f;
         //private bool _operatingMomentumAcceptInput = true;
         public float OperatingMomentum
         {
@@ -79,6 +69,20 @@ namespace _Scripts.Gameplay.Animate.Player{
             }
         }
 
+        public float MinigameMomentum
+        {
+            get
+            {
+                return _minigameMomentum;
+            }
+            set => _minigameMomentum = value;
+        }
+
+        public float OperatingDirectionChangeTimer
+        {
+            get => _operatingDirectionChangeTimer; 
+        }
+        
         public float CurrentMomentum
         {
             get 
@@ -87,6 +91,21 @@ namespace _Scripts.Gameplay.Animate.Player{
             }
         }
         private float _overridenMomentum = -1;
+        private bool _inPerfectZone = false;
+        private bool _perfectTimingAvailable = false;
+        private bool _perfectTimingActive = false;
+        private EDirectionType _operatingDirection = EDirectionType.West;
+
+        public bool InPerfectZone
+        {
+            get
+            {
+                return _inPerfectZone;
+            }
+        }
+
+        [SerializeField]
+        private AnimationCurve _operatingAnimationSpeedDampnerCurve;
 
         public bool CanTick { get => true; set => throw new System.NotImplementedException(); }
 
@@ -118,7 +137,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             bool isOperating = currentOpState != null;
             bool animInTransition = CurrentAnimator.IsInTransition(_idleAnimLayer_Index);
 
-            _operatingMomentumInvalidInputTimer = Mathf.Clamp(_operatingMomentumInvalidInputTimer - Time.deltaTime, 0.0f, _operatingMomentumInvalidInputDelay);
+            //_operatingMomentumInvalidInputTimer = Mathf.Clamp(_operatingMomentumInvalidInputTimer - Time.deltaTime, 0.0f, _operatingMomentumInvalidInputDelay);
 
             if (isOperating)
             {
@@ -135,31 +154,44 @@ namespace _Scripts.Gameplay.Animate.Player{
                     SetRigWeight(1.0f, 1.0f);
                 }
 
+                if (_operatingDirectionChangeTimer > 0.0f)
+                {
+                    _operatingDirectionChangeTimer -= Time.deltaTime;
+                    _operatingDirectionChangeTimer = Mathf.Clamp(_operatingDirectionChangeTimer, 0.0f, 10.0f);
+                }
+
+                //bool shouldDecayMomentum = _operatingMomentumDecayDelayTimer == 0.0f;
+
+                //float decay = 0.0f;
+                //if (shouldDecayMomentum)
+                //{
+                //    decay = _operatingMomentumDecayCurve.Evaluate(_operatingMomentum) * Time.deltaTime;
+                //}
+                //else
+                //{
+                //    _operatingMomentumDecayDelayTimer = Mathf.Clamp(_operatingMomentumDecayDelayTimer - Time.deltaTime, 0.0f, 10.0f);
+                //}
+
+                //_operatingMomentum = Mathf.Clamp(_operatingMomentum - decay, 0.0f, 1.0f);
+                _operatingMomentum = _minigameMomentum;
+                MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
+
+                float effectiveness = 1.0f;
+                if (equippedTool != null)
+                {
+                    effectiveness = equippedTool.ToolProfile.GetMomentumEffectivenessFactor(_operatingMomentum);
+                }
+
                 // progress operation
                 if (PlayerManager.Instance.CurrentPlayerController.ChosenOperationState != null)
                 {
-                    PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.ProceedOperation(_operatingMomentum);
+                    PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.ProceedOperation(_operatingMomentum * effectiveness);
                 }
-
-                bool shouldDecayMomentum = _operatingMomentumDecayDelayTimer == 0.0f;
-
-                float decay = 0.0f;
-                if (shouldDecayMomentum)
-                {
-                    decay = _operatingMomentumDecayCurve.Evaluate(_operatingMomentum) * Time.deltaTime;
-                }
-                else
-                {
-                    _operatingMomentumDecayDelayTimer = Mathf.Clamp(_operatingMomentumDecayDelayTimer - Time.deltaTime, 0.0f, 10.0f);
-                }
-
-                _operatingMomentum = Mathf.Clamp(_operatingMomentum - decay, 0.0f, 1.0f);
 
                 Debug.Log("Operating momentum = " + _operatingMomentum);
 
                 //update rig hand offset
                 Vector3 progressPosition = currentOpState.GetProgressPosition();
-                MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
                 Vector3 handDistance = Vector3.zero;
                 Vector3 direction = -PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
                 if (equippedTool != null)
@@ -181,7 +213,8 @@ namespace _Scripts.Gameplay.Animate.Player{
                 //}
 
                 //CurrentAnimator.SetFloat("Operating_SpeedMultiplier", OperatingSpeedTweened);
-                CurrentAnimator.SetFloat("Operating_SpeedMultiplier", _operatingMomentum);
+                float animationSpeedMultiplier = _operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum);
+                CurrentAnimator.SetFloat("Operating_SpeedMultiplier", animationSpeedMultiplier);
 
                 Vector3 worldRot = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
                 //SetRigControlRotation(worldRot);
@@ -190,24 +223,24 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 if (currentOpState is DismemberOperationState)
                 {
-                    if (_operatingMomentumInvalidInputTimer <= 0.0f )
-                    {
-                        if (_operatingMomentum < _operatingMomentumValidInputCutoff)
-                        {
-                            movementFeedback = EFeedbackPattern.Operation_SawJammed;
-                        }
-                        else
-                        {
-                            movementFeedback = EFeedbackPattern.Operation_SawSmooth;
-                        }
-                    }
+                    //if (_operatingMomentumInvalidInputTimer <= 0.0f )
+                    //{
+                    //    if (_operatingMomentum < _operatingMomentumValidInputCutoff)
+                    //    {
+                    //        movementFeedback = EFeedbackPattern.Operation_SawJammed;
+                    //    }
+                    //    else
+                    //    {
+                    //        movementFeedback = EFeedbackPattern.Operation_SawSmooth;
+                    //    }
+                    //}
 
-                    if (equippedTool != null)
-                    {
-                        float moveSpeedFactor = _operatingMomentum;
-                        FeedbackManager.Instance.SetFrequencyFactor(moveSpeedFactor, moveSpeedFactor);
-                        FeedbackManager.Instance.TryFeedbackPattern(movementFeedback);
-                    }
+                    //if (equippedTool != null)
+                    //{
+                    //    float moveSpeedFactor = _operatingMomentum;
+                    //    FeedbackManager.Instance.SetFrequencyFactor(moveSpeedFactor, moveSpeedFactor);
+                    //    FeedbackManager.Instance.TryFeedbackPattern(movementFeedback);
+                    //}
                 }
             }
             else
@@ -330,6 +363,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         public void OnActionLRInput()
         {
+            return;
             PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
             MorgueToolActor equippedTool = pc.EquippedOperatingTool;
 
@@ -344,17 +378,17 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             if (!perfectTiming)
             {
-                if (_operatingMomentumInvalidInputTimer > 0.0f)
-                {
-                    _operatingMomentumInvalidInputTimer = _operatingMomentumInvalidInputDelay;
-                    validInput = false;
-                }
-                else if (_operatingMomentumValidInputCutoff < _operatingMomentum)
-                {
-                    penalty = true;
+                //if (_operatingMomentumInvalidInputTimer > 0.0f)
+                //{
+                //    _operatingMomentumInvalidInputTimer = _operatingMomentumInvalidInputDelay;
+                //    validInput = false;
+                //}
+                //else if (_operatingMomentumValidInputCutoff < _operatingMomentum)
+                //{
+                //    penalty = true;
 
-                    validInput = false;
-                }
+                //    validInput = false;
+                //}
 
             }
 
@@ -365,29 +399,127 @@ namespace _Scripts.Gameplay.Animate.Player{
             {
                 if (penalty)
                 {
-                    momentumPenalty = _operatingMomentumPenaltyCurve.Evaluate(_operatingMomentum);
+                    //momentumPenalty = _operatingMomentumPenaltyCurve.Evaluate(_operatingMomentum);
                     FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawBreak);
                     VolumeManager.Instance.OnOperationPenaltyInput();
                 }
             }
             else
             {
-                momentumBoost = _operatingMomentumAdditiveCurve.Evaluate(_operatingMomentum);
+                //momentumBoost = _operatingMomentumAdditiveCurve.Evaluate(_operatingMomentum);
                 VolumeManager.Instance.OnOperationSuccessInput();
             }
 
             _operatingMomentum += (momentumBoost - momentumPenalty);
             if (validInput)
             {
-                _operatingMomentumDecayDelayTimer = _operatingMomentumDecayDelayCurve.Evaluate(_operatingMomentum);
+                //_operatingMomentumDecayDelayTimer = _operatingMomentumDecayDelayCurve.Evaluate(_operatingMomentum);
             }
             else
             {
-                _operatingMomentumDecayDelayTimer = 0.0f;
+               // _operatingMomentumDecayDelayTimer = 0.0f;
             }
 
         }
 
+        public void OnEvent_PerfectZone(EDirectionType direction)
+        {
+            if (CurrentAnimator.speed != 0.0f)
+            {
+                bool playingForwards = direction == _operatingDirection;
+                TriggerPerfectZone(playingForwards);
+            }
+        }
+
+        private void OnEvent_ExitPerfectZone(EDirectionType direction)
+        {
+            if (CurrentAnimator.speed != 0.0f)
+            {
+                //bool playingForwards = CurrentAnimator.speed >= 0.0f;
+                bool playingForwards = direction == _operatingDirection;
+                TriggerPerfectZone(!playingForwards);
+            }
+            
+        }
+
+        private void TriggerPerfectZone(bool set)
+        {
+            if (set != _inPerfectZone)
+            {
+                _inPerfectZone = set;
+                OperationManager.Instance.TriggerPerfectZone(set);
+                if (!_inPerfectZone)
+                {
+                    SetPerfectTimingActive(false);
+                }
+            }
+        }
+
+        public bool GetPerfectZoneAvailable()
+        {
+            return _inPerfectZone;
+        }
+
+        public void OnSwitchOperatingDirection(EDirectionType position)
+        {
+            if (_operatingDirection == EDirectionType.NONE)
+            {
+                Debug.LogError("There's no operating direction yet...");
+                return;
+            }
+            else if (CurrentAnimator.speed != 0.0f)
+            {
+                Debug.LogError("Operator has no anim speed yet...");
+            }
+
+            SetOperatingDirection(position == EDirectionType.West ? EDirectionType.East : EDirectionType.West);
+            SetChangeDirectionTimer();
+        }
+
+        public EDirectionType GetOperatingDirection()
+        {
+            return _operatingDirection;
+        }
+
+        public void SetOperatingDirection(EDirectionType direction)
+        {
+            _operatingDirection = direction;
+        }
+
+        public bool GetPerfectTimingActive()
+        {
+            return _perfectTimingActive;
+        }
+
+        public void SetPerfectTimingActive(bool set)
+        {
+            if (set != _perfectTimingActive)
+            {
+                _perfectTimingActive = set;
+            }
+        }
+
+        public bool GetPerfectTimingAvailable()
+        {
+            return _perfectTimingAvailable;
+        }
+
+        public void SetPerfectTimingAvailable(bool set)
+        {
+            _perfectTimingAvailable = set;
+        }
+
+        public void SetChangeDirectionTimer(float overrideMomentum = -1.0f)
+        {
+            if (overrideMomentum < 0.0f)
+            {
+                overrideMomentum = _minigameMomentum;
+            }
+
+            float value = _operatingDirectionChangeDecayDelayCurve.Evaluate(overrideMomentum);
+
+            _operatingDirectionChangeTimer = value;
+        }
         #endregion
     }
 

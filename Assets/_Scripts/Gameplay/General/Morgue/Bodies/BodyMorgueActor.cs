@@ -53,6 +53,14 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         [SerializeField]
         private BodyMorgueActorAnimator _bodyAnimator;
 
+        [SerializeField]
+        private string _endOperation_AnimName;
+
+        public string EndOperationAnimName
+        {
+            get { return _endOperation_AnimName; }
+        }
+
         public bool IsStored()
         {
             return _bodyStorable.IsStored();
@@ -310,6 +318,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         public void TickOperation(float elapsedTime)
         {
             _bodyAnimator.SetAnimPoistion(elapsedTime);
+        }
+
+        public void StopOperation()
+        {
+            _bodyAnimator.PlayAnimation(_endOperation_AnimName, 1.0f, 0.0f, true);
         }
     }
     

@@ -1,12 +1,34 @@
-﻿using System;
+﻿using _Scripts.Org;
+using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 using static UnityEngine.GraphicsBuffer;
 
 namespace _Scripts.CautionaryTalesScripts{
-    
+
+    [Serializable]
+    public class FloatTweenerProfile
+    {
+        [Header("Target")]
+        [SerializeField]
+        private bool _isValueAdditive;
+        [SerializeField]
+        private float _value;
+        [SerializeField]
+        private float _duration;
+        [SerializeField]
+        private Ease _ease;
+
+        public float Value { get => _value; }
+        public float Duration { get => _duration; }
+        public Ease Ease { get => _ease; }
+        public bool IsValueAdditive { get => _isValueAdditive; }
+    }
+
     public static class CTGlobal
     {
         #region Gameobjects
@@ -79,6 +101,29 @@ namespace _Scripts.CautionaryTalesScripts{
 
             return isAligned;
         }
+
+        #region Tweening
+        
+        public static void TweenVolumeFloat(ref Tweener tweener, float from, float to, float duration, VolumeParameter<float> param, Ease easeType)
+        {
+            tweener = DOVirtual.Float(from, to, duration, value =>
+            {
+                param.value = value;
+            }).SetEase(easeType);
+        }
+
+        public static void KillActiveTween(ref Tweener tweener)
+        {
+            if (tweener != null)
+            {
+                if (tweener.IsActive())
+                {
+                    DOTween.Kill(tweener);
+                    tweener = null;
+                }
+            }
+        }
+        #endregion
     }
-    
+
 }

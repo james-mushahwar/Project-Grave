@@ -439,4 +439,14 @@ namespace _Scripts.Org
         public RuntimeID RuntimeID { get; }
     }
     #endregion
+
+
+    #region Volume
+    public enum EVolumeOverride
+    {
+        None = 0,
+        Bloom, 
+
+    }
+    #endregion
 }

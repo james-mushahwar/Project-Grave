@@ -471,41 +471,16 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void Operating_ActionLPressed(InputAction.CallbackContext callbackContext)
         {
-            if (CameraManager.Instance.IsCameraInTransition())
-            {
-                return;
-            }
-
-            bool operating = OperationManager.Instance.IsInAnyOperatingMode();
-
-            if (operating)
-            {
-                if (_bodyPartMorgueActor != null)
-                {
-                    if (ChosenOperationState != null)
-                    {
-                        //if (EquippedOperatingTool.IsAnimating())
-                        //{
-                        //    return;
-                        //}
-                        ChosenOperationState.OnActionLInput(true);
-
-                        _playerCharacterAnimator.OnActionLRInput();
-
-                        //bool proceed = ChosenOperationState.OnActionLInput();
-                        //if (proceed)
-                        //{
-                        //    ChosenOperationState.ProceedOperation(1.0f);
-
-                        //    //EquippedOperatingTool.Animate();
-                        //}
-                    }
-                }
-            }
+            ActionL(callbackContext);
 
         }
 
-        public void Operating_ActionRPressed(InputAction.CallbackContext callbackContext)
+        public void Operating_ActionLReleased(InputAction.CallbackContext callbackContext)
+        {
+            ActionL(callbackContext);
+        }
+
+        private void ActionL(InputAction.CallbackContext callbackContext)
         {
             if (CameraManager.Instance.IsCameraInTransition())
             {
@@ -513,6 +488,39 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
 
             bool operating = OperationManager.Instance.IsInAnyOperatingMode();
+            bool pressed = callbackContext.started;
+            if (operating)
+            {
+                if (_bodyPartMorgueActor != null)
+                {
+                    if (ChosenOperationState != null)
+                    {
+                        ChosenOperationState.OnActionLInput(pressed);
+                        _playerCharacterAnimator.OnActionLRInput();
+                    }
+                }
+            }
+        }
+
+        public void Operating_ActionRPressed(InputAction.CallbackContext callbackContext)
+        {
+            ActionR(callbackContext);
+        }
+
+        public void Operating_ActionRReleased(InputAction.CallbackContext callbackContext)
+        {
+            ActionR(callbackContext);
+        }
+
+        public void ActionR(InputAction.CallbackContext callbackContext)
+        {
+            if (CameraManager.Instance.IsCameraInTransition())
+            {
+                return;
+            }
+
+            bool operating = OperationManager.Instance.IsInAnyOperatingMode();
+            bool pressed = callbackContext.ReadValueAsButton();
 
             if (operating)
             {
@@ -520,23 +528,12 @@ namespace _Scripts.Gameplay.Player.Controller{
                 {
                     if (ChosenOperationState != null)
                     {
-                        //if (EquippedOperatingTool.IsAnimating())
-                        //{
-                        //    return;
-                        //}
+                        ChosenOperationState.OnActionRInput(pressed);
 
                         _playerCharacterAnimator.OnActionLRInput();
-                        //bool proceed = ChosenOperationState.OnActionRInput();
-                        //if (proceed)
-                        //{
-                        //    ChosenOperationState.ProceedOperation(1.0f);
-
-                        //    //EquippedOperatingTool.Animate();
-                        //}
                     }
                 }
             }
-
         }
 
         public void Operating_OnDPadInput(Vector2 dPadInput)
@@ -951,6 +948,7 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             if (_bodyPartMorgueActor != null)
             {
+                _bodyPartMorgueActor.StopOperation(_chosenOperationState);
                 if (_bodyPartMorgueActor.BodyMorgueActor == null)
                 {
                     _bodyPartMorgueActor = null;
@@ -1034,8 +1032,12 @@ namespace _Scripts.Gameplay.Player.Controller{
                         cursorLock = CursorLockMode.Confined;
                         //mpi.Game.Action.RemoveAllBindingOverrides();
                         mpi.Game.Back.started += Operating_OnBack;
+
                         mpi.Game.Operating_ActionL.started += Operating_ActionLPressed;
+                        mpi.Game.Operating_ActionL.canceled += Operating_ActionLReleased;
+
                         mpi.Game.Operating_ActionR.started += Operating_ActionRPressed;
+                        mpi.Game.Operating_ActionR.canceled += Operating_ActionRReleased;
 
                         mpi.Game.Operating_Cycle.Enable();
                         //mpi.Game.Operating_Scroll.started += Operating_OnScroll;
@@ -1105,8 +1107,12 @@ namespace _Scripts.Gameplay.Player.Controller{
 
                     case EPlayerControllerState.Operating:
                         mpi.Game.Back.started -= Operating_OnBack;
+
                         mpi.Game.Operating_ActionL.started -= Operating_ActionLPressed;
+                        mpi.Game.Operating_ActionL.canceled -= Operating_ActionLReleased;
+
                         mpi.Game.Operating_ActionR.started -= Operating_ActionRPressed;
+                        mpi.Game.Operating_ActionR.canceled -= Operating_ActionRReleased;
                         
                         mpi.Game.Operating_Cycle.Disable();
                         //mpi.Game.Operating_Scroll.started -= Operating_OnScroll;

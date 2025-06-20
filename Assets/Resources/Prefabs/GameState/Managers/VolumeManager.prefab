@@ -44,21 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ebec37b6886386438c39fa7796658cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bloomIntensityBondableHit: 0
-  _bloomIntensityBondableHitDuration: 0
-  _bloomIntensityBondableHitEase: 0
-  _bloomIntensityBondableExposed: 0
-  _bloomIntensityBondableExposedDuration: 0
-  _bloomIntensityBondableExposedEase: 0
-  _vignetteIntensityPlayerDamage: 0
-  _vignetteIntensityPlayerDamageDuration: 0
-  _vignetteIntensityPlayerDamageEase: 8
-  _vignetteIntensityPlayerKilled: 0
-  _vignetteIntensityPlayerKilledDuration: 0
-  _vignetteIntensityPlayerKilledEase: 4
-  _chromaticAberrationPlayerDamage: 0
-  _chromaticAberrationPlayerDamageDuration: 0
-  _chromaticAberrationPlayerDamagedEase: 8
-  _chromaticAberrationPlayerKilled: 0
-  _chromaticAberrationPlayerKilledDuration: 0
-  _chromaticAberrationPlayerKilledEase: 4
+  _successfulOperationInput:
+    _override: 0
+    _isValueAdditive: 1
+    _value: 5
+    _duration: 0.33
+    _ease: 32
+  _penaltyOperationInput:
+    _override: 0
+    _isValueAdditive: 1
+    _value: -2
+    _duration: 0.5
+    _ease: 18

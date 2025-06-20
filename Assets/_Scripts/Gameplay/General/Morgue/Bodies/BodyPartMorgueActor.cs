@@ -442,7 +442,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public void StopOperation(OperationState opState)
         {
-            throw new NotImplementedException();
+            _operator = null;
+            if (opState != null)
+            {
+                opState.EndOperationState();
+            }
         }
     }
     
