@@ -10,6 +10,7 @@ using _Scripts.Gameplay.General.Identification;
 using System;
 using _Scripts.Gameplay.General.Morgue;
 using UnityEditor;
+using DG.Tweening;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -121,6 +122,15 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
         }
 
+        [SerializeField] private FloatTweenerProfile _onSuccessInputFOVBehaviour;
+        [SerializeField] private FloatTweenerProfile _onPenaltyInputFOVBehaviour;
+
+        private float _defaultFOV;
+        private float _targetXOffset;
+        private float _targetYOffset;
+        private float _targetZOffset;
+        private Tweener _targetZOffsetTweener;
+
         //private VirtualCameraTypeDictionary _virtualCameraTypeDictionary;
         private Dictionary<string, Dictionary<EVirtualCameraType, CinemachineVirtualCamera>> _runtimeIdVirtualCameraDictionary = new Dictionary<string, Dictionary<EVirtualCameraType, CinemachineVirtualCamera>>();
         //private RuntimeIDVirtualCameraDictionary _runtimeIdVirtualCameraDictionary;
@@ -133,6 +143,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             if (MainCamera != null)
             {
                 MainCamera.enabled = false;
+                _defaultFOV = MainCamera.fieldOfView;
             }
 
         }
@@ -364,6 +375,44 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
 
             return inTransition;
+        }
+
+        public void OnSuccessfulInput()
+        {
+            KillActiveTween(ref _targetZOffsetTweener);
+            float value = _onSuccessInputFOVBehaviour.IsValueAdditive ? _onSuccessInputFOVBehaviour.Value + _defaultFOV : _onSuccessInputFOVBehaviour.Value;
+
+            TweenFOVOffset(ref _targetZOffsetTweener, _defaultFOV, value, _onSuccessInputFOVBehaviour.Duration, _onSuccessInputFOVBehaviour.Ease);
+            _targetZOffsetTweener.OnComplete(() => MainCamera.fieldOfView = _defaultFOV);
+        }
+
+        public void OnPenaltyInput()
+        {
+            KillActiveTween(ref _targetZOffsetTweener);
+            float value = _onPenaltyInputFOVBehaviour.IsValueAdditive ? _onPenaltyInputFOVBehaviour.Value + _defaultFOV : _onPenaltyInputFOVBehaviour.Value;
+
+            TweenFOVOffset(ref _targetZOffsetTweener, _defaultFOV, _onPenaltyInputFOVBehaviour.Value, _onPenaltyInputFOVBehaviour.Duration, _onPenaltyInputFOVBehaviour.Ease);
+            _targetZOffsetTweener.OnComplete(() => MainCamera.fieldOfView = _defaultFOV);
+        }
+
+        private void KillActiveTween(ref Tweener tweener)
+        {
+            if (tweener != null)
+            {
+                if (tweener.IsActive())
+                {
+                    DOTween.Kill(tweener);
+                    tweener = null;
+                }
+            }
+        }
+
+        private void TweenFOVOffset(ref Tweener tweener, float from, float to, float duration, Ease easeType)
+        {
+            tweener = DOVirtual.Float(from, to, duration, (float value) =>
+            {
+                MainCamera.fieldOfView = value;
+            }).SetEase(easeType);
         }
     }
     

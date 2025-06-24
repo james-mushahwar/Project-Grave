@@ -77,7 +77,6 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public void Debug_SpawnMorgueActor()
         {
-            Debug.Log("Try spawn morgue actor debug");
             MorgueActor actorSpawned = TrySpawnHouseChuteMorgueActor();
         }
 
@@ -103,8 +102,6 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public Animation TryEnterHouseChuteAnimation(MorgueActor actor)
         {
-            Debug.Log("Try animate entering through chute");
-
             Animation animation = null;
             if (actor == null)
             {

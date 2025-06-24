@@ -852,7 +852,6 @@ GameObject:
   - component: {fileID: 3578614195820394837}
   - component: {fileID: 796603637656036508}
   - component: {fileID: 5593198990031617578}
-  - component: {fileID: 1181883562566041312}
   - component: {fileID: 7724529274728595347}
   m_Layer: 0
   m_Name: RealPlayerCharacter
@@ -933,38 +932,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &1181883562566041312
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6575505415537421913}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be495e8f135b7854eab3d138f715717f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _normalAnimator: {fileID: 1205490877409942147}
-  _operatingAnimator: {fileID: 0}
-  _rigPosition: {fileID: 8688706137083434904}
-  _rigHandPositionTransform: {fileID: 8927493895835314858}
-  _rigHandChildTransform: {fileID: 5629156229927382719}
-  _rigRotation: {fileID: 0}
-  _rigHandRotationTransform: {fileID: 400267871406986048}
-  _rigHandRotationNaturalOffset: {x: 0, y: 0, z: 0}
-  _operatingDirectionChangeDecayDelayCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _operatingAnimationSpeedDampnerCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!114 &7724529274728595347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1784,6 +1751,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _operatingPerfectTimingSpeedFactor: 1.5
   _operatingAnimationSpeedDampnerCurve:
     serializedVersion: 2
     m_Curve:
@@ -1806,8 +1774,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.8265161
-      value: 0.6417938
+      time: 0.7520942
+      value: 0.7989593
       inSlope: 1.3294885
       outSlope: 1.3294885
       tangentMode: 0
@@ -1817,11 +1785,11 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 0.9999964
-      inSlope: 3.3380442
-      outSlope: 3.3380442
+      inSlope: 0.49848613
+      outSlope: 0.49848613
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.14661698
+      inWeight: 0.24498042
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

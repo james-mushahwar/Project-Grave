@@ -1,5 +1,6 @@
 ﻿using _Scripts.Gameplay.Animate.Player;
 using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.Architecture.Misc;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
 using UnityEngine;
@@ -20,13 +21,20 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         [SerializeField]
         private AnimationCurve _operatingMomentumPenaltyCurve; // momentum lost on invalid input when momentum is between 0 to 1.
         [SerializeField]
+        private AnimationCurve _operatingMomentumInvalidInputTimedDampnerCurve;
+        [SerializeField]
         private float _operatingMomentumIgnorePenaltiesCutoff; // ignore penalties to wrong inputs when momentum is below this value
         [SerializeField]
-        private float _operatingMomentumInvalidInputDelay; // time penalty for incorrect input when momentum is above cutoff.
+        private float _operatingMomentumInvalidInputDecayDelay; // time needed for max effectiveness of invalid input to take effect, e.g. pressing wrong direction or applying no input
         [SerializeField]
         private float _operatingMomentumWaitInputDelay; // time to wait for next allowed input (so user can't spam input)
         [SerializeField]
         private float _perfectTimingMinimumMomentum;
+        [SerializeField]
+        private float _perfectTimingMinimumWindowsEntered;
+
+        [SerializeField]
+        private FloatTargetProfile _perfectTimingActivateTargetSO;
 
         public override void OnMinigameCompleted()
         {
@@ -75,13 +83,10 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         {
             if (inputType == EInputType.LTrigger)
             {
-                Debug.Log("Minigame: On left trigger input");
                 return OnAction(true, !pressed);
             }
             else if (inputType == EInputType.RTrigger)
             {
-                Debug.Log("Minigame: On right trigger input");
-
                 return OnAction(false, !pressed);
             }
             return false;
@@ -124,6 +129,14 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
             _runtimeStats.InputHeld = !released;
             bool activatePerfect = false;
 
+            if (!validInput || released)
+            {
+                if (_runtimeStats.OperatingMomentumDecayDelayTimer == 0.0f)
+                {
+                    _runtimeStats.OperatingMomentumInvalidInputTimer = _operatingMomentumInvalidInputDecayDelay;
+                }
+            }
+
             if (validInput)
             {
                 if (released)
@@ -131,13 +144,22 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                     if (_runtimeStats.PerfectTimingAvailable && !_playerAnimator.GetPerfectTimingActive())
                     {
                         _playerAnimator.SetPerfectTimingActive(true);
+                        _runtimeStats.PerfectTimingAvailable = false;
+                        _runtimeStats.PerfectTimingActivatedInCurrentWindow = true;
+
+                        AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_PerfectTimingActivated_01, _playerAnimator.transform.position);
+
+                        Debug.Log("Perfect timing activated!");
+
+                        _runtimeStats.PerfectTimingWindowsEntered = 0;
 
                         activatePerfect = true;
                         // momentum boost
                         boost = _operatingMomentumBoostCurve.Evaluate(_runtimeStats.OperatingMomentum);
                         VolumeManager.Instance.OnOperationSuccessInput();
+                        TimeManager.Instance.TryRequestTimeScale(ETimeImportance.Low, _perfectTimingActivateTargetSO.TargetValue, _perfectTimingActivateTargetSO.InDuration, _perfectTimingActivateTargetSO.OutDuration, _perfectTimingActivateTargetSO.AtTargetDelay);
                         MorgueManager.Instance.OnStimulusReceived(EMorgueStimulus.Operation_SuccessInput, _pc.OperatingTable.gameObject);
-
+                        CameraManager.Instance.OnSuccessfulInput();
                     }
                 }
                 else if (_runtimeStats.OperatingMomentum <= 0.1f)
@@ -155,7 +177,9 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                         penalty = _operatingMomentumPenaltyCurve.Evaluate(_runtimeStats.OperatingMomentum);
                         FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawBreak);
                         VolumeManager.Instance.OnOperationPenaltyInput();
+                        //TimeManager.Instance.TryRequestTimeScale(ETimeImportance.Low, 0.0f, 0.0f, 0.025f, 0.2f);
                         MorgueManager.Instance.OnStimulusReceived(EMorgueStimulus.Operation_FailureInput, _pc.OperatingTable.gameObject);
+                        CameraManager.Instance.OnPenaltyInput();
                     }
                 }
             }
@@ -168,9 +192,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                 }
             }
 
-            _runtimeStats.OperatingMomentum += Mathf.Clamp(headStart + boost - penalty, 0.0f, 1.0f);
-            _playerAnimator.MinigameMomentum = _runtimeStats.OperatingMomentum;
-            Debug.Log("Input => new momnetum = " + _runtimeStats.OperatingMomentum);
+            if (_playerAnimator.GetPerfectTimingActive() == false)
+            {
+                _runtimeStats.OperatingMomentum += Mathf.Clamp(headStart + boost - penalty, 0.0f, 1.0f);
+                _playerAnimator.MinigameMomentum = _runtimeStats.OperatingMomentum;
+            }
 
             if (activatePerfect)
             {
@@ -182,14 +208,21 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
 
         public override void OnMinigameTick()
         {
-            bool perfectTimingAvailable = true;
+            bool perfectTimingAvailable = false;
             bool correctDirection = true;
             bool inPerfectZone = _playerAnimator.GetPerfectZoneAvailable();
             bool isInChangeDirectionWindow = _playerAnimator.OperatingDirectionChangeTimer > 0.0f;
+            bool abovePerfectThreshold = _runtimeStats.OperatingMomentum >= _perfectTimingMinimumMomentum;
 
-            if (_runtimeStats.PerfectTimingTimer > 0.0f && !inPerfectZone)
+            if (_runtimeStats.OperatingMomentumInvalidInputTimer > 0.0f)
             {
-                _runtimeStats.PerfectTimingTimer =  Mathf.Clamp(_runtimeStats.PerfectTimingTimer - Time.deltaTime, 0.0f, 1.0f);
+                _runtimeStats.OperatingMomentumInvalidInputTimer = Mathf.Clamp(_runtimeStats.OperatingMomentumInvalidInputTimer - Time.deltaTime, 0.0f, _operatingMomentumInvalidInputDecayDelay);
+            }
+
+            if (_runtimeStats.PerfectTimingTimer > 0.0f)// && !inPerfectZone)
+            {
+                Debug.Log("Perfect timer remaining = " + _runtimeStats.PerfectTimingTimer);
+                _runtimeStats.PerfectTimingTimer =  Mathf.Clamp(_runtimeStats.PerfectTimingTimer - Time.deltaTime, 0.0f, 10.0f);
                 if (_runtimeStats.PerfectTimingTimer == 0.0f)
                 {
                     _playerAnimator.SetPerfectTimingActive(false);
@@ -198,12 +231,15 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
 
             if (_playerAnimator != null)
             {
-                perfectTimingAvailable = _runtimeStats.OperatingMomentum >= _perfectTimingMinimumMomentum && inPerfectZone;
+                perfectTimingAvailable = abovePerfectThreshold && inPerfectZone;
                 correctDirection = _playerAnimator.GetOperatingDirection() == _runtimeStats.InputDirection;
             }
 
-            _runtimeStats.PerfectTimingAvailable = perfectTimingAvailable;
-            _playerAnimator.SetPerfectTimingAvailable(_runtimeStats.OperatingMomentum >= _perfectTimingMinimumMomentum);
+            if (_runtimeStats.PerfectTimingAvailable)
+            {
+                _playerAnimator.SetPerfectTimingAvailable(perfectTimingAvailable);
+                _runtimeStats.PerfectTimingAvailable = perfectTimingAvailable;
+            }
 
             float momentumChange = 0.0f;
             //bool updateMomentum = ((_inputHeld && correctDirection) || !_inputHeld) && !_playerAnimator.GetPerfectTimingActive();
@@ -217,25 +253,54 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                 {
                     //slow down
                     momentumChange = -1.0f;
-                    decay = _operatingMomentumDecayCurve.Evaluate(_runtimeStats.OperatingMomentum) * 2.0f;
+                    decay = _operatingMomentumDecayCurve.Evaluate(_runtimeStats.OperatingMomentum) * _operatingMomentumInvalidInputTimedDampnerCurve.Evaluate(_runtimeStats.OperatingMomentumInvalidInputTimer / _operatingMomentumInvalidInputDecayDelay);
                 }
                 else if (!_runtimeStats.InputHeld && !isInChangeDirectionWindow && !_playerAnimator.GetPerfectTimingActive())
                 {
                     //slow down
                     momentumChange = -1.0f;
-                    decay = _operatingMomentumDecayCurve.Evaluate(_runtimeStats.OperatingMomentum);
+                    decay = _operatingMomentumDecayCurve.Evaluate(_runtimeStats.OperatingMomentum) * _operatingMomentumInvalidInputTimedDampnerCurve.Evaluate(_runtimeStats.OperatingMomentumInvalidInputTimer / _operatingMomentumInvalidInputDecayDelay);
                 }
                 else if (_runtimeStats.InputHeld && correctDirection)
                 {
                     momentumChange = 1.0f;
                     heldRate = _operatingMomentumAdditiveCurve.Evaluate(_runtimeStats.OperatingMomentum);
                 }
+                _runtimeStats.OperatingMomentum = Mathf.Clamp(_runtimeStats.OperatingMomentum + (momentumChange * (decay + heldRate) * Time.deltaTime), 0.0f, 1.0f);
+
+                _playerAnimator.MinigameMomentum = _runtimeStats.OperatingMomentum;
             }
-
-            _runtimeStats.OperatingMomentum = Mathf.Clamp(_runtimeStats.OperatingMomentum + (momentumChange * (decay + heldRate) * Time.deltaTime), 0.0f, 1.0f);
-
-            _playerAnimator.MinigameMomentum = _runtimeStats.OperatingMomentum;
         }
+
+        public override void OnEnterPerfectWindow()
+        {
+            if (_playerAnimator)
+            {
+                if (_playerAnimator.GetPerfectTimingActive() == false)
+                {
+                    _runtimeStats.PerfectTimingWindowsEntered++;
+                }
+            }    
+
+            bool abovePerfectThreshold = _runtimeStats.OperatingMomentum >= _perfectTimingMinimumMomentum;
+            bool abovePerfectEnterThreshold = _runtimeStats.PerfectTimingWindowsEntered >= _perfectTimingMinimumWindowsEntered;
+
+
+            _playerAnimator.SetPerfectTimingAvailable(abovePerfectThreshold && abovePerfectEnterThreshold);
+            _runtimeStats.PerfectTimingAvailable = abovePerfectThreshold && abovePerfectEnterThreshold;
+        }
+
+        public override void OnExitPerfectWindow()
+        {
+            bool abovePerfectThreshold = _runtimeStats.OperatingMomentum >= _perfectTimingMinimumMomentum;
+            bool abovePerfectEnterThreshold = _runtimeStats.PerfectTimingWindowsEntered >= _perfectTimingMinimumWindowsEntered;
+
+            if (_runtimeStats.PerfectTimingActivatedInCurrentWindow == false && abovePerfectEnterThreshold)
+            {
+                //missed - lose build up
+                _runtimeStats.PerfectTimingWindowsEntered = 0; 
+            }
+        } 
     }
 
 }

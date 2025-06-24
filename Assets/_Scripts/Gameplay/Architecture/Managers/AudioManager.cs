@@ -20,11 +20,15 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         
         //morgue bodies and parts = 1000
         SFX_BloodSplatter1 = 1000,
-        //tools = 2000
 
-        //NPC = 3000
+        //operating = 2000
+        SFX_PerfectTimingAvailable_01 = 2000,
+        SFX_PerfectTimingActivated_01,
+        //tools = 3000
 
-        //Environment = 4000
+        //NPC = 4000
+
+        //Environment = 5000
 
         //
 
@@ -321,10 +325,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             _audioSFXPaths[0] = "Audio/SFX/Player/";
             _audioSFXPaths[1] = "Audio/SFX/Morgue/";
-            _audioSFXPaths[2] = "Audio/SFX/Tools/";
-            _audioSFXPaths[3] = "Audio/SFX/NPC/";
-            _audioSFXPaths[4] = "Audio/SFX/Environment/";
-            _audioSFXPaths[5] = "";
+            _audioSFXPaths[2] = "Audio/SFX/Operation/";
+            _audioSFXPaths[3] = "Audio/SFX/Tools/";
+            _audioSFXPaths[4] = "Audio/SFX/NPC/";
+            _audioSFXPaths[5] = "Audio/SFX/Environment/";
             _audioSFXPaths[6] = "";
             _audioSFXPaths[7] = "";
             _audioSFXPaths[8] = "";

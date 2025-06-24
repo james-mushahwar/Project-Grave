@@ -194,6 +194,19 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             return false;
         }
 
-
+        public virtual void OnEnterPerfectTimingWindow()
+        {
+            if (_opMinigame)
+            {
+                _opMinigame.OnEnterPerfectWindow();
+            }
+        }
+        public virtual void OnExitPerfectTimingWindow()
+        {
+            if (_opMinigame)
+            {
+                _opMinigame.OnExitPerfectWindow();
+            }
+        }
     }
 }

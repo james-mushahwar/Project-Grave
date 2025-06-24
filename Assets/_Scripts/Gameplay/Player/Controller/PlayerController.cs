@@ -387,7 +387,7 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
             else
             {
-                Debug.Log("Leaving Operating on body");
+                //Debug.Log("Leaving Operating on body");
             }
             
             
@@ -410,7 +410,7 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             float opScroll = callbackContext.ReadValue<float>();
 
-            Debug.Log("Playercontroller: scroll = " + opScroll);
+            //Debug.Log("Playercontroller: scroll = " + opScroll);
         }
 
         public void OperatingScroll(bool forward = true)
@@ -594,7 +594,7 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             bool storedOldTool = _playerStorage.TryStore(opTool, EPlayerControllerState.OpenCoat);
 
-            Debug.Log("Stored old tool =  " + (storedOldTool ? "YES" : "NO"));
+            //Debug.Log("Stored old tool =  " + (storedOldTool ? "YES" : "NO"));
             if (storedOldTool)
             {
                 EquippedOperatingTool = null;
@@ -663,7 +663,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                 return;
             }
 
-            Debug.Log("Action input");
+            //Debug.Log("Action input");
             bool operating = OperationManager.Instance.IsInAnyOperatingMode();
 
             //if (operating)

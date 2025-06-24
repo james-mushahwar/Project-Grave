@@ -41,16 +41,16 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.13998759
-      inSlope: -0.032221988
-      outSlope: -0.032221988
+      value: 3.2099032
+      inSlope: -0.056153297
+      outSlope: -0.056153297
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.50823975
-      value: 0.12361109
+      time: 0.5
+      value: 3.1818266
       inSlope: -0.030062418
       outSlope: -0.030062418
       tangentMode: 0
@@ -58,8 +58,8 @@ MonoBehaviour:
       inWeight: 0.17806005
       outWeight: 0.10628262
     - serializedVersion: 3
-      time: 0.995
-      value: 0.1000039
+      time: 1
+      value: 3.1413531
       inSlope: -0.0518803
       outSlope: -0.0518803
       tangentMode: 0
@@ -150,7 +150,34 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _operatingMomentumInvalidInputTimedDampnerCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -3.2320814
+      outSlope: -3.2320814
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.029674988
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.17802863
+      outSlope: -0.17802863
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.035327375
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _operatingMomentumIgnorePenaltiesCutoff: 0.25
-  _operatingMomentumInvalidInputDelay: 0.5
+  _operatingMomentumInvalidInputDecayDelay: 0.675
   _operatingMomentumWaitInputDelay: 0.5
-  _perfectTimingMinimumMomentum: 0.4
+  _perfectTimingMinimumMomentum: 0.67
+  _perfectTimingMinimumWindowsEntered: 5
+  _perfectTimingActivateTargetSO: {fileID: 11400000, guid: 57214c112c058ad4c8a1fadbf829b694,
+    type: 2}

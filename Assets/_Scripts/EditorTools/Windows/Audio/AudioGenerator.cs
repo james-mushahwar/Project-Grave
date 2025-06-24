@@ -17,6 +17,7 @@ namespace _Scripts.EditorTools.Windows.Audio{
         private const string _audioTypeRootPath =               "Assets/Resources/Audio/Audio Type/";
         private const string _audioTypePlayerPath =             "Assets/Resources/Audio/Audio Type/Player";
         private const string _audioTypeMorguePath =             "Assets/Resources/Audio/Audio Type/Morgue";
+        private const string _audioTypeOperationPath =          "Assets/Resources/Audio/Audio Type/Operation";
         private const string _audioTypeToolsPath =              "Assets/Resources/Audio/Audio Type/Tools";
         private const string _audioTypeNPCPath =                "Assets/Resources/Audio/Audio Type/NPC";
         private const string _audioTypeEnvironmentPath =        "Assets/Resources/Audio/Audio Type/Environment";
@@ -25,6 +26,7 @@ namespace _Scripts.EditorTools.Windows.Audio{
         private const string _audioPlaybackRootPath =           "Assets/Resources/Audio/Audio Playback/";
         private const string _audioPlaybackPlayerPath =         "Assets/Resources/Audio/Audio Playback/Player";
         private const string _audioPlaybackMorguePath =         "Assets/Resources/Audio/Audio Playback/Morgue";
+        private const string _audioPlaybackOperationPath =      "Assets/Resources/Audio/Audio Playback/Operation";
         private const string _audioPlaybackToolsPath =          "Assets/Resources/Audio/Audio Playback/Tools";
         private const string _audioPlaybackNPCPath =            "Assets/Resources/Audio/Audio Playback/NPC";
         private const string _audioPlaybackEnvironmentPath =    "Assets/Resources/Audio/Audio Playback/Environment";
@@ -118,14 +120,19 @@ namespace _Scripts.EditorTools.Windows.Audio{
                 else if ((int)newAudioType >= 2000 && (int)newAudioType < 3000)
                 {
                     // tools
-                    typePath = _audioTypeToolsPath;
+                    typePath = _audioTypeOperationPath;
                 }
                 else if ((int)newAudioType >= 3000 && (int)newAudioType < 4000)
+                {
+                    // tools
+                    typePath = _audioTypeToolsPath;
+                }
+                else if ((int)newAudioType >= 4000 && (int)newAudioType < 5000)
                 {
                     // npc
                     typePath = _audioTypeNPCPath;
                 }
-                else if ((int)newAudioType >= 4000 && (int)newAudioType < 5000)
+                else if ((int)newAudioType >= 5000 && (int)newAudioType < 7000)
                 {
                     // environment
                     typePath = _audioTypeEnvironmentPath;
@@ -209,14 +216,19 @@ namespace _Scripts.EditorTools.Windows.Audio{
                 else if ((int)newAudioType >= 2000 && (int)newAudioType < 3000)
                 {
                     // tools
-                    playbackPath = _audioPlaybackToolsPath;
+                    playbackPath = _audioPlaybackOperationPath;
                 }
                 else if ((int)newAudioType >= 3000 && (int)newAudioType < 4000)
+                {
+                    // tools
+                    playbackPath = _audioPlaybackToolsPath;
+                }
+                else if ((int)newAudioType >= 4000 && (int)newAudioType < 5000)
                 {
                     // npc
                     playbackPath = _audioPlaybackNPCPath;
                 }
-                else if ((int)newAudioType >= 4000 && (int)newAudioType < 5000)
+                else if ((int)newAudioType >= 5000 && (int)newAudioType < 6000)
                 {
                     // environment
                     playbackPath = _audioPlaybackEnvironmentPath;

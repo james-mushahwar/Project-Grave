@@ -108,7 +108,6 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public override void EnterHouseThroughChute()
         {
-            Debug.Log("Try enter house through chute");
             Animation anim = MorgueManager.Instance.TryEnterHouseChuteAnimation(this);
             if (anim != null)
             {

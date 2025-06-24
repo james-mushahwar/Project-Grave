@@ -35,7 +35,6 @@ namespace _Scripts.Gameplay.General.Identification{
         private void GenerateDefaultId()
         {
             _defaultID = Guid.NewGuid().ToString();
-            Debug.Log(_defaultID);
         }
 
         public void GenerateId(RuntimeIDCustomInspector invoker)
@@ -51,7 +50,6 @@ namespace _Scripts.Gameplay.General.Identification{
         public void GenerateRuntimeId()
         {
             _runtimeID = Guid.NewGuid().ToString();
-            Debug.Log(_runtimeID);
         }
 
         private void Reset()

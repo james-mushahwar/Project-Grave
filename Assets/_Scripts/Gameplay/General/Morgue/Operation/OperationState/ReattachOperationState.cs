@@ -33,7 +33,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
                 if (canPlayBloodFX)
                 {
                     // play blood vfx every few seconds
-                    Debug.Log("Play blood fx");
+                    //Debug.Log("Play blood fx");
 
                     float delay = Random.RandomRange(1.0f, 5.0f);
 

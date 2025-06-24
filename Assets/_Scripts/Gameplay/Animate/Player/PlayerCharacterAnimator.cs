@@ -56,6 +56,8 @@ namespace _Scripts.Gameplay.Animate.Player{
         private float _operatingDirectionChangeTimer;
         [SerializeField]
         private AnimationCurve _operatingDirectionChangeDecayDelayCurve;
+        [SerializeField]
+        private float _operatingPerfectTimingSpeedFactor;
 
         //private float _operatingMomentumWaitInputTimer = 0.0f;
         //private float _operatingMomentumDecayDelayTimer = 0.0f;
@@ -150,7 +152,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                     CurrentAnimator.CrossFade(_sawingProgressStartLoopAnim_Hash, 0.5f);
                     //CurrentAnimator.PlayInFixedTime(_sawingProgressStartLoopAnim_Hash);
-                    Debug.Log("Trying to play sawing animation");
+                    //Debug.Log("Trying to play sawing animation");
                     SetRigWeight(1.0f, 1.0f);
                 }
 
@@ -173,7 +175,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 //}
 
                 //_operatingMomentum = Mathf.Clamp(_operatingMomentum - decay, 0.0f, 1.0f);
-                _operatingMomentum = _minigameMomentum;
+                _operatingMomentum = _perfectTimingActive ? _operatingPerfectTimingSpeedFactor : _minigameMomentum;
                 MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
 
                 float effectiveness = 1.0f;
@@ -188,7 +190,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                     PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.ProceedOperation(_operatingMomentum * effectiveness);
                 }
 
-                Debug.Log("Operating momentum = " + _operatingMomentum);
+                //Debug.Log("Operating momentum = " + _operatingMomentum);
 
                 //update rig hand offset
                 Vector3 progressPosition = currentOpState.GetProgressPosition();
@@ -213,7 +215,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 //}
 
                 //CurrentAnimator.SetFloat("Operating_SpeedMultiplier", OperatingSpeedTweened);
-                float animationSpeedMultiplier = _operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum);
+                float animationSpeedMultiplier = _perfectTimingActive ? _operatingPerfectTimingSpeedFactor : _operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum);
                 CurrentAnimator.SetFloat("Operating_SpeedMultiplier", animationSpeedMultiplier);
 
                 Vector3 worldRot = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
@@ -254,7 +256,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 {
                     CurrentAnimator.CrossFade(_idleLoopAnim_Hash, 0.0f);
                     //CurrentAnimator.PlayInFixedTime(_idleLoopAnim_Hash);
-                    Debug.Log("Trying to play idle animation");
+                    //Debug.Log("Trying to play idle animation");
                     ResetRig();
                     _operatingMomentum = 0.0f;
                 }
@@ -447,11 +449,27 @@ namespace _Scripts.Gameplay.Animate.Player{
             if (set != _inPerfectZone)
             {
                 _inPerfectZone = set;
-                OperationManager.Instance.TriggerPerfectZone(set);
                 if (!_inPerfectZone)
                 {
-                    SetPerfectTimingActive(false);
+                    //SetPerfectTimingActive(false);
+
+                    OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+
+                    if (currentOpState != null)
+                    {
+                        currentOpState.OnExitPerfectTimingWindow();
+                    }
                 }
+                else
+                {
+                    OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+
+                    if (currentOpState != null)
+                    {
+                        currentOpState.OnEnterPerfectTimingWindow();
+                    }
+                }
+                OperationManager.Instance.TriggerPerfectZone(set);
             }
         }
 
@@ -506,6 +524,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         public void SetPerfectTimingAvailable(bool set)
         {
+            Debug.Log("Perfect timing available = " + set);
             _perfectTimingAvailable = set;
         }
 

@@ -89,7 +89,6 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             if (IsInAnyOperatingMode())
             {
-                Debug.Log("OPeration site is " + CurrentOperationSite + " and OPeration state is: " + CurrentOperationState);
             }
         }
         // late update tick for playing game 
@@ -332,6 +331,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                         //_enterPerfectZonePS.transform.SetParent(pc.EquippedOperatingTool.transform, false);
                         _enterPerfectZonePS.Stop();
                         _enterPerfectZonePS.Play();
+                        AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_PerfectTimingAvailable_01, pc.EquippedOperatingTool.transform.position);
+
                     }
                 }
             }

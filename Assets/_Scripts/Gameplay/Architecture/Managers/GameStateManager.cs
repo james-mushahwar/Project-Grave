@@ -29,6 +29,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField] private TaskManager _taskManagerPrefab;
         [SerializeField] private OperationManager _operationManagerPrefab;
         [SerializeField] private VolumeManager _volumeManagerPrefab;
+        [SerializeField] private TimeManager _timeManagerPrefab;
+        [SerializeField] private PauseManager _pauseManagerPrefab;
 
         EGameState _gameState = EGameState.Bootstrap;
         public EGameState GameState
@@ -84,6 +86,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _managers.Add(GameObject.Instantiate(_feedbackManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_operationManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_volumeManagerPrefab, this.transform));
+            _managers.Add(GameObject.Instantiate(_timeManagerPrefab, this.transform));
+            _managers.Add(GameObject.Instantiate(_pauseManagerPrefab, this.transform));
         }
 
         void Start()

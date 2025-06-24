@@ -129,7 +129,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public void TryFeedbackPattern(EFeedbackPattern pattern)
         {
             _gamepad = Gamepad.current;
-            Debug.Log("Trying feed back pattern " + pattern);
+            //Debug.Log("Trying feed back pattern " + pattern);
             if (_gamepad == null)
             {
                 return;

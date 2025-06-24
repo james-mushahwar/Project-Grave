@@ -66,3 +66,7 @@ MonoBehaviour:
     type: 3}
   _volumeManagerPrefab: {fileID: 9070951467937223785, guid: a59c5d8f8f58f884997e5bc7b4689aac,
     type: 3}
+  _timeManagerPrefab: {fileID: 9007925308223568192, guid: 496c6c1945ae4bf44ae2fd328c49757c,
+    type: 3}
+  _pauseManagerPrefab: {fileID: 7138647014763778674, guid: 23d7ecee27b28b34588a7d9b525b8395,
+    type: 3}
