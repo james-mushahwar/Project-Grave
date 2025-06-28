@@ -3,11 +3,13 @@ using System.Collections;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using _Scripts.CautionaryTalesScripts;
 using Unity.VisualScripting;
 using UnityEngine.Audio;
 using Random = System.Random;
 using _Scripts.Gameplay.Audio.AudioConcurrency;
 using _Scripts.Gameplay.Audio;
+using _Scripts.Gameplay.Audio.AudioEvent;
 using _Scripts.Gameplay.Audio.AudioHandle;
 using _Scripts.Gameplay.Player.Controller;
 using MoreMountains.Feedbacks;
@@ -18,7 +20,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
     {
         //SFX
         //player = 0
-        
+        SFX_Heartbeat_Low = 0,
         //morgue bodies and parts = 1000
         SFX_BloodSplatter1 = 1000,
 
@@ -159,7 +161,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [HideInInspector]
         public bool _release;                                // is this handle marked to be released = release Ausiosource and mark active = false
         [HideInInspector]
-        public AudioSource _audioSource;
+        public CTAudioSource _ctSource;
 
         private GameObject _owner;
         [SerializeField]
@@ -207,11 +209,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             set { _pitchAlpha = value; }
         }
 
-        public void Init(EAudioType audioType, AudioSource source, bool attach, Vector3 position)
+        public void Init(EAudioType audioType, CTAudioSource source, bool attach, Vector3 position)
         {
             _audioType = audioType;
             _active = true;
-            _audioSource = source;
+            _ctSource = source;
             _release = false;
             _attachAudioSource = attach;
             _position = position;
@@ -449,29 +451,30 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
                             if (start && !stop)
                             {
-                                if (audioHandler._audioSource == null)
+                                if (audioHandler._ctSource == null)
                                 {
-                                    AudioSource pooledAudioSource = _audioSourcePool.GetAudioSource();
-                                    if (pooledAudioSource != null)
+                                    CTAudioSource audioSource = _audioSourcePool.GetCTAudioSource();
+
+                                    if (audioSource != null)
                                     {
-                                        audioHandler._audioSource = pooledAudioSource;
+                                        audioHandler._ctSource = audioSource;
                                     }
                                 }
 
-                                if (audioHandler._audioSource)
+                                if (audioHandler._ctSource)
                                 {
-                                    if (audioHandler._audioSource.isPlaying == false)
+                                    if (audioHandler._ctSource.Source.isPlaying == false)
                                     {
-                                        FindAndPlayAudioClip(audioHandler._audioType, audioHandler._audioSource);
+                                        FindAndPlayAudioClip(audioHandler._audioType, audioHandler._ctSource);
                                     }
                                 }
                             }
                             else if (stop)
                             {
-                                if (audioHandler._audioSource != null)
+                                if (audioHandler._ctSource != null)
                                 {
-                                    audioHandler._audioSource.Stop();
-                                    audioHandler._audioSource = null;
+                                    audioHandler._ctSource.Stop();
+                                    audioHandler._ctSource = null;
                                 }
                             }
                         }
@@ -488,19 +491,19 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 if (audioHandler._release)
                 {
                     audioHandler._active = false;
-                    if (audioHandler._audioSource != null)
+                    if (audioHandler._ctSource != null)
                     {
-                        audioHandler._audioSource.Stop();
+                        audioHandler._ctSource.Stop();
                     }
-                    audioHandler._audioSource = null;
+                    audioHandler._ctSource = null;
                     _audioHandlersToBeRemoved.Add(audioHandler);
                     audioHandler._release = false;
                 }
                 else
                 {
-                    if (audioHandler._audioSource != null)
+                    if (audioHandler._ctSource != null)
                     {
-                        AdjustAudioPlayback(audioHandler._audioType, audioHandler._audioSource, audioHandler);
+                        AdjustAudioPlayback(audioHandler._audioType, audioHandler._ctSource, audioHandler);
                     }
                 }
             }
@@ -571,7 +574,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             bool handled = false;
             foreach (AudioHandler audioHandler in _activeAudioHandlers)
             {
-                if (audioHandler._audioSource == audioSource)
+                if (audioHandler._ctSource.Source == audioSource)
                 {
                     handled = true;
                     break;
@@ -583,7 +586,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public AudioHandler TryPlayAudioSourceAtLocation(EAudioType audioType, Vector3 worldLoc, AudioHandler audioHandler = null)
         {
-            AudioSource audioSource = _audioSourcePool.GetAudioSource();
+            CTAudioSource audioSource = _audioSourcePool.GetCTAudioSource();
 
             //AudioHandler audioHandler = null;
             bool allowPlay = true;
@@ -597,11 +600,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 if (audioHandler != null)
                 {
-                    allowPlay = audioHandler.CanReplayCurrentlyPlayingSource && audioHandler._audioSource != null;
+                    allowPlay = audioHandler.CanReplayCurrentlyPlayingSource && audioHandler._ctSource != null;
                     if (allowPlay)
                     {
                         Log("Play handle AS instead!");
-                        audioSource = audioHandler._audioSource;
+                        audioSource = audioHandler._ctSource;
                     }
                 }
             }
@@ -609,7 +612,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             if (audioSource && allowPlay)
             {
                 // check concurrency rules
-                bool canPlay = ResolveAudioConcurrency(audioType, audioSource);
+                bool canPlay = ResolveAudioConcurrency(audioType, audioSource.Source);
                 if (!canPlay)
                 {
                     return null;
@@ -632,7 +635,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public AudioHandler TryPlayAudioSourceAttached(EAudioType audioType, Transform attachTransform, AudioHandler audioHandler = null, Vector3 localPosition = default)
         {
-            AudioSource audioSource = _audioSourcePool.GetAudioSource();
+            CTAudioSource audioSource = _audioSourcePool.GetCTAudioSource();
 
             //AudioHandler audioHandler = null;
             bool allowPlay = true;
@@ -646,11 +649,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 if (audioHandler != null)
                 {
-                    allowPlay = audioHandler.CanReplayCurrentlyPlayingSource && audioHandler._audioSource != null;
+                    allowPlay = audioHandler.CanReplayCurrentlyPlayingSource && audioHandler._ctSource != null;
                     if (allowPlay)
                     {
                         Log("Play handle AS instead!");
-                        audioSource = audioHandler._audioSource;
+                        audioSource = audioHandler._ctSource;
                     }
                 }
             }
@@ -658,7 +661,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             if (audioSource && allowPlay)
             {
                 // check concurrency rules
-                bool canPlay = ResolveAudioConcurrency(audioType, audioSource);
+                bool canPlay = ResolveAudioConcurrency(audioType, audioSource.Source);
                 if (!canPlay)
                 {
                     return null;
@@ -683,15 +686,16 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             return audioHandler;
         }
 
-        private void FindAndPlayAudioClip(EAudioType audioType, AudioSource pooledComp)
+        private void FindAndPlayAudioClip(EAudioType audioType, CTAudioSource pooledComp)
         {
             string path = _audioSFXPaths[(int)audioType / 1000];
-            pooledComp.clip = Resources.Load(path + _audioTypeLocationsDict[audioType]) as AudioClip;
+            pooledComp.Source.clip = Resources.Load(path + _audioTypeLocationsDict[audioType]) as AudioClip;
 
-            if (pooledComp.clip != null)
+            if (pooledComp.Source.clip != null)
             {
                 // audio playback
                 AdjustAudioPlayback(audioType, pooledComp);
+                SetupAudioEvents(audioType, pooledComp);
                 pooledComp.Play();
             }
             else
@@ -1023,7 +1027,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
         }
 
-        private void AdjustAudioPlayback(EAudioType audioType, AudioSource audioSource, AudioHandler audioHandler = null)
+        private void AdjustAudioPlayback(EAudioType audioType, CTAudioSource audioSource, AudioHandler audioHandler = null)
         {
             AudioTypeScriptableObject audioTypeSO = null;
             AudioPlayback audioPlayback = null;
@@ -1068,8 +1072,36 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 }
             }
 
-            audioSource.volume = volume;
-            audioSource.pitch = pitch;
+            audioSource.Source.volume = volume;
+            audioSource.Source.pitch = pitch;
+        }
+
+        private void SetupAudioEvents(EAudioType audioType, CTAudioSource audioSource)
+        {
+            AudioTypeScriptableObject audioTypeSO = null;
+            AudioPlayback audioPlayback = null;
+
+            _audioTypeSODict.TryGetValue(audioType, out audioTypeSO);
+
+            if (audioTypeSO)
+            {
+                AudioEventScriptableObject audioEvents = audioTypeSO.AudioEvents; 
+                audioSource.SetAudioEvent(audioEvents);
+            }
+        }
+
+        //Audio Events
+        public static void AudioEventTrigger_Heartbeat_Low()
+        {
+            FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Heartbeat_Low);
+        }
+
+        public void AudioEventTrigger(EAudioType type)
+        {
+            if (type == EAudioType.SFX_Heartbeat_Low)
+            {
+                FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Heartbeat_Low);
+            }
         }
 
         public void PlayAudio(EAudioTrackTypes type, bool fade = false, float delay = 0.0f)
@@ -1274,5 +1306,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             Debug.LogWarning("AudioManager: " + log);
         }
         #endregion
+        
     }
+
 }

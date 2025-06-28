@@ -19,10 +19,13 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // Game - interaction
         Interact_PickUp,
         Interact_Use,
+        //Game - player
+        Heartbeat_Low,
         //Game - operation
         Operation_SawSmooth,
         Operation_SawJammed,
         Operation_SawBreak,
+        Operation_
     }
 
     public enum EFeedbackPriority
@@ -52,6 +55,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         //private FeedbackPatternScriptableObject _noneFeedbackPattern; // should do nothing
         [SerializeField]
         private FeedbackPatternScriptableObject _uiTouchFeedback;
+        // Player
+        [SerializeField]
+        private FeedbackPatternScriptableObject _playerHeartbeatLowFeedback;
         [Header("Operation feedback patterns")]
         [SerializeField]
         private FeedbackPatternScriptableObject _operationValidInputFeedback;
@@ -62,6 +68,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private FeedbackPatternScriptableObject _operationSawJammedFeedback;
         [SerializeField]
         private FeedbackPatternScriptableObject _operationSawBreakFeedback;
+
 
         public void ManagedTick()
         {
@@ -176,6 +183,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             switch (pattern)
             {
+                case EFeedbackPattern.Heartbeat_Low:
+                    return _playerHeartbeatLowFeedback;
                 case EFeedbackPattern.Operation_SawSmooth:
                     return _operationSawSmoothFeedback;
                 case EFeedbackPattern.Operation_SawJammed:

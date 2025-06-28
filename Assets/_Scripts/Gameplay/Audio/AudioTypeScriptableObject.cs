@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Gameplay.Audio.AudioEvent;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.Audio{
@@ -13,6 +14,8 @@ namespace _Scripts.Gameplay.Audio{
         private EAudioType _audioType;
         [SerializeField] 
         private Architecture.Managers.AudioConcurrency _audioConcurrency;
+        [SerializeField] 
+        private AudioEventScriptableObject _audioEvents;
 
         [SerializeField]
         private AudioPlayback _audioPlayback;
@@ -33,6 +36,12 @@ namespace _Scripts.Gameplay.Audio{
         public AudioPlayback AudioPlayback
         {
             get { return _audioPlayback; }
+        }
+
+        public AudioEventScriptableObject AudioEvents
+        {
+            get { return _audioEvents; }
+
         }
     }
     

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Scripts.Gameplay.Architecture.Misc {
     
-    [CreateAssetMenu(fileName = "FloatTargetProfile", menuName = "Scriptable Objects/FloatTargetProfile")]
+    [CreateAssetMenu(fileName = "FloatTargetProfile", menuName = "ScriptableObject/FloatTargetProfile")]
     public class FloatTargetProfile : ScriptableObject
     {
         [Header("Target")]

@@ -11,7 +11,7 @@ using _Scripts.Gameplay.General.Morgue.Bodies;
 namespace _Scripts.Gameplay.Input.InputController.Game{
 
 
-    [CreateAssetMenu(fileName = "Game_IC", menuName = "ScriptableObjects/Input/InputController/GameInputController")]
+    [CreateAssetMenu(fileName = "Game_IC", menuName = "ScriptableObject/Input/InputController/GameInputController")]
     public class GameInputController : InputController
     {
         public override void Enable()

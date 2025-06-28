@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Scripts.Gameplay.Animate{
 
-    [CreateAssetMenu(fileName = "AnimationSettings", menuName = "ScriptableObjects/Animation/AnimationSettings")]
+    [CreateAssetMenu(fileName = "AnimationSettings", menuName = "ScriptableObject/Animation/AnimationSettings")]
     public class AnimationSettingsScriptable : ScriptableObject
     {
         #region StopMotion
