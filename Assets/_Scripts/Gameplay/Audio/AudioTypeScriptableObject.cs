@@ -41,7 +41,7 @@ namespace _Scripts.Gameplay.Audio{
         public AudioEventScriptableObject AudioEvents
         {
             get { return _audioEvents; }
-
+            set { _audioEvents = value; }
         }
     }
     

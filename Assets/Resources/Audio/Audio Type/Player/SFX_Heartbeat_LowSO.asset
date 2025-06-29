@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4519251591805b3479d33f26a21bfdda, type: 3}
+  m_Name: SFX_Heartbeat_LowSO
+  m_EditorClassIdentifier: 
+  _audioType: 0
+  _audioConcurrency:
+    _audioTypeConcurrency:
+      _audioType: 0
+      _maxConcurrentAudioType: 2
+      _maxAudioTypeConcurrencyRule: 1
+      _priority: 1
+    _audioConcurrencyGroup: {fileID: 0}
+  _audioEvents: {fileID: 11400000, guid: 78de1700e8d589042a703bf5d9f11501, type: 2}
+  _audioPlayback:
+    _volumeRange: {x: 0.5, y: 0.5}
+    _pitchRange: {x: 1, y: 1}
