@@ -108,9 +108,6 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // after world (level, area, zone) unloading
         public virtual void ManagedPostTearddownGame() { }
 
-
-        
-
         public void TryRequestTimeScale(ETimeImportance importance, float targetTimeScale, float easeIn = 0.0f, float easeOut = 0.0f, float delay = 0.0f)
         {
             int importanceInt = (int)importance;

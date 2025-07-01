@@ -11,6 +11,8 @@ using UnityEditor.Build;
 using UnityEngine.Animations.Rigging;
 using System.Security.Cryptography.X509Certificates;
 using _Scripts.Editortools.Draw;
+using Cinemachine;
+using MoreMountains.Feedbacks;
 
 namespace _Scripts.Gameplay.Animate.Player{
     
@@ -58,6 +60,9 @@ namespace _Scripts.Gameplay.Animate.Player{
         private AnimationCurve _operatingDirectionChangeDecayDelayCurve;
         [SerializeField]
         private float _operatingPerfectTimingSpeedFactor;
+
+        [SerializeField]
+        private CinemachineImpulseSource _cinemachineImpulseSource_Bump;
 
         //private float _operatingMomentumWaitInputTimer = 0.0f;
         //private float _operatingMomentumDecayDelayTimer = 0.0f;
@@ -492,6 +497,11 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             SetOperatingDirection(position == EDirectionType.West ? EDirectionType.East : EDirectionType.West);
             SetChangeDirectionTimer();
+
+            bool perfectTiming = PlayerManager.Instance.CurrentPlayerController.PlayerCharacterAnimator.GetPerfectTimingActive();
+            float factor = perfectTiming ? 1.0f : 0.25f;
+            Vector3 velocity = new Vector3((_operatingDirection == EDirectionType.East ? 1.0f : -1.0f) * Random.RandomRange(0.05f, 0.075f), Random.Range(-0.05f, 0.05f), 0.05f) * factor;
+            _cinemachineImpulseSource_Bump.GenerateImpulseWithVelocity(velocity);
         }
 
         public EDirectionType GetOperatingDirection()

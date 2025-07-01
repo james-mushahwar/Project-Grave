@@ -12,6 +12,8 @@ using _Scripts.Gameplay.General.Morgue.Operation.OperationSite;
 using UnityEditor;
 using UnityEngine;
 using System.Runtime.InteropServices.WindowsRuntime;
+using _Scripts.Gameplay.Architecture.Misc;
+using Random = UnityEngine.Random;
 
 namespace _Scripts.Gameplay.General.Morgue.Bodies{
     
@@ -63,6 +65,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         }
 
         protected bool _rebuildOperationSites = true;
+
+        [SerializeField]
+        private FloatTargetProfile _floatTarget_OnDisconnectBodyPart;
+        [SerializeField]
+        private CinemachineImpulseSource _impulseSource_OnDismemberComplete;
 
         public bool RebuildOpSites
         {
@@ -197,6 +204,19 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                     IConnectable disconnectedPart = TryDisconnect(null);
                     if (disconnectedPart != null)
                     {
+                        if (_floatTarget_OnDisconnectBodyPart)
+                        {
+                            TimeManager.Instance.TryRequestTimeScale(ETimeImportance.Low, _floatTarget_OnDisconnectBodyPart.TargetValue, _floatTarget_OnDisconnectBodyPart.InDuration, _floatTarget_OnDisconnectBodyPart.OutDuration, _floatTarget_OnDisconnectBodyPart.AtTargetDelay);
+                        }
+
+                        if (_impulseSource_OnDismemberComplete != null)
+                        {
+                            bool perfectTiming = PlayerManager.Instance.CurrentPlayerController.PlayerCharacterAnimator.GetPerfectTimingActive();
+                            float factor = perfectTiming ? 1.0f : 0.0f;
+                            Vector3 velocity = new Vector3(Random.Range(-0.01f, 0.01f), Random.Range(-0.01f, 0.01f), 1.0f) * factor;
+                            _impulseSource_OnDismemberComplete.GenerateImpulseWithVelocity(velocity);
+                        }
+
                         OnDisconnect(null);
 
                         SetToRagdoll(true);
