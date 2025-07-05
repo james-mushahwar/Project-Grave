@@ -45,3 +45,37 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _animationPlaybackLimit: 0.5
+  _normalisedAnimationLimitPlaybackCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.19954023
+      inSlope: 0.15150526
+      outSlope: 0.15150526
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.04120554
+    - serializedVersion: 3
+      time: 0.46766624
+      value: 0.76437664
+      inSlope: 0.82727134
+      outSlope: 0.82727134
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0008545
+      value: 1
+      inSlope: 0.27460697
+      outSlope: 0.27460697
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09018051
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

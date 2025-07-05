@@ -117,13 +117,13 @@ namespace _Scripts.Gameplay.UI.Operation{
                 _operationSawing_Slider.value = pc.PlayerCharacterAnimator.OperatingMomentum;
 
                 bool showDirection = true;
+                bool right = pc.PlayerCharacterAnimator.GetOperatingDirection() == EDirectionType.East;
                 if (pc != null)
                 {
-                    showDirection = pc.PlayerCharacterAnimator.OperatingMomentum < _operationShowDirectionMaxMomentum;
+                    showDirection = !right && pc.PlayerCharacterAnimator.OperatingMomentum < _operationShowDirectionMaxMomentum;
                 }
                 _operationDirectionIndicator.SetShow(showDirection);
 
-                bool right = pc.PlayerCharacterAnimator.GetOperatingDirection() == EDirectionType.East;
                 Sprite directionSprite = right ? _operationDirectionRight : _operationDirectionLeft;
                 _operationDirectionIndicator.SetImage(directionSprite);
 

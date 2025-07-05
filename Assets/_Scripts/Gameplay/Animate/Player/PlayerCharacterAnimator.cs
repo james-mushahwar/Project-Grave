@@ -164,14 +164,17 @@ namespace _Scripts.Gameplay.Animate.Player{
                     effectiveness = equippedTool.ToolProfile.GetMomentumEffectivenessFactor(_operatingMomentum);
 
                     maxPlaybackLimit = equippedTool.ToolProfile.GetAnimationPlaybackLimit();
-                    animationPlaybackLimit = equippedTool.ToolProfile.GetMomentumPlaybackLimit(_overridenMomentum) * maxPlaybackLimit;
+                    animationPlaybackLimit = equippedTool.ToolProfile.GetMomentumPlaybackLimit(CurrentMomentum) * maxPlaybackLimit;
                 }
 
                 if (currentOpState is DismemberOperationState)
                 {
-                    if (_operatingDirection == EDirectionType.West)
+                    if (animInTransition == false && idleAnimLayStateInfo.shortNameHash.Equals(_sawingProgressStartLoopAnim_Hash) == true)
                     {
-                        limitAnimationPlayback = true;
+                        if (_operatingDirection == EDirectionType.West)
+                        {
+                            limitAnimationPlayback = true;
+                        }
                     }
                     //if (_operatingMomentumInvalidInputTimer <= 0.0f )
                     //{
@@ -195,9 +198,12 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 if (limitAnimationPlayback)
                 {
-                    if (CurrentAnimator.GetCurrentAnimatorStateInfo(_idleAnimLayer_Index).normalizedTime > animationPlaybackLimit)
+                    float operationPlayback = idleAnimLayStateInfo.normalizedTime;
+
+                    if (operationPlayback > animationPlaybackLimit)
                     {
-                        //OnSwitchOperatingDirection()
+                        Debug.Log("Limit playback = " + _operatingMomentum + " and change direction");
+                        OnSwitchOperatingDirection(_operatingDirection);
                     }
                 }
 
@@ -249,7 +255,14 @@ namespace _Scripts.Gameplay.Animate.Player{
                 //}
 
                 //CurrentAnimator.SetFloat("Operating_SpeedMultiplier", OperatingSpeedTweened);
-                float animationSpeedMultiplier = _perfectTimingActive ? _operatingPerfectTimingSpeedFactor : _operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum);
+                float directionFactor = 1.0f;
+
+                if (currentOpState is DismemberOperationState)
+                {
+                    directionFactor = _operatingDirection == EDirectionType.West ? 1.0f : -1.0f;
+                }
+
+                float animationSpeedMultiplier = directionFactor * (_perfectTimingActive ? _operatingPerfectTimingSpeedFactor : _operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum));
                 CurrentAnimator.SetFloat("Operating_SpeedMultiplier", animationSpeedMultiplier);
 
                 Vector3 worldRot = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
@@ -501,11 +514,9 @@ namespace _Scripts.Gameplay.Animate.Player{
                 Debug.LogError("Operator has no anim speed yet...");
             }
 
-            if (_operatingDirection == EDirectionType.East)
-            {
-                SetOperatingDirection(position == EDirectionType.West ? EDirectionType.East : EDirectionType.West);
-                SetChangeDirectionTimer();
-            }
+            SetOperatingDirection(position == EDirectionType.West ? EDirectionType.East : EDirectionType.West);
+
+            SetChangeDirectionTimer();
 
             bool perfectTiming = PlayerManager.Instance.CurrentPlayerController.PlayerCharacterAnimator.GetPerfectTimingActive();
             float factor = perfectTiming ? 1.0f : 0.25f;

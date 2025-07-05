@@ -85,10 +85,10 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
             {
                 return OnAction(true, !pressed);
             }
-            else if (inputType == EInputType.RTrigger)
-            {
-                return OnAction(false, !pressed);
-            }
+            //else if (inputType == EInputType.RTrigger)
+            //{
+            //    return OnAction(false, !pressed);
+            //}
             return false;
         }
 
@@ -243,7 +243,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
 
             float momentumChange = 0.0f;
             //bool updateMomentum = ((_inputHeld && correctDirection) || !_inputHeld) && !_playerAnimator.GetPerfectTimingActive();
-            bool updateMomentum = !_playerAnimator.GetPerfectTimingActive();
+            bool updateMomentum = !_playerAnimator.GetPerfectTimingActive() && _playerAnimator.GetOperatingDirection() == EDirectionType.West;
             float decay = 0.0f;
             float heldRate = 0.0f;
 

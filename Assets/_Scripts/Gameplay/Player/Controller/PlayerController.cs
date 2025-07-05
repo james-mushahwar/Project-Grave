@@ -324,6 +324,7 @@ namespace _Scripts.Gameplay.Player.Controller{
         }
         public void OnInventory(InputAction.CallbackContext context)
         {
+            return;
             bool openCoat = _playerControllerState == EPlayerControllerState.Normal;
 
             EPlayerControllerState nextState = openCoat ? EPlayerControllerState.OpenCoat : EPlayerControllerState.Normal;
