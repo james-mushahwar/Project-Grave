@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using _Scripts.Gameplay.Audio;
 
 [CustomPropertyDrawer(typeof(StringStringDictionary))]
 [CustomPropertyDrawer(typeof(ObjectColorDictionary))]
@@ -10,6 +11,7 @@ using UnityEditor;
 [CustomPropertyDrawer(typeof(VirtualCameraTypeDictionary))]
 [CustomPropertyDrawer(typeof(RuntimeIDVirtualCameraDictionary))]
 [CustomPropertyDrawer(typeof(HumanMorgueBodyVariantDictionary))]
+[CustomPropertyDrawer(typeof(AudioCueDictionary))]
 public class AnySerializableDictionaryPropertyDrawer : SerializableDictionaryPropertyDrawer {}
 
 [CustomPropertyDrawer(typeof(ColorArrayStorage))]

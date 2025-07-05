@@ -211,9 +211,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
                         if (_impulseSource_OnDismemberComplete != null)
                         {
-                            bool perfectTiming = PlayerManager.Instance.CurrentPlayerController.PlayerCharacterAnimator.GetPerfectTimingActive();
-                            float factor = perfectTiming ? 1.0f : 0.0f;
-                            Vector3 velocity = new Vector3(Random.Range(-0.01f, 0.01f), Random.Range(-0.01f, 0.01f), 1.0f) * factor;
+                            Vector3 velocity = new Vector3(Random.Range(-0.01f, 0.01f), Random.Range(-0.01f, 0.01f), 1.0f);
                             _impulseSource_OnDismemberComplete.GenerateImpulseWithVelocity(velocity);
                         }
 

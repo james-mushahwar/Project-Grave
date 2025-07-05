@@ -46,6 +46,36 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         COUNT
     }
 
+    public enum EAudioCue
+    {
+        //SFX
+        //player = 0
+        SFX_Heartbeat_Low = 0,
+        //morgue bodies and parts = 1000
+        SFX_BloodSplatter = 1000,
+
+        //operating = 2000
+        SFX_PerfectTimingAvailable = 2000,
+        SFX_PerfectTimingActivated,
+        //tools = 3000
+
+        //NPC = 4000
+
+        //Environment = 5000
+
+        //
+
+        //
+
+        //
+
+        //
+
+        //General (UI etc.) = 9000
+
+        COUNT
+    }
+
     public enum EAudioTrackTypes
     {
         //Music
@@ -266,6 +296,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private HashSet<AudioHandler> _activeAudioHandlers = new HashSet<AudioHandler>();
 
         private List<AudioHandler> _audioHandlersToBeRemoved = new List<AudioHandler>();
+
+        [Header("Audio Cues")]
+        [SerializeField]
+        private AudioCueDictionary _audioCueDictionary;
         //private Dictionary<AudioSource, AudioHandler> _audioSourceHandleDictionary = new Dictionary<AudioSource, AudioHandler>();
         //private Dictionary<AudioSource, AudioHandler> _allocatedAudioSourceHandlesDict = new Dictionary<AudioSource, AudioHandler>();
 
@@ -632,7 +666,60 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             return audioHandler;
         }
+        public AudioHandler TryPlayAudioSourceAtLocation(EAudioCue audioCue, Vector3 worldLoc, AudioHandler audioHandler = null)
+        {
+            CTAudioSource audioSource = _audioSourcePool.GetCTAudioSource();
 
+            bool allowPlay = true;
+
+            EAudioType audioType = GetAudioTypeFromCue(audioCue);
+
+            if (audioType == EAudioType.COUNT)
+            {
+                return null;
+            }
+
+            if (RequestActivateHandle(audioHandler))
+            {
+                audioHandler.Init(audioType, audioSource, true, worldLoc);
+                _activeAudioHandlers.Add(audioHandler);
+            }
+            else
+            {
+                if (audioHandler != null)
+                {
+                    allowPlay = audioHandler.CanReplayCurrentlyPlayingSource && audioHandler._ctSource != null;
+                    if (allowPlay)
+                    {
+                        Log("Play handle AS instead!");
+                        audioSource = audioHandler._ctSource;
+                    }
+                }
+            }
+
+            if (audioSource && allowPlay)
+            {
+                // check concurrency rules
+                bool canPlay = ResolveAudioConcurrency(audioType, audioSource.Source);
+                if (!canPlay)
+                {
+                    return null;
+                }
+
+                audioSource.gameObject.transform.position = worldLoc;
+
+                FindAndPlayAudioClip(audioType, audioSource);
+            }
+            else
+            {
+                if (audioSource == null)
+                {
+                    LogWarning("No more pooled audio source components");
+                }
+            }
+
+            return audioHandler;
+        }
         public AudioHandler TryPlayAudioSourceAttached(EAudioType audioType, Transform attachTransform, AudioHandler audioHandler = null, Vector3 localPosition = default)
         {
             CTAudioSource audioSource = _audioSourcePool.GetCTAudioSource();
@@ -684,6 +771,76 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
 
             return audioHandler;
+        }
+        public AudioHandler TryPlayAudioSourceAttached(EAudioCue audioCue, Transform attachTransform, AudioHandler audioHandler = null, Vector3 localPosition = default)
+        {
+            CTAudioSource audioSource = _audioSourcePool.GetCTAudioSource();
+
+            bool allowPlay = true;
+
+            EAudioType audioType = GetAudioTypeFromCue(audioCue);
+
+            if (audioType == EAudioType.COUNT)
+            {
+                return null;
+            }
+
+            if (RequestActivateHandle(audioHandler))
+            {
+                audioHandler.Init(audioType, audioSource, true, localPosition);
+                _activeAudioHandlers.Add(audioHandler);
+            }
+            else
+            {
+                if (audioHandler != null)
+                {
+                    allowPlay = audioHandler.CanReplayCurrentlyPlayingSource && audioHandler._ctSource != null;
+                    if (allowPlay)
+                    {
+                        Log("Play handle AS instead!");
+                        audioSource = audioHandler._ctSource;
+                    }
+                }
+            }
+
+            if (audioSource && allowPlay)
+            {
+                // check concurrency rules
+                bool canPlay = ResolveAudioConcurrency(audioType, audioSource.Source);
+                if (!canPlay)
+                {
+                    return null;
+                }
+
+                if (attachTransform != null)
+                {
+                    audioSource.transform.parent = attachTransform;
+                }
+                audioSource.gameObject.transform.localPosition = localPosition;
+
+                FindAndPlayAudioClip(audioType, audioSource);
+            }
+            else
+            {
+                if (audioSource == null)
+                {
+                    LogWarning("No more pooled audio source components");
+                }
+            }
+
+            return audioHandler;
+        }
+
+        private EAudioType GetAudioTypeFromCue(EAudioCue audioCue)
+        {
+            AudioCueScriptableObject audioCueScriptable = _audioCueDictionary[audioCue];
+
+            if (audioCueScriptable != null)
+            {
+                return audioCueScriptable.GetAudioType();
+            }
+
+            return EAudioType.COUNT;
         }
 
         private void FindAndPlayAudioClip(EAudioType audioType, CTAudioSource pooledComp)

@@ -6,6 +6,7 @@ using Cinemachine;
 using UnityEngine;
 using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Gameplay.General.Identification;
+using _Scripts.Gameplay.Audio;
 
 [Serializable]
 public class StringStringDictionary : SerializableDictionary<string, string> {}
@@ -40,3 +41,7 @@ public class RuntimeIDVirtualCameraDictionary : SerializableDictionary<RuntimeID
 
 [Serializable]
 public class HumanMorgueBodyVariantDictionary : SerializableDictionary<EMorgueBodyVariant, HumanMorgueBodyVariant> { }
+
+//Audio
+[Serializable]
+public class AudioCueDictionary : SerializableDictionary<EAudioCue, AudioCueScriptableObject> { }

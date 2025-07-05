@@ -143,14 +143,63 @@ namespace _Scripts.Gameplay.Animate.Player{
             OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
             bool isOperating = currentOpState != null;
             bool animInTransition = CurrentAnimator.IsInTransition(_idleAnimLayer_Index);
-
+            EFeedbackPattern movementFeedback = EFeedbackPattern.None;
             //_operatingMomentumInvalidInputTimer = Mathf.Clamp(_operatingMomentumInvalidInputTimer - Time.deltaTime, 0.0f, _operatingMomentumInvalidInputDelay);
+            bool limitAnimationPlayback = false;
+            float maxPlaybackLimit = 1.0f;
 
             if (isOperating)
             {
                 //CurrentAnimator.SetLayerWeight(_idleAnimLayer_Index, 0.0f);
                 AnimatorStateInfo idleAnimLayStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_idleAnimLayer_Index);
                 //AnimatorStateInfo sawingEndAnimatorStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_sawingEndAnimLayer_Index);
+
+                _operatingMomentum = _perfectTimingActive ? _operatingPerfectTimingSpeedFactor : _minigameMomentum;
+                MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
+                float animationPlaybackLimit = 1.0f;
+
+                float effectiveness = 1.0f;
+                if (equippedTool != null)
+                {
+                    effectiveness = equippedTool.ToolProfile.GetMomentumEffectivenessFactor(_operatingMomentum);
+
+                    maxPlaybackLimit = equippedTool.ToolProfile.GetAnimationPlaybackLimit();
+                    animationPlaybackLimit = equippedTool.ToolProfile.GetMomentumPlaybackLimit(_overridenMomentum) * maxPlaybackLimit;
+                }
+
+                if (currentOpState is DismemberOperationState)
+                {
+                    if (_operatingDirection == EDirectionType.West)
+                    {
+                        limitAnimationPlayback = true;
+                    }
+                    //if (_operatingMomentumInvalidInputTimer <= 0.0f )
+                    //{
+                    //    if (_operatingMomentum < _operatingMomentumValidInputCutoff)
+                    //    {
+                    //        movementFeedback = EFeedbackPattern.Operation_SawJammed;
+                    //    }
+                    //    else
+                    //    {
+                    //        movementFeedback = EFeedbackPattern.Operation_SawSmooth;
+                    //    }
+                    //}
+
+                    //if (equippedTool != null)
+                    //{
+                    //    float moveSpeedFactor = _operatingMomentum;
+                    //    FeedbackManager.Instance.SetFrequencyFactor(moveSpeedFactor, moveSpeedFactor);
+                    //    FeedbackManager.Instance.TryFeedbackPattern(movementFeedback);
+                    //}
+                }
+
+                if (limitAnimationPlayback)
+                {
+                    if (CurrentAnimator.GetCurrentAnimatorStateInfo(_idleAnimLayer_Index).normalizedTime > animationPlaybackLimit)
+                    {
+                        //OnSwitchOperatingDirection()
+                    }
+                }
 
                 if (!animInTransition && idleAnimLayStateInfo.shortNameHash.Equals(_sawingProgressStartLoopAnim_Hash) == false) //|| sawingEndAnimatorStateInfo.shortNameHash.Equals(_sawingProgressEndLoopAnim_Hash) == false)
                 {
@@ -167,27 +216,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                     _operatingDirectionChangeTimer = Mathf.Clamp(_operatingDirectionChangeTimer, 0.0f, 10.0f);
                 }
 
-                //bool shouldDecayMomentum = _operatingMomentumDecayDelayTimer == 0.0f;
 
-                //float decay = 0.0f;
-                //if (shouldDecayMomentum)
-                //{
-                //    decay = _operatingMomentumDecayCurve.Evaluate(_operatingMomentum) * Time.deltaTime;
-                //}
-                //else
-                //{
-                //    _operatingMomentumDecayDelayTimer = Mathf.Clamp(_operatingMomentumDecayDelayTimer - Time.deltaTime, 0.0f, 10.0f);
-                //}
-
-                //_operatingMomentum = Mathf.Clamp(_operatingMomentum - decay, 0.0f, 1.0f);
-                _operatingMomentum = _perfectTimingActive ? _operatingPerfectTimingSpeedFactor : _minigameMomentum;
-                MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
-
-                float effectiveness = 1.0f;
-                if (equippedTool != null)
-                {
-                    effectiveness = equippedTool.ToolProfile.GetMomentumEffectivenessFactor(_operatingMomentum);
-                }
 
                 // progress operation
                 if (PlayerManager.Instance.CurrentPlayerController.ChosenOperationState != null)
@@ -225,30 +254,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 Vector3 worldRot = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
                 //SetRigControlRotation(worldRot);
-
-                EFeedbackPattern movementFeedback = EFeedbackPattern.None;
-
-                if (currentOpState is DismemberOperationState)
-                {
-                    //if (_operatingMomentumInvalidInputTimer <= 0.0f )
-                    //{
-                    //    if (_operatingMomentum < _operatingMomentumValidInputCutoff)
-                    //    {
-                    //        movementFeedback = EFeedbackPattern.Operation_SawJammed;
-                    //    }
-                    //    else
-                    //    {
-                    //        movementFeedback = EFeedbackPattern.Operation_SawSmooth;
-                    //    }
-                    //}
-
-                    //if (equippedTool != null)
-                    //{
-                    //    float moveSpeedFactor = _operatingMomentum;
-                    //    FeedbackManager.Instance.SetFrequencyFactor(moveSpeedFactor, moveSpeedFactor);
-                    //    FeedbackManager.Instance.TryFeedbackPattern(movementFeedback);
-                    //}
-                }
+                
             }
             else
             {
@@ -495,8 +501,11 @@ namespace _Scripts.Gameplay.Animate.Player{
                 Debug.LogError("Operator has no anim speed yet...");
             }
 
-            SetOperatingDirection(position == EDirectionType.West ? EDirectionType.East : EDirectionType.West);
-            SetChangeDirectionTimer();
+            if (_operatingDirection == EDirectionType.East)
+            {
+                SetOperatingDirection(position == EDirectionType.West ? EDirectionType.East : EDirectionType.West);
+                SetChangeDirectionTimer();
+            }
 
             bool perfectTiming = PlayerManager.Instance.CurrentPlayerController.PlayerCharacterAnimator.GetPerfectTimingActive();
             float factor = perfectTiming ? 1.0f : 0.25f;

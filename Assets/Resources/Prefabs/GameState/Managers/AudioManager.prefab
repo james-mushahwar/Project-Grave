@@ -48,6 +48,10 @@ MonoBehaviour:
   _audioSourcePool: {fileID: 4915513352852467738}
   _sfxMixerGroup: {fileID: -9149484039217193197, guid: 3589d67138f2db24b883abe75f7ed9d0,
     type: 2}
+  _audioCueDictionary:
+    m_keys: 00000000
+    m_values:
+    - {fileID: 11400000, guid: cb45c41184ff6bf40b4f4f0135ba5aae, type: 2}
   _tracks: []
 --- !u!1 &5360440486891993205
 GameObject:
