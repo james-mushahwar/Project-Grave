@@ -1786,6 +1786,19 @@ MonoBehaviour:
   _operatingPerfectTimingSpeedFactor: 1.5
   _cinemachineImpulseSource_Bump: {fileID: 8228117565625760858}
   _impulseSource_OperatingFriction: {fileID: 4931950982057046151}
+  _heartbeatLowAudioHandler:
+    _attachAudioSource: 0
+    _position: {x: 0, y: 0, z: 0}
+    _defaultVolumeAlpha: 0
+    _defaultPitchAlpha: 0
+    _audioType: 0
+    _active: 0
+    _release: 0
+    _ctSource: {fileID: 0}
+    _handleParametersSO: {fileID: 11400000, guid: ed65af7fc086b70449fc785ec9514909,
+      type: 2}
+    _loops: 0
+    _canReplayCurrentlyPlayingSource: 0
   _operatingAnimationSpeedDampnerCurve:
     serializedVersion: 2
     m_Curve:

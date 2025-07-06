@@ -67,6 +67,8 @@ namespace _Scripts.Gameplay.Animate.Player{
         [SerializeField]
         private CinemachineImpulseSource _impulseSource_OperatingFriction;
 
+        [SerializeField] private AudioHandler _heartbeatLowAudioHandler;
+
         //private float _operatingMomentumWaitInputTimer = 0.0f;
         //private float _operatingMomentumDecayDelayTimer = 0.0f;
         //private float _operatingMomentumInvalidInputTimer = 0.0f;
@@ -139,6 +141,30 @@ namespace _Scripts.Gameplay.Animate.Player{
             _sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_IK_version");
             //_sawingProgressEndLoopAnim_Hash = Animator.StringToHash("sawing_progress_end");
             _rigControlDefaultLocalPosition = _rigHandPositionTransform.localPosition;
+
+            _heartbeatLowAudioHandler.Owner = this.gameObject;
+            _heartbeatLowAudioHandler.IsActiveMethod = ShouldPlayOperationHeartBeat;
+        }
+
+        private bool ShouldPlayOperationHeartBeat()
+        {
+            bool shouldBeActive = false;
+
+            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+            bool isOperating = currentOpState != null;
+
+            if (isOperating)
+            {
+                if (currentOpState is DismemberOperationState)
+                {
+                    if (_operatingMomentum < 0.1f)
+                    {
+                        shouldBeActive = true;
+                    }
+                }
+            }
+
+            return shouldBeActive;
         }
 
         public void ManagedTick() 
@@ -177,6 +203,15 @@ namespace _Scripts.Gameplay.Animate.Player{
                 {
                     if (animInTransition == false && idleAnimLayStateInfo.shortNameHash.Equals(_sawingProgressStartLoopAnim_Hash) == true)
                     {
+                        if (_operatingMomentum < 0.1f)
+                        {
+                            if (_heartbeatLowAudioHandler._ctSource == null)
+                            {
+                                AudioManager.Instance.TryPlayAudioSourceAttached(EAudioType.SFX_Heartbeat_Low,
+                                    this.transform, _heartbeatLowAudioHandler);
+                            }
+                        }
+
                         if (_operatingDirection == EDirectionType.West)
                         {
                             limitAnimationPlayback = true;

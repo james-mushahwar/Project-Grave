@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: New Audio Handle Parameters
   m_EditorClassIdentifier: 
   _startDistance: 0
-  _stopDistance: 0
+  _stopDistance: 100
