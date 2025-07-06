@@ -205,7 +205,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                     {
                         if (_operatingMomentum < 0.1f)
                         {
-                            if (_heartbeatLowAudioHandler._ctSource == null)
+                            if (_heartbeatLowAudioHandler._active == false)
                             {
                                 AudioManager.Instance.TryPlayAudioSourceAttached(EAudioType.SFX_Heartbeat_Low,
                                     this.transform, _heartbeatLowAudioHandler);
