@@ -25,7 +25,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         Operation_SawSmooth,
         Operation_SawJammed,
         Operation_SawBreak,
-        Operation_
+        Operation_SawFriction,
     }
 
     public enum EFeedbackPriority
@@ -273,6 +273,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public void ManagedPostMainMenuLoad()
         {
              
+        }
+
+        public void ManagedOnApplicationQuit()
+        {
+            StopFeedbackPattern(EFeedbackPattern.None, true);
         }
     }
     

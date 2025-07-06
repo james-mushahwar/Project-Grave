@@ -42,6 +42,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // after world (level, area, zone) unloading
         public virtual void ManagedPostTearddownGame() { }
 
+        public virtual void ManagedOnApplicationQuit() { }
+
         public virtual void OnStimulusReceived(EMorgueStimulus stimulus, GameObject rootGO = null) { }
     }
 

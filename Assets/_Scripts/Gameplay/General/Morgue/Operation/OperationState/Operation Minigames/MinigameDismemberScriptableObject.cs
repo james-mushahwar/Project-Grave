@@ -3,6 +3,7 @@ using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.Architecture.Misc;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
+using Cinemachine;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMinigames {
@@ -156,7 +157,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                         activatePerfect = true;
                         // momentum boost
                         boost = _operatingMomentumBoostCurve.Evaluate(_runtimeStats.OperatingMomentum);
-                        VolumeManager.Instance.OnOperationSuccessInput();
+                        VolumeManager.Instance.OnOperationFlowStateActivated();
                         TimeManager.Instance.TryRequestTimeScale(ETimeImportance.Low, _perfectTimingActivateTargetSO.TargetValue, _perfectTimingActivateTargetSO.InDuration, _perfectTimingActivateTargetSO.OutDuration, _perfectTimingActivateTargetSO.AtTargetDelay);
                         MorgueManager.Instance.OnStimulusReceived(EMorgueStimulus.Operation_SuccessInput, _pc.OperatingTable.gameObject);
                         CameraManager.Instance.OnSuccessfulInput();
@@ -175,7 +176,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                     if (_runtimeStats.OperatingMomentum >= _operatingMomentumIgnorePenaltiesCutoff)
                     {
                         penalty = _operatingMomentumPenaltyCurve.Evaluate(_runtimeStats.OperatingMomentum);
-                        FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawBreak);
+                        //FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawBreak);
                         VolumeManager.Instance.OnOperationPenaltyInput();
                         //TimeManager.Instance.TryRequestTimeScale(ETimeImportance.Low, 0.0f, 0.0f, 0.025f, 0.2f);
                         MorgueManager.Instance.OnStimulusReceived(EMorgueStimulus.Operation_FailureInput, _pc.OperatingTable.gameObject);

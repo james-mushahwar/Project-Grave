@@ -1,5 +1,7 @@
-﻿using _Scripts.Gameplay.Architecture.Managers;
+﻿using System.Collections.Generic;
+using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.Audio.AudioEvent;
+using NUnit.Framework;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,7 +13,7 @@ namespace _Scripts.CautionaryTalesScripts {
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private AudioEventScriptableObject _audioEventSO;
         [SerializeField] private bool _playOnStart = false;
-        private bool[] _eventsTriggered;
+        private List<bool> _eventsTriggered = new List<bool>();
 
         public AudioSource Source
         {
@@ -47,7 +49,7 @@ namespace _Scripts.CautionaryTalesScripts {
             {
                 ResetAudioTriggers();
 
-                for (int i = 0; i < _eventsTriggered.Length; i++)
+                for (int i = 0; i < _eventsTriggered.Count; i++)
                 {
                     _eventsTriggered[i] = false;
                 }
@@ -64,7 +66,7 @@ namespace _Scripts.CautionaryTalesScripts {
 
             if (_audioEventSO != null)
             {
-                for (int i = 0; i < _eventsTriggered.Length; i++)
+                for (int i = 0; i < _eventsTriggered.Count; i++)
                 {
                     _eventsTriggered[i] = false;
                 }
@@ -78,9 +80,9 @@ namespace _Scripts.CautionaryTalesScripts {
 
         private void ResetAudioTriggers()
         {
-            if (_eventsTriggered.Length != _audioEventSO.Events.Length)
+            if (_eventsTriggered.Count != _audioEventSO.Events.Length)
             {
-                _eventsTriggered = new bool[_audioEventSO.Events.Length];
+                _eventsTriggered = new List<bool>(_audioEventSO.Events.Length);
             }
         }
 

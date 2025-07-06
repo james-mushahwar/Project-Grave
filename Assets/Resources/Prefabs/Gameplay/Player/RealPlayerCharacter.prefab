@@ -1698,6 +1698,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8228117565625760858}
+    - targetCorrespondingSourceObject: {fileID: 3565514085818876740, guid: db5cbaa4d5085af419d2a97206176d3f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4931950982057046151}
   m_SourcePrefab: {fileID: 100100000, guid: db5cbaa4d5085af419d2a97206176d3f, type: 3}
 --- !u!4 &400267871406986048 stripped
 Transform:
@@ -1781,6 +1785,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   _operatingPerfectTimingSpeedFactor: 1.5
   _cinemachineImpulseSource_Bump: {fileID: 8228117565625760858}
+  _impulseSource_OperatingFriction: {fileID: 4931950982057046151}
   _operatingAnimationSpeedDampnerCurve:
     serializedVersion: 2
     m_Curve:
@@ -1922,6 +1927,59 @@ MonoBehaviour:
       m_AttackTime: 0
       m_SustainTime: 0.2
       m_DecayTime: 0.1
+      m_ScaleWithImpact: 0
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 100
+    m_PropagationSpeed: 343
+  m_DefaultVelocity: {x: 0, y: 0, z: 0}
+--- !u!114 &4931950982057046151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4271820655096074975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_ImpulseShape: 2
+    m_CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ImpulseDuration: 0.2
+    m_ImpulseType: 3
+    m_DissipationRate: 0.25
+    m_RawSignal: {fileID: 11400000, guid: 2328c1e735765a742ba0a7068fae3440, type: 2}
+    m_AmplitudeGain: 0.1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 0
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.05
+      m_DecayTime: 0.05
       m_ScaleWithImpact: 0
       m_HoldForever: 0
     m_ImpactRadius: 100

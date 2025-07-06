@@ -209,6 +209,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                             TimeManager.Instance.TryRequestTimeScale(ETimeImportance.Low, _floatTarget_OnDisconnectBodyPart.TargetValue, _floatTarget_OnDisconnectBodyPart.InDuration, _floatTarget_OnDisconnectBodyPart.OutDuration, _floatTarget_OnDisconnectBodyPart.AtTargetDelay);
                         }
 
+                        AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_OperationCompleteReaction_01, PlayerManager.Instance.CurrentPlayerController.transform.position);
+
                         if (_impulseSource_OnDismemberComplete != null)
                         {
                             Vector3 velocity = new Vector3(Random.Range(-0.01f, 0.01f), Random.Range(-0.01f, 0.01f), 1.0f);

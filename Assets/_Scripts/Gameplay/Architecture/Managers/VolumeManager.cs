@@ -63,6 +63,8 @@ namespace _Scripts.Gameplay.Architecture.Managers
         private VolumeProfileTarget _successfulOperationInput;
         [SerializeField]
         private VolumeProfileTarget _penaltyOperationInput;
+        [SerializeField]
+        private VolumeProfileTarget _operationInputPrompt_VolumeTarget;
 
         #region General
         //Tweeners
@@ -144,7 +146,7 @@ namespace _Scripts.Gameplay.Architecture.Managers
         }
 
         #region Operation Effects
-        public void OnOperationSuccessInput()
+        public void OnOperationFlowStateActivated()
         {
             if (_globalVolumeBloom != null)
             {
@@ -165,6 +167,18 @@ namespace _Scripts.Gameplay.Architecture.Managers
                 float value = _penaltyOperationInput.IsValueAdditive ? _penaltyOperationInput.Value + _bloomDefaultIntensity : _penaltyOperationInput.Value;
                 TweenFloat(ref _bloomIntensityTweener, _bloomDefaultIntensity, value, _penaltyOperationInput.Duration, _globalVolumeBloom.intensity, _penaltyOperationInput.Ease);
                 _bloomIntensityTweener.OnComplete(() => TweenFloat(ref _bloomIntensityTweener, _globalVolumeBloom.intensity.value, _bloomDefaultIntensity, 0.1f, _globalVolumeBloom.intensity, Ease.OutExpo));
+            }
+        }
+
+        public void OnOperationInputPrompt()
+        {
+            if (_globalVolumeBloom != null)
+            {
+                // bloom
+                KillActiveTween(ref _bloomIntensityTweener);
+                float value = _operationInputPrompt_VolumeTarget.IsValueAdditive ? _operationInputPrompt_VolumeTarget.Value + _bloomDefaultIntensity : _operationInputPrompt_VolumeTarget.Value;
+                TweenFloat(ref _bloomIntensityTweener, _bloomDefaultIntensity, value, _operationInputPrompt_VolumeTarget.Duration, _globalVolumeBloom.intensity, _operationInputPrompt_VolumeTarget.Ease);
+                _bloomIntensityTweener.OnComplete(() => TweenFloat(ref _bloomIntensityTweener, _globalVolumeBloom.intensity.value, _bloomDefaultIntensity, 0.075f, _globalVolumeBloom.intensity, Ease.OutExpo));
             }
         }
         #endregion

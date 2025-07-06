@@ -64,6 +64,9 @@ namespace _Scripts.Gameplay.Animate.Player{
         [SerializeField]
         private CinemachineImpulseSource _cinemachineImpulseSource_Bump;
 
+        [SerializeField]
+        private CinemachineImpulseSource _impulseSource_OperatingFriction;
+
         //private float _operatingMomentumWaitInputTimer = 0.0f;
         //private float _operatingMomentumDecayDelayTimer = 0.0f;
         //private float _operatingMomentumInvalidInputTimer = 0.0f;
@@ -147,6 +150,9 @@ namespace _Scripts.Gameplay.Animate.Player{
             //_operatingMomentumInvalidInputTimer = Mathf.Clamp(_operatingMomentumInvalidInputTimer - Time.deltaTime, 0.0f, _operatingMomentumInvalidInputDelay);
             bool limitAnimationPlayback = false;
             float maxPlaybackLimit = 1.0f;
+            bool playOperationFeedback = false;
+            float feedbackLowFrequencyFactor = -1.0f;
+            float feedbackHighFrequencyFactor = -1.0f;
 
             if (isOperating)
             {
@@ -175,6 +181,11 @@ namespace _Scripts.Gameplay.Animate.Player{
                         {
                             limitAnimationPlayback = true;
                         }
+                        else
+                        {
+                            playOperationFeedback = true;
+                        }
+
                     }
                     //if (_operatingMomentumInvalidInputTimer <= 0.0f )
                     //{
@@ -196,13 +207,29 @@ namespace _Scripts.Gameplay.Animate.Player{
                     //}
                 }
 
+                if (playOperationFeedback)
+                {
+                    Vector3 velocity = new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.01f, 0.01f), 0f);
+                    _impulseSource_OperatingFriction.GenerateImpulseWithVelocity(velocity);
+
+                    FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawSmooth);
+                    feedbackLowFrequencyFactor = _operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum);
+                    feedbackHighFrequencyFactor = _operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum);
+                }
+                else
+                {
+                    FeedbackManager.Instance.StopFeedbackPattern();
+                }
+
+                FeedbackManager.Instance.SetFrequencyFactor(feedbackLowFrequencyFactor, feedbackHighFrequencyFactor);
+
                 if (limitAnimationPlayback)
                 {
                     float operationPlayback = idleAnimLayStateInfo.normalizedTime;
 
                     if (operationPlayback > animationPlaybackLimit)
                     {
-                        Debug.Log("Limit playback = " + _operatingMomentum + " and change direction");
+                        //Debug.Log("Limit playback = " + _operatingMomentum + " and change direction");
                         OnSwitchOperatingDirection(_operatingDirection);
                     }
                 }
@@ -426,14 +453,14 @@ namespace _Scripts.Gameplay.Animate.Player{
                 if (penalty)
                 {
                     //momentumPenalty = _operatingMomentumPenaltyCurve.Evaluate(_operatingMomentum);
-                    FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawBreak);
+                    //FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawBreak);
                     VolumeManager.Instance.OnOperationPenaltyInput();
                 }
             }
             else
             {
                 //momentumBoost = _operatingMomentumAdditiveCurve.Evaluate(_operatingMomentum);
-                VolumeManager.Instance.OnOperationSuccessInput();
+                VolumeManager.Instance.OnOperationFlowStateActivated();
             }
 
             _operatingMomentum += (momentumBoost - momentumPenalty);
@@ -519,9 +546,14 @@ namespace _Scripts.Gameplay.Animate.Player{
             SetChangeDirectionTimer();
 
             bool perfectTiming = PlayerManager.Instance.CurrentPlayerController.PlayerCharacterAnimator.GetPerfectTimingActive();
-            float factor = perfectTiming ? 1.0f : 0.25f;
+            float factor = _operatingDirection == EDirectionType.East ? (perfectTiming ? 1.0f : 0.25f) : ((perfectTiming ? 1.0f : 0.05f));
             Vector3 velocity = new Vector3((_operatingDirection == EDirectionType.East ? 1.0f : -1.0f) * Random.RandomRange(0.05f, 0.075f), Random.Range(-0.05f, 0.05f), 0.05f) * factor;
             _cinemachineImpulseSource_Bump.GenerateImpulseWithVelocity(velocity);
+
+            if (_operatingDirection == EDirectionType.West)
+            {
+                VolumeManager.Instance.OnOperationInputPrompt();
+            }
         }
 
         public EDirectionType GetOperatingDirection()

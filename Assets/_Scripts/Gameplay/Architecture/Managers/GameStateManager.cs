@@ -127,6 +127,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
         }
 
+        void OnApplicationQuit()
+        {
+            foreach (IManager manager in _managers)
+            {
+                manager.ManagedOnApplicationQuit();
+            }
+        }
+
         private void OnDrawGizmos()
         {
             

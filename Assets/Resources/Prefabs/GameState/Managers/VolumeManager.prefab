@@ -56,3 +56,9 @@ MonoBehaviour:
     _value: -2
     _duration: 0.1
     _ease: 18
+  _operationInputPrompt_VolumeTarget:
+    _override: 0
+    _isValueAdditive: 1
+    _value: 1
+    _duration: 0.5
+    _ease: 31

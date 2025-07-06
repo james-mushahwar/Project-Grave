@@ -21,6 +21,7 @@ MonoBehaviour:
       _priority: 1
     _audioConcurrencyGroup: {fileID: 11400000, guid: 450041e845c98f4468186780bfafe48c,
       type: 2}
+  _audioEvents: {fileID: 11400000, guid: 9172cd65256200348816c072a27295f0, type: 2}
   _audioPlayback:
     _volumeRange: {x: 0.5, y: 0.5}
     _pitchRange: {x: 0.95, y: 1.15}

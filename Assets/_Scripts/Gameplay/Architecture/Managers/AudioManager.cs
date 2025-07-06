@@ -27,6 +27,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         //operating = 2000
         SFX_PerfectTimingAvailable_01 = 2000,
         SFX_PerfectTimingActivated_01,
+        SFX_OperationCompleteReaction_01,
         //tools = 3000
 
         //NPC = 4000
@@ -1261,6 +1262,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
         }
 
+        //Audio tracks
         public void PlayAudio(EAudioTrackTypes type, bool fade = false, float delay = 0.0f)
         {
             AddJob(new AudioJob(EAudioAction.START, type, fade, delay));
