@@ -269,6 +269,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                 }
                 _runtimeStats.OperatingMomentum = Mathf.Clamp(_runtimeStats.OperatingMomentum + (momentumChange * (decay + heldRate) * Time.deltaTime), 0.0f, 1.0f);
 
+                if (decay > 0.0f)
+                {
+                    VolumeManager.Instance.OnOperationPenaltyInput();
+                }
+
                 _playerAnimator.MinigameMomentum = _runtimeStats.OperatingMomentum;
             }
         }

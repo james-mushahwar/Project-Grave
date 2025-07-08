@@ -13,7 +13,39 @@ MonoBehaviour:
   m_Name: AudioEvent_SFX_Heartbeat_Low
   m_EditorClassIdentifier: 
   _events:
-  - time: 0
+  - time: 0.065
     onTrigger:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 8754632221043929489, guid: 5fad9dc9feef756409c34b4b1f94ae4d,
+            type: 3}
+          m_TargetAssemblyTypeName: _Scripts.Gameplay.Architecture.Managers.AudioManager,
+            Assembly-CSharp
+          m_MethodName: AudioEventTrigger_Heartbeat_Low
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - time: 0.415
+    onTrigger:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8754632221043929489, guid: 5fad9dc9feef756409c34b4b1f94ae4d,
+            type: 3}
+          m_TargetAssemblyTypeName: _Scripts.Gameplay.Architecture.Managers.AudioManager,
+            Assembly-CSharp
+          m_MethodName: AudioEventTrigger_Heartbeat_Low
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2

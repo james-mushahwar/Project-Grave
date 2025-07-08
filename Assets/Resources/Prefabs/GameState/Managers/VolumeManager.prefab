@@ -44,21 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ebec37b6886386438c39fa7796658cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _successfulOperationInput:
-    _override: 0
-    _isValueAdditive: 1
-    _value: 3
-    _duration: 0.1
-    _ease: 32
-  _penaltyOperationInput:
-    _override: 0
-    _isValueAdditive: 1
-    _value: -2
-    _duration: 0.1
-    _ease: 18
-  _operationInputPrompt_VolumeTarget:
-    _override: 0
-    _isValueAdditive: 1
-    _value: 1
-    _duration: 0.5
-    _ease: 31
+  _successfulOperationInput: {fileID: 11400000, guid: 8568f2a1029533b4aaa40e9c30b21eed,
+    type: 2}
+  _penaltyOperationInput: {fileID: 11400000, guid: 4e1e1bc346d56954db9d610a0595f92e,
+    type: 2}
+  _operationInputPrompt_VolumeTarget: {fileID: 11400000, guid: 9d559f0ac43fc5e4e93f75bcf26bcf3b,
+    type: 2}

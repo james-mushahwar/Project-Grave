@@ -20,12 +20,16 @@ namespace _Scripts.Gameplay.Architecture.Misc {
         [SerializeField]
         private Ease _outEase;
 
+        [SerializeField]
+        private bool _settings_IsValueAdditive;
+
         public float TargetValue { get => _targetValue; set => _targetValue = value; }
         public float InDuration { get => _inDuration; set => _inDuration = value; }
         public Ease InEase { get => _inEase; set => _inEase = value; }
         public float AtTargetDelay { get => _atTargetDelay; set => _atTargetDelay = value; }
         public float OutDuration { get => _outDuration; set => _outDuration = value; }
         public Ease OutEase { get => _outEase; set => _outEase = value; }
+        public bool IsAdditive { get => _settings_IsValueAdditive; }
     }
     
 }

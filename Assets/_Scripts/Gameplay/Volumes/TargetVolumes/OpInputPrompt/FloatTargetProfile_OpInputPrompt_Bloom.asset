@@ -9,8 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3435c0ea9c972a148853ad66667f87dc, type: 3}
-  m_Name: New Audio Handle Parameters
+  m_Script: {fileID: 11500000, guid: 465a2dda97a25c54a95f3ec5db7225dd, type: 3}
+  m_Name: FloatTargetProfile_OpInputPrompt_Bloom
   m_EditorClassIdentifier: 
-  _startDistance: 100
-  _stopDistance: 110
+  _targetValue: 1
+  _inDuration: 0.5
+  _inEase: 5
+  _atTargetDelay: 1
+  _outDuration: 1
+  _outEase: 3
+  _settings_IsValueAdditive: 1

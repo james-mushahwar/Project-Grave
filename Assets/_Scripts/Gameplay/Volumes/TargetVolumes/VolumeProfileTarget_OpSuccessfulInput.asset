@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3435c0ea9c972a148853ad66667f87dc, type: 3}
-  m_Name: New Audio Handle Parameters
+  m_Script: {fileID: 11500000, guid: 78e73502e6036ec4999c8a77b68245c7, type: 3}
+  m_Name: VolumeProfileTarget_OpSuccessfulInput
   m_EditorClassIdentifier: 
-  _startDistance: 100
-  _stopDistance: 110
+  _volumeProfiles:
+  - _override: 1
+    _profile: {fileID: 11400000, guid: 57214c112c058ad4c8a1fadbf829b694, type: 2}
+  _settings_ClearAllTweens: 0

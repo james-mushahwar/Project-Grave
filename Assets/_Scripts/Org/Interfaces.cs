@@ -446,7 +446,8 @@ namespace _Scripts.Org
     {
         None = 0,
         Bloom, 
-
+        ChromaticAbberation,
+        Vignette,
     }
     #endregion
 }
