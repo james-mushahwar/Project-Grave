@@ -13,6 +13,7 @@ using System.Security.Cryptography.X509Certificates;
 using _Scripts.Editortools.Draw;
 using Cinemachine;
 using MoreMountains.Feedbacks;
+using UnityEditor;
 
 namespace _Scripts.Gameplay.Animate.Player{
     
@@ -183,7 +184,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             if (isOperating)
             {
                 //CurrentAnimator.SetLayerWeight(_idleAnimLayer_Index, 0.0f);
-                AnimatorStateInfo idleAnimLayStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_idleAnimLayer_Index);
+                AnimatorStateInfo idleAnimLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_idleAnimLayer_Index);
                 //AnimatorStateInfo sawingEndAnimatorStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_sawingEndAnimLayer_Index);
 
                 _operatingMomentum = _perfectTimingActive ? _operatingPerfectTimingSpeedFactor : _minigameMomentum;
@@ -201,7 +202,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 if (currentOpState is DismemberOperationState)
                 {
-                    if (animInTransition == false && idleAnimLayStateInfo.shortNameHash.Equals(_sawingProgressStartLoopAnim_Hash) == true)
+                    if (animInTransition == false && idleAnimLayerStateInfo.shortNameHash.Equals(_sawingProgressStartLoopAnim_Hash) == true)
                     {
                         if (_operatingMomentum < 0.1f)
                         {
@@ -260,16 +261,16 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 if (limitAnimationPlayback)
                 {
-                    float operationPlayback = idleAnimLayStateInfo.normalizedTime;
+                    float operationPlayback = idleAnimLayerStateInfo.normalizedTime;
 
                     if (operationPlayback > animationPlaybackLimit)
                     {
                         //Debug.Log("Limit playback = " + _operatingMomentum + " and change direction");
-                        OnSwitchOperatingDirection(_operatingDirection);
+                        //OnSwitchOperatingDirection(_operatingDirection);
                     }
                 }
 
-                if (!animInTransition && idleAnimLayStateInfo.shortNameHash.Equals(_sawingProgressStartLoopAnim_Hash) == false) //|| sawingEndAnimatorStateInfo.shortNameHash.Equals(_sawingProgressEndLoopAnim_Hash) == false)
+                if (!animInTransition && idleAnimLayerStateInfo.shortNameHash.Equals(_sawingProgressStartLoopAnim_Hash) == false) //|| sawingEndAnimatorStateInfo.shortNameHash.Equals(_sawingProgressEndLoopAnim_Hash) == false)
                 {
 
                     CurrentAnimator.CrossFade(_sawingProgressStartLoopAnim_Hash, 0.5f);
@@ -317,6 +318,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 //}
 
                 //CurrentAnimator.SetFloat("Operating_SpeedMultiplier", OperatingSpeedTweened);
+
                 float directionFactor = 1.0f;
 
                 if (currentOpState is DismemberOperationState)
@@ -325,6 +327,43 @@ namespace _Scripts.Gameplay.Animate.Player{
                 }
 
                 float animationSpeedMultiplier = directionFactor * (_perfectTimingActive ? _operatingPerfectTimingSpeedFactor : _operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum));
+
+                //change direction if at limits
+                bool changeDirection = false;
+                if (_operatingMomentum > 0.0f)
+                {
+                    // Get the current normalized time and playback speed
+                    float currentNormalizedTime = idleAnimLayerStateInfo.normalizedTime;
+                    float playbackSpeed = animationSpeedMultiplier * idleAnimLayerStateInfo.speed;
+
+                    // Calculate the time delta for the next frame
+                    float deltaTime = Time.deltaTime;
+                    float normalizedTimeDelta = playbackSpeed * (deltaTime / idleAnimLayerStateInfo.length);
+
+                    float predictedNormalizedTime = currentNormalizedTime + normalizedTimeDelta;
+
+                    changeDirection = (predictedNormalizedTime < 0.0f && _operatingDirection == EDirectionType.East) ||
+                        (predictedNormalizedTime > maxPlaybackLimit && _operatingDirection == EDirectionType.West);
+
+                    if (changeDirection)
+                    {
+                        animationSpeedMultiplier = 0.0f;
+
+                        if (predictedNormalizedTime < 0.0f && _operatingDirection == EDirectionType.East)
+                        {
+                            predictedNormalizedTime = 0.0f;
+                        }
+                        else
+                        {
+                            predictedNormalizedTime = maxPlaybackLimit;
+                        }
+
+                        CurrentAnimator.CrossFade(_sawingProgressStartLoopAnim_Hash, 0.0f, 0, predictedNormalizedTime);
+                        OnSwitchOperatingDirection(_operatingDirection);
+                    }
+                    
+                }
+
                 CurrentAnimator.SetFloat("Operating_SpeedMultiplier", animationSpeedMultiplier);
 
                 Vector3 worldRot = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
@@ -562,6 +601,12 @@ namespace _Scripts.Gameplay.Animate.Player{
         public bool GetPerfectZoneAvailable()
         {
             return _inPerfectZone;
+        }
+
+        public void OnDismemeberInputReleased()
+        {
+            //switch direction
+            OnSwitchOperatingDirection(_operatingDirection);
         }
 
         public void OnSwitchOperatingDirection(EDirectionType position)

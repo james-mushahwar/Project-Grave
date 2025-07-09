@@ -96,8 +96,13 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         private bool OnAction(bool left, bool released)
         {
             bool success = true;
-            bool correctDirection = true;
             EDirectionType inputDirection = left ? EDirectionType.West : EDirectionType.East;
+            bool correctDirection = inputDirection == _playerAnimator.GetOperatingDirection();
+
+            if (!correctDirection)
+            {
+                return false;
+            }
 
             bool validInput = false;
 
@@ -105,20 +110,6 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
             {
                 //ignore- another input is already pressed
                 return false;
-            }
-
-            if (released)
-            {
-
-            }
-            else
-            {
-                //correctDirection = _forcedDirection == EDirectionType.NONE || (_forcedDirection == inputDirection);
-                correctDirection = inputDirection == _playerAnimator.GetOperatingDirection();
-                //if (_forcedDirection == EDirectionType.NONE)
-                //{
-                //    _forcedDirection = inputDirection;
-                //}
             }
 
             float penalty = 0.0f;
@@ -142,26 +133,28 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
             {
                 if (released)
                 {
-                    if (_runtimeStats.PerfectTimingAvailable && !_playerAnimator.GetPerfectTimingActive())
-                    {
-                        _playerAnimator.SetPerfectTimingActive(true);
-                        _runtimeStats.PerfectTimingAvailable = false;
-                        _runtimeStats.PerfectTimingActivatedInCurrentWindow = true;
 
-                        AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_PerfectTimingActivated_01, _playerAnimator.transform.position);
+                    _playerAnimator.OnDismemeberInputReleased();
+                    //if (_runtimeStats.PerfectTimingAvailable && !_playerAnimator.GetPerfectTimingActive())
+                    //{
+                    //    _playerAnimator.SetPerfectTimingActive(true);
+                    //    _runtimeStats.PerfectTimingAvailable = false;
+                    //    _runtimeStats.PerfectTimingActivatedInCurrentWindow = true;
 
-                        Debug.Log("Perfect timing activated!");
+                    //    AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_PerfectTimingActivated_01, _playerAnimator.transform.position);
 
-                        _runtimeStats.PerfectTimingWindowsEntered = 0;
+                    //    Debug.Log("Perfect timing activated!");
 
-                        activatePerfect = true;
-                        // momentum boost
-                        boost = _operatingMomentumBoostCurve.Evaluate(_runtimeStats.OperatingMomentum);
-                        VolumeManager.Instance.OnOperationFlowStateActivated();
-                        TimeManager.Instance.TryRequestTimeScale(ETimeImportance.Low, _perfectTimingActivateTargetSO.TargetValue, _perfectTimingActivateTargetSO.InDuration, _perfectTimingActivateTargetSO.OutDuration, _perfectTimingActivateTargetSO.AtTargetDelay);
-                        MorgueManager.Instance.OnStimulusReceived(EMorgueStimulus.Operation_SuccessInput, _pc.OperatingTable.gameObject);
-                        CameraManager.Instance.OnSuccessfulInput();
-                    }
+                    //    _runtimeStats.PerfectTimingWindowsEntered = 0;
+
+                    //    activatePerfect = true;
+                    //    // momentum boost
+                    //    boost = _operatingMomentumBoostCurve.Evaluate(_runtimeStats.OperatingMomentum);
+                    //    VolumeManager.Instance.OnOperationFlowStateActivated();
+                    //    TimeManager.Instance.TryRequestTimeScale(ETimeImportance.Low, _perfectTimingActivateTargetSO.TargetValue, _perfectTimingActivateTargetSO.InDuration, _perfectTimingActivateTargetSO.OutDuration, _perfectTimingActivateTargetSO.AtTargetDelay);
+                    //    MorgueManager.Instance.OnStimulusReceived(EMorgueStimulus.Operation_SuccessInput, _pc.OperatingTable.gameObject);
+                    //    CameraManager.Instance.OnSuccessfulInput();
+                    //}
                 }
                 else if (_runtimeStats.OperatingMomentum <= 0.1f)
                 {
