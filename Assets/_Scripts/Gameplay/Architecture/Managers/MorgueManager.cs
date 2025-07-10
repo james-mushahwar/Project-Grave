@@ -55,6 +55,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 morgueTickable.Setup();
             }
+
+            Debug_SpawnMorgueActor();
         }
         // save states are restored
         public virtual void ManagedRestoreSave() { }

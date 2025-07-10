@@ -1789,7 +1789,7 @@ MonoBehaviour:
   _heartbeatLowAudioHandler:
     _attachAudioSource: 1
     _position: {x: 0, y: 0, z: 0}
-    _defaultVolumeAlpha: 0
+    _defaultVolumeAlpha: 0.012
     _defaultPitchAlpha: 0
     _audioType: 0
     _active: 0
@@ -1799,6 +1799,63 @@ MonoBehaviour:
       type: 2}
     _loops: 1
     _canReplayCurrentlyPlayingSource: 0
+  _operatingAnimLerpSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.25
+      inSlope: 0.552896
+      outSlope: 0.552896
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.0319438
+    - serializedVersion: 3
+      time: 0.5143884
+      value: 0.4586811
+      inSlope: 0.15931901
+      outSlope: 0.15931901
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.0837219
+    - serializedVersion: 3
+      time: 1
+      value: 0.5
+      inSlope: -0.030129611
+      outSlope: -0.030129611
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08570677
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _operatingAnimLerpFactorCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.019189367
+      outSlope: -0.019189367
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.048058026
+    - serializedVersion: 3
+      time: 1
+      value: 0.5
+      inSlope: -1.1358505
+      outSlope: -1.1358505
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.035539746
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _operatingAnimationSpeedDampnerCurve:
     serializedVersion: 2
     m_Curve:
@@ -1813,7 +1870,7 @@ MonoBehaviour:
       outWeight: 0.0089496
     - serializedVersion: 3
       time: 0.005
-      value: 0.04999336
+      value: 0.13301288
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1821,8 +1878,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.7520942
-      value: 0.7989593
+      time: 0.76
+      value: 1.1849747
       inSlope: 1.3294885
       outSlope: 1.3294885
       tangentMode: 0
@@ -1831,7 +1888,7 @@ MonoBehaviour:
       outWeight: 0.21671507
     - serializedVersion: 3
       time: 1
-      value: 0.9999964
+      value: 1.3860118
       inSlope: 0.49848613
       outSlope: 0.49848613
       tangentMode: 0

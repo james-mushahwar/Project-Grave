@@ -57,6 +57,7 @@ namespace _Scripts.Gameplay.Animate.Player{
         private float _operatingMomentum; // 0 to 1 scale 
         private float _minigameMomentum; // momentum from any current operation minigame, 0 to 1 scale
         private float _operatingDirectionChangeTimer;
+        private float _operatingDirectionChangeMaxTimer;
         [SerializeField]
         private AnimationCurve _operatingDirectionChangeDecayDelayCurve;
         [SerializeField]
@@ -69,6 +70,11 @@ namespace _Scripts.Gameplay.Animate.Player{
         private CinemachineImpulseSource _impulseSource_OperatingFriction;
 
         [SerializeField] private AudioHandler _heartbeatLowAudioHandler;
+
+        //operating lerp speed
+        private float _operatingAnimLerpSpeed; // speed animation moves per second to operating momentum
+        [SerializeField] private AnimationCurve _operatingAnimLerpSpeedCurve;
+        [SerializeField] private AnimationCurve _operatingAnimLerpFactorCurve;
 
         //private float _operatingMomentumWaitInputTimer = 0.0f;
         //private float _operatingMomentumDecayDelayTimer = 0.0f;
@@ -139,7 +145,8 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             // anim hash
             _idleLoopAnim_Hash = Animator.StringToHash("idle");
-            _sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_IK_version");
+            //_sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_IK_version");
+            _sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_IK_version 2 big Saw");
             //_sawingProgressEndLoopAnim_Hash = Animator.StringToHash("sawing_progress_end");
             _rigControlDefaultLocalPosition = _rigHandPositionTransform.localPosition;
 
@@ -187,21 +194,21 @@ namespace _Scripts.Gameplay.Animate.Player{
                 AnimatorStateInfo idleAnimLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_idleAnimLayer_Index);
                 //AnimatorStateInfo sawingEndAnimatorStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_sawingEndAnimLayer_Index);
 
-                _operatingMomentum = _perfectTimingActive ? _operatingPerfectTimingSpeedFactor : _minigameMomentum;
-                MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
-                float animationPlaybackLimit = 1.0f;
-
-                float effectiveness = 1.0f;
-                if (equippedTool != null)
+                // direction change timer //
+                bool changeDirectionCooldown = _operatingDirectionChangeTimer > 0.0f;
+                if (changeDirectionCooldown)
                 {
-                    effectiveness = equippedTool.ToolProfile.GetMomentumEffectivenessFactor(_operatingMomentum);
-
-                    maxPlaybackLimit = equippedTool.ToolProfile.GetAnimationPlaybackLimit();
-                    animationPlaybackLimit = equippedTool.ToolProfile.GetMomentumPlaybackLimit(CurrentMomentum) * maxPlaybackLimit;
+                    _operatingDirectionChangeTimer -= Time.deltaTime;
+                    _operatingDirectionChangeTimer = Mathf.Clamp(_operatingDirectionChangeTimer, 0.0f, 10.0f);
                 }
+                ////
+
+                float directionFactor = 1.0f;
 
                 if (currentOpState is DismemberOperationState)
                 {
+                    directionFactor = _operatingDirection == EDirectionType.West ? 1.0f : -1.0f;
+
                     if (animInTransition == false && idleAnimLayerStateInfo.shortNameHash.Equals(_sawingProgressStartLoopAnim_Hash) == true)
                     {
                         if (_operatingMomentum < 0.1f)
@@ -223,26 +230,36 @@ namespace _Scripts.Gameplay.Animate.Player{
                         }
 
                     }
-                    //if (_operatingMomentumInvalidInputTimer <= 0.0f )
-                    //{
-                    //    if (_operatingMomentum < _operatingMomentumValidInputCutoff)
-                    //    {
-                    //        movementFeedback = EFeedbackPattern.Operation_SawJammed;
-                    //    }
-                    //    else
-                    //    {
-                    //        movementFeedback = EFeedbackPattern.Operation_SawSmooth;
-                    //    }
-                    //}
-
-                    //if (equippedTool != null)
-                    //{
-                    //    float moveSpeedFactor = _operatingMomentum;
-                    //    FeedbackManager.Instance.SetFrequencyFactor(moveSpeedFactor, moveSpeedFactor);
-                    //    FeedbackManager.Instance.TryFeedbackPattern(movementFeedback);
-                    //}
                 }
 
+                _operatingMomentum = _perfectTimingActive ? _operatingPerfectTimingSpeedFactor : _minigameMomentum;
+
+                // animation lerp speed //
+                float lerpSpeedFactor = 1.0f;
+                if (changeDirectionCooldown)
+                {
+                    lerpSpeedFactor = _operatingAnimLerpFactorCurve.Evaluate(_operatingDirectionChangeTimer / _operatingDirectionChangeMaxTimer);
+                }
+
+                float lerpSpeed = _operatingAnimLerpSpeedCurve.Evaluate(_operatingMomentum) * lerpSpeedFactor * Time.deltaTime;
+                float targetAnimSpeed = _operatingMomentum * directionFactor;
+
+                _operatingAnimLerpSpeed = Mathf.MoveTowards(_operatingAnimLerpSpeed, targetAnimSpeed, lerpSpeed);
+                ////
+
+                MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
+                float animationPlaybackLimit = 1.0f;
+
+                float effectiveness = 1.0f;
+                if (equippedTool != null)
+                {
+                    effectiveness = equippedTool.ToolProfile.GetMomentumEffectivenessFactor(_operatingMomentum);
+
+                    maxPlaybackLimit = equippedTool.ToolProfile.GetAnimationPlaybackLimit();
+                    animationPlaybackLimit = equippedTool.ToolProfile.GetMomentumPlaybackLimit(CurrentMomentum) * maxPlaybackLimit;
+                }
+
+                // Operation feedback //
                 if (playOperationFeedback)
                 {
                     Vector3 velocity = new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.01f, 0.01f), 0f);
@@ -256,46 +273,24 @@ namespace _Scripts.Gameplay.Animate.Player{
                 {
                     FeedbackManager.Instance.StopFeedbackPattern();
                 }
-
                 FeedbackManager.Instance.SetFrequencyFactor(feedbackLowFrequencyFactor, feedbackHighFrequencyFactor);
-
-                if (limitAnimationPlayback)
-                {
-                    float operationPlayback = idleAnimLayerStateInfo.normalizedTime;
-
-                    if (operationPlayback > animationPlaybackLimit)
-                    {
-                        //Debug.Log("Limit playback = " + _operatingMomentum + " and change direction");
-                        //OnSwitchOperatingDirection(_operatingDirection);
-                    }
-                }
+                ////
 
                 if (!animInTransition && idleAnimLayerStateInfo.shortNameHash.Equals(_sawingProgressStartLoopAnim_Hash) == false) //|| sawingEndAnimatorStateInfo.shortNameHash.Equals(_sawingProgressEndLoopAnim_Hash) == false)
                 {
 
                     CurrentAnimator.CrossFade(_sawingProgressStartLoopAnim_Hash, 0.5f);
-                    //CurrentAnimator.PlayInFixedTime(_sawingProgressStartLoopAnim_Hash);
-                    //Debug.Log("Trying to play sawing animation");
                     SetRigWeight(1.0f, 1.0f);
                 }
 
-                if (_operatingDirectionChangeTimer > 0.0f)
-                {
-                    _operatingDirectionChangeTimer -= Time.deltaTime;
-                    _operatingDirectionChangeTimer = Mathf.Clamp(_operatingDirectionChangeTimer, 0.0f, 10.0f);
-                }
-
-
-
-                // progress operation
+                // progress operation //
                 if (PlayerManager.Instance.CurrentPlayerController.ChosenOperationState != null)
                 {
                     PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.ProceedOperation(_operatingMomentum * effectiveness);
                 }
+                ////
 
-                //Debug.Log("Operating momentum = " + _operatingMomentum);
-
-                //update rig hand offset
+                //update rig hand offset //
                 Vector3 progressPosition = currentOpState.GetProgressPosition();
                 Vector3 handDistance = Vector3.zero;
                 Vector3 direction = -PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
@@ -306,31 +301,14 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 Vector3 worldPos = progressPosition + handDistance;//(direction * handDistance.magnitude);
                 SetRigControlPosition(worldPos);
+                ////
 
-                //CurrentAnimator.SetLayerWeight(_sawingStartAnimLayer_Index, 1.0f);
-                //CurrentAnimator.SetLayerWeight(_sawingEndAnimLayer_Index, progress);
-
-                //if (_playbackSpeedTweener.IsActive() == false)
-                //{
-                //    _playbackSpeedTweener = DOTween.To(() => OperatingSpeedTweened, x => OperatingSpeedTweened = x, 1.0f, 2)
-                //        .SetLoops(-1, LoopType.Yoyo);
-                //    _playbackSpeedTweener.Play();
-                //}
-
-                //CurrentAnimator.SetFloat("Operating_SpeedMultiplier", OperatingSpeedTweened);
-
-                float directionFactor = 1.0f;
-
-                if (currentOpState is DismemberOperationState)
-                {
-                    directionFactor = _operatingDirection == EDirectionType.West ? 1.0f : -1.0f;
-                }
-
-                float animationSpeedMultiplier = directionFactor * (_perfectTimingActive ? _operatingPerfectTimingSpeedFactor : _operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum));
+                float animationSpeedMultiplier = _operatingAnimLerpSpeed * (_operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum));
+                //float animationSpeedMultiplier = directionFactor * (_perfectTimingActive ? _operatingPerfectTimingSpeedFactor : _operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum));
 
                 //change direction if at limits
                 bool changeDirection = false;
-                if (_operatingMomentum > 0.0f)
+                if (animationSpeedMultiplier != 0.0f)
                 {
                     // Get the current normalized time and playback speed
                     float currentNormalizedTime = idleAnimLayerStateInfo.normalizedTime;
@@ -616,12 +594,14 @@ namespace _Scripts.Gameplay.Animate.Player{
                 Debug.LogError("There's no operating direction yet...");
                 return;
             }
-            else if (CurrentAnimator.speed != 0.0f)
+            else if (CurrentAnimator.speed == 0.0f)
             {
-                Debug.LogError("Operator has no anim speed yet...");
+                //Debug.LogError("Operator has no anim speed yet...");
             }
 
             SetOperatingDirection(position == EDirectionType.West ? EDirectionType.East : EDirectionType.West);
+
+            _operatingAnimLerpSpeed = 0.0f;
 
             SetChangeDirectionTimer();
 
@@ -680,6 +660,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             float value = _operatingDirectionChangeDecayDelayCurve.Evaluate(overrideMomentum);
 
             _operatingDirectionChangeTimer = value;
+            _operatingDirectionChangeMaxTimer = value;
         }
         #endregion
     }
