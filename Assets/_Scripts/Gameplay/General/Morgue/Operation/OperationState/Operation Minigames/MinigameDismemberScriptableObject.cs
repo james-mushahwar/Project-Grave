@@ -99,7 +99,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
             EDirectionType inputDirection = left ? EDirectionType.West : EDirectionType.East;
             bool correctDirection = inputDirection == _playerAnimator.GetOperatingDirection();
 
-            if (!correctDirection)
+            if (!correctDirection && !released)
             {
                 return false;
             }

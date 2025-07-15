@@ -32,7 +32,7 @@ namespace _Scripts.CautionaryTalesScripts {
             if (_audioSource.isPlaying && _audioEventSO != null)
             {
                 _playbackTime = _audioSource.time;
-                for (int i = 0; i < _audioEventSO.Events.Length; i++)
+                for (int i = 0; i < _eventsTriggered.Count; i++)
                 {
                     if (!_eventsTriggered[i] && _playbackTime >= _audioEventSO.Events[i].time)
                     {
@@ -76,13 +76,32 @@ namespace _Scripts.CautionaryTalesScripts {
         public void SetAudioEvent(AudioEventScriptableObject audioEvent)
         {
             _audioEventSO = audioEvent;
+
+            ResetAudioTriggers();
         }
 
         private void ResetAudioTriggers()
         {
-            if (_eventsTriggered.Count != _audioEventSO.Events.Length)
+            bool resetEvent = false;
+            if (_audioEventSO)
+            {
+                if (_audioEventSO.Events != null)
+                {
+                    if (_eventsTriggered.Count != _audioEventSO.Events.Length)
+                    {
+                        resetEvent = true;
+                    }
+                }
+            }
+            
+            if (resetEvent)
             {
                 _eventsTriggered = new List<bool>(_audioEventSO.Events.Length);
+
+            }
+            else
+            {
+                _eventsTriggered.Clear();
             }
         }
 

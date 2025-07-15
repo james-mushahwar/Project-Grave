@@ -62,6 +62,8 @@ namespace _Scripts.Gameplay.Animate.Player{
         private AnimationCurve _operatingDirectionChangeDecayDelayCurve;
         [SerializeField]
         private float _operatingPerfectTimingSpeedFactor;
+        [SerializeField]
+        private float _operatingSawingMinimumPullbackSpeed;
 
         [SerializeField]
         private CinemachineImpulseSource _cinemachineImpulseSource_Bump;
@@ -202,8 +204,19 @@ namespace _Scripts.Gameplay.Animate.Player{
                     _operatingDirectionChangeTimer = Mathf.Clamp(_operatingDirectionChangeTimer, 0.0f, 10.0f);
                 }
                 ////
+                ///
+                _operatingMomentum = _perfectTimingActive ? _operatingPerfectTimingSpeedFactor : _minigameMomentum;
+                if (_operatingDirection == EDirectionType.East)
+                {
+                    if (_operatingMomentum < _operatingSawingMinimumPullbackSpeed)
+                    {
+                        _operatingMomentum = _operatingSawingMinimumPullbackSpeed;
+                    }
+                }
 
+                // animation lerp speed //
                 float directionFactor = 1.0f;
+                float lerpSpeedFactor = 1.0f;
 
                 if (currentOpState is DismemberOperationState)
                 {
@@ -223,19 +236,17 @@ namespace _Scripts.Gameplay.Animate.Player{
                         if (_operatingDirection == EDirectionType.West)
                         {
                             limitAnimationPlayback = true;
+                            if (_operatingAnimLerpSpeed > 0)
+                            {
+                                playOperationFeedback = true;
+                            }
                         }
                         else
                         {
-                            playOperationFeedback = true;
                         }
 
                     }
                 }
-
-                _operatingMomentum = _perfectTimingActive ? _operatingPerfectTimingSpeedFactor : _minigameMomentum;
-
-                // animation lerp speed //
-                float lerpSpeedFactor = 1.0f;
                 if (changeDirectionCooldown)
                 {
                     lerpSpeedFactor = _operatingAnimLerpFactorCurve.Evaluate(_operatingDirectionChangeTimer / _operatingDirectionChangeMaxTimer);
@@ -243,7 +254,6 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 float lerpSpeed = _operatingAnimLerpSpeedCurve.Evaluate(_operatingMomentum) * lerpSpeedFactor * Time.deltaTime;
                 float targetAnimSpeed = _operatingMomentum * directionFactor;
-
                 _operatingAnimLerpSpeed = Mathf.MoveTowards(_operatingAnimLerpSpeed, targetAnimSpeed, lerpSpeed);
                 ////
 
@@ -259,15 +269,20 @@ namespace _Scripts.Gameplay.Animate.Player{
                     animationPlaybackLimit = equippedTool.ToolProfile.GetMomentumPlaybackLimit(CurrentMomentum) * maxPlaybackLimit;
                 }
 
+                float animationSpeedMultiplier = _operatingAnimLerpSpeed * (_operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum));
+
                 // Operation feedback //
                 if (playOperationFeedback)
                 {
-                    Vector3 velocity = new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.01f, 0.01f), 0f);
+                    Vector3 velocity = new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.01f, 0.01f), 0f) * (1 - _operatingMomentum);
                     _impulseSource_OperatingFriction.GenerateImpulseWithVelocity(velocity);
 
                     FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawSmooth);
-                    feedbackLowFrequencyFactor = _operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum);
-                    feedbackHighFrequencyFactor = _operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum);
+                    if (equippedTool != null)
+                    {
+                        feedbackLowFrequencyFactor = equippedTool.ToolProfile.GetMomentumFeedback(animationSpeedMultiplier);
+                        feedbackHighFrequencyFactor = equippedTool.ToolProfile.GetMomentumFeedback(animationSpeedMultiplier);
+                    }
                 }
                 else
                 {
@@ -303,7 +318,6 @@ namespace _Scripts.Gameplay.Animate.Player{
                 SetRigControlPosition(worldPos);
                 ////
 
-                float animationSpeedMultiplier = _operatingAnimLerpSpeed * (_operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum));
                 //float animationSpeedMultiplier = directionFactor * (_perfectTimingActive ? _operatingPerfectTimingSpeedFactor : _operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum));
 
                 //change direction if at limits
@@ -320,14 +334,15 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                     float predictedNormalizedTime = currentNormalizedTime + normalizedTimeDelta;
 
-                    changeDirection = (predictedNormalizedTime < 0.0f && _operatingDirection == EDirectionType.East) ||
-                        (predictedNormalizedTime > maxPlaybackLimit && _operatingDirection == EDirectionType.West);
+                    bool eastwardEnd = (predictedNormalizedTime < 0.0f && _operatingDirection == EDirectionType.East);
+                    bool westwardEnd = (predictedNormalizedTime > maxPlaybackLimit && _operatingDirection == EDirectionType.West);
+                    changeDirection = eastwardEnd || westwardEnd;
 
                     if (changeDirection)
                     {
                         animationSpeedMultiplier = 0.0f;
 
-                        if (predictedNormalizedTime < 0.0f && _operatingDirection == EDirectionType.East)
+                        if (eastwardEnd)
                         {
                             predictedNormalizedTime = 0.0f;
                         }
@@ -602,6 +617,16 @@ namespace _Scripts.Gameplay.Animate.Player{
             SetOperatingDirection(position == EDirectionType.West ? EDirectionType.East : EDirectionType.West);
 
             _operatingAnimLerpSpeed = 0.0f;
+
+            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+            if (currentOpState is DismemberOperationState)
+            {
+                DismemberOperationState dismemberOpState = currentOpState as DismemberOperationState;
+                if (dismemberOpState != null)
+                {
+                    dismemberOpState.PlayDirectionBloodFX(position == EDirectionType.West);
+                }
+            }
 
             SetChangeDirectionTimer();
 

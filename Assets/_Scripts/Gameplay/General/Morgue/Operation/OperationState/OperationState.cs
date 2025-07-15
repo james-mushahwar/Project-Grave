@@ -175,11 +175,19 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             return progressPos;
         }
 
-        public virtual Vector3 GetProgressRotation()
+        public virtual Vector3 GetProgressRotation(bool localRot = true)
         {
             float alpha = NormalisedProgress;
 
-            Vector3 progressRot = Vector3.Slerp(OperationStartTransform.localEulerAngles, _operationEndTransform.localEulerAngles, alpha);
+            Vector3 progressRot = Vector3.zero;
+            if (localRot)
+            {
+                progressRot = Vector3.Slerp(OperationStartTransform.localEulerAngles, _operationEndTransform.localEulerAngles, alpha);
+            }
+            else
+            {
+                progressRot = Vector3.Slerp(OperationStartTransform.eulerAngles, _operationEndTransform.eulerAngles, alpha);
+            }
 
             return progressRot;
         }

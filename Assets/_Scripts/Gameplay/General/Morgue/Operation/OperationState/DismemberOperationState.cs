@@ -22,6 +22,10 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         [SerializeField]
         private ParticleSystem _bloodPS;
         [SerializeField]
+        private ParticleSystem _directionBloodPS;
+        [SerializeField]
+        private ParticleSystem _frictionBloodPS;
+        [SerializeField]
         private AudioHandler _bloodAudioHandler;
 
         IEnumerator _bloodFXEnumeratorHandle;
@@ -31,7 +35,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             base.TickOperationState();
 
             bool playBloodFX = NormalisedProgress > 0.0f && !IsComplete();
-            if (playBloodFX)
+            if (playBloodFX && false)
             {
                 ParticleSystem.MainModule mainPS = _bloodPS.main;
                 bool canPlayBloodFX = _bloodFXEnumeratorHandle == null;
@@ -59,6 +63,23 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_BloodSplatter1, _bloodPS.transform.position);
 
             _bloodFXEnumeratorHandle = null;
+        }
+
+        public void PlayDirectionBloodFX(bool left)
+        {
+            if (_directionBloodPS != null)
+            {
+                Vector3 progressPosition = GetProgressPosition();
+                _directionBloodPS.transform.position = progressPosition;
+
+                Vector3 progressRotation = GetProgressRotation(false);
+                _directionBloodPS.transform.eulerAngles = progressRotation;
+
+                _directionBloodPS.Play();
+
+                AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_BloodSplatter1, _directionBloodPS.transform.position);
+
+            }
         }
 
         public override void BeginOperationState(IOperator operatorOwner, bool reset, float duration = -1.0f)

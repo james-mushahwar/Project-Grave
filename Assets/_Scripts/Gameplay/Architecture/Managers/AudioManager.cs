@@ -469,6 +469,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
                 if (audioHandler._release == false)
                 {
+                    audioHandler._ctSource.ManagedTick();
+
                     if (audioHandler._active)
                     {
                         bool removeAudioHandler = audioHandler.Owner == null || !audioHandler.Owner.activeSelf || !audioHandler.IsActiveMethod.Invoke();

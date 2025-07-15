@@ -14,6 +14,9 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
         [SerializeField, Tooltip("This curve is momentum X from 0 to 1, and Y normalised 0 to 1 based on how far the animation can play to. 1 = Peak limit e.g. a saw anim moved completely West. See _animationPlaybackLimit")]
         private AnimationCurve _normalisedAnimationLimitPlaybackCurve;
 
+        [SerializeField]
+        private AnimationCurve _normalisedMomentumToFeedbackFactorCurve;
+
         public float GetMomentumEffectivenessFactor(float momentum)
         {
             return _momentumEffectivenessCurve.Evaluate(momentum);
@@ -31,6 +34,18 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
         public float GetAnimationPlaybackLimit()
         {
             return _animationPlaybackLimit;
+        }
+
+        public float GetMomentumFeedback(float speed)
+        {
+            float feedback = -1.0f;
+
+            if (_normalisedMomentumToFeedbackFactorCurve != null)
+            {
+                feedback = _normalisedMomentumToFeedbackFactorCurve.Evaluate(speed);
+            }
+
+            return feedback;
         }
     }
     
