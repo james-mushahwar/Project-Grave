@@ -81,6 +81,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         public abstract void OnExitPerfectWindow();
 
         public abstract bool OnInput(EInputType inputType, bool pressed);
+
+        public bool GetInputHeld(EInputType inputType)
+        {
+            return _runtimeStats.GetInputHeld(inputType);
+        }
     }
     
 }

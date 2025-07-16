@@ -247,13 +247,19 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                     }
                 }
-                if (changeDirectionCooldown)
+
+                bool stopMovement = GetOperatingDirection() == EDirectionType.West && !currentOpState.GetInputHeld(EInputType.LTrigger);
+                if (stopMovement)
+                {
+                    lerpSpeedFactor = 2.0f;
+                }
+                else if (changeDirectionCooldown)
                 {
                     lerpSpeedFactor = _operatingAnimLerpFactorCurve.Evaluate(_operatingDirectionChangeTimer / _operatingDirectionChangeMaxTimer);
                 }
 
                 float lerpSpeed = _operatingAnimLerpSpeedCurve.Evaluate(_operatingMomentum) * lerpSpeedFactor * Time.deltaTime;
-                float targetAnimSpeed = _operatingMomentum * directionFactor;
+                float targetAnimSpeed = stopMovement ? 0.0f : _operatingMomentum * directionFactor;
                 _operatingAnimLerpSpeed = Mathf.MoveTowards(_operatingAnimLerpSpeed, targetAnimSpeed, lerpSpeed);
                 ////
 

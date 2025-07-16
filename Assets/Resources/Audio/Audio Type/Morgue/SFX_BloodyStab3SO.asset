@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4519251591805b3479d33f26a21bfdda, type: 3}
-  m_Name: SFX_BloodSplatter1SO
+  m_Name: SFX_BloodyStab3SO
   m_EditorClassIdentifier: 
-  _audioType: 1000
+  _audioType: 1022
   _audioConcurrency:
     _audioTypeConcurrency:
       _audioType: 0
@@ -21,7 +21,7 @@ MonoBehaviour:
       _priority: 1
     _audioConcurrencyGroup: {fileID: 11400000, guid: 450041e845c98f4468186780bfafe48c,
       type: 2}
-  _audioEvents: {fileID: 11400000, guid: 2b6f212b3434f524bbe3dbfe79607880, type: 2}
+  _audioEvents: {fileID: 11400000, guid: 43d503f4e2457ec4aba0b941f38a8650, type: 2}
   _audioPlayback:
     _volumeRange: {x: 0.5, y: 0.5}
     _pitchRange: {x: 0.95, y: 1.02}

@@ -50,9 +50,12 @@ MonoBehaviour:
   _sfxMixerGroup: {fileID: -9149484039217193197, guid: 3589d67138f2db24b883abe75f7ed9d0,
     type: 2}
   _audioCueDictionary:
-    m_keys: 00000000
+    m_keys: 00000000e8030000e9030000ea030000
     m_values:
     - {fileID: 11400000, guid: cb45c41184ff6bf40b4f4f0135ba5aae, type: 2}
+    - {fileID: 11400000, guid: 36cab67cd1a4f1547b99666c8596c37a, type: 2}
+    - {fileID: 11400000, guid: 453aef2f77f3f9449a79506c07a7f0c7, type: 2}
+    - {fileID: 11400000, guid: cc14a21970d06e447be2155c1aadc78d, type: 2}
   _tracks: []
 --- !u!1 &3707858318565901137
 GameObject:

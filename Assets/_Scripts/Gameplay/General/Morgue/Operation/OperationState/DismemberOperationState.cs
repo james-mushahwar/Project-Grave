@@ -81,7 +81,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
 
                 _directionBloodPS.Play();
 
-                AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_BloodSplatter1, _directionBloodPS.transform.position);
+                AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioCue.SFX_BloodSplatter, _directionBloodPS.transform.position);
 
             }
         }

@@ -216,5 +216,10 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
                 _opMinigame.OnExitPerfectWindow();
             }
         }
+
+        public bool GetInputHeld(EInputType inputType)
+        {
+            return _opMinigame.GetInputHeld(inputType);
+        }
     }
 }

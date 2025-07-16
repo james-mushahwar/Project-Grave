@@ -1009,6 +1009,131 @@ PrefabInstance:
       propertyPath: _operatingSawingMinimumPullbackSpeed
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimLerpSpeedCurve.m_Curve.Array.data[0].time
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimLerpSpeedCurve.m_Curve.Array.data[1].time
+      value: 0.26999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimLerpSpeedCurve.m_Curve.Array.data[2].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimLerpSpeedCurve.m_Curve.Array.data[0].value
+      value: 0.13612422
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimLerpSpeedCurve.m_Curve.Array.data[1].value
+      value: 0.3239825
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimLerpSpeedCurve.m_Curve.Array.data[2].value
+      value: 0.46874443
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimLerpSpeedCurve.m_Curve.Array.data[1].inSlope
+      value: 0.59576553
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimLerpSpeedCurve.m_Curve.Array.data[2].inSlope
+      value: 0.054330803
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimLerpSpeedCurve.m_Curve.Array.data[1].outSlope
+      value: 0.59576553
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimLerpSpeedCurve.m_Curve.Array.data[2].inWeight
+      value: 0.082066774
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimLerpSpeedCurve.m_Curve.Array.data[2].outSlope
+      value: 0.054330803
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimLerpSpeedCurve.m_Curve.Array.data[1].outWeight
+      value: 0.06965893
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimationSpeedDampnerCurve.m_Curve.Array.data[2].time
+      value: 0.59541965
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimationSpeedDampnerCurve.m_Curve.Array.data[2].value
+      value: 0.8074724
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimationSpeedDampnerCurve.m_Curve.Array.data[3].value
+      value: 1.7217886
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimationSpeedDampnerCurve.m_Curve.Array.data[1].inSlope
+      value: 1.6979384
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimationSpeedDampnerCurve.m_Curve.Array.data[2].inSlope
+      value: 1.6101024
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimationSpeedDampnerCurve.m_Curve.Array.data[3].inSlope
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimationSpeedDampnerCurve.m_Curve.Array.data[1].outSlope
+      value: 1.6979384
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimationSpeedDampnerCurve.m_Curve.Array.data[2].inWeight
+      value: 0.104122706
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimationSpeedDampnerCurve.m_Curve.Array.data[2].outSlope
+      value: 1.6101024
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimationSpeedDampnerCurve.m_Curve.Array.data[3].inWeight
+      value: 0.06404103
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimationSpeedDampnerCurve.m_Curve.Array.data[3].outSlope
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimationSpeedDampnerCurve.m_Curve.Array.data[1].outWeight
+      value: 0.07582411
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039594009819822890, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
+        type: 3}
+      propertyPath: _operatingAnimationSpeedDampnerCurve.m_Curve.Array.data[2].outWeight
+      value: 0.07244064
+      objectReference: {fileID: 0}
     - target: {fileID: 3578614195820394837, guid: e7f3b73503aa19d4eacac1ae40abd1b7,
         type: 3}
       propertyPath: m_LocalPosition.x

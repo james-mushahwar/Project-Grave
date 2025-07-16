@@ -23,6 +23,17 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         SFX_Heartbeat_Low = 0,
         //morgue bodies and parts = 1000
         SFX_BloodSplatter1 = 1000,
+        SFX_BloodSplatter2,
+        SFX_BloodSplatter3,
+        //SFX_BloodSplatter4,
+        SFX_BloodSplatter_LowEnergy1 = 1010,
+        SFX_BloodSplatter_LowEnergy2,
+        SFX_BloodSplatter_LowEnergy3,
+        //SFX_BloodSplatter_LowEnergy4,
+        SFX_BloodyStab1 = 1020,
+        SFX_BloodyStab2,
+        SFX_BloodyStab3,
+        SFX_BloodyStab4,
 
         //operating = 2000
         SFX_PerfectTimingAvailable_01 = 2000,
@@ -54,6 +65,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         SFX_Heartbeat_Low = 0,
         //morgue bodies and parts = 1000
         SFX_BloodSplatter = 1000,
+        SFX_BloodSplatter_LowEnergy,
+        SFX_BloodyStab,
 
         //operating = 2000
         SFX_PerfectTimingAvailable = 2000,
