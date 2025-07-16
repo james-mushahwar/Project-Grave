@@ -1256,7 +1256,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Heartbeat_Low);
         }
 
-        public void AudioEventTrigger(EAudioType type)
+        public static void AudioEventTrigger_Heartbeat_Low_Upper()
+        {
+            FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Heartbeat_Low_Upper);
+        }
+
+        public static void AudioEventTrigger(EAudioType type)
         {
             if (type == EAudioType.SFX_Heartbeat_Low)
             {

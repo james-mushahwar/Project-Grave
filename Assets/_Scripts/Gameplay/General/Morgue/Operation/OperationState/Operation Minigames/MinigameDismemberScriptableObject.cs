@@ -99,6 +99,16 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
             EDirectionType inputDirection = left ? EDirectionType.West : EDirectionType.East;
             bool correctDirection = inputDirection == _playerAnimator.GetOperatingDirection();
 
+            if (left)
+            {
+                _runtimeStats.LTInputHeld = !released;
+            }
+            else
+            {
+                _runtimeStats.RTInputHeld = !released;
+            }
+
+
             if (!correctDirection && !released)
             {
                 return false;
@@ -106,19 +116,13 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
 
             bool validInput = false;
 
-            if (_runtimeStats.InputHeld && !released)
-            {
-                //ignore- another input is already pressed
-                return false;
-            }
-
             float penalty = 0.0f;
             float boost = 0.0f;
             float headStart = 0.0f;
 
             validInput = correctDirection;
             _runtimeStats.InputDirection = released ? EDirectionType.NONE : inputDirection;
-            _runtimeStats.InputHeld = !released;
+            
             bool activatePerfect = false;
 
             if (!validInput || released)
@@ -226,7 +230,9 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
             if (_playerAnimator != null)
             {
                 perfectTimingAvailable = abovePerfectThreshold && inPerfectZone;
-                correctDirection = _playerAnimator.GetOperatingDirection() == _runtimeStats.InputDirection;
+                //correctDirection = _playerAnimator.GetOperatingDirection() == _runtimeStats.InputDirection;
+                correctDirection = (_playerAnimator.GetOperatingDirection() == EDirectionType.West &&_runtimeStats.GetInputHeld(EInputType.LTrigger)) ||
+                    (_playerAnimator.GetOperatingDirection() == EDirectionType.East && !_runtimeStats.GetInputHeld(EInputType.LTrigger));
             }
 
             if (_runtimeStats.PerfectTimingAvailable)
@@ -243,19 +249,19 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
 
             if (updateMomentum)
             {
-                if (!correctDirection && !isInChangeDirectionWindow && _runtimeStats.InputHeld && !_playerAnimator.GetPerfectTimingActive())
+                if (!correctDirection && !isInChangeDirectionWindow && _runtimeStats.GetInputHeld(EInputType.LTrigger) && !_playerAnimator.GetPerfectTimingActive())
                 {
                     //slow down
                     momentumChange = -1.0f;
                     decay = _operatingMomentumDecayCurve.Evaluate(_runtimeStats.OperatingMomentum) * _operatingMomentumInvalidInputTimedDampnerCurve.Evaluate(_runtimeStats.OperatingMomentumInvalidInputTimer / _operatingMomentumInvalidInputDecayDelay);
                 }
-                else if (!_runtimeStats.InputHeld && !isInChangeDirectionWindow && !_playerAnimator.GetPerfectTimingActive())
+                else if (!_runtimeStats.GetInputHeld(EInputType.LTrigger) && !isInChangeDirectionWindow && !_playerAnimator.GetPerfectTimingActive())
                 {
                     //slow down
                     momentumChange = -1.0f;
                     decay = _operatingMomentumDecayCurve.Evaluate(_runtimeStats.OperatingMomentum) * _operatingMomentumInvalidInputTimedDampnerCurve.Evaluate(_runtimeStats.OperatingMomentumInvalidInputTimer / _operatingMomentumInvalidInputDecayDelay);
                 }
-                else if (_runtimeStats.InputHeld && correctDirection)
+                else if (_runtimeStats.GetInputHeld(EInputType.LTrigger) && correctDirection)
                 {
                     momentumChange = 1.0f;
                     heldRate = _operatingMomentumAdditiveCurve.Evaluate(_runtimeStats.OperatingMomentum);

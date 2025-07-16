@@ -13,7 +13,8 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         private float _operatingMomentumDecayDelayTimer;
         private float _operatingMomentumInvalidInputTimer;
         
-        private bool _inputHeld;
+        private bool _LT_inputHeld;
+        private bool _RT_inputHeld;
         private EDirectionType _inputDirection;
         private bool _perfectTimingAvailable; // visual to show zone is ready
         private float _perfectTimingTimer;
@@ -23,7 +24,8 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         public float OperatingMomentum { get => _operatingMomentum; set => _operatingMomentum = value; }
         public float OperatingMomentumDecayDelayTimer { get => _operatingMomentumDecayDelayTimer; set => _operatingMomentumDecayDelayTimer = value; }
         public float OperatingMomentumInvalidInputTimer { get => _operatingMomentumInvalidInputTimer; set => _operatingMomentumInvalidInputTimer = value; }
-        public bool InputHeld { get => _inputHeld; set => _inputHeld = value; }
+        public bool LTInputHeld { get => _LT_inputHeld; set => _LT_inputHeld = value; }
+        public bool RTInputHeld { get => _RT_inputHeld; set => _RT_inputHeld = value; }
         public EDirectionType InputDirection { get => _inputDirection; set => _inputDirection = value; }
         public bool PerfectTimingAvailable { get => _perfectTimingAvailable; set => _perfectTimingAvailable = value; }
         public float PerfectTimingTimer { get => _perfectTimingTimer; set => _perfectTimingTimer = value; }
@@ -36,12 +38,28 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
             _operatingMomentumDecayDelayTimer = 0f;
             _operatingMomentumInvalidInputTimer = 0f;
             
-            _inputHeld = false;
+            _LT_inputHeld = false;
+            _RT_inputHeld = false;
             _inputDirection = EDirectionType.NONE;
             _perfectTimingAvailable = false;
             _perfectTimingTimer = 0f;
             _perfectTimingWindowsEntered = 0;
             _perfectTimingActivatedInCurrentWindow = false;
+        }
+
+        public bool GetInputHeld(EInputType inputType)
+        {
+            bool held = false;
+            if (inputType == EInputType.LTrigger)
+            {
+                held = _LT_inputHeld;
+            }
+            else if (inputType == EInputType.RTrigger)
+            {
+                held = _RT_inputHeld;
+            }
+
+            return held;
         }
     }
 

@@ -36,7 +36,7 @@ namespace _Scripts.CautionaryTalesScripts {
                 {
                     if (!_eventsTriggered[i] && _playbackTime >= _audioEventSO.Events[i].time)
                     {
-                        _audioEventSO.Events[i].onTrigger.Invoke();
+                        _audioEventSO.Events[i].eventToTrigger.TriggerEvent();
                         _eventsTriggered[i] = true;
                     }
                 }
@@ -45,16 +45,7 @@ namespace _Scripts.CautionaryTalesScripts {
 
         public void Play()
         {
-            if (_audioEventSO != null)
-            {
-                ResetAudioTriggers();
-
-                for (int i = 0; i < _eventsTriggered.Count; i++)
-                {
-                    _eventsTriggered[i] = false;
-                }
-            }
-
+             ResetAudioTriggers();
             _playbackTime = 0f;
             _audioSource.Play();
         }
@@ -94,14 +85,23 @@ namespace _Scripts.CautionaryTalesScripts {
                 }
             }
             
-            if (resetEvent)
+            if (_audioEventSO && _audioEventSO.Events != null)
             {
-                _eventsTriggered = new List<bool>(_audioEventSO.Events.Length);
-
-            }
-            else
-            {
-                _eventsTriggered.Clear();
+                if (resetEvent)
+                {
+                    _eventsTriggered = new List<bool>(_audioEventSO.Events.Length);
+                    for (int i = 0; i < _audioEventSO.Events.Length; i++)
+                    {
+                        _eventsTriggered.Add(false);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < _audioEventSO.Events.Length; i++)
+                    {
+                        _eventsTriggered[i] = false;
+                    }
+                }
             }
         }
 

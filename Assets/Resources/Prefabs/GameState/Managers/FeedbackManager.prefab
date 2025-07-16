@@ -45,6 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uiTouchFeedback: {fileID: 0}
+  _playerHeartbeatLowFeedback: {fileID: 11400000, guid: d113f28e4a5e64c49968d6df746654cd,
+    type: 2}
+  _playerHeartbeatUpperFeedback: {fileID: 11400000, guid: 6a35d897fba66ad41b657fde17275864,
+    type: 2}
   _operationValidInputFeedback: {fileID: 11400000, guid: aeb53fa26b000ac42b306a40aa6864cb,
     type: 2}
   _operationSawSmoothFeedback: {fileID: 11400000, guid: 7fd47f9071be64e41a7c45fc23badbe6,

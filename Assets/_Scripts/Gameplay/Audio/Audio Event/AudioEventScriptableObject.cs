@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using _Scripts.Gameplay.Events;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace _Scripts.Gameplay.Audio.AudioEvent {
@@ -7,7 +8,7 @@ namespace _Scripts.Gameplay.Audio.AudioEvent {
     public struct AudioEvent
     {
         public float time;
-        public UnityEvent onTrigger;
+        public GameEvent eventToTrigger;
     }
 
     [CreateAssetMenu(fileName = "AudioEvent_", menuName = "ScriptableObject/AudioEventScriptableObject")]

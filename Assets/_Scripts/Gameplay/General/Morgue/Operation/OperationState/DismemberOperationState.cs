@@ -73,6 +73,10 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
                 _directionBloodPS.transform.position = progressPosition;
 
                 Vector3 progressRotation = GetProgressRotation(false);
+                if (!left)
+                {
+                    progressRotation.y += 180.0f;
+                }
                 _directionBloodPS.transform.eulerAngles = progressRotation;
 
                 _directionBloodPS.Play();

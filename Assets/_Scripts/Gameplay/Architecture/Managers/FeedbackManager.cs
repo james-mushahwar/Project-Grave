@@ -21,6 +21,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         Interact_Use,
         //Game - player
         Heartbeat_Low,
+        Heartbeat_Low_Upper,
         //Game - operation
         Operation_SawSmooth,
         Operation_SawJammed,
@@ -58,6 +59,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // Player
         [SerializeField]
         private FeedbackPatternScriptableObject _playerHeartbeatLowFeedback;
+        [SerializeField]
+        private FeedbackPatternScriptableObject _playerHeartbeatUpperFeedback;
         [Header("Operation feedback patterns")]
         [SerializeField]
         private FeedbackPatternScriptableObject _operationValidInputFeedback;
@@ -93,6 +96,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             if (_feedbackTimer >= _feedbackDuration && !_feedbackPattern._loop)
             {
                 SetNoneFeedbackPattern();
+                return;
             }
             else
             {
@@ -185,6 +189,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 case EFeedbackPattern.Heartbeat_Low:
                     return _playerHeartbeatLowFeedback;
+                case EFeedbackPattern.Heartbeat_Low_Upper:
+                    return _playerHeartbeatUpperFeedback;
                 case EFeedbackPattern.Operation_SawSmooth:
                     return _operationSawSmoothFeedback;
                 case EFeedbackPattern.Operation_SawJammed:
