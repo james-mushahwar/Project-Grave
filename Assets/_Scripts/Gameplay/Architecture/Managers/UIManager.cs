@@ -8,6 +8,8 @@ using _Scripts.Gameplay.UI.Reticle;
 using UnityEngine;
 using _Scripts.Gameplay.UI.Operation;
 using System;
+using _Scripts.Gameplay.UI;
+using TMPro;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
     
@@ -39,6 +41,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public Sprite OpDismemberTypeIcon { get => _opDismemberTypeIcon; }
         public Sprite OpAttachmentTypeIcon { get => _opAttachmentTypeIcon; }
         public Sprite OpInspectTypeIcon { get => _opInspectTypeIcon; }
+        #endregion
+
+        #region Pools
+        [SerializeField]
+        private TextObjectPool _textObjectPool;
         #endregion
 
         // as gamestate is being generated
@@ -81,6 +88,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 _uiOperation.ManagedTick();
             }
+
+            _textObjectPool.CleanPools();
         }
         // late update tick for playing game 
         public virtual void ManagedLateTick()
@@ -124,6 +133,24 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
 
             return sprite;
+        }
+
+        public void TrySpawnTextObject(string text, Vector3 position, Vector3 rotation, Vector3 forceDir = default)
+        {
+            CTTextMeshPro pooledText = _textObjectPool.GetTextComponent();
+
+            if (pooledText)
+            {
+                pooledText.Text.text = text;
+
+                pooledText.transform.position = position;
+                pooledText.transform.eulerAngles = rotation;
+
+                if (forceDir != default)
+                {
+                    pooledText.Force(forceDir);
+                }
+            }
         }
     }
 

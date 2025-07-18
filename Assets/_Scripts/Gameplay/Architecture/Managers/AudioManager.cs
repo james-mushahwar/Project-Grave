@@ -570,7 +570,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public void ManagedPreInGameLoad()
         {
-            _audioSourcePool.CleanAudioSourcePool();
+            _audioSourcePool.CleanPools();
         }
 
         public void ManagedPostInGameLoad()
@@ -580,7 +580,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public void ManagedPreMainMenuLoad()
         {
-            _audioSourcePool.CleanAudioSourcePool();
+            _audioSourcePool.CleanPools();
         }
 
         public void ManagedPostMainMenuLoad()

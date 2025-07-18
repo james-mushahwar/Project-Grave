@@ -318,6 +318,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public void TriggerPerfectZone(bool on)
         {
+            return;
             if (on)
             {
                 PlayerController pc = PlayerManager.Instance.CurrentPlayerController;

@@ -2,10 +2,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-namespace _Scripts.Gameplay.Architecture.Managers{
-    
+namespace _Scripts.Gameplay.Architecture.Managers
+{
+
     public abstract class PoolComponentManager<T> : Singleton<PoolComponentManager<T>>, IManaged, ITickMaster where T : Component
     {
         [Header("Tick Master")]
@@ -157,6 +159,16 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public void Disable()
         {
             throw new NotImplementedException();
+        }
+
+        public virtual void CleanPools()
+        {
+
+        }
+
+        protected virtual void CreatePool()
+        {
+
         }
     }
 

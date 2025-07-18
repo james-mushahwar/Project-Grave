@@ -395,6 +395,15 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _targetZOffsetTweener.OnComplete(() => MainCamera.fieldOfView = _defaultFOV);
         }
 
+        public Vector3 GetLookDirection(Vector3 origin)
+        {
+            Vector3 direction = (origin - MainCamera.transform.position).normalized;
+
+            Vector3 lookAt = Quaternion.LookRotation(direction).eulerAngles;
+
+            return lookAt;
+        }
+
         private void KillActiveTween(ref Tweener tweener)
         {
             if (tweener != null)

@@ -34,7 +34,7 @@ namespace _Scripts.Gameplay.UI.Marker{
 
         public void SetShow(bool show)
         {
-            _image.enabled = show;
+            _image.gameObject.SetActive(show);
         }
 
         public void SetHighlight(bool highlight)

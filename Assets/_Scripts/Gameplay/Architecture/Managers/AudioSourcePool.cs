@@ -13,10 +13,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             base.Awake();
 
-            CreateAudioSourcePool();
+            CreatePool();
         }
 
-        private void CreateAudioSourcePool()
+        protected override void CreatePool()
         {
             for (int i = 0; i < m_PoolCount; ++i)
             {
@@ -58,35 +58,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
         }
 
-        public void CleanAudioSourcePool()
+        public override void CleanPools()
         {
             CheckPools();
-            return;
-
-            // try recollecting all audio sources
-            foreach (CTAudioSource aSource in m_Pool.ToArray())
-            {
-                if (aSource != null)
-                {
-                    aSource.gameObject.transform.parent = gameObject.transform;
-                }
-                else
-                {
-                    Debug.LogWarning("Pooled audio source gone missing or destroyed!");
-                }
-            }
-
-            return;
-
-            foreach (CTAudioSource aSource in m_Pool.ToArray())
-            {
-                if (aSource != null)
-                {
-                    Destroy(aSource.gameObject);
-                }
-            }
-            m_Pool.Clear();
-            CreateAudioSourcePool();
         }
 
         protected override bool IsActive(CTAudioSource component)

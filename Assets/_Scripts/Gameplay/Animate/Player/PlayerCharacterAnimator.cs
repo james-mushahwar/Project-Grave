@@ -632,6 +632,14 @@ namespace _Scripts.Gameplay.Animate.Player{
                 {
                     dismemberOpState.PlayDirectionBloodFX(position == EDirectionType.West);
                 }
+
+                if (position == EDirectionType.West)
+                {
+                    //play speech bubble 
+                    Vector3 textPosition = currentOpState.OperationStartTransform.position;
+                    Vector3 textRotation = CameraManager.Instance.GetLookDirection(textPosition);
+                    UIManager.Instance.TrySpawnTextObject("Wow", textPosition, textRotation, Vector3.up);
+                }
             }
 
             SetChangeDirectionTimer();
@@ -664,6 +672,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         public void SetPerfectTimingActive(bool set)
         {
+            return;
             if (set != _perfectTimingActive)
             {
                 _perfectTimingActive = set;
@@ -677,6 +686,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         public void SetPerfectTimingAvailable(bool set)
         {
+            return;
             Debug.Log("Perfect timing available = " + set);
             _perfectTimingAvailable = set;
         }
