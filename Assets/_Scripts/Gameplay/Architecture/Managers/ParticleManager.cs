@@ -1,4 +1,7 @@
-﻿using System;
+﻿using _Scripts.CautionaryTalesScripts;
+using _Scripts.Gameplay.Audio;
+using _Scripts.Gameplay.VFX;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,11 +10,39 @@ namespace _Scripts.Gameplay.Architecture.Managers{
     
     public enum EParticleType
     {
-        BasicAttack,
-        Exposed,
-        TargetHighlight,
-        BombDroidBombDrop,
+        //VFX
+        //player = 0
+        //morgue bodies and parts = 1000
+        //operating = 2000
+        VFX_BloodSplatter_Directional1 = 2000,
+        VFX_BloodSplatter_Area = 2010,
+        //tools = 3000
+        //NPC = 4000
+        //Environment = 5000
+        //
+        //
+        //
+        //
+        //General (UI etc.) = 9000
+
         COUNT
+    }
+
+    public enum EParticleGroup
+    {
+        //VFX
+        //player = 0
+        //morgue bodies and parts = 1000
+        //operating = 2000
+        BloodSplatter_Directional = 2000,
+        //tools = 3000
+        //NPC = 4000
+        //Environment = 5000
+        //
+        //
+        //
+        //
+        //General (UI etc.) = 9000
     }
 
     [Serializable]
@@ -32,7 +63,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [HideInInspector]
         public bool _release;                                // is this handle marked to be released = release particlesystem and mark active = false
         [HideInInspector]
-        public ParticleSystem _particleSystem;
+        public CTParticleSystem _particleSystem;
 
         private GameObject _owner;
         //[SerializeField]
@@ -65,16 +96,18 @@ namespace _Scripts.Gameplay.Architecture.Managers{
     public class ParticleManager : GameManager<ParticleManager>, IManager
     {
         #region Pools
-        #region Player
-        private ParticlePool _basicAttackPool;
-        private ParticlePool _exposedPool;
+        #region Operation
+        private ParticlePool _OpBloodSplatterDirectionalPool;
+        private ParticlePool _OpBloodSplatterAreaPool;
         #endregion
 
-        #region AI
-        private ParticlePool _bombDroidBombDropPool;
+        #region Handles
+        private HashSet<ParticleHandler> _activeParticleHandles = new HashSet<ParticleHandler>();
+        #endregion
         #endregion
 
-        #endregion
+        [SerializeField]
+        private ParticleGroupDictionary _particleGroupDictionary;
 
         protected override void Awake()
         {
@@ -83,61 +116,72 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public void AssignParticlePool(EParticleType particleType, ParticlePool pool)
         {
-            if (particleType == EParticleType.BasicAttack)
+            if (particleType == EParticleType.VFX_BloodSplatter_Directional1)
             {
-                if (_basicAttackPool == null)
+                if (_OpBloodSplatterDirectionalPool == null)
                 {
-                    _basicAttackPool = pool;
+                    _OpBloodSplatterDirectionalPool = pool;
                 }
             }
-            else if (particleType == EParticleType.BombDroidBombDrop)
+            else if (particleType == EParticleType.VFX_BloodSplatter_Area)
             {
-                if (_bombDroidBombDropPool == null)
+                if (_OpBloodSplatterAreaPool == null)
                 {
-                    _bombDroidBombDropPool = pool;
-                }
-            }
-            else if (particleType == EParticleType.Exposed)
-            {
-                if (_exposedPool == null)
-                {
-                    _exposedPool = pool;
+                    _OpBloodSplatterAreaPool = pool;
                 }
             }
         }
 
         private ParticlePool GetParticlePool(EParticleType particleType)
         {
-            if (particleType == EParticleType.BasicAttack)
+            if (particleType == EParticleType.VFX_BloodSplatter_Directional1)
             {
-                return _basicAttackPool;
+                return _OpBloodSplatterDirectionalPool;
             }
-            else if (particleType == EParticleType.BombDroidBombDrop)
+            else if (particleType == EParticleType.VFX_BloodSplatter_Area)
             {
-                return _bombDroidBombDropPool;
+                return _OpBloodSplatterAreaPool;
             }
-            else if (particleType == EParticleType.Exposed)
-            {
-                return _exposedPool;
-            }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
-        public void TryPlayParticleSystem(EParticleType particleType, Vector2 position, float rotationDeg, bool unscaled = false)
+        public bool TryPlayParticleSystem(EParticleType particleType, Vector3 position, Vector3 rotation, bool unscaled = false, ParticleHandler hendle = null)
         {
             ParticlePool pool = GetParticlePool(particleType);
-            ParticleSystem ps = pool.GetParticleSystem();
+            CTParticleSystem ctParticleSystem = pool.GetParticleSystem();
+            ParticleSystem ps = ctParticleSystem.PS;
             if (ps != null)
             {
-                ps.transform.position = position + pool.PositionOffset;
+                ctParticleSystem.transform.position = position + pool.PositionOffset;
+                ctParticleSystem.transform.eulerAngles = rotation;
+                
                 var main = ps.main;
-                main.startRotation = rotationDeg + pool.DegreesToUpwardDirection;
                 main.useUnscaledTime = unscaled;
-                ps.Play();
+                ctParticleSystem.StartParticleSystem();
+                return true;
             }
+
+            return false;
+        }
+
+        public bool TryPlayParticleSystem(EParticleGroup particleGroup, Vector3 position, Vector3 rotation, bool unscaled = false, ParticleHandler handle = null)
+        {
+            EParticleType particleType = GetParticleTypeFromGroup(particleGroup);
+
+            return TryPlayParticleSystem(particleType, position, rotation, unscaled, handle);
+        }
+
+        private EParticleType GetParticleTypeFromGroup(EParticleGroup particleGroup)
+        {
+            ParticleGroupScriptableObject particleGroupScriptable = _particleGroupDictionary[particleGroup];
+
+            if (particleGroupScriptable != null)
+            {
+                return particleGroupScriptable.GetParticleType();
+            }
+
+            return EParticleType.COUNT;
         }
 
         public void ManagedPreInGameLoad()

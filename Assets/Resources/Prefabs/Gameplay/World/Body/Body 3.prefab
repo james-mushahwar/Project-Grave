@@ -105,9 +105,6 @@ MonoBehaviour:
     _beginOperation_BodyAnimName: 
     _opMinigame: {fileID: 0}
     _dismemberSiteTransform: {fileID: 0}
-    _bloodPS: {fileID: 0}
-    _directionBloodPS: {fileID: 0}
-    _frictionBloodPS: {fileID: 0}
     _bloodAudioHandler:
       _attachAudioSource: 0
       _position: {x: 0, y: 0, z: 0}
@@ -1743,9 +1740,6 @@ MonoBehaviour:
     _beginOperation_BodyAnimName: sawing_flesh_seperate
     _opMinigame: {fileID: 11400000, guid: 7ec7c396c72bab741bab926a533f5021, type: 2}
     _dismemberSiteTransform: {fileID: 0}
-    _bloodPS: {fileID: 5243619660665542530}
-    _directionBloodPS: {fileID: 2324022265104290005}
-    _frictionBloodPS: {fileID: 0}
     _bloodAudioHandler:
       _attachAudioSource: 0
       _position: {x: 0, y: 0, z: 0}

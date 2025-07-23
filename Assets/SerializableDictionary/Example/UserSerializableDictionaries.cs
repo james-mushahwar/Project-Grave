@@ -7,6 +7,7 @@ using UnityEngine;
 using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.Audio;
+using _Scripts.Gameplay.VFX;
 
 [Serializable]
 public class StringStringDictionary : SerializableDictionary<string, string> {}
@@ -45,3 +46,7 @@ public class HumanMorgueBodyVariantDictionary : SerializableDictionary<EMorgueBo
 //Audio
 [Serializable]
 public class AudioCueDictionary : SerializableDictionary<EAudioCue, AudioCueScriptableObject> { }
+
+//Particle
+[Serializable]
+public class ParticleGroupDictionary : SerializableDictionary<EParticleGroup, ParticleGroupScriptableObject> { }

@@ -20,12 +20,6 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         [SerializeField]
         private Transform _dismemberSiteTransform;
         [SerializeField]
-        private ParticleSystem _bloodPS;
-        [SerializeField]
-        private ParticleSystem _directionBloodPS;
-        [SerializeField]
-        private ParticleSystem _frictionBloodPS;
-        [SerializeField]
         private AudioHandler _bloodAudioHandler;
 
         IEnumerator _bloodFXEnumeratorHandle;
@@ -37,19 +31,19 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             bool playBloodFX = NormalisedProgress > 0.0f && !IsComplete();
             if (playBloodFX && false)
             {
-                ParticleSystem.MainModule mainPS = _bloodPS.main;
-                bool canPlayBloodFX = _bloodFXEnumeratorHandle == null;
-                if (canPlayBloodFX)
-                {
-                    // play blood vfx every few seconds
-                    Debug.Log("Play blood fx");
+                //ParticleSystem.MainModule mainPS = _bloodPS.main;
+                //bool canPlayBloodFX = _bloodFXEnumeratorHandle == null;
+                //if (canPlayBloodFX)
+                //{
+                //    // play blood vfx every few seconds
+                //    Debug.Log("Play blood fx");
                     
-                    float delay = Random.RandomRange(1.0f, 5.0f);
+                //    float delay = Random.RandomRange(1.0f, 5.0f);
 
-                    OperationManager.Instance.StartCoroutine(PlayBloodFX(delay));
-                    _bloodFXEnumeratorHandle = PlayBloodFX(delay);
-                    OperationManager.Instance.StartCoroutine(_bloodFXEnumeratorHandle);
-                }
+                //    OperationManager.Instance.StartCoroutine(PlayBloodFX(delay));
+                //    _bloodFXEnumeratorHandle = PlayBloodFX(delay);
+                //    OperationManager.Instance.StartCoroutine(_bloodFXEnumeratorHandle);
+                //}
             }
         }
 
@@ -57,33 +51,29 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         {
             yield return new WaitForSeconds(delay);
 
-            _bloodPS.Stop();
-            _bloodPS.Play();
+            //_bloodPS.Stop();
+            //_bloodPS.Play();
 
-            AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_BloodSplatter1, _bloodPS.transform.position);
+            //AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_BloodSplatter1, _bloodPS.transform.position);
 
             _bloodFXEnumeratorHandle = null;
         }
 
         public void PlayDirectionBloodFX(bool left)
         {
-            if (_directionBloodPS != null)
+            
+            Vector3 progressPosition = GetProgressPosition();
+
+            Vector3 progressRotation = GetProgressRotation(false);
+            if (!left)
             {
-                Vector3 progressPosition = GetProgressPosition();
-                _directionBloodPS.transform.position = progressPosition;
-
-                Vector3 progressRotation = GetProgressRotation(false);
-                if (!left)
-                {
-                    progressRotation.y += 180.0f;
-                }
-                _directionBloodPS.transform.eulerAngles = progressRotation;
-
-                _directionBloodPS.Play();
-
-                AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioCue.SFX_BloodSplatter, _directionBloodPS.transform.position);
-
+                progressRotation.y += 180.0f;
             }
+
+            ParticleManager.Instance.TryPlayParticleSystem(EParticleGroup.BloodSplatter_Directional, progressPosition, progressRotation);
+            //ParticleManager.Instance.TryPlayParticleSystem(EParticleType.VFX_BloodSplatter_Area, progressPosition, progressRotation);
+
+            AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioCue.SFX_BloodSplatter, progressPosition);
         }
 
         public override void BeginOperationState(IOperator operatorOwner, bool reset, float duration = -1.0f)

@@ -12,6 +12,7 @@ using _Scripts.Gameplay.Audio;
 [CustomPropertyDrawer(typeof(RuntimeIDVirtualCameraDictionary))]
 [CustomPropertyDrawer(typeof(HumanMorgueBodyVariantDictionary))]
 [CustomPropertyDrawer(typeof(AudioCueDictionary))]
+[CustomPropertyDrawer(typeof(ParticleGroupDictionary))]
 public class AnySerializableDictionaryPropertyDrawer : SerializableDictionaryPropertyDrawer {}
 
 [CustomPropertyDrawer(typeof(ColorArrayStorage))]

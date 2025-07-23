@@ -14,6 +14,7 @@ using _Scripts.Editortools.Draw;
 using Cinemachine;
 using MoreMountains.Feedbacks;
 using UnityEditor;
+using _Scripts.CautionaryTalesScripts;
 
 namespace _Scripts.Gameplay.Animate.Player{
     
@@ -72,6 +73,9 @@ namespace _Scripts.Gameplay.Animate.Player{
         private CinemachineImpulseSource _impulseSource_OperatingFriction;
 
         [SerializeField] private AudioHandler _heartbeatLowAudioHandler;
+
+        [SerializeField] private ParticleHandler _sawingBloodAreaVFXHandler;
+        private float _bloodAreaFXTimer;
 
         //operating lerp speed
         private float _operatingAnimLerpSpeed; // speed animation moves per second to operating momentum
@@ -265,17 +269,34 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
                 float animationPlaybackLimit = 1.0f;
+                Vector3 progressPosition = currentOpState.GetProgressPosition();
+                Vector3 progressRotation = currentOpState.GetProgressRotation(false);
+                float animationSpeedMultiplier = _operatingAnimLerpSpeed * (_operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum));
 
                 float effectiveness = 1.0f;
                 if (equippedTool != null)
                 {
                     effectiveness = equippedTool.ToolProfile.GetMomentumEffectivenessFactor(_operatingMomentum);
 
+                    if (_bloodAreaFXTimer > 0.0f)
+                    {
+                        _bloodAreaFXTimer = Mathf.Clamp(_bloodAreaFXTimer - Time.deltaTime, 0.0f, 10.0f);
+                    }
+                    else
+                    {
+                        //Debug.Log("Effectiveness = " + effectiveness);
+                        if (Mathf.Abs(animationSpeedMultiplier) > 0.1f)
+                        {
+                            ParticleManager.Instance.TryPlayParticleSystem(EParticleType.VFX_BloodSplatter_Area, progressPosition, progressRotation);
+                            AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioCue.SFX_BloodSplatter_LowEnergy, progressPosition);
+                            _bloodAreaFXTimer = 0.5f;
+                        }
+                    }
+                    
                     maxPlaybackLimit = equippedTool.ToolProfile.GetAnimationPlaybackLimit();
                     animationPlaybackLimit = equippedTool.ToolProfile.GetMomentumPlaybackLimit(CurrentMomentum) * maxPlaybackLimit;
                 }
 
-                float animationSpeedMultiplier = _operatingAnimLerpSpeed * (_operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum));
 
                 // Operation feedback //
                 if (playOperationFeedback)
@@ -312,7 +333,6 @@ namespace _Scripts.Gameplay.Animate.Player{
                 ////
 
                 //update rig hand offset //
-                Vector3 progressPosition = currentOpState.GetProgressPosition();
                 Vector3 handDistance = Vector3.zero;
                 Vector3 direction = -PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
                 if (equippedTool != null)
@@ -383,6 +403,43 @@ namespace _Scripts.Gameplay.Animate.Player{
                     //Debug.Log("Trying to play idle animation");
                     ResetRig();
                     _operatingMomentum = 0.0f;
+                }
+            }
+        }
+
+        public void OnDrawGizmos()
+        {
+            if (Application.isPlaying == false)
+            {
+                return;
+            }
+
+            if (DebugManager.Instance == null)
+            {
+                return;
+            }
+
+            if (DebugManager.Instance.DebugSettings.DebugDrawEnabled)
+            {
+                OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+                bool isOperating = currentOpState != null;
+                MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
+
+                if (currentOpState != null && equippedTool != null)
+                {
+                    Vector3 progressPosition = currentOpState.GetProgressPosition();
+                    Vector3 handDistance = Vector3.zero;
+                    Vector3 direction = -PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
+                    
+                    float normalisedProgress = currentOpState.NormalisedProgress;
+                    float degrees = normalisedProgress * 180.0f;
+
+                    Vector3 distance = currentOpState.OperationStartTransform.position - currentOpState.OperationEndTransform.position;
+                    float widthAlpha = (distance.y / 2) * Mathf.Sin(degrees);
+
+                    Debug.Log("Width: " + widthAlpha);
+                    DrawGizmos.ForDirectionDebug(progressPosition, direction * widthAlpha, 0.05f, 20.0f);
+                    DrawGizmos.ForDirectionDebug(progressPosition, -direction * widthAlpha, 0.05f, 20.0f);
                 }
             }
         }
