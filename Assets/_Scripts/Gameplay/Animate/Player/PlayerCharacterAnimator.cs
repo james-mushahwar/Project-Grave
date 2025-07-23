@@ -417,21 +417,21 @@ namespace _Scripts.Gameplay.Animate.Player{
             float ratio = normalisedTime / maxPlayback;
 
             uint score = MorgueManager.MORGUE_TIMING_NULL;
-            if (ratio >= 0.8f)
+            if (ratio >= 0.59f)
+            {
+                score = MorgueManager.MORGUE_TIMING_NULL;
+            }
+            else if (ratio >= 0.46f)
             {
                 score = MorgueManager.MORGUE_TIMING_PERFECT;
             }
-            else if (ratio >= 0.6f)
+            else if (ratio >= 0.3f)
             {
                 score = MorgueManager.MORGUE_TIMING_GREAT;
             }
-            else if (ratio >= 0.4f)
+            else if (ratio >= 0.15f)
             {
                 score = MorgueManager.MORGUE_TIMING_OKAY;
-            }
-            else if (ratio >= 0.2f)
-            {
-                score = MorgueManager.MORGUE_TIMING_POOR;
             }
 
             return score;
