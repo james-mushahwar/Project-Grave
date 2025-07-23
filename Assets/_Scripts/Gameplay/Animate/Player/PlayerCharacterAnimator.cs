@@ -222,10 +222,11 @@ namespace _Scripts.Gameplay.Animate.Player{
                 // animation lerp speed //
                 float directionFactor = 1.0f;
                 float lerpSpeedFactor = 1.0f;
+                float eastwardDirectionFactor = 2.0f;
 
                 if (currentOpState is DismemberOperationState)
                 {
-                    directionFactor = _operatingDirection == EDirectionType.West ? 1.0f : -1.0f;
+                    directionFactor = _operatingDirection == EDirectionType.West ? 1.0f : -eastwardDirectionFactor;
 
                     if (animInTransition == false && idleAnimLayerStateInfo.shortNameHash.Equals(_sawingProgressStartLoopAnim_Hash) == true)
                     {
@@ -263,7 +264,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                     lerpSpeedFactor = _operatingAnimLerpFactorCurve.Evaluate(_operatingDirectionChangeTimer / _operatingDirectionChangeMaxTimer);
                 }
 
-                float lerpSpeed = _operatingAnimLerpSpeedCurve.Evaluate(_operatingMomentum) * lerpSpeedFactor * Time.deltaTime;
+                float lerpSpeed = _operatingAnimLerpSpeedCurve.Evaluate(_operatingMomentum) * lerpSpeedFactor * eastwardDirectionFactor * Time.deltaTime;
                 float targetAnimSpeed = stopMovement ? 0.0f : _operatingMomentum * directionFactor;
                 _operatingAnimLerpSpeed = Mathf.MoveTowards(_operatingAnimLerpSpeed, targetAnimSpeed, lerpSpeed);
                 ////
