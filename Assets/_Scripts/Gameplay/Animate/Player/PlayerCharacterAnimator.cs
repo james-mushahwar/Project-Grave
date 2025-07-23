@@ -120,6 +120,7 @@ namespace _Scripts.Gameplay.Animate.Player{
         private bool _perfectTimingAvailable = false;
         private bool _perfectTimingActive = false;
         private EDirectionType _operatingDirection = EDirectionType.West;
+        private uint _operationTimingZone;
 
         public bool InPerfectZone
         {
@@ -364,6 +365,8 @@ namespace _Scripts.Gameplay.Animate.Player{
                     bool westwardEnd = (predictedNormalizedTime > maxPlaybackLimit && _operatingDirection == EDirectionType.West);
                     changeDirection = eastwardEnd || westwardEnd;
 
+                    _operationTimingZone = GetAnimationTimingZone(currentNormalizedTime, maxPlaybackLimit);
+
                     if (changeDirection)
                     {
                         animationSpeedMultiplier = 0.0f;
@@ -405,6 +408,32 @@ namespace _Scripts.Gameplay.Animate.Player{
                     _operatingMomentum = 0.0f;
                 }
             }
+        }
+
+
+        public uint GetAnimationTimingZone(float normalisedTime, float maxPlayback)
+        {
+            float ratio = normalisedTime / maxPlayback;
+
+            uint score = MorgueManager.MORGUE_TIMING_NULL;
+            if (ratio >= 0.8f)
+            {
+                score = MorgueManager.MORGUE_TIMING_PERFECT;
+            }
+            else if (ratio >= 0.6f)
+            {
+                score = MorgueManager.MORGUE_TIMING_GREAT;
+            }
+            else if (ratio >= 0.4f)
+            {
+                score = MorgueManager.MORGUE_TIMING_OKAY;
+            }
+            else if (ratio >= 0.2f)
+            {
+                score = MorgueManager.MORGUE_TIMING_POOR;
+            }
+
+            return score;
         }
 
         public void OnDrawGizmos()
@@ -684,6 +713,11 @@ namespace _Scripts.Gameplay.Animate.Player{
             OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
             if (currentOpState is DismemberOperationState)
             {
+                MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
+
+                float maxPlaybackLimit = equippedTool.ToolProfile.GetAnimationPlaybackLimit();
+                float animationPlaybackLimit = equippedTool.ToolProfile.GetMomentumPlaybackLimit(CurrentMomentum) * maxPlaybackLimit;
+
                 DismemberOperationState dismemberOpState = currentOpState as DismemberOperationState;
                 if (dismemberOpState != null)
                 {
@@ -695,7 +729,20 @@ namespace _Scripts.Gameplay.Animate.Player{
                     //play speech bubble 
                     Vector3 textPosition = currentOpState.OperationStartTransform.position;
                     Vector3 textRotation = CameraManager.Instance.GetLookDirection(textPosition);
-                    UIManager.Instance.TrySpawnTextObject("Wow", textPosition, textRotation, Vector3.up);
+
+                    if (_operationTimingZone > 0)
+                    {
+                        string phrase = MorgueManager.GetTimingPhrase(_operationTimingZone);
+                        UIManager.Instance.TrySpawnTextObject(phrase, textPosition, textRotation, Vector3.up);
+
+                        if (_operationTimingZone == MorgueManager.MORGUE_TIMING_PERFECT)
+                        {
+                            AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_PerfectTimingActivated_01, textRotation);
+                            TimeManager.Instance.TryRequestTimeScale(ETimeImportance.Low, 0.25f, 0.1f, 0.5f, 0.1f);
+
+                        }
+                    }
+
                 }
             }
 

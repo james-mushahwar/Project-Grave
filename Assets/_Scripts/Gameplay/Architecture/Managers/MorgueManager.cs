@@ -10,9 +10,24 @@ using UnityEditor.Animations;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
-    
+
     public class MorgueManager : GameManager<MorgueManager>, IManager
     {
+        public const uint MORGUE_TIMING_PERFECT = 4;
+        public const uint MORGUE_TIMING_GREAT = 3;
+        public const uint MORGUE_TIMING_OKAY = 2;
+        public const uint MORGUE_TIMING_POOR = 1;
+        public const uint MORGUE_TIMING_NULL = 0;
+
+        private static string[] MORGUE_TIMING_PHRASES =
+        {
+            "NOTHING",
+            "POOR",
+            "OKAY",
+            "GREAT",
+            "PERFECT",
+        };
+
         [SerializeField] private MorgueBodyAtlas _morgueBodyAtlas;
         [SerializeField] private MorgueActor _morgueActor;
         private GameObject _houseChuteRoot;
@@ -76,6 +91,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public virtual void ManagedPreTearddownGame() { }
         // after world (level, area, zone) unloading
         public virtual void ManagedPostTearddownGame() { }
+
+        public static string GetTimingPhrase(uint index)
+        {
+            return MORGUE_TIMING_PHRASES[index];
+        }
 
         public void Debug_SpawnMorgueActor()
         {
