@@ -120,7 +120,7 @@ namespace _Scripts.Gameplay.Animate.Player{
         private bool _perfectTimingAvailable = false;
         private bool _perfectTimingActive = false;
         private EDirectionType _operatingDirection = EDirectionType.West;
-        private uint _operationTimingZone;
+        private int _operationTimingZone;
 
         public bool InPerfectZone
         {
@@ -412,26 +412,17 @@ namespace _Scripts.Gameplay.Animate.Player{
         }
 
 
-        public uint GetAnimationTimingZone(float normalisedTime, float maxPlayback)
+        public int GetAnimationTimingZone(float normalisedTime, float maxPlayback)
         {
             float ratio = normalisedTime / maxPlayback;
 
-            uint score = MorgueManager.MORGUE_TIMING_NULL;
-            if (ratio >= 0.59f)
+            int score = (int)MorgueManager.MORGUE_TIMING_NULL;
+
+            MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
+
+            if (equippedTool != null)
             {
-                score = MorgueManager.MORGUE_TIMING_NULL;
-            }
-            else if (ratio >= 0.46f)
-            {
-                score = MorgueManager.MORGUE_TIMING_PERFECT;
-            }
-            else if (ratio >= 0.3f)
-            {
-                score = MorgueManager.MORGUE_TIMING_GREAT;
-            }
-            else if (ratio >= 0.15f)
-            {
-                score = MorgueManager.MORGUE_TIMING_OKAY;
+                score = equippedTool.ToolProfile.GetTimingZone(ratio);
             }
 
             return score;

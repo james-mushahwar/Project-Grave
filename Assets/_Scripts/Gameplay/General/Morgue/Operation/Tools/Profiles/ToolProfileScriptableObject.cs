@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
 
         [SerializeField]
         private AnimationCurve _normalisedMomentumToFeedbackFactorCurve;
+
+        [SerializeField] protected List<Tuple<int, float>> _timingZones = new List<Tuple<int, float>>();
 
         public float GetMomentumEffectivenessFactor(float momentum)
         {
@@ -46,6 +49,22 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
             }
 
             return feedback;
+        }
+
+        public int GetTimingZone(float ratio)
+        {
+            int zone = -1;
+            for (int i = _timingZones.Count - 1; i >= 0; i++)
+            {
+                if (ratio >= _timingZones[i].Item2)
+                {
+                    zone = _timingZones[i].Item1;
+                    break;
+                }
+            }
+
+
+            return zone;
         }
     }
     

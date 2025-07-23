@@ -92,7 +92,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // after world (level, area, zone) unloading
         public virtual void ManagedPostTearddownGame() { }
 
-        public static string GetTimingPhrase(uint index)
+        public static string GetTimingPhrase(int index)
         {
             return MORGUE_TIMING_PHRASES[index];
         }
