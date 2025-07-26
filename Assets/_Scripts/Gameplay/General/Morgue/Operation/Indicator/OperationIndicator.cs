@@ -67,9 +67,20 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Indicator {
 
         }
 
-        public void UpdateTiming(int timing)
+        public void UpdateTiming(ETimingType timing)
         {
-            _meshRenderer.material.color = Color.green;
+            Color newColour = Color.white;
+
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+            if (pc != null)
+            {
+                if (pc.ChosenOperationState != null)
+                {
+                    newColour = MorgueManager.Instance.GetTimingColour(timing);
+                }
+            }
+
+            _meshRenderer.material.color = newColour;
         }
     }
     

@@ -46,6 +46,17 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
                 //    OperationManager.Instance.StartCoroutine(_bloodFXEnumeratorHandle);
                 //}
             }
+
+            if (OperationManager.Instance.CurrentOpIndicator != null)
+            {
+                PlayerController pc = Operator as PlayerController;
+                ETimingType timing = ETimingType.None;
+                if (pc != null)
+                {
+                    timing = pc.OperatingTiming;
+                }
+                OperationManager.Instance.CurrentOpIndicator.UpdateTiming(timing);
+            }
         }
 
         private IEnumerator PlayBloodFX(float delay)

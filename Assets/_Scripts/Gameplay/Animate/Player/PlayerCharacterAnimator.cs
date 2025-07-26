@@ -120,7 +120,7 @@ namespace _Scripts.Gameplay.Animate.Player{
         private bool _perfectTimingAvailable = false;
         private bool _perfectTimingActive = false;
         private EDirectionType _operatingDirection = EDirectionType.West;
-        private int _operationTimingZone;
+        private ETimingType _operationTimingZone;
 
         public bool InPerfectZone
         {
@@ -134,6 +134,11 @@ namespace _Scripts.Gameplay.Animate.Player{
         private AnimationCurve _operatingAnimationSpeedDampnerCurve;
 
         public bool CanTick { get => true; set => throw new System.NotImplementedException(); }
+
+        public ETimingType OperationTimingZone
+        {
+            get { return _operationTimingZone; }
+        }
 
         public void Disable()
         {
@@ -366,7 +371,9 @@ namespace _Scripts.Gameplay.Animate.Player{
                     bool westwardEnd = (predictedNormalizedTime > maxPlaybackLimit && _operatingDirection == EDirectionType.West);
                     changeDirection = eastwardEnd || westwardEnd;
 
+                    ETimingType previousTiming = _operationTimingZone;
                     _operationTimingZone = GetAnimationTimingZone(currentNormalizedTime, maxPlaybackLimit);
+                    OnTimingTypeChanged(previousTiming, _operationTimingZone);
 
                     if (changeDirection)
                     {
@@ -412,11 +419,11 @@ namespace _Scripts.Gameplay.Animate.Player{
         }
 
 
-        public int GetAnimationTimingZone(float normalisedTime, float maxPlayback)
+        public ETimingType GetAnimationTimingZone(float normalisedTime, float maxPlayback)
         {
             float ratio = normalisedTime / maxPlayback;
 
-            int score = (int)MorgueManager.MORGUE_TIMING_NULL;
+            ETimingType score = (int)MorgueManager.MORGUE_TIMING_NULL;
 
             MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
 
@@ -426,6 +433,36 @@ namespace _Scripts.Gameplay.Animate.Player{
             }
 
             return score;
+        }
+
+        private void OnTimingTypeChanged(ETimingType prevTiming, ETimingType newTiming)
+        {
+            if (prevTiming == newTiming)
+            {
+                return;
+            }
+
+            bool gain = prevTiming < newTiming;
+            bool ignoreAudio = ((prevTiming == ETimingType.None || prevTiming == ETimingType.Poor) && newTiming == ETimingType.Perfect);
+
+            if (ignoreAudio)
+            {
+                return;
+            }
+
+            if (gain)
+            {
+                EAudioType timingAudio = MorgueManager.Instance.GetTimingAudio(newTiming);
+                if (newTiming == ETimingType.Perfect)
+                {
+                    VolumeManager.Instance.OnOperationEnterPerfectZone();
+                }
+
+                if (timingAudio != EAudioType.SFX_Timing_None)
+                {
+                    AudioManager.Instance.TryPlayAudioSourceAtLocation(timingAudio, transform.position);
+                }
+            }
         }
 
         public void OnDrawGizmos()
@@ -722,12 +759,12 @@ namespace _Scripts.Gameplay.Animate.Player{
                     Vector3 textPosition = currentOpState.OperationStartTransform.position;
                     Vector3 textRotation = CameraManager.Instance.GetLookDirection(textPosition);
 
-                    if (_operationTimingZone > 0)
+                    if (OperationTimingZone > 0)
                     {
-                        string phrase = MorgueManager.GetTimingPhrase(_operationTimingZone);
+                        string phrase = MorgueManager.GetTimingPhrase((int)OperationTimingZone);
                         UIManager.Instance.TrySpawnTextObject(phrase, textPosition, textRotation, Vector3.up);
 
-                        if (_operationTimingZone == MorgueManager.MORGUE_TIMING_PERFECT)
+                        if (OperationTimingZone == ETimingType.Perfect)
                         {
                             AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_PerfectTimingActivated_01, textRotation);
                             TimeManager.Instance.TryRequestTimeScale(ETimeImportance.Low, 0.25f, 0.1f, 0.5f, 0.1f);

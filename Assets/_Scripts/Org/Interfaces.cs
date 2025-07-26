@@ -54,6 +54,7 @@ namespace _Scripts.Org
     public interface IOperator
     {
         float OperatingSpeed { get; }
+        ETimingType OperatingTiming { get; }
     }
 
     //public interface ICarryable

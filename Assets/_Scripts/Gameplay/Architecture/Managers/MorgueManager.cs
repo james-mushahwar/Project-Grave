@@ -6,10 +6,20 @@ using _Scripts.Org;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Autodesk.Fbx;
 using UnityEditor.Animations;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
+
+    public enum ETimingType
+    {
+        None = 0,
+        Poor = 1, 
+        Okay = 2,
+        Great = 3,
+        Perfect = 4,
+    }
 
     public class MorgueManager : GameManager<MorgueManager>, IManager
     {
@@ -27,6 +37,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             "GREAT",
             "PERFECT",
         };
+
+        [SerializeField] 
+        private Color[] _timingColours = new Color[5];
 
         [SerializeField] private MorgueBodyAtlas _morgueBodyAtlas;
         [SerializeField] private MorgueActor _morgueActor;
@@ -284,6 +297,17 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     reactable.OnReaction(stimulus);
                 }
             }
+        }
+
+        //timings
+        public Color GetTimingColour(ETimingType timingType)
+        {
+            return _timingColours[(int)timingType];
+        }
+
+        public EAudioType GetTimingAudio(ETimingType timingType)
+        {
+            return EAudioType.SFX_Timing_None + (int)timingType;
         }
     }
     

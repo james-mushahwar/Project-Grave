@@ -72,6 +72,8 @@ namespace _Scripts.Gameplay.Architecture.Managers
         private VolumeProfileTargetScriptableObject _penaltyOperationInput;
         [SerializeField]
         private VolumeProfileTargetScriptableObject _operationInputPrompt_VolumeTarget;
+        [SerializeField]
+        private VolumeProfileTargetScriptableObject _operationEnterPerfectZone_VolumeTarget;
 
         #region General
         //Tweeners
@@ -165,7 +167,6 @@ namespace _Scripts.Gameplay.Architecture.Managers
             //}
             //EvaluateVolumeProfile(_successfulOperationInput);
         }
-
         public void OnOperationPenaltyInput()
         {
             //if (_globalVolumeBloom != null)
@@ -180,7 +181,6 @@ namespace _Scripts.Gameplay.Architecture.Managers
             //EvaluateVolumeProfile(_penaltyOperationInput);
 
         }
-
         public void OnOperationInputPrompt()
         {
             //if (_globalVolumeBloom != null)
@@ -195,6 +195,11 @@ namespace _Scripts.Gameplay.Architecture.Managers
             EvaluateVolumeProfile(_operationInputPrompt_VolumeTarget);
 
         }
+        public void OnOperationEnterPerfectZone()
+        {
+            EvaluateVolumeProfile(_operationEnterPerfectZone_VolumeTarget);
+        }
+
         #endregion
 
         private void EvaluateVolumeProfile(VolumeProfileTargetScriptableObject newProfileSO)

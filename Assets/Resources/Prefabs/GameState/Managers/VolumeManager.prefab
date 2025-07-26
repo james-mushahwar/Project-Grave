@@ -50,3 +50,5 @@ MonoBehaviour:
     type: 2}
   _operationInputPrompt_VolumeTarget: {fileID: 11400000, guid: 9d559f0ac43fc5e4e93f75bcf26bcf3b,
     type: 2}
+  _operationEnterPerfectZone_VolumeTarget: {fileID: 11400000, guid: a6b501e5fd357a744a7b0ef9dc9f6182,
+    type: 2}

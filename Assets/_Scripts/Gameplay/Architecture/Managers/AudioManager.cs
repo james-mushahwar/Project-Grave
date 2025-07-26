@@ -21,6 +21,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         //SFX
         //player = 0
         SFX_Heartbeat_Low = 0,
+
         //morgue bodies and parts = 1000
         SFX_BloodSplatter1 = 1000,
         SFX_BloodSplatter2,
@@ -35,10 +36,27 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         SFX_BloodyStab3,
         SFX_BloodyStab4,
 
+        SFX_Timing_None = 1030,
+        SFX_Timing_Poor,
+        SFX_Timing_Okay,
+        SFX_Timing_Great,
+        SFX_Timing_Perfect,
+
         //operating = 2000
         SFX_PerfectTimingAvailable_01 = 2000,
         SFX_PerfectTimingActivated_01,
         SFX_OperationCompleteReaction_01,
+
+        SFX_OperatingForwards_None = 2010,
+        SFX_OperatingForwards_Poor,
+        SFX_OperatingForwards_Okay,
+        SFX_OperatingForwards_Great,
+        SFX_OperatingForwards_Perfect,
+        SFX_OperatingBackwards_None = 2015,
+        SFX_OperatingBackwards_Poor,
+        SFX_OperatingBackwards_Okay,
+        SFX_OperatingBackwards_Great,
+        SFX_OperatingBackwards_Perfect,
         //tools = 3000
 
         //NPC = 4000

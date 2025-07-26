@@ -1,10 +1,28 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Gameplay.Architecture.Managers;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
-    
+
+    [Serializable]
+    public struct FTimingZone
+    {
+        [SerializeField] private ETimingType _timingType;
+        [SerializeField] private float _time;
+
+        public ETimingType TimingType
+        {
+            get { return _timingType; }
+        }
+
+        public float Time
+        {
+            get { return _time; }
+        }
+    }
+
     public abstract class ToolProfileScriptableObject : ScriptableObject
     {
         [SerializeField]
@@ -18,7 +36,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
         [SerializeField]
         private AnimationCurve _normalisedMomentumToFeedbackFactorCurve;
 
-        [SerializeField] protected List<Tuple<int, float>> _timingZones = new List<Tuple<int, float>>();
+        [SerializeField] protected List<FTimingZone> _timingZones = new List<FTimingZone>();
 
         public float GetMomentumEffectivenessFactor(float momentum)
         {
@@ -51,14 +69,14 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
             return feedback;
         }
 
-        public int GetTimingZone(float ratio)
+        public ETimingType GetTimingZone(float ratio)
         {
-            int zone = -1;
-            for (int i = _timingZones.Count - 1; i >= 0; i++)
+            ETimingType zone = ETimingType.None;
+            for (int i = _timingZones.Count - 1; i >= 0; i--)
             {
-                if (ratio >= _timingZones[i].Item2)
+                if (ratio >= _timingZones[i].Time)
                 {
-                    zone = _timingZones[i].Item1;
+                    zone = _timingZones[i].TimingType;
                     break;
                 }
             }

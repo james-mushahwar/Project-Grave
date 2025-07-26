@@ -177,6 +177,14 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
         }
 
+        public ETimingType OperatingTiming
+        {
+            get
+            {
+                return PlayerCharacterAnimator.OperationTimingZone;
+            }
+        }
+
         private void Start()
         {
             _characterController = GetComponent<CharacterController>();

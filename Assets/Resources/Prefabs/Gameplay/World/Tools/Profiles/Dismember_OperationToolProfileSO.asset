@@ -121,3 +121,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _timingZones:
+  - _timingType: 1
+    _time: 0
+  - _timingType: 2
+    _time: 0.15
+  - _timingType: 3
+    _time: 0.35
+  - _timingType: 4
+    _time: 0.49
+  - _timingType: 1
+    _time: 0.585
