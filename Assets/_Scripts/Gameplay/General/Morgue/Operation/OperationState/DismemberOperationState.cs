@@ -1,5 +1,6 @@
 ﻿using _Scripts.Gameplay.Animate.Player;
 using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.General.Morgue.Operation.Indicator;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMinigames;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
@@ -82,8 +83,22 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
 
             _opMinigame.OnMinigameStart(operatorOwner);
 
+            if (OperationManager.Instance.CurrentOpIndicator != null)
+            {
+                OperationManager.Instance.CurrentOpIndicator.Activate();
+            }
             //_awaitingInputs.Clear();
             //_awaitingInputs.Add(Architecture.Managers.EInputType.RTrigger);
+        }
+
+        public override void EndOperationState()
+        {
+            base.EndOperationState();
+
+            if (OperationManager.Instance.CurrentOpIndicator != null)
+            {
+                OperationManager.Instance.CurrentOpIndicator.Deactivate();
+            }
         }
 
         public override bool OnActionLInput(bool pressed)

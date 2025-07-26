@@ -7,6 +7,7 @@ using _Scripts.Gameplay.Player.Controller;
 using UnityEngine;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationSite;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
+using _Scripts.Gameplay.General.Morgue.Operation.Indicator;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
     
@@ -14,6 +15,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
     public class OperationManager : GameManager<OperationManager>, IManager
     {
+        [SerializeField]
+        private OperationIndicator _dismemberIndicator;
+
+        public OperationIndicator CurrentOpIndicator
+        {
+            get { return _dismemberIndicator; }
+        }
+
         private Dictionary<string, OperationState[]> _runtimeOperationStates; // id is body part, array of states per body part
 
         private List<OperationSite> _overviewOperationSites = new List<OperationSite>();
@@ -24,7 +33,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return _overviewOperationSites;
             }
         }
-        public int _operationSitesIndex = 0;
+        private int _operationSitesIndex = 0;
 
         public OperationSite CurrentOperationSite
         {

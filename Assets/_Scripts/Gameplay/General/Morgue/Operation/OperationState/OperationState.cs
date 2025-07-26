@@ -144,7 +144,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             }
         }
 
-        public void EndOperationState()
+        public virtual void EndOperationState()
         {
             if (_opMinigame)
             {
