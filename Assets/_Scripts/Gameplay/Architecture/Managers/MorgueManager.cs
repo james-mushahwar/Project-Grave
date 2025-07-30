@@ -230,7 +230,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             if (bodyVariantType == EMorgueBodyVariant.None || bodyVariantType == EMorgueBodyVariant.COUNT)
             {
-                bodyVariantType = (EMorgueBodyVariant)Random.Range(0, (int)EMorgueBodyVariant.COUNT);
+                bodyVariantType = (EMorgueBodyVariant)Random.Range(0, (int)EMorgueBodyVariant.COUNT - 1);
             }
             PopulateMorgueBodyPart(body.HeadMorgueActor, true, bodyVariantType);
             PopulateMorgueBodyPart(body.TorsoMorgueActor, true, bodyVariantType);
