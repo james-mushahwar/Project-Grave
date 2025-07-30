@@ -10,6 +10,8 @@ using System.Linq;
 using Autodesk.Fbx;
 using UnityEditor.Animations;
 using UnityEngine;
+using System;
+using Random = UnityEngine.Random;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -20,6 +22,47 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         Okay = 2,
         Great = 3,
         Perfect = 4,
+    }
+
+    [Serializable]
+    public struct FTimingValues
+    {
+        [SerializeField] private float _nullTiming;
+        [SerializeField] private float _poorTiming;
+        [SerializeField] private float _okayTiming;
+        [SerializeField] private float _greatTiming;
+        [SerializeField] private float _perfectTiming;
+
+        public float NullTiming { get => _nullTiming; }
+        public float PoorTiming { get => _poorTiming; }
+        public float OkayTiming { get => _okayTiming; }
+        public float GreatTiming { get => _greatTiming; }
+        public float PerfectTiming { get => _perfectTiming; }
+
+        public float GetValue(ETimingType timing)
+        {
+            if (timing == ETimingType.None)
+            {
+                return _nullTiming;
+            }
+            if (timing == ETimingType.Poor)
+            {
+                return _poorTiming;
+            }
+            if (timing == ETimingType.Okay)
+            {
+                return _okayTiming;
+            }
+            if (timing == ETimingType.Great)
+            {
+                return _greatTiming;
+            }
+            if (timing == ETimingType.Perfect)
+            {
+                return _perfectTiming;
+            }
+            return _nullTiming;
+        }
     }
 
     public class MorgueManager : GameManager<MorgueManager>, IManager

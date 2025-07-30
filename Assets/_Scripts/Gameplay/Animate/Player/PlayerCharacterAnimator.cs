@@ -813,6 +813,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                         }
                     }
 
+                    currentOpState.OpMinigame.OnTimingZoneUpdate(OperationTimingZone);
                 }
             }
 

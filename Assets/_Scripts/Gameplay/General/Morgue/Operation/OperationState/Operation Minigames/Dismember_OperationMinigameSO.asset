@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ad25a7d3903714cbfdecc195356531, type: 3}
   m_Name: Dismember_OperationMinigameSO
   m_EditorClassIdentifier: 
+  _inputTimingBoostValues:
+    _nullTiming: -0.3
+    _poorTiming: -0.1
+    _okayTiming: 0
+    _greatTiming: 0.01
+    _perfectTiming: 0.1
   _operatingMomentumDecayCurve:
     serializedVersion: 2
     m_Curve:
@@ -179,5 +185,38 @@ MonoBehaviour:
   _operatingMomentumWaitInputDelay: 0.5
   _perfectTimingMinimumMomentum: 0.67
   _perfectTimingMinimumWindowsEntered: 5
+  _timingMomentumChangeAlphaCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.30098915
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _perfectTimingActivateTargetSO: {fileID: 11400000, guid: 57214c112c058ad4c8a1fadbf829b694,
     type: 2}

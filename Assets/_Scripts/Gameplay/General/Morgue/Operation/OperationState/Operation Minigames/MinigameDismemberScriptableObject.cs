@@ -35,6 +35,9 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         private float _perfectTimingMinimumWindowsEntered;
 
         [SerializeField]
+        private AnimationCurve _timingMomentumChangeAlphaCurve; // 0 to 1 on factor of momentum loss depending on current momentum
+
+        [SerializeField]
         private FloatTargetProfile _perfectTimingActivateTargetSO;
 
         public override void OnMinigameCompleted()
@@ -305,7 +308,15 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                 //missed - lose build up
                 _runtimeStats.PerfectTimingWindowsEntered = 0; 
             }
-        } 
+        }
+
+        public override void OnTimingZoneUpdate(ETimingType timingType)
+        {
+            float momentumChange = _inputTimingBoostValues.GetValue(timingType);
+            float momentumFactor = _timingMomentumChangeAlphaCurve.Evaluate(_runtimeStats.OperatingMomentum);
+
+            _runtimeStats.OperatingMomentum += momentumChange * momentumFactor;
+        }
     }
 
 }

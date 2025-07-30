@@ -90,6 +90,14 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         [SerializeField]
         protected OperationMinigameScriptableObject _opMinigame;
 
+        public OperationMinigameScriptableObject OpMinigame
+        {
+            get
+            {
+                return _opMinigame;
+            }
+        }
+
         public void SetupOperationState()
         {
             if (RuntimeID != null)

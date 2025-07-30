@@ -69,6 +69,9 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         protected PlayerController _pc;
         protected PlayerCharacterAnimator _playerAnimator;
 
+        [SerializeField]
+        protected FTimingValues _inputTimingBoostValues;
+
         protected MinigameRuntimeStats _runtimeStats = new MinigameRuntimeStats();
 
 
@@ -79,6 +82,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         public abstract void OnMinigameTick();
         public abstract void OnEnterPerfectWindow();
         public abstract void OnExitPerfectWindow();
+        public abstract void OnTimingZoneUpdate(ETimingType timingType);
 
         public abstract bool OnInput(EInputType inputType, bool pressed);
 
