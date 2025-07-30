@@ -1,5 +1,6 @@
 ﻿using _Scripts.Gameplay.Architecture.Managers;
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.Architecture.DayCycle {
@@ -8,7 +9,10 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
     {
         public bool CanTick 
         { 
-            get => throw new System.NotImplementedException(); 
+            get
+            {
+                return gameObject.activeSelf && this.isActiveAndEnabled;
+            }
             set => throw new System.NotImplementedException(); 
         }
 
@@ -47,6 +51,11 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
 
         public void ManagedTick()
         {
+            if (!CanTick)
+            {
+                return;
+            }
+
             // Increment time based on real-world seconds
             timeOfDay += (Time.deltaTime / dayDuration) * _timeElapseFactor;
             if (timeOfDay >= 1f) timeOfDay -= 1f; // Loop back to 0 after a full day
