@@ -33,7 +33,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField] private PauseManager _pauseManagerPrefab;
         [SerializeField] private ParticleManager _particleManagerPrefab;
         [SerializeField] private DebugManager _debugManagerPrefab;
-
+        [SerializeField] private LightingManager _lightingManagerPrefab;
 
         EGameState _gameState = EGameState.Bootstrap;
         public EGameState GameState
@@ -93,6 +93,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _managers.Add(GameObject.Instantiate(_pauseManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_particleManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_debugManagerPrefab, this.transform));
+            _managers.Add(GameObject.Instantiate(_lightingManagerPrefab, this.transform));
         }
 
         void Start()

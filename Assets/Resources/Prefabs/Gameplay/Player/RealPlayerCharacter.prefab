@@ -1790,16 +1790,25 @@ MonoBehaviour:
   _heartbeatLowAudioHandler:
     _attachAudioSource: 1
     _position: {x: 0, y: 0, z: 0}
-    _defaultVolumeAlpha: 0.012
+    _defaultVolumeAlpha: 0
     _defaultPitchAlpha: 0
+    _defaultPlayrateAlpha: 0
     _audioType: 0
     _active: 0
     _release: 0
     _ctSource: {fileID: 0}
     _handleParametersSO: {fileID: 11400000, guid: ed65af7fc086b70449fc785ec9514909,
       type: 2}
-    _loops: 1
+    _loops: 0
     _canReplayCurrentlyPlayingSource: 0
+  _heartbeatAudioVolumeAlpha: 0
+  _sawingBloodAreaVFXHandler:
+    _attach: 0
+    _position: {x: 0, y: 0, z: 0}
+    _type: 0
+    _active: 0
+    _release: 0
+    _particleSystem: {fileID: 0}
   _operatingAnimLerpSpeedCurve:
     serializedVersion: 2
     m_Curve:

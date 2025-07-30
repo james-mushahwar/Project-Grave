@@ -194,6 +194,13 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             get { return _pitchRange; }
         }
+
+        [SerializeField]
+        private Vector2 _playrateRange = Vector2.one; // AS playrate limits are 0 to 5, default is 1
+        public Vector2 PlayrateRange
+        {
+            get { return _playrateRange; }
+        }
     }
 
     [Serializable]
@@ -210,12 +217,15 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         //playback
         private float _volumeAlpha;
         private float _pitchAlpha;
+        private float _playrateAlpha;
 
         [SerializeField, Range(0.0f, 1.0f)] 
         private float _defaultVolumeAlpha = 0.0f; 
         [SerializeField, Range(0.0f, 1.0f)] 
         private float _defaultPitchAlpha = 0.0f;
- 
+        [SerializeField, Range(0.0f, 1.0f)]
+        private float _defaultPlayrateAlpha = 0.0f;
+
         [HideInInspector] 
         public EAudioType _audioType;
         [HideInInspector]
@@ -271,6 +281,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             set { _pitchAlpha = value; }
         }
 
+        public float PlayrateAlpha
+        {
+            get { return _playrateAlpha; }
+            set { _playrateAlpha = value; }
+        }
+
         public void Init(EAudioType audioType, CTAudioSource source, bool attach, Vector3 position)
         {
             _audioType = audioType;
@@ -283,7 +299,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             //reset
             _volumeAlpha = _defaultVolumeAlpha;
             _pitchAlpha = _defaultPitchAlpha;
+            _playrateAlpha = _defaultPlayrateAlpha;
         }
+
+
     }
 
     public class AudioManager : GameManager<AudioManager>, IManager
@@ -291,6 +310,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         #region Defaults
         public const float DefaultVolume = 1.0f;
         public const float DefaultPitch = 1.0f;
+        public const float DefaultPlayrate = 1.0f;
         #endregion
 
         private Camera _camera;
@@ -1227,6 +1247,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             float volume = DefaultVolume;
             float pitch = DefaultPitch;
+            float playrate = DefaultPlayrate;
 
             if (audioTypeSO)
             {
@@ -1240,6 +1261,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                             audioHandler.VolumeAlpha);
                         pitch = Mathf.Lerp(audioPlayback.PitchRange.x, audioPlayback.PitchRange.y,
                             audioHandler.PitchAlpha);
+                        playrate = Mathf.Lerp(audioPlayback.PlayrateRange.x, audioPlayback.PlayrateRange.y,
+                            audioHandler.PlayrateAlpha);
                     }
                     else
                     {
@@ -1248,6 +1271,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
                         Vector2 pitchRange = audioPlayback.PitchRange;
                         pitch = UnityEngine.Random.Range(pitchRange.x, pitchRange.y);
+
+                        Vector2 playrateRange = audioPlayback.PlayrateRange;
+                        pitch = UnityEngine.Random.Range(playrateRange.x, playrateRange.y);
                     }
                     
                 }
@@ -1258,6 +1284,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     {
                         volume = volume * audioHandler.VolumeAlpha;
                         pitch = pitch * audioHandler.PitchAlpha;
+                        playrate = playrate * audioHandler.PlayrateAlpha;
                     }
                     
                 }
@@ -1265,6 +1292,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             audioSource.Source.volume = volume;
             audioSource.Source.pitch = pitch;
+            //audioSource.Source.
         }
 
         private void SetupAudioEvents(EAudioType audioType, CTAudioSource audioSource)

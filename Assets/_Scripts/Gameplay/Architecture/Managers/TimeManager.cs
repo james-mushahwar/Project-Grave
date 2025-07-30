@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _Scripts.Gameplay.Architecture.DayCycle;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,12 +15,6 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
     public class TimeManager : GameManager<TimeManager>, IManager
     {
-        [SerializeField] private float _dayDuration = 120f; // Duration of a day in seconds
-        private float _timeElapsed;
-
-        public event Action _onDayStart;
-        public event Action _onNightStart;
-
         #region Current State
         private ETimeImportance _timeImportance;
         private IEnumerator _timeScaleEnumerator;
@@ -37,7 +32,6 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // as gamestate is being generated
         public virtual void ManagedPreInitialiseGameState() 
         {
-            _timeElapsed = 0f;
         }
         // after gamestate is generated
         public virtual void ManagedPostInitialiseGameState() { }
@@ -81,33 +75,15 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 }
             }
 
-            #region DayNight Cycle
-            _timeElapsed += Time.deltaTime;
-
-            // Calculate the current time of day
-            float currentTime = _timeElapsed / _dayDuration;
-
-            if (currentTime >= 1f) // A full day has passed
-            {
-                _timeElapsed = 0f; // Reset time
-            }
-
-            // Trigger day/night events
-            if (currentTime < 0.5f && currentTime >= 0.5f - Time.deltaTime / _dayDuration) // Night starts
-            {
-                _onNightStart?.Invoke();
-            }
-            else if (currentTime >= 0.5f && currentTime < 0.5f + Time.deltaTime / _dayDuration) // Day starts
-            {
-                _onDayStart?.Invoke();
-            }
-            #endregion
+            
         }
         // before world (level, area, zone) starts unloading
         public virtual void ManagedPreTearddownGame() { }
         // after world (level, area, zone) unloading
         public virtual void ManagedPostTearddownGame() { }
 
+        #region Pause and timescales
+        //Pause and time scales
         public void TryRequestTimeScale(ETimeImportance importance, float targetTimeScale, float easeIn = 0.0f, float easeOut = 0.0f, float delay = 0.0f)
         {
             int importanceInt = (int)importance;
@@ -126,7 +102,6 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _timeScaleEnumerator = TickTimeScale(targetTimeScale, easeIn, easeOut, delay);
             StartCoroutine(_timeScaleEnumerator);
         }
-
         private IEnumerator TickTimeScale(float targetTimeScale, float easeIn = 0.0f, float easeOut = 0.0f, float delay = 0.0f)
         {
             if (easeIn > 0.0f)
@@ -206,7 +181,6 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _timeImportance = ETimeImportance.Low;
             _timeScaleEnumerator = null;
         }
-
         public void TryRequestPauseGame(bool pause)
         {
             if (pause && _timeScaleEnumerator != null)
@@ -221,7 +195,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             Time.timeScale = pause ? 0.0f : Mathf.Clamp(_prePauseTimeScale, 0.0f, 1.0f);
             //Time.fixedDeltaTime = Time.timeScale * _fixedDeltaTime;
         }
-
+        #endregion
 
         #region Debug
         private void Log(string log)

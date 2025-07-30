@@ -64,6 +64,11 @@ namespace _Scripts.CautionaryTalesScripts {
             }
         }
 
+        public bool IsPlaying()
+        {
+            return _audioSource.isPlaying;
+        }
+
         public void SetAudioEvent(AudioEventScriptableObject audioEvent)
         {
             _audioEventSO = audioEvent;

@@ -23,5 +23,6 @@ MonoBehaviour:
       type: 2}
   _audioEvents: {fileID: 11400000, guid: 78de1700e8d589042a703bf5d9f11501, type: 2}
   _audioPlayback:
-    _volumeRange: {x: 0.5, y: 0.5}
-    _pitchRange: {x: 1, y: 1}
+    _volumeRange: {x: 0.3, y: 0.75}
+    _pitchRange: {x: 0.65, y: 1.75}
+    _playrateRange: {x: 0.5, y: 1.5}

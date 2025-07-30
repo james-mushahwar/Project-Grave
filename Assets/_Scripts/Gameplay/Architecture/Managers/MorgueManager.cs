@@ -1,4 +1,5 @@
 ﻿using _Scripts.CautionaryTalesScripts;
+using _Scripts.Gameplay.Architecture.DayCycle;
 using _Scripts.Gameplay.General.Morgue;
 using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Gameplay.Input.InputController;
@@ -28,6 +29,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public const uint MORGUE_TIMING_OKAY = 2;
         public const uint MORGUE_TIMING_POOR = 1;
         public const uint MORGUE_TIMING_NULL = 0;
+
+        [SerializeField] private DayNightCycle _dayNightCycle;
 
         private static string[] MORGUE_TIMING_PHRASES =
         {
@@ -99,22 +102,27 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 _morgueTickables[i].Tick();
             }
+
+            #region DayNight Cycle
+            _dayNightCycle.ManagedTick();
+            #endregion
         }
         // before world (level, area, zone) starts unloading
         public virtual void ManagedPreTearddownGame() { }
         // after world (level, area, zone) unloading
         public virtual void ManagedPostTearddownGame() { }
 
+        //Timings
         public static string GetTimingPhrase(int index)
         {
             return MORGUE_TIMING_PHRASES[index];
         }
 
+        //Animation and spawning
         public void Debug_SpawnMorgueActor()
         {
             MorgueActor actorSpawned = TrySpawnHouseChuteMorgueActor();
         }
-
         public MorgueActor TrySpawnHouseChuteMorgueActor()
         {
             bool spawned = false;
@@ -134,7 +142,6 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             return null;
         }
-
         public Animation TryEnterHouseChuteAnimation(MorgueActor actor)
         {
             Animation animation = null;
@@ -170,6 +177,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             return animation;
         }
 
+        //Morgue bodies and body parts
         public void PopulateMorgueBody(BodyMorgueActor body, EMorgueBodyVariant bodyVariantType = EMorgueBodyVariant.None)
         {
             if (body == null)
@@ -188,7 +196,6 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             PopulateMorgueBodyPart(body.LLegMorgueActor, true, bodyVariantType);
             PopulateMorgueBodyPart(body.RLegMorgueActor, true, bodyVariantType);
         }
-
         public void PopulateMorgueBodyPart(BodyPartMorgueActor bodyPart, bool updateCollision = true, EMorgueBodyVariant variant = EMorgueBodyVariant.None)
         {
             if (bodyPart == null)
@@ -248,7 +255,6 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             }
         }
-
         public BodyPartMorgueActor GetBodyPartActorParent(GameObject childGameObject) 
         {
             //T selected = default;
@@ -286,7 +292,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             return bodyPart;
         }
 
-        //reactions
+        //Morgue stimulus and reactions
         public void OnStimulusReceived(EMorgueStimulus stimulus, GameObject rootGO = null)
         {
             if (rootGO != null)
@@ -309,6 +315,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             return EAudioType.SFX_Timing_None + (int)timingType;
         }
+
     }
     
 }

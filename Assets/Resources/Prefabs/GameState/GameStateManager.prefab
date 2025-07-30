@@ -56,7 +56,7 @@ MonoBehaviour:
     type: 3}
   _animationManagerPrefab: {fileID: 420772769317262351, guid: 115019903c82ff6488d5f837ece54914,
     type: 3}
-  _morgueManagerPrefab: {fileID: 8014924620646975180, guid: 13634a49e69724f40a15373bd75bfe3f,
+  _morgueManagerPrefab: {fileID: 9119433563579683985, guid: 13634a49e69724f40a15373bd75bfe3f,
     type: 3}
   _feedbackManagerPrefab: {fileID: 2398821905989213024, guid: bbe00b4be2eb4354fa881e9c77e6f574,
     type: 3}
@@ -73,4 +73,6 @@ MonoBehaviour:
   _particleManagerPrefab: {fileID: 5994870613862295694, guid: 898b5dbbea70ca349bd384181d8be277,
     type: 3}
   _debugManagerPrefab: {fileID: 6356009666458317826, guid: be0394e306ca8694b9423407f11b0b2c,
+    type: 3}
+  _lightingManagerPrefab: {fileID: 5785615601432312073, guid: f83c7fdec8eb1f146934bc92c3e6091a,
     type: 3}

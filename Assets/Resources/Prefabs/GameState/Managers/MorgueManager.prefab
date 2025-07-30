@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1304065692680816600
+--- !u!1 &4576685125911258025
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4860732289267781988}
-  - component: {fileID: 8014924620646975180}
+  - component: {fileID: 4409256757396327552}
+  - component: {fileID: 9119433563579683985}
   m_Layer: 0
   m_Name: MorgueManager
   m_TagString: Untagged
@@ -17,39 +17,87 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4860732289267781988
+--- !u!4 &4409256757396327552
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1304065692680816600}
+  m_GameObject: {fileID: 4576685125911258025}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7763444213354391731}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9119433563579683985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4576685125911258025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0299de6b28690b4abacbe2779c63a01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dayNightCycle: {fileID: 6897503864509625100}
+  _timingColours:
+  - {r: 0.836478, g: 0.48567975, b: 0.29723898, a: 0}
+  - {r: 0.7735849, g: 0.586768, b: 0.2067757, a: 0}
+  - {r: 0.8490566, g: 0.81214166, b: 0.29636872, a: 0}
+  - {r: 0.76714444, g: 0.84276724, b: 0.32597592, a: 0}
+  - {r: 0.58101684, g: 0.7372549, b: 0.29803923, a: 0}
+  _morgueBodyAtlas: {fileID: 11400000, guid: eaea97c1cf9e705478e00eb88e159d90, type: 2}
+  _morgueActor: {fileID: 8096634858490036928, guid: 3813e8b299566e848b7b3374764b81aa,
+    type: 3}
+--- !u!1 &8865718525350212865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7763444213354391731}
+  - component: {fileID: 6897503864509625100}
+  m_Layer: 0
+  m_Name: DayNightCycle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &7763444213354391731
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8865718525350212865}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 4409256757396327552}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8014924620646975180
+--- !u!114 &6897503864509625100
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1304065692680816600}
+  m_GameObject: {fileID: 8865718525350212865}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0299de6b28690b4abacbe2779c63a01, type: 3}
+  m_Script: {fileID: 11500000, guid: e1bfd5c6cf31be343bf775d670c2b642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timingColours:
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 0.7830189, g: 0.30655926, b: 0.30655926, a: 0}
-  - {r: 0.7169812, g: 0.49819416, b: 0.26717696, a: 0}
-  - {r: 0.8018868, g: 0.7601962, b: 0.3290762, a: 0}
-  - {r: 0.71256876, g: 0.8773585, b: 0.3186632, a: 0}
-  _morgueBodyAtlas: {fileID: 11400000, guid: eaea97c1cf9e705478e00eb88e159d90, type: 2}
-  _morgueActor: {fileID: 8096634858490036928, guid: 3813e8b299566e848b7b3374764b81aa,
-    type: 3}
+  dayDuration: 600
+  _timeElapseFactor: 1

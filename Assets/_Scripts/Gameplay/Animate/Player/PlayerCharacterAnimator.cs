@@ -72,8 +72,10 @@ namespace _Scripts.Gameplay.Animate.Player{
         [SerializeField]
         private CinemachineImpulseSource _impulseSource_OperatingFriction;
 
+        #region Audio
         [SerializeField] private AudioHandler _heartbeatLowAudioHandler;
-
+        [SerializeField] private float _heartbeatAudioVolumeAlpha;
+        #endregion
         [SerializeField] private ParticleHandler _sawingBloodAreaVFXHandler;
         private float _bloodAreaFXTimer;
 
@@ -163,7 +165,27 @@ namespace _Scripts.Gameplay.Animate.Player{
             _rigControlDefaultLocalPosition = _rigHandPositionTransform.localPosition;
 
             _heartbeatLowAudioHandler.Owner = this.gameObject;
-            _heartbeatLowAudioHandler.IsActiveMethod = ShouldPlayOperationHeartBeat;
+            _heartbeatLowAudioHandler.IsActiveMethod = ContinueHeartbeatAudioHandle;
+        }
+
+        private bool ContinueHeartbeatAudioHandle()
+        {
+            if (_heartbeatLowAudioHandler._ctSource == null || _heartbeatLowAudioHandler._ctSource.IsPlaying() == false)
+            {
+                return false;
+            }
+
+            bool shouldBeActive = false;
+
+            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+            bool isOperating = currentOpState != null;
+
+            if (isOperating)
+            {
+                shouldBeActive = true;
+            }
+
+            return shouldBeActive;
         }
 
         private bool ShouldPlayOperationHeartBeat()
@@ -177,7 +199,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             {
                 if (currentOpState is DismemberOperationState)
                 {
-                    if (_operatingMomentum < 0.1f)
+                    if (true)
                     {
                         shouldBeActive = true;
                     }
@@ -235,12 +257,17 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                     if (animInTransition == false && idleAnimLayerStateInfo.shortNameHash.Equals(_sawingProgressStartLoopAnim_Hash) == true)
                     {
-                        if (_operatingMomentum < 0.1f)
+                        if (ShouldPlayOperationHeartBeat())
                         {
                             if (_heartbeatLowAudioHandler._active == false)
                             {
                                 AudioManager.Instance.TryPlayAudioSourceAttached(EAudioType.SFX_Heartbeat_Low,
                                     this.transform, _heartbeatLowAudioHandler);
+                                //_heartbeatLowAudioHandler.VolumeAlpha = 0.7f;
+                                bool playLouder = _operatingDirection == EDirectionType.West && !currentOpState.GetInputHeld(EInputType.LTrigger);
+                                //_heartbeatLowAudioHandler.VolumeAlpha = Mathf.MoveTowards(_heartbeatLowAudioHandler.VolumeAlpha, 1.0f, _heartbeatAudioVolumeAlpha * Time.deltaTime);
+                                _heartbeatLowAudioHandler.VolumeAlpha = playLouder ? 1.0f : 0.5f;
+                                _heartbeatLowAudioHandler.PitchAlpha = Mathf.Clamp(_operatingMomentum, 0.0f, 1.0f);
                             }
                         }
 
@@ -258,6 +285,8 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                     }
                 }
+
+                UpdateHeartbeatAudioHandler();
 
                 bool stopMovement = GetOperatingDirection() == EDirectionType.West && !currentOpState.GetInputHeld(EInputType.LTrigger);
                 if (stopMovement)
@@ -418,6 +447,18 @@ namespace _Scripts.Gameplay.Animate.Player{
             }
         }
 
+        private void UpdateHeartbeatAudioHandler()
+        {
+            if (_heartbeatLowAudioHandler._active)
+            {
+                if (_heartbeatLowAudioHandler.VolumeAlpha < 1.0f)
+                {
+                    _heartbeatLowAudioHandler.VolumeAlpha = Mathf.MoveTowards(_heartbeatLowAudioHandler.VolumeAlpha, 1.0f, _heartbeatAudioVolumeAlpha * Time.deltaTime);
+                }
+                
+                
+            }    
+        }
 
         public ETimingType GetAnimationTimingZone(float normalisedTime, float maxPlayback)
         {
