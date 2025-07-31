@@ -221,7 +221,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             _overviewOperationSites.Clear();
 
-            for (int i = bodyPartOpSites.Count - 1; i >= 0; i--)
+            for (int i = 0; i < bodyPartOpSites.Count; i++)
             {
                 OperationSite opSite = bodyPartOpSites[i];
                 _overviewOperationSites.Add(opSite);
