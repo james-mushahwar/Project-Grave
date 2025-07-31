@@ -17,6 +17,7 @@ using UnityEditor;
 using _Scripts.CautionaryTalesScripts;
 using System.Numerics;
 using Vector3 = UnityEngine.Vector3;
+using UnityEngine.UIElements;
 
 namespace _Scripts.Gameplay.Animate.Player{
     
@@ -512,6 +513,8 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             bool gain = prevTiming < newTiming;
             bool ignoreAudio = ((prevTiming == ETimingType.None || prevTiming == ETimingType.Poor) && newTiming == ETimingType.Perfect);
+            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+            DismemberOperationState dismemberOpState = currentOpState as DismemberOperationState;
 
             if (ignoreAudio)
             {
@@ -529,6 +532,18 @@ namespace _Scripts.Gameplay.Animate.Player{
                 if (timingAudio != EAudioType.SFX_Timing_None)
                 {
                     AudioManager.Instance.TryPlayAudioSourceAtLocation(timingAudio, transform.position);
+                }
+            }
+            else
+            {
+                if (newTiming == ETimingType.Poor && _operatingDirection == EDirectionType.West)
+                {
+                    if (currentOpState != null && dismemberOpState != null)
+                    {
+                        Vector3 offsetRotation = new Vector3(0.0f, -90.0f, 0.0f);
+                        dismemberOpState.PlayDirectionBloodFX(true, offsetRotation);
+
+                    }
                 }
             }
         }
@@ -816,7 +831,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 float animationPlaybackLimit = equippedTool.ToolProfile.GetMomentumPlaybackLimit(CurrentMomentum) * maxPlaybackLimit;
 
                 DismemberOperationState dismemberOpState = currentOpState as DismemberOperationState;
-                if (dismemberOpState != null)
+                if (dismemberOpState != null && _operationTimingZone != ETimingType.Poor)
                 {
                     dismemberOpState.PlayDirectionBloodFX(position == EDirectionType.West);
                 }

@@ -71,12 +71,12 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             _bloodFXEnumeratorHandle = null;
         }
 
-        public void PlayDirectionBloodFX(bool left)
+        public void PlayDirectionBloodFX(bool left, Vector3 offsetRotation = default)
         {
-            
             Vector3 progressPosition = GetProgressPosition();
 
             Vector3 progressRotation = GetProgressRotation(false);
+            progressRotation = GetProgressRotation(false) + offsetRotation;
             if (!left)
             {
                 progressRotation.y += 180.0f;
