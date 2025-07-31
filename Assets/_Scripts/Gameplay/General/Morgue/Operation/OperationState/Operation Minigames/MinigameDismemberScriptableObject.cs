@@ -281,7 +281,12 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
 
                 if (decay > 0.0f)
                 {
-                    VolumeManager.Instance.OnOperationPenaltyInput();
+                    //VolumeManager.Instance.OnOperationPenaltyInput();
+                    if (_playerAnimator.OperatingMomentum > 0.1f)
+                    {
+                        VolumeManager.Instance.OnOperationLosingMomentum();
+                    }
+                    
                 }
 
                 _playerAnimator.MinigameMomentum = _runtimeStats.OperatingMomentum;

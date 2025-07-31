@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78e73502e6036ec4999c8a77b68245c7, type: 3}
+  m_Name: VolumeProfileTarget_LosingMomentum
+  m_EditorClassIdentifier: 
+  _volumeProfiles:
+  - _override: 3
+    _profile: {fileID: 11400000, guid: eaaef556452ddc741bdba311f721fc74, type: 2}
+  _settings_ClearAllTweens: 0

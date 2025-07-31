@@ -74,6 +74,8 @@ namespace _Scripts.Gameplay.Architecture.Managers
         private VolumeProfileTargetScriptableObject _operationInputPrompt_VolumeTarget;
         [SerializeField]
         private VolumeProfileTargetScriptableObject _operationEnterPerfectZone_VolumeTarget;
+        [SerializeField]
+        private VolumeProfileTargetScriptableObject _operationLosingMomentum_VolumeTarget;
 
         #region General
         //Tweeners
@@ -198,6 +200,10 @@ namespace _Scripts.Gameplay.Architecture.Managers
         public void OnOperationEnterPerfectZone()
         {
             EvaluateVolumeProfile(_operationEnterPerfectZone_VolumeTarget);
+        }
+        public void OnOperationLosingMomentum()
+        {
+            EvaluateVolumeProfile(_operationLosingMomentum_VolumeTarget);
         }
 
         #endregion

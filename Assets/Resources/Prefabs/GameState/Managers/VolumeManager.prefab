@@ -52,3 +52,5 @@ MonoBehaviour:
     type: 2}
   _operationEnterPerfectZone_VolumeTarget: {fileID: 11400000, guid: a6b501e5fd357a744a7b0ef9dc9f6182,
     type: 2}
+  _operationLosingMomentum_VolumeTarget: {fileID: 11400000, guid: 6a7b7579abd9ad84e8d95d51999e4aae,
+    type: 2}
