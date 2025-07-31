@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Dismember_OperationMinigameSO
   m_EditorClassIdentifier: 
   _inputTimingBoostValues:
-    _nullTiming: -0.3
-    _poorTiming: -0.1
+    _nullTiming: -0.1
+    _poorTiming: -0.2
     _okayTiming: 0
     _greatTiming: 0.01
     _perfectTiming: 0.1
@@ -33,6 +33,30 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 0.25500315
+      inSlope: 0.049767002
+      outSlope: 0.049767002
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09850203
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _operatingMomentumPoorTimingDecayCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.18351464
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.28847235
       inSlope: 0.049767002
       outSlope: 0.049767002
       tangentMode: 0

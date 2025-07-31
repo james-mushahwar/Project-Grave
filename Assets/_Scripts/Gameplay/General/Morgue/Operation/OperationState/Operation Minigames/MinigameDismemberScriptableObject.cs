@@ -14,6 +14,8 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         [SerializeField]
         AnimationCurve _operatingMomentumDecayCurve; // rate at which momentum decays when momentum is between 0 to 1.
         [SerializeField]
+        AnimationCurve _operatingMomentumPoorTimingDecayCurve; // rate at which momentum slows during POOR time zone.
+        [SerializeField]
         AnimationCurve _operatingMomentumDecayDelayCurve; // delay the momentum holds for before decaying after input outside of perfect timing
         [SerializeField]
         private AnimationCurve _operatingMomentumAdditiveCurve; // momentum gained over time when valid input is held
@@ -252,7 +254,13 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
 
             if (updateMomentum)
             {
-                if (!correctDirection && !isInChangeDirectionWindow && _runtimeStats.GetInputHeld(EInputType.LTrigger) && !_playerAnimator.GetPerfectTimingActive())
+                if (_playerAnimator.OperationTimingZone == ETimingType.Poor)
+                {
+                    //slow down
+                    momentumChange = -1.0f;
+                    decay = _operatingMomentumPoorTimingDecayCurve.Evaluate(_runtimeStats.OperatingMomentum);
+                }
+                else if (!correctDirection && !isInChangeDirectionWindow && _runtimeStats.GetInputHeld(EInputType.LTrigger) && !_playerAnimator.GetPerfectTimingActive())
                 {
                     //slow down
                     momentumChange = -1.0f;

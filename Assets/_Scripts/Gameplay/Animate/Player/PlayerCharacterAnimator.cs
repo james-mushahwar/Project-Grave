@@ -15,6 +15,8 @@ using Cinemachine;
 using MoreMountains.Feedbacks;
 using UnityEditor;
 using _Scripts.CautionaryTalesScripts;
+using System.Numerics;
+using Vector3 = UnityEngine.Vector3;
 
 namespace _Scripts.Gameplay.Animate.Player{
     
@@ -141,6 +143,14 @@ namespace _Scripts.Gameplay.Animate.Player{
         {
             get { return _operationTimingZone; }
         }
+        public bool InPoorZone
+        {
+            
+            get
+            {
+                return false;
+            }
+        }
 
         public void Disable()
         {
@@ -218,7 +228,12 @@ namespace _Scripts.Gameplay.Animate.Player{
             //_operatingMomentumInvalidInputTimer = Mathf.Clamp(_operatingMomentumInvalidInputTimer - Time.deltaTime, 0.0f, _operatingMomentumInvalidInputDelay);
             bool limitAnimationPlayback = false;
             float maxPlaybackLimit = 1.0f;
+
+            EFeedbackPattern operationFeedbackPattern = EFeedbackPattern.Operation_SawSmooth;
             bool playOperationFeedback = false;
+            float cameraShakeFactor = 1.0f;
+            Vector3 cameraShakeFrictionVelocity = new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.01f, 0.01f), 0f);
+
             float feedbackLowFrequencyFactor = -1.0f;
             float feedbackHighFrequencyFactor = -1.0f;
 
@@ -274,8 +289,21 @@ namespace _Scripts.Gameplay.Animate.Player{
                         if (_operatingDirection == EDirectionType.West)
                         {
                             limitAnimationPlayback = true;
-                            if (_operatingAnimLerpSpeed > 0)
+
+                            if (OperationTimingZone == ETimingType.Poor)
                             {
+                                cameraShakeFactor = 5.0f * (1 - _operatingMomentum);
+                                new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.025f, 0.025f), 0f);
+
+                                playOperationFeedback = true;
+
+                                operationFeedbackPattern = EFeedbackPattern.Operation_SawJammed;
+                            }
+                            else if (_operatingAnimLerpSpeed > 0)
+                            {
+                                cameraShakeFactor = 1 - _operatingMomentum;
+                                cameraShakeFrictionVelocity = new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.01f, 0.01f), 0f);
+
                                 playOperationFeedback = true;
                             }
                         }
@@ -337,10 +365,9 @@ namespace _Scripts.Gameplay.Animate.Player{
                 // Operation feedback //
                 if (playOperationFeedback)
                 {
-                    Vector3 velocity = new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.01f, 0.01f), 0f) * (1 - _operatingMomentum);
-                    _impulseSource_OperatingFriction.GenerateImpulseWithVelocity(velocity);
+                    _impulseSource_OperatingFriction.GenerateImpulseWithVelocity(cameraShakeFrictionVelocity * cameraShakeFactor);
 
-                    FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawSmooth);
+                    FeedbackManager.Instance.TryFeedbackPattern(operationFeedbackPattern);
                     if (equippedTool != null)
                     {
                         feedbackLowFrequencyFactor = equippedTool.ToolProfile.GetMomentumFeedback(animationSpeedMultiplier);

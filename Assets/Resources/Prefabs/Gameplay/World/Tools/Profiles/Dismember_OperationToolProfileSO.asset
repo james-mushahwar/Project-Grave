@@ -122,7 +122,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _timingZones:
-  - _timingType: 1
+  - _timingType: 0
     _time: 0
   - _timingType: 2
     _time: 0.15
