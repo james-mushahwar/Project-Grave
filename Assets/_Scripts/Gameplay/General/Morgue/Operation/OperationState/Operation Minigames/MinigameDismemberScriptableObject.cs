@@ -272,12 +272,15 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                     momentumChange = -1.0f;
                     decay = _operatingMomentumDecayCurve.Evaluate(_runtimeStats.OperatingMomentum) * _operatingMomentumInvalidInputTimedDampnerCurve.Evaluate(_runtimeStats.OperatingMomentumInvalidInputTimer / _operatingMomentumInvalidInputDecayDelay);
                 }
-                else if (_runtimeStats.GetInputHeld(EInputType.LTrigger) && correctDirection)
+                else if (_runtimeStats.GetInputHeld(EInputType.LTrigger) && correctDirection && _runtimeStats.OperatingMomentum < 0.25f)
                 {
+                    // speed up
                     momentumChange = 1.0f;
                     heldRate = _operatingMomentumAdditiveCurve.Evaluate(_runtimeStats.OperatingMomentum);
                 }
                 _runtimeStats.OperatingMomentum = Mathf.Clamp(_runtimeStats.OperatingMomentum + (momentumChange * (decay + heldRate) * Time.deltaTime), 0.0f, 1.0f);
+
+                EAudioSnapshot snapshotType = EAudioSnapshot.Operation_Calm;
 
                 if (decay > 0.0f)
                 {
@@ -286,8 +289,14 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                     {
                         VolumeManager.Instance.OnOperationLosingMomentum();
                     }
-                    
+
+                    if (_runtimeStats.OperatingMomentum > 0.1f)
+                    {
+                        snapshotType = EAudioSnapshot.Operation_Intense;
+                    }
                 }
+
+                AudioManager.Instance.TransitionToSnapshot(snapshotType, 0.5f);
 
                 _playerAnimator.MinigameMomentum = _runtimeStats.OperatingMomentum;
             }

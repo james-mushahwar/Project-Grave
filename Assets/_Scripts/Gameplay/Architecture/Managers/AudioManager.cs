@@ -156,6 +156,16 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         StopLowestPriorityThenPreventNew    // stop lowest priority and play new, if all same priority preventnew
     }
 
+    public enum EAudioSnapshot
+    {
+        //Default
+        Default = 0,
+
+        //Operation
+        Operation_Calm = 100,
+        Operation_Intense,
+    }
+
     [Serializable]
     public class AudioTypeConcurrency
     {
@@ -324,6 +334,16 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         private AudioClip[] _audioClips = new AudioClip[(int) EAudioType.COUNT];
 
+        #region Audio Mixers and Snapshots
+
+        [SerializeField] private AudioMixer _audioMixer;
+        private AudioMixerSnapshot _currentSnapshot;
+
+        [SerializeField] private AudioMixerSnapshot _snapshotGraveyard;
+        [SerializeField] private AudioMixerSnapshot _snapshotOperation_Calm;
+        [SerializeField] private AudioMixerSnapshot _snapshotOperation_Intense;
+        #endregion
+
         [Header("SFX")]
         [SerializeField]
         private AudioMixerGroup _sfxMixerGroup;
@@ -400,6 +420,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public virtual void ManagedPostInitialiseGameState()
         {
             //base.Awake();
+            TransitionToSnapshot(EAudioSnapshot.Default, 0.0f);
 
             // audio types
             List<EAudioType> audioTypes = new List<EAudioType>();
@@ -488,6 +509,22 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public void ManagedTick()
         {
+            //audio mixer and snapshots
+            bool isOperating = OperationManager.Instance.IsOperating();
+            AudioMixerSnapshot targetSnapshot = _currentSnapshot;
+            if (_audioMixer)
+            {
+                if (isOperating)
+                {
+
+                }
+                else
+                {
+                    //_audioMixer.FindSnapshot()
+                }
+            }
+           
+
             Transform audioListenerTransform;
             Camera mainCam = CameraManager.Instance.MainCamera;
 
@@ -1327,6 +1364,40 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Heartbeat_Low);
             }
         }
+
+        //Audio Snapshots
+        public void TransitionToSnapshot(EAudioSnapshot snapshotType, float blendTime)
+        {
+            AudioMixerSnapshot snapshot = GetAudioMixerSnapshot(snapshotType);
+
+            if (snapshot != null)
+            {
+                if (snapshot != _currentSnapshot)
+                {
+                    _currentSnapshot = snapshot;
+                    _currentSnapshot.TransitionTo(blendTime);
+                }
+            }
+        }
+
+        private AudioMixerSnapshot GetAudioMixerSnapshot(EAudioSnapshot snapshotType)
+        {
+            if (snapshotType == EAudioSnapshot.Default)
+            {
+                return _snapshotGraveyard;
+            }
+            else if (snapshotType == EAudioSnapshot.Operation_Calm)
+            {
+                return _snapshotOperation_Calm;
+            }
+            else if (snapshotType == EAudioSnapshot.Operation_Intense)
+            {
+                return _snapshotOperation_Intense;
+            }
+
+            return null;
+        }
+
 
         //Audio tracks
         public void PlayAudio(EAudioTrackTypes type, bool fade = false, float delay = 0.0f)

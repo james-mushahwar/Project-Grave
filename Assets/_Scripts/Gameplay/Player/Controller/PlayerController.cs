@@ -922,6 +922,8 @@ namespace _Scripts.Gameplay.Player.Controller{
             _chosenOperationState = OperationManager.Instance.CurrentOperationState;
 
             _bodyPartMorgueActor.StartOperation(_chosenOperationState, this);
+
+            AudioManager.Instance.TransitionToSnapshot(EAudioSnapshot.Operation_Calm, 0.5f);
             //_bodyPartMorgueActor.OperationState.BeginOperationState();
 
             if (toolToUse != null)
@@ -952,6 +954,8 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             //}
             FeedbackManager.Instance.StopFeedbackPattern();
+
+            AudioManager.Instance.TransitionToSnapshot(EAudioSnapshot.Default, 0.5f);
 
             bool leaveOpTable = false;
 

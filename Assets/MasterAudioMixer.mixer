@@ -22,6 +22,23 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!245 &-7660778751586535202
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Operation_Calm
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: a27c907e0127290448252c139c631c4d
+  m_FloatValues:
+    739261c6c3d841542847e3dabd581900: 942
+    202338c87bb88f64087fd9ebdc9e10a3: 0.313
+    06764719d457fed468300ffe5134b466: -4.1
+    f9aee779dde69e44096deb968fd7c900: 0.98
+    b5fb89ecaa0248a40885209e974f8339: 0.97
+    ea61a57e42babca4a8201d8775847ddb: 0.108
+  m_TransitionOverrides: {}
 --- !u!243 &-7025198782143879555
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -66,6 +83,23 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!245 &-3962326488582474261
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Operation_Intense
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: 14a5aa3e18c0ca24396dd550d0ef2b70
+  m_FloatValues:
+    739261c6c3d841542847e3dabd581900: 942
+    202338c87bb88f64087fd9ebdc9e10a3: 0.332
+    06764719d457fed468300ffe5134b466: -4.1
+    f9aee779dde69e44096deb968fd7c900: 0.98
+    b5fb89ecaa0248a40885209e974f8339: 0.951
+    ea61a57e42babca4a8201d8775847ddb: 0.211
+  m_TransitionOverrides: {}
 --- !u!244 &-1975074713295138193
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -115,6 +149,8 @@ AudioMixerController:
   m_MasterGroup: {fileID: 24300002}
   m_Snapshots:
   - {fileID: 24500006}
+  - {fileID: -7660778751586535202}
+  - {fileID: -3962326488582474261}
   m_StartSnapshot: {fileID: 24500006}
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
@@ -131,7 +167,7 @@ AudioMixerController:
     - e1d3ee4342983ee4d9bfdda80a464a5c
     name: View - Copy
   m_CurrentViewIndex: 1
-  m_TargetSnapshot: {fileID: 24500006}
+  m_TargetSnapshot: {fileID: -3962326488582474261}
 --- !u!243 &24300002
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -173,7 +209,7 @@ AudioMixerSnapshotController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Snapshot
+  m_Name: Graveyard
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 8f2d422fc3356f6459758f6d1629b9d0
   m_FloatValues:

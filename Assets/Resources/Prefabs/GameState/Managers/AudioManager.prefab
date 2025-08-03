@@ -47,6 +47,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioSourcePool: {fileID: 4915513352852467738}
+  _audioMixer: {fileID: 24100000, guid: 3589d67138f2db24b883abe75f7ed9d0, type: 2}
+  _snapshotGraveyard: {fileID: 24500006, guid: 3589d67138f2db24b883abe75f7ed9d0, type: 2}
+  _snapshotOperation_Calm: {fileID: -7660778751586535202, guid: 3589d67138f2db24b883abe75f7ed9d0,
+    type: 2}
+  _snapshotOperation_Intense: {fileID: -3962326488582474261, guid: 3589d67138f2db24b883abe75f7ed9d0,
+    type: 2}
   _sfxMixerGroup: {fileID: -9149484039217193197, guid: 3589d67138f2db24b883abe75f7ed9d0,
     type: 2}
   _audioCueDictionary:
