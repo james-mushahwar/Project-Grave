@@ -338,10 +338,10 @@ namespace _Scripts.Gameplay.Animate.Player{
                 Vector3 progressRotation = currentOpState.GetProgressRotation(false);
                 float animationSpeedMultiplier = _operatingAnimLerpSpeed * (_operatingAnimationSpeedDampnerCurve.Evaluate(_operatingMomentum));
 
-                float effectiveness = 1.0f;
+                float deltaProceedStep = 0.0f;
                 if (equippedTool != null)
                 {
-                    effectiveness = equippedTool.ToolProfile.GetMomentumEffectivenessFactor(_operatingMomentum);
+                    deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(animationSpeedMultiplier);
 
                     if (_bloodAreaFXTimer > 0.0f)
                     {
@@ -392,7 +392,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 // progress operation //
                 if (PlayerManager.Instance.CurrentPlayerController.ChosenOperationState != null)
                 {
-                    PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.ProceedOperation(_operatingMomentum * effectiveness);
+                    PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.ProceedOperation(deltaProceedStep);
                 }
                 ////
 

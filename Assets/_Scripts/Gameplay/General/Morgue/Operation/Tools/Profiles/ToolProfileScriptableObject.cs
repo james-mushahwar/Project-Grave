@@ -38,9 +38,16 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
 
         [SerializeField] protected List<FTimingZone> _timingZones = new List<FTimingZone>();
 
-        public float GetMomentumEffectivenessFactor(float momentum)
+        [SerializeField] private float _maxProceedStep;
+
+        public float GetAnimationSpeedEffectivenessFactor(float animSpeed)
         {
-            return _momentumEffectivenessCurve.Evaluate(momentum);
+            return _momentumEffectivenessCurve.Evaluate(animSpeed);
+        }
+
+        public float GetDeltaProgressStep(float animSpeed)
+        {
+            return Time.deltaTime * GetAnimationSpeedEffectivenessFactor(animSpeed) * _maxProceedStep;
         }
 
         public float GetMomentumPlaybackLimit(float momentum)

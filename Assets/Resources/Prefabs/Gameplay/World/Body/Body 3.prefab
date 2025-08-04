@@ -1761,7 +1761,7 @@ MonoBehaviour:
     _operationStateVirtualCamera:
       _camType: 10000
       _virtualCamera: {fileID: 1690341747505225440}
-    _proceedStep: 0.1
+    _proceedStep: 0.5
     _operationStartTransform: {fileID: 0}
     _operationEndTransform: {fileID: 0}
     _operationStartOffsetTransform: {fileID: 0}
