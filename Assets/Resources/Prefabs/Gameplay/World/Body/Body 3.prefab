@@ -95,7 +95,6 @@ MonoBehaviour:
     _operationStateVirtualCamera:
       _camType: 0
       _virtualCamera: {fileID: 0}
-    _proceedStep: 0.1
     _operationStartTransform: {fileID: 0}
     _operationEndTransform: {fileID: 0}
     _operationStartOffsetTransform: {fileID: 0}
@@ -123,7 +122,6 @@ MonoBehaviour:
     _operationStateVirtualCamera:
       _camType: 0
       _virtualCamera: {fileID: 0}
-    _proceedStep: 0.1
     _operationStartTransform: {fileID: 0}
     _operationEndTransform: {fileID: 0}
     _operationStartOffsetTransform: {fileID: 0}
@@ -152,7 +150,6 @@ MonoBehaviour:
     _operationStateVirtualCamera:
       _camType: 0
       _virtualCamera: {fileID: 0}
-    _proceedStep: 0.1
     _operationStartTransform: {fileID: 0}
     _operationEndTransform: {fileID: 0}
     _operationStartOffsetTransform: {fileID: 0}
@@ -1733,7 +1730,6 @@ MonoBehaviour:
     _operationStateVirtualCamera:
       _camType: 10001
       _virtualCamera: {fileID: 1690341747505225440}
-    _proceedStep: 0.75
     _operationStartTransform: {fileID: 177233610976775670}
     _operationEndTransform: {fileID: 721260419216286315}
     _operationStartOffsetTransform: {fileID: 2543564306707494131}
@@ -1761,7 +1757,6 @@ MonoBehaviour:
     _operationStateVirtualCamera:
       _camType: 10000
       _virtualCamera: {fileID: 1690341747505225440}
-    _proceedStep: 0.5
     _operationStartTransform: {fileID: 0}
     _operationEndTransform: {fileID: 0}
     _operationStartOffsetTransform: {fileID: 0}
@@ -1790,7 +1785,6 @@ MonoBehaviour:
     _operationStateVirtualCamera:
       _camType: 202
       _virtualCamera: {fileID: 1690341747505225440}
-    _proceedStep: 0.1
     _operationStartTransform: {fileID: 0}
     _operationEndTransform: {fileID: 0}
     _operationStartOffsetTransform: {fileID: 0}
@@ -2231,14 +2225,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3947800317468152895}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.6764215, y: 0.6764213, z: 0.20604366, w: -0.20604427}
-  m_LocalPosition: {x: 1.0119989, y: 1.4669995, z: 0.9870001}
+  m_LocalRotation: {x: -0.6017134, y: 0.7217375, z: 0.22611962, w: -0.25672165}
+  m_LocalPosition: {x: 0.835, y: 1.4, z: 0.822}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4429618804203326276}
   m_Father: {fileID: 145700881315103308}
-  m_LocalEulerAnglesHint: {x: 0, y: 213.882, z: -90}
+  m_LocalEulerAnglesHint: {x: -1, y: 220, z: -80}
 --- !u!114 &1690341747505225440
 MonoBehaviour:
   m_ObjectHideFlags: 0
