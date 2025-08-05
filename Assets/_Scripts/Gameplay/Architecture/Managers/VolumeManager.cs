@@ -242,21 +242,30 @@ namespace _Scripts.Gameplay.Architecture.Managers
         {
             if (tweenType == EVolumeOverride.Bloom)
             {
-                tweenerRef = _bloomIntensityTweener;
-                floatDefaultRef = _bloomDefaultIntensity;
-                volumeParamRef = _globalVolumeBloom.intensity;
+                if (_globalVolumeBloom)
+                {
+                    tweenerRef = _bloomIntensityTweener;
+                    floatDefaultRef = _bloomDefaultIntensity;
+                    volumeParamRef = _globalVolumeBloom.intensity;
+                }
             }
             else if (tweenType == EVolumeOverride.ChromaticAbberation)
             {
-                tweenerRef = _chromaticAberrationIntensityTweener;
-                floatDefaultRef = _chromaticAberrationDefaultIntensity;
-                volumeParamRef = _globalVolumeChromaticAberration.intensity;
+                if (_globalVolumeChromaticAberration)
+                {
+                    tweenerRef = _chromaticAberrationIntensityTweener;
+                    floatDefaultRef = _chromaticAberrationDefaultIntensity;
+                    volumeParamRef = _globalVolumeChromaticAberration.intensity;
+                }
             }
             else if (tweenType == EVolumeOverride.Vignette)
             {
-                tweenerRef = _vignetteIntensityTweener;
-                floatDefaultRef = _vignetteDefaultIntensity;
-                volumeParamRef = _globalVolumeVignette.intensity;
+                if (_globalVolumeVignette)
+                {
+                    tweenerRef = _vignetteIntensityTweener;
+                    floatDefaultRef = _vignetteDefaultIntensity;
+                    volumeParamRef = _globalVolumeVignette.intensity;
+                }
             }
         }
 
