@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMinigames {
 
-    [CreateAssetMenu(menuName = "Operation/OperationMinigame", fileName = "OperationMinigameSO")]
+    [CreateAssetMenu(menuName = "Operation/OperationMinigame/Dismember", fileName = "DismemberOperationMinigameSO")]
     public class MinigameDismemberScriptableObject : OperationMinigameScriptableObject
     {
         [SerializeField]
