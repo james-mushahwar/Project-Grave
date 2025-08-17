@@ -254,7 +254,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
 
             if (updateMomentum)
             {
-                if (_playerAnimator.OperationTimingZone == ETimingType.Poor)
+                if (_playerAnimator.OperationTimingZone == ETimingType.Poor && _playerAnimator.GetInLastTimingZone())
                 {
                     //slow down
                     momentumChange = -1.0f;

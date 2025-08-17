@@ -18,6 +18,7 @@ using _Scripts.CautionaryTalesScripts;
 using System.Numerics;
 using Vector3 = UnityEngine.Vector3;
 using UnityEngine.UIElements;
+using System.Diagnostics.Tracing;
 
 namespace _Scripts.Gameplay.Animate.Player{
     
@@ -125,7 +126,8 @@ namespace _Scripts.Gameplay.Animate.Player{
         private bool _perfectTimingAvailable = false;
         private bool _perfectTimingActive = false;
         private EDirectionType _operatingDirection = EDirectionType.West;
-        private ETimingType _operationTimingZone;
+        private ETimingType _operationTimingZone = ETimingType.None;
+        private float _currentNormaliseAnimPlayback = 0.0f;
 
         public bool InPerfectZone
         {
@@ -142,7 +144,18 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         public ETimingType OperationTimingZone
         {
-            get { return _operationTimingZone; }
+            get 
+            {
+                PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+                if (pc)
+                {
+                    if (pc.EquippedOperatingTool)
+                    {
+                        return pc.EquippedOperatingTool.CurrentTimingZone;
+                    }
+                }
+                return _operationTimingZone;
+            }
         }
         public bool InPoorZone
         {
@@ -412,6 +425,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 //change direction if at limits
                 bool changeDirection = false;
+
                 if (animationSpeedMultiplier != 0.0f)
                 {
                     // Get the current normalized time and playback speed
@@ -428,8 +442,9 @@ namespace _Scripts.Gameplay.Animate.Player{
                     bool westwardEnd = (predictedNormalizedTime > maxPlaybackLimit && _operatingDirection == EDirectionType.West);
                     changeDirection = eastwardEnd || westwardEnd;
 
-                    ETimingType previousTiming = _operationTimingZone;
-                    _operationTimingZone = GetAnimationTimingZone(currentNormalizedTime, maxPlaybackLimit);
+                    ETimingType previousTiming = OperationTimingZone;
+                    _currentNormaliseAnimPlayback = currentNormalizedTime / maxPlaybackLimit;
+                    _operationTimingZone = GetAnimationTimingZone(_currentNormaliseAnimPlayback);
                     OnTimingTypeChanged(previousTiming, _operationTimingZone);
 
                     if (changeDirection)
@@ -488,17 +503,16 @@ namespace _Scripts.Gameplay.Animate.Player{
             }    
         }
 
-        public ETimingType GetAnimationTimingZone(float normalisedTime, float maxPlayback)
+        public ETimingType GetAnimationTimingZone(float ratio)
         {
-            float ratio = normalisedTime / maxPlayback;
-
             ETimingType score = (int)MorgueManager.MORGUE_TIMING_NULL;
 
             MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
 
             if (equippedTool != null)
             {
-                score = equippedTool.ToolProfile.GetTimingZone(ratio);
+                score = equippedTool.GetTimingZone(ratio);
+                equippedTool.SetTimingZone(score);
             }
 
             return score;
@@ -578,7 +592,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                     Vector3 distance = currentOpState.OperationStartTransform.position - currentOpState.OperationEndTransform.position;
                     float widthAlpha = (distance.y / 2) * Mathf.Sin(degrees);
 
-                    Debug.Log("Width: " + widthAlpha);
+                    //Debug.Log("Width: " + widthAlpha);
                     DrawGizmos.ForDirectionDebug(progressPosition, direction * widthAlpha, 0.05f, 20.0f);
                     DrawGizmos.ForDirectionDebug(progressPosition, -direction * widthAlpha, 0.05f, 20.0f);
                 }
@@ -827,6 +841,14 @@ namespace _Scripts.Gameplay.Animate.Player{
             {
                 MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
 
+                if (equippedTool)
+                {
+                    if (_operatingDirection == EDirectionType.West)
+                    {
+                        equippedTool.UpdateTimingZoneSet();
+                    }
+                }
+
                 float maxPlaybackLimit = equippedTool.ToolProfile.GetAnimationPlaybackLimit();
                 float animationPlaybackLimit = equippedTool.ToolProfile.GetMomentumPlaybackLimit(CurrentMomentum) * maxPlaybackLimit;
 
@@ -919,6 +941,18 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             _operatingDirectionChangeTimer = value;
             _operatingDirectionChangeMaxTimer = value;
+        }
+
+        public bool GetInLastTimingZone()
+        {
+            MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
+
+            if (equippedTool == null)
+            {
+                return equippedTool.GetInLastTimingZone(_currentNormaliseAnimPlayback);
+            }
+
+            return false;
         }
         #endregion
     }

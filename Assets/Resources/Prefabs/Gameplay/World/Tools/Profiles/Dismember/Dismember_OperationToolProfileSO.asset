@@ -121,15 +121,32 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _timingZones:
-  - _timingType: 0
-    _time: 0
-  - _timingType: 2
-    _time: 0.12
-  - _timingType: 3
-    _time: 0.33
-  - _timingType: 4
-    _time: 0.47
-  - _timingType: 1
-    _time: 0.585
+  _timingZoneSets:
+  - _timingsZones:
+    - _timingType: 0
+      _time: 0
+    - _timingType: 2
+      _time: 0.12
+    - _timingType: 3
+      _time: 0.33
+    - _timingType: 4
+      _time: 0.47
+    - _timingType: 1
+      _time: 0.585
+    _timingToolTexture: {fileID: 2800000, guid: 970d1713ce247f045bab040d80f203ee,
+      type: 3}
+  - _timingsZones:
+    - _timingType: 1
+      _time: 0
+    - _timingType: 2
+      _time: 0.1
+    - _timingType: 4
+      _time: 0.3
+    - _timingType: 3
+      _time: 0.5
+    - _timingType: 1
+      _time: 0.565
+    _timingToolTexture: {fileID: 2800000, guid: 8d82685fca9bc9e4bb1b32831d4ad98d,
+      type: 3}
+  _defaultToolTexture: {fileID: 0}
   _maxProceedStep: 0.2

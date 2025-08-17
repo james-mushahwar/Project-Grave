@@ -1,11 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
+using MoreMountains.Tools;
 using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
     
@@ -15,12 +19,16 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
 
         [SerializeField] protected Transform _toolStartingTransform;
 
+        [SerializeField] protected MeshRenderer _toolMeshRenderer;
+
         public Transform ToolStartingTransform
         {
             get { return _toolStartingTransform; }
         }
 
         protected bool _animateTool = false;
+        private ETimingType _currentTimingZone = ETimingType.None;
+        private FTimingZoneSet _currentTimingZoneSet;
 
         [SerializeField] protected float _lerpMoveSpeed;
         public ref FStorable ToolStorable { get { return ref _toolStorable; } }
@@ -33,6 +41,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
         private ToolProfileScriptableObject _toolProfile;
 
         public ToolProfileScriptableObject ToolProfile { get => _toolProfile; }
+        public ETimingType CurrentTimingZone { get => _currentTimingZone; }
 
         public override void Setup()
         {
@@ -44,7 +53,21 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
 
             _toolStorable.StorableParent = this;
 
+            ResetTimingZoneSet();
+
             //DefaultStorage.TryStore(_toolStorable);
+        }
+
+        public override void Tick()
+        {
+            if (PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool == this)
+            {
+                //_currentTimingZone = GetTimingZone();
+            }
+            else
+            {
+                _currentTimingZone = ETimingType.None;
+            }
         }
 
         public virtual IStorable StoreIntoStorage(IStorage storage)
@@ -146,6 +169,108 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
         {
             return false;
         }
+
+        public virtual ETimingType GetTimingZone(float ratio)
+        {
+            if (ToolProfile == null)
+            {
+                return ETimingType.None;
+            }
+
+            if (_currentTimingZoneSet.TimingsZones == null || _currentTimingZoneSet.TimingsZones.Count == 0)
+            {
+                return ETimingType.None;
+            }
+
+            ETimingType zone = ETimingType.None;
+            for (int i = _currentTimingZoneSet.TimingsZones.Count - 1; i >= 0; i--)
+            {
+                FTimingZone timingZone = _currentTimingZoneSet.TimingsZones[i];
+                float value = timingZone.Time;
+                if (ratio >= value)
+                {
+                    zone = timingZone.TimingType;
+                    break;
+                }
+            }
+            
+            return zone;
+        }
+
+        public bool GetInLastTimingZone(float ratio)
+        {
+            if (ToolProfile == null)
+            {
+                return false;
+            }
+
+            if (_currentTimingZoneSet.TimingsZones == null || _currentTimingZoneSet.TimingsZones.Count == 0)
+            {
+                return false;
+            }
+
+            int count = 0;
+            int zoneCount = _currentTimingZoneSet.TimingsZones.Count;
+
+            for (int i = 0; i < zoneCount; i++)
+            {
+                FTimingZone timingZone = _currentTimingZoneSet.TimingsZones[i];
+                float value = timingZone.Time;
+                if (value <= ratio)
+                {
+                    count++;
+                }
+            }
+
+            return count == zoneCount;
+        }
+
+        public virtual void SetTimingZone(ETimingType timingType)
+        {
+            _currentTimingZone = timingType;
+        }
+
+        public void UpdateTimingZoneSet(bool random = true)
+        {
+            if (ToolProfile == null)
+            {
+                return;
+            }
+
+            if (_currentTimingZoneSet.TimingsZones == null || _currentTimingZoneSet.TimingsZones.Count == 0)
+            {
+                return;
+            }
+
+            FTimingZoneSet timingZoneSet = ToolProfile.TimingZonesSets[0];
+
+            if (random)
+            {
+                timingZoneSet = ToolProfile.TimingZonesSets[Random.Range(0, ToolProfile.TimingZonesSets.Count)];
+                SetTimingZoneSet(timingZoneSet);
+            }
+        }
+
+        public virtual void SetTimingZoneSet(FTimingZoneSet timingZoneSet)
+        {
+            _currentTimingZoneSet = timingZoneSet;
+
+            if (_currentTimingZoneSet.TimingToolTexture != null)
+            {
+                if (_toolMeshRenderer.material.mainTexture != _currentTimingZoneSet.TimingToolTexture)
+                {
+                    _toolMeshRenderer.material.mainTexture = _currentTimingZoneSet.TimingToolTexture;
+                }
+            }
+        }
+        public virtual void ResetTimingZoneSet()
+        {
+            if (ToolProfile && ToolProfile.TimingZonesSets != null)
+            {
+                _currentTimingZoneSet = ToolProfile.TimingZonesSets[0];
+            }
+        }
+
     }
-    
+
 }

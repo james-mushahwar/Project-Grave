@@ -7,6 +7,18 @@ using UnityEngine;
 namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
 
     [Serializable]
+    public struct FTimingZoneSet
+    {
+        [SerializeField]
+        private List<FTimingZone> _timingsZones;
+        [SerializeField]
+        private Texture2D _timingToolTexture;
+
+        public List<FTimingZone> TimingsZones { get => _timingsZones; }
+        public Texture2D TimingToolTexture { get => _timingToolTexture; }
+    }
+
+    [Serializable]
     public struct FTimingZone
     {
         [SerializeField] private ETimingType _timingType;
@@ -21,6 +33,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
         {
             get { return _time; }
         }
+
     }
 
     public abstract class ToolProfileScriptableObject : ScriptableObject
@@ -36,9 +49,13 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
         [SerializeField]
         private AnimationCurve _normalisedMomentumToFeedbackFactorCurve;
 
-        [SerializeField] protected List<FTimingZone> _timingZones = new List<FTimingZone>();
+        [SerializeField] private List<FTimingZoneSet> _timingZoneSets = new List<FTimingZoneSet>();
+
+        [SerializeField] protected Texture2D _defaultToolTexture;
 
         [SerializeField] private float _maxProceedStep;
+
+        public List<FTimingZoneSet> TimingZonesSets { get => _timingZoneSets; }
 
         public float GetAnimationSpeedEffectivenessFactor(float animSpeed)
         {
@@ -76,21 +93,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
             return feedback;
         }
 
-        public ETimingType GetTimingZone(float ratio)
-        {
-            ETimingType zone = ETimingType.None;
-            for (int i = _timingZones.Count - 1; i >= 0; i--)
-            {
-                if (ratio >= _timingZones[i].Time)
-                {
-                    zone = _timingZones[i].TimingType;
-                    break;
-                }
-            }
-
-
-            return zone;
-        }
+        
     }
     
 }
