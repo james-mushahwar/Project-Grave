@@ -135,6 +135,7 @@ MonoBehaviour:
       _time: 0.585
     _timingToolTexture: {fileID: 2800000, guid: 970d1713ce247f045bab040d80f203ee,
       type: 3}
+    _momentumTarget: 0
   - _timingsZones:
     - _timingType: 1
       _time: 0
@@ -148,5 +149,7 @@ MonoBehaviour:
       _time: 0.565
     _timingToolTexture: {fileID: 2800000, guid: 8d82685fca9bc9e4bb1b32831d4ad98d,
       type: 3}
+    _momentumTarget: 0.5
+  _momentumTimingZoneIntervals: []
   _defaultToolTexture: {fileID: 0}
   _maxProceedStep: 0.2

@@ -845,7 +845,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 {
                     if (_operatingDirection == EDirectionType.West)
                     {
-                        equippedTool.UpdateTimingZoneSet();
+                        equippedTool.UpdateTimingZoneSet(_operatingMomentum);
                     }
                 }
 

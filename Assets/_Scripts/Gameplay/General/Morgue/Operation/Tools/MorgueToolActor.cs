@@ -209,20 +209,12 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
                 return false;
             }
 
-            int count = 0;
             int zoneCount = _currentTimingZoneSet.TimingsZones.Count;
 
-            for (int i = 0; i < zoneCount; i++)
-            {
-                FTimingZone timingZone = _currentTimingZoneSet.TimingsZones[i];
-                float value = timingZone.Time;
-                if (value <= ratio)
-                {
-                    count++;
-                }
-            }
+            FTimingZone timingZone = _currentTimingZoneSet.TimingsZones[zoneCount - 1];
+            float value = timingZone.Time;
 
-            return count == zoneCount;
+            return value <= ratio;
         }
 
         public virtual void SetTimingZone(ETimingType timingType)
@@ -230,7 +222,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
             _currentTimingZone = timingType;
         }
 
-        public void UpdateTimingZoneSet(bool random = true)
+        public void UpdateTimingZoneSet(float momentum, bool random = false)
         {
             if (ToolProfile == null)
             {
@@ -247,8 +239,38 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
             if (random)
             {
                 timingZoneSet = ToolProfile.TimingZonesSets[Random.Range(0, ToolProfile.TimingZonesSets.Count)];
-                SetTimingZoneSet(timingZoneSet);
             }
+            else
+            {
+                timingZoneSet = GetTimingZoneSet(momentum);
+            }
+
+            SetTimingZoneSet(timingZoneSet);
+        }
+        public FTimingZoneSet GetTimingZoneSet(float momentum)
+        {
+            if (ToolProfile == null)
+            {
+                return default;
+            }
+
+            FTimingZoneSet set = ToolProfile.DefaultTimingZone;
+
+            for (int i = 0; i < ToolProfile.TimingZonesSets.Count; i++)
+            {
+                float minMomentum = ToolProfile.TimingZonesSets[i].MomentumTarget;
+
+                if (minMomentum > momentum)
+                {
+                    break;
+                }
+                else
+                {
+                    set = ToolProfile.TimingZonesSets[i];
+                }
+            }
+
+            return set;
         }
 
         public virtual void SetTimingZoneSet(FTimingZoneSet timingZoneSet)
@@ -267,7 +289,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
         {
             if (ToolProfile && ToolProfile.TimingZonesSets != null)
             {
-                _currentTimingZoneSet = ToolProfile.TimingZonesSets[0];
+                _currentTimingZoneSet = ToolProfile.DefaultTimingZone;
             }
         }
 

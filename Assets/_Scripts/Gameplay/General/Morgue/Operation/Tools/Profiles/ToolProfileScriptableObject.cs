@@ -13,9 +13,12 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
         private List<FTimingZone> _timingsZones;
         [SerializeField]
         private Texture2D _timingToolTexture;
+        [SerializeField]
+        private float _momentumTarget;
 
         public List<FTimingZone> TimingsZones { get => _timingsZones; }
         public Texture2D TimingToolTexture { get => _timingToolTexture; }
+        public float MomentumTarget { get => _momentumTarget; }
     }
 
     [Serializable]
@@ -33,7 +36,6 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
         {
             get { return _time; }
         }
-
     }
 
     public abstract class ToolProfileScriptableObject : ScriptableObject
@@ -50,12 +52,15 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
         private AnimationCurve _normalisedMomentumToFeedbackFactorCurve;
 
         [SerializeField] private List<FTimingZoneSet> _timingZoneSets = new List<FTimingZoneSet>();
+        [SerializeField] private List<float> _momentumTimingZoneIntervals = new List<float>();
 
         [SerializeField] protected Texture2D _defaultToolTexture;
 
         [SerializeField] private float _maxProceedStep;
 
         public List<FTimingZoneSet> TimingZonesSets { get => _timingZoneSets; }
+        public List<float> MomentumTimingZoneIntervals { get => _momentumTimingZoneIntervals; }
+        public FTimingZoneSet DefaultTimingZone { get => _timingZoneSets[0]; }
 
         public float GetAnimationSpeedEffectivenessFactor(float animSpeed)
         {
@@ -93,7 +98,6 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
             return feedback;
         }
 
-        
     }
     
 }
