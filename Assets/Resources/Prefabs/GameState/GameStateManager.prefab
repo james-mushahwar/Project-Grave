@@ -76,3 +76,5 @@ MonoBehaviour:
     type: 3}
   _lightingManagerPrefab: {fileID: 5785615601432312073, guid: f83c7fdec8eb1f146934bc92c3e6091a,
     type: 3}
+  _collectibleManagerPrefab: {fileID: 2421255076684797456, guid: e7bd0560f0ee4dd4c93356e948598cf8,
+    type: 3}

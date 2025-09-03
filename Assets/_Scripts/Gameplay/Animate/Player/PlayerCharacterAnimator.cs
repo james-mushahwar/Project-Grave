@@ -69,6 +69,8 @@ namespace _Scripts.Gameplay.Animate.Player{
         private float _operatingPerfectTimingSpeedFactor;
         [SerializeField]
         private float _operatingSawingMinimumPullbackSpeed;
+        [SerializeField]
+        private float _operatingSawingPullbackSpeedFactor = 4.0f;
 
         [SerializeField]
         private CinemachineImpulseSource _cinemachineImpulseSource_Bump;
@@ -273,16 +275,16 @@ namespace _Scripts.Gameplay.Animate.Player{
                     {
                         _operatingMomentum = _operatingSawingMinimumPullbackSpeed;
                     }
+
                 }
 
                 // animation lerp speed //
                 float directionFactor = 1.0f;
                 float lerpSpeedFactor = 1.0f;
-                float eastwardDirectionFactor = 2.0f;
 
                 if (currentOpState is DismemberOperationState)
                 {
-                    directionFactor = _operatingDirection == EDirectionType.West ? 1.0f : -eastwardDirectionFactor;
+                    directionFactor = _operatingDirection == EDirectionType.West ? 1.0f : -_operatingSawingPullbackSpeedFactor;
 
                     if (animInTransition == false && idleAnimLayerStateInfo.shortNameHash.Equals(_sawingProgressStartLoopAnim_Hash) == true)
                     {
@@ -340,7 +342,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                     lerpSpeedFactor = _operatingAnimLerpFactorCurve.Evaluate(_operatingDirectionChangeTimer / _operatingDirectionChangeMaxTimer);
                 }
 
-                float lerpSpeed = _operatingAnimLerpSpeedCurve.Evaluate(_operatingMomentum) * lerpSpeedFactor * eastwardDirectionFactor * Time.deltaTime;
+                float lerpSpeed = _operatingAnimLerpSpeedCurve.Evaluate(_operatingMomentum) * lerpSpeedFactor * _operatingSawingPullbackSpeedFactor * Time.deltaTime;
                 float targetAnimSpeed = stopMovement ? 0.0f : _operatingMomentum * directionFactor;
                 _operatingAnimLerpSpeed = Mathf.MoveTowards(_operatingAnimLerpSpeed, targetAnimSpeed, lerpSpeed);
                 ////
@@ -873,7 +875,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                         {
                             AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_PerfectTimingActivated_01, textRotation);
                             TimeManager.Instance.TryRequestTimeScale(ETimeImportance.Low, 0.25f, 0.1f, 0.5f, 0.1f);
-
+                            CollectibleManager.Instance.OnUpgradeTrigger(Collectible.EGameplayEvents.PerfectSaw);
                         }
                     }
 
