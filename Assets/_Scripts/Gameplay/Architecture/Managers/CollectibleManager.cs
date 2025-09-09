@@ -11,6 +11,8 @@ namespace _Scripts.Gameplay.Architecture.Managers {
     {
         private List<bool> _upgradesUnlocked;
 
+        private List<BaseCollectible> _upgradesSpawned; // in the world, in the storage i.e. accessible to player
+
         private int _currency = 10;
 
         [SerializeField]
@@ -23,6 +25,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         public virtual void ManagedPreInGameLoad()
         {
             _upgradesUnlocked = new List<bool>(_upgrades.Count);
+            _upgradesSpawned = new List<BaseCollectible>(_upgrades.Count); 
             _upgradeGOs = new List<BaseCollectible>(_upgrades.Count);
 
             for (int i = 0; i < _upgrades.Count; i++)
@@ -32,6 +35,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 if (collectible != null)
                 {
                     collectible.UpgradeSO = _upgrades[i];
+                    Debug.Log("Added upgrade " + collectible.name);
                     _upgradeGOs.Add(collectible);
                 }
             }
@@ -88,6 +92,12 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 return false;
             }
 
+            if (_currency - upgrade.CurrencyCost < 0)
+            {
+                Debug.Log("Not enough currency");
+                return false;
+            }
+
             AddCurrency(-upgrade.CurrencyCost);
 
             int unlockIndex = _upgrades.IndexOf(upgrade);
@@ -101,6 +111,8 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         public void ReturnCollectibleToPool(BaseCollectible collectible)
         {
+            _upgradesSpawned.Remove(collectible);
+
             collectible.gameObject.SetActive(false);
             collectible.transform.SetParent(transform, false);
             collectible.transform.localPosition = Vector3.zero;
@@ -136,6 +148,12 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 {
                     continue;
                 }
+
+                if (_upgradesSpawned.Contains(_upgradeGOs[i]))
+                {
+                    continue; 
+                }
+
                 possibleUpgrades.Add(_upgrades[i]);
             }
 
@@ -165,6 +183,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                     return;
                 }
 
+                
                 UpgradeScriptableObject upgrade = GetUpgrade();
 
                 if (upgrade != null)
@@ -172,6 +191,8 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                     BaseCollectible collectible = SpawnCollectibleFromPool(upgrade);
                     if (collectible)
                     {
+                        _upgradesSpawned.Add(collectible);
+                        Debug.Log("Spawned storage collectable: " + collectible);
                         storage.UpgradeStored = collectible;
                     }
                 }

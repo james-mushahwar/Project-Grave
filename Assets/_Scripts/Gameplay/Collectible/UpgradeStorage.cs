@@ -19,6 +19,7 @@ namespace _Scripts.Gameplay.Collectible {
                 {
                     value.transform.SetParent(_upgradeHolderTransform);
                     value.transform.localPosition = Vector3.zero;
+                    value.transform.localRotation = Quaternion.identity;
                 }
                 _upgradeStored = value;
             }
