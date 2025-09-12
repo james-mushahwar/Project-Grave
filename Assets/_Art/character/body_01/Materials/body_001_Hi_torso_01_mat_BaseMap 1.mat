@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: head_diff_001
+  m_Name: body_001_Hi_torso_01_mat_BaseMap 1
   m_Shader: {fileID: -6465566751694194690, guid: 4b0f781415aa3a7459b35b311fc1cdad,
     type: 3}
   m_Parent: {fileID: 0}
@@ -26,11 +26,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: db85eb56b5814fb469eb785e9e0849c7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 323499d4ee1232c4c8346a4f62466941, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Base_Texture:
-        m_Texture: {fileID: 2800000, guid: 312fe32bd6653e94ab98944125f71afe, type: 3}
+        m_Texture: {fileID: 2800000, guid: 323499d4ee1232c4c8346a4f62466941, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -54,7 +54,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: db85eb56b5814fb469eb785e9e0849c7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 323499d4ee1232c4c8346a4f62466941, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -62,11 +62,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Noise_Texture:
-        m_Texture: {fileID: 2800000, guid: fc55c8af6f8df0c4c8143b592fc01603, type: 3}
+        m_Texture: {fileID: 2800000, guid: 10e7c81bccf528b468314ffae2d979ee, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal_Noise:
-        m_Texture: {fileID: 2800000, guid: fc55c8af6f8df0c4c8143b592fc01603, type: 3}
+        m_Texture: {fileID: 2800000, guid: 27cad7f360ea1c64d9abfa0ed6554bb1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -114,11 +114,11 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.4472136
     - _GlossyReflections: 1
-    - _Intensity: 1
+    - _Intensity: 0.496
     - _Metallic: 0
     - _Mode: 0
-    - _Normal_Noise_Blend_Weight: 0.9
-    - _Normal_Noise_Scale: 1
+    - _Normal_Noise_Blend_Weight: 1
+    - _Normal_Noise_Scale: 0.1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueControl: 0
@@ -131,12 +131,12 @@ Material:
     - _SrcBlendAlpha: 1
     - _Steps: 10
     - _Surface: 0
-    - _TimeMultiplier: 0.15
-    - _TriPlanarPower: 25
+    - _TimeMultiplier: 0.075
+    - _TriPlanarPower: 1
     - _UVSec: 0
-    - _WPO_Displacement: -0.01
+    - _WPO_Displacement: -0.015
     - _WorkflowMode: 1
-    - _World_Scale: 10
+    - _World_Scale: 5
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
@@ -149,7 +149,7 @@ Material:
     - _UV_Noise_Scale: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &4882050504477873141
+--- !u!114 &7396540542323998618
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
