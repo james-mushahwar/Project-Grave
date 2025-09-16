@@ -110,15 +110,15 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _Frame: 1
+    - _Frame: 2
     - _GlossMapScale: 1
     - _Glossiness: 0.4472136
     - _GlossyReflections: 1
     - _Intensity: 0.165
     - _Metallic: 0
     - _Mode: 0
-    - _Normal_Noise_Blend_Weight: 1
-    - _Normal_Noise_Scale: 0.1
+    - _Normal_Noise_Blend_Weight: 0.919
+    - _Normal_Noise_Scale: 50
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueControl: 0
@@ -129,9 +129,9 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
-    - _Steps: 50
+    - _Steps: 10
     - _Surface: 0
-    - _TimeMultiplier: 0.05
+    - _TimeMultiplier: 0.176
     - _TriPlanarPower: 10
     - _UVSec: 0
     - _WPO_Displacement: -0.015

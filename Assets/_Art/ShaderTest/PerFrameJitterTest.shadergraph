@@ -25,9 +25,6 @@
             "m_Id": "9f7fd992da7c41a785e3c9bca7044eac"
         },
         {
-            "m_Id": "79f81c779ca846a8bc3dbf6cfdf13a60"
-        },
-        {
             "m_Id": "689bab7d53cd4c8890884ab2db170b8e"
         },
         {
@@ -4746,8 +4743,8 @@
     "m_ObjectId": "4d042377ad734ead8262eff923eeb287",
     "m_Title": "Tri Planar WPO",
     "m_Position": {
-        "x": -2252.0,
-        "y": -1968.800048828125
+        "x": -2251.0,
+        "y": -1968.0
     }
 }
 
@@ -6741,37 +6738,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty",
-    "m_ObjectId": "79f81c779ca846a8bc3dbf6cfdf13a60",
-    "m_Guid": {
-        "m_GuidSerialized": "62a79bdf-2426-47d4-b4f7-33be1f234793"
-    },
-    "m_Name": "Normal Noise",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Normal Noise",
-    "m_DefaultReferenceName": "_Normal_Noise",
-    "m_OverrideReferenceName": "",
-    "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
-    "m_DismissedVersion": 0,
-    "m_Precision": 0,
-    "overrideHLSLDeclaration": false,
-    "hlslDeclarationOverride": 0,
-    "m_Hidden": false,
-    "m_Value": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"fc55c8af6f8df0c4c8143b592fc01603\",\"type\":3}}",
-        "m_Guid": ""
-    },
-    "isMainTexture": false,
-    "useTilingAndOffset": false,
-    "useTexelSize": true,
-    "m_Modifiable": true,
-    "m_DefaultType": 0
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "7a2700bfeaca4307a0d71f74dfdaac66",
     "m_Id": 1,
@@ -7669,10 +7635,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -3476.800048828125,
-            "y": 137.60003662109376,
+            "x": -3510.0,
+            "y": 116.00000762939453,
             "width": 208.0,
-            "height": 301.5999755859375
+            "height": 301.9999694824219
         }
     },
     "m_Slots": [
@@ -7820,9 +7786,6 @@
         },
         {
             "m_Id": "6ed78808368848e1b317b4ef716900b9"
-        },
-        {
-            "m_Id": "79f81c779ca846a8bc3dbf6cfdf13a60"
         },
         {
             "m_Id": "c84ee7602d72437dafdb1207d08e6023"
@@ -9884,8 +9847,8 @@
     "m_ObjectId": "bf1cb92837e54f8d950e9afdc797670e",
     "m_Title": "Scale WPO",
     "m_Position": {
-        "x": 185.5999298095703,
-        "y": -1692.800048828125
+        "x": 186.0,
+        "y": -1692.0001220703125
     }
 }
 
