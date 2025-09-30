@@ -10,6 +10,7 @@ using _Scripts.Gameplay.UI.Operation;
 using System;
 using _Scripts.Gameplay.UI;
 using TMPro;
+using _Scripts.Gameplay.UI.Currency;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
     
@@ -25,6 +26,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         [SerializeField] private UIReticle _uiReticle;
         [SerializeField] private UIOperation _uiOperation;
+        [SerializeField] private UICurrency _uiCurrency;
 
         [SerializeField] private Sprite _opDismemberTypeIcon;
         [SerializeField] private Sprite _opAttachmentTypeIcon;
@@ -77,6 +79,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public virtual void ManagedTick()
         {
             _uiReticle.ManagedTick();
+            _uiCurrency.ManagedTick();
 
             PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
 

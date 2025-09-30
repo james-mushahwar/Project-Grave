@@ -22,6 +22,11 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         private List<UpgradeStorage> _upgradeStorages = new List<UpgradeStorage>();
 
+        public int Currency
+        {
+            get { return _currency; }
+        }
+
         public virtual void ManagedPreInGameLoad()
         {
             _upgradesUnlocked = new List<bool>(_upgrades.Count);
