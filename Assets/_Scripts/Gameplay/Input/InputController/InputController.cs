@@ -281,7 +281,7 @@ namespace _Scripts.Gameplay.Input.InputController{
 
         #region Selected Object
 
-        public T GetSelectedObject<T>(GameObject selectedGameObject = null) where T : class
+        public T GetSelectedObject<T>(GameObject selectedGameObject = null, bool checkParent = false) where T : class
         {
             T selected = default;
 
@@ -306,7 +306,7 @@ namespace _Scripts.Gameplay.Input.InputController{
                 }
             }
 
-            return selected;
+            return checkParent ? GetSelectedObjectParent<T>(selectedGameObject) : selected;
         }
 
         public T GetSelectedObjectParent<T>(GameObject selectedGameObject = null) where T : class

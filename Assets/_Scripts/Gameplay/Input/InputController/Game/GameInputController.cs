@@ -93,7 +93,7 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
             ISelect selectable = null;
             if (_selectedObject != null)
             {
-                selectable = GetSelectedObject<ISelect>();
+                selectable = GetSelectedObject<ISelect>(null, true);
 
                if (selectable == null)
                {

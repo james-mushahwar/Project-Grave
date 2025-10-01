@@ -25,12 +25,12 @@ namespace _Scripts.Gameplay.General.Morgue{
 
         public void OnDeselected()
         {
-            transform.localScale = Vector3.one * 0.5f;
+            transform.localScale = Vector3.one;
         }
 
         public void OnSelected()
         {
-            transform.localScale = Vector3.one;
+            transform.localScale = Vector3.one * 1.05f;
         }
 
         public bool IsInteractable(IInteractor interactor = null)

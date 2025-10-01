@@ -202,7 +202,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                 velocity.y = -2f; // Reset the vertical velocity when grounded
             }
 
-            IInteractable interactable = InputController.GetSelectedObject<IInteractable>();
+            IInteractable interactable = InputController.GetSelectedObject<IInteractable>(null, true);
             UIManager.Instance.ShowInteractReticle = interactable != null;
         }
 
