@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -75,6 +76,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
 
             _gameState = EGameState.PlayingGame;
+
+            if (PlayerManager.Instance.CurrentPlayerController == null)
+            {
+                
+            }
         }
 
         private void CreateManagers()
