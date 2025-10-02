@@ -491,7 +491,7 @@ PrefabInstance:
     - target: {fileID: 4555372133557241039, guid: bdddac93a3e84ed4a88cb4920ae1f850,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8937618927669999624, guid: bdddac93a3e84ed4a88cb4920ae1f850,
         type: 3}
@@ -565,7 +565,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1118387266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -781,6 +781,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Candle Light Cold
       objectReference: {fileID: 0}
+    - target: {fileID: 7624616211548244512, guid: 7e0a8f38748be6841a8b35843c31f42a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -854,6 +859,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Candle Light Warm
       objectReference: {fileID: 0}
+    - target: {fileID: 2430965219920940351, guid: 0f4c952edf198b84cb605f320cc9f9e5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -876,7 +886,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1628884533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1062,6 +1072,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Moon
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555372133557241039, guid: c5ba402e7d5b6734896a45c37358cc8a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8937618927669999624, guid: c5ba402e7d5b6734896a45c37358cc8a,
         type: 3}
