@@ -781,9 +781,11 @@ namespace _Scripts.Gameplay.Player.Controller{
                     }
                 }
             }
-            else
+            else 
             {
+                // empty handed
                 BodyPartMorgueActor bodyPart = InputController.GetSelectedObject<BodyPartMorgueActor>();
+                BodyMorgueActor bodyMorgueActor = null;
                 if (bodyPart == null)
                 {
                     bodyPart = InputController.GetSelectedObjectParent<BodyPartMorgueActor>();
@@ -796,6 +798,7 @@ namespace _Scripts.Gameplay.Player.Controller{
 
                 if (bodyPart != null)
                 {
+                    bodyMorgueActor = bodyPart.BodyMorgueActor;
                     // is it a body part that can be inspected? - on operating table?
                     if (bodyPart.IsConnected() && bodyPart.OperationState != null)
                     {
@@ -817,6 +820,45 @@ namespace _Scripts.Gameplay.Player.Controller{
                     //        return;
                     //    }
                     //}
+                }
+
+                //holding body parts
+                //attach back to body
+                GameObject selectedObject = InputController.SelectedObject;
+
+                if (selectedObject != null)
+                {
+                    if (selectedObject.layer == LayerMask.NameToLayer("MorgueActor"))
+                    {
+                        if (bodyMorgueActor == null)
+                        {
+                            bodyMorgueActor = selectedObject.GetComponentInParent<BodyMorgueActor>();
+                        }
+
+                        if (bodyMorgueActor != null)
+                        {
+                            TorsoMorgueActor torsoBodyPart = bodyMorgueActor.TorsoMorgueActor;
+
+                            if (torsoBodyPart != null)
+                            {
+                                IStorage hands = PlayerStorage.GetPlayerHands();
+                                BodyPartMorgueActor heldBodyPart = hands.GetStorable<BodyPartMorgueActor>();
+                                if (heldBodyPart != null)//&& EquippedOperatingTool as OperationAttachmentMorgueTool)
+                                {
+                                    //if (selectedObject.tag == heldBodyPart.gameObject.tag)
+                                    {
+                                        IStorable removed = hands.TryRemove(heldBodyPart);
+                                        if (removed != null)
+                                        {
+                                            heldBodyPart.TryConnect(bodyMorgueActor.TorsoMorgueActor);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+
+                    }
                 }
 
                 IInteractable interactable = InputController.GetSelectedObject<IInteractable>();

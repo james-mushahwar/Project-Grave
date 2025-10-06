@@ -31,6 +31,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         [SerializeField] private SkinnedMeshRenderer _skinnedMeshRenderer;
         [SerializeField] private MeshRenderer _meshRenderer;
+        private Vector3 _meshRenderer_DefaultBodyOffset;
+        private Vector3 _meshRenderer_DefaultBodyRotation;
         [SerializeField] private MeshFilter _meshFilter;
 
         [SerializeField] private FVirtualCamera _operationOverviewVirtualCamera;
@@ -38,6 +40,9 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public SkinnedMeshRenderer SkinnedMeshRenderer { get => _skinnedMeshRenderer; }
         public MeshRenderer MeshRenderer { get => _meshRenderer; }
+        public Vector3 MeshRendererDefaultBodyOffset { get => _meshRenderer_DefaultBodyOffset; }
+        public Vector3 MeshRendererDefaultBodyRotation { get => _meshRenderer_DefaultBodyRotation; }
+
         public MeshFilter MeshFilter { get => _meshFilter; }
 
         private BodyMorgueActor _bodyMorgueActor;
@@ -47,6 +52,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         }
 
         public virtual OperationState OperationState { get => null; }
+        public virtual DismemberOperationState DismemberOperationState { get => null; }
         public virtual List<OperationState> AllOperationStates { get => null; }
 
         protected List<OperationSite> _operationSites = new List<OperationSite>();
@@ -150,6 +156,9 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             _rigidBodies = GetComponentsInChildren<Rigidbody>(true).ToList<Rigidbody>();
 
             //SetToRagdoll(false);
+
+            _meshRenderer_DefaultBodyOffset     = _meshRenderer.transform.localPosition;
+            _meshRenderer_DefaultBodyRotation   = _meshRenderer.transform.localEulerAngles;
 
             _defaultLocalScale = transform.localScale;
 
@@ -370,7 +379,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             {
                 if (bodyPart.BodyMorgueActor != null)
                 {
-                    bodyPart.BodyMorgueActor.AttachBodyPart(this);
+                    bool attached = bodyPart.BodyMorgueActor.AttachBodyPart(this);
                 }
             }
 

@@ -252,6 +252,10 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
             bodyPart.gameObject.transform.SetParent(_bodyGeometryGO.transform, false);
             bodyPart.gameObject.transform.localPosition = Vector3.zero;
+            bodyPart.MeshRenderer.transform.localPosition = bodyPart.MeshRendererDefaultBodyOffset;
+            bodyPart.MeshRenderer.transform.localEulerAngles = bodyPart.MeshRendererDefaultBodyRotation;
+
+            bodyPart.DismemberOperationState?.ResetOperationState();
 
             RefreshBones(bodyPart.SkinnedMeshRenderer);
 

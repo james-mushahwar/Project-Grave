@@ -81,6 +81,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         }
 
         public override OperationState OperationState => _dismemberOperationState;
+        public override DismemberOperationState DismemberOperationState => _dismemberOperationState;
+
 
         public override void Setup()
         {

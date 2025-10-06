@@ -162,6 +162,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             _operator = null;
         }
 
+        public virtual void ResetOperationState()
+        {
+            _elapsedProgress = 0.0f;
+        }
+
         //inputs
         public abstract bool OnActionLInput(bool pressed);
         public abstract bool OnActionRInput(bool pressed);

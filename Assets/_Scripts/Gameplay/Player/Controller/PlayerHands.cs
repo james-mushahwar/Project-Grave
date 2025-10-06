@@ -139,12 +139,12 @@ namespace _Scripts.Gameplay.Player.Controller{
         {
             if (LHand.Storable != null)
             {
-                return (T)LHand.Storable;
+                return LHand.Storable as T;
             }
 
             if (RHand.Storable != null)
             {
-                return (T)RHand.Storable;
+                return RHand.Storable as T;
             }
 
             return null;

@@ -356,7 +356,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 float deltaProceedStep = 0.0f;
                 if (equippedTool != null)
                 {
-                    deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(animationSpeedMultiplier);
+                    deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(animationSpeedMultiplier) * DebugManager.Instance.DebugSettings.OperationEffectivenessFactor;
 
                     if (_bloodAreaFXTimer > 0.0f)
                     {
