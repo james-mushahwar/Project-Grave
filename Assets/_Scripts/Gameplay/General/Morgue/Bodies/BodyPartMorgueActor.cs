@@ -29,7 +29,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public IStorage Stored => _bodyStorable.Stored;
 
-        [SerializeField] private SkinnedMeshRenderer _skinnedMeshRenderer;
+        //[SerializeField] private SkinnedMeshRenderer _skinnedMeshRenderer;
         [SerializeField] private MeshRenderer _meshRenderer;
         private Vector3 _meshRenderer_DefaultBodyOffset;
         private Vector3 _meshRenderer_DefaultBodyRotation;
@@ -38,7 +38,20 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         [SerializeField] private FVirtualCamera _operationOverviewVirtualCamera;
         public FVirtualCamera OperationOverviewVirtualCamera { get => _operationOverviewVirtualCamera; }
 
-        public SkinnedMeshRenderer SkinnedMeshRenderer { get => _skinnedMeshRenderer; }
+        [SerializeField] private EMorgueBodyPart _bodyPartType;
+        public EMorgueBodyPart BodyPartType { get => _bodyPartType; }
+
+        public SkinnedMeshRenderer SkinnedMeshRenderer 
+        { 
+            get
+            {
+                if (IsConnected() == false)
+                {
+                    return null;
+                }
+                return BodyMorgueActor.GetSkinnedMesh(_bodyPartType);
+            }
+        }
         public MeshRenderer MeshRenderer { get => _meshRenderer; }
         public Vector3 MeshRendererDefaultBodyOffset { get => _meshRenderer_DefaultBodyOffset; }
         public Vector3 MeshRendererDefaultBodyRotation { get => _meshRenderer_DefaultBodyRotation; }
@@ -48,7 +61,16 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         private BodyMorgueActor _bodyMorgueActor;
         public BodyMorgueActor BodyMorgueActor
         {
-            get { return _bodyMorgueActor; }
+            get 
+            {
+                if (_bodyMorgueActor == null)
+                {
+                    _bodyMorgueActor = GetComponentInParent<BodyMorgueActor>();
+                }
+
+                return _bodyMorgueActor; 
+            }
+
         }
 
         public virtual OperationState OperationState { get => null; }
@@ -106,7 +128,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                         storableMono.gameObject.transform.localPosition = Vector3.zero;
                         _meshRenderer.transform.localPosition = Vector3.zero;
                         storableMono.gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
-                        _skinnedMeshRenderer.transform.localPosition = Vector3.zero;
+                        //SkinnedMeshRenderer?.transform.localPosition = Vector3.zero;
                         //storableMono.gameObject.transform.localScale = localScale;
                     }
                 }
@@ -186,7 +208,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
             if (IsConnected())
             {
-                _skinnedMeshRenderer.gameObject.SetActive(true);
+                //SkinnedMeshRenderer?.gameObject.SetActive(true);
                 _meshRenderer.gameObject.SetActive(false);
 
             }
@@ -200,7 +222,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                 //}
                 //else
                 //{
-                    _skinnedMeshRenderer.gameObject.SetActive(false);
+                    //SkinnedMeshRenderer?.gameObject.SetActive(false);
                     _meshRenderer.gameObject.SetActive(true);
 
                 //}

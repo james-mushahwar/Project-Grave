@@ -43,6 +43,13 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         [SerializeField] private GameObject _lLegPlaceholderGO;
         [SerializeField] private GameObject _rLegPlaceholderGO;
 
+        [SerializeField] private SkinnedMeshRenderer _headSkinnedMesh;
+        [SerializeField] private SkinnedMeshRenderer _rArmSkinnedMesh;
+        [SerializeField] private SkinnedMeshRenderer _lArmSkinnedMesh;
+        [SerializeField] private SkinnedMeshRenderer _rLegSkinnedMesh;
+        [SerializeField] private SkinnedMeshRenderer _lLegSkinnedMesh;
+        [SerializeField] private SkinnedMeshRenderer _torsoSkinnedMesh;
+
         [SerializeField]
         private GameObject _bodyGeometryGO;
         [SerializeField]
@@ -154,6 +161,13 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             _lLegPlaceholderGO.SetActive(GetBodyPartByTag("Human_LLeg") == null);
             _rLegPlaceholderGO.SetActive(GetBodyPartByTag("Human_RLeg") == null);
 
+            _headSkinnedMesh.gameObject.SetActive(_headMorgueActor.IsConnected());
+            _lArmSkinnedMesh.gameObject.SetActive(_lArmMorgueActor.IsConnected());
+            _rArmSkinnedMesh.gameObject.SetActive(_rArmMorgueActor.IsConnected());
+            _lLegSkinnedMesh.gameObject.SetActive(_lLegMorgueActor.IsConnected());
+            _rLegSkinnedMesh.gameObject.SetActive(_rLegMorgueActor.IsConnected());
+            _torsoSkinnedMesh.gameObject.SetActive(_torsoMorgueActor.IsConnected());
+
             OperationState currentOp = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
 
         }
@@ -255,6 +269,28 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             bodyPart.MeshRenderer.transform.localPosition = bodyPart.MeshRendererDefaultBodyOffset;
             bodyPart.MeshRenderer.transform.localEulerAngles = bodyPart.MeshRendererDefaultBodyRotation;
 
+            switch (bodyPart.BodyPartType)
+            {
+                case EMorgueBodyPart.Head:
+                    _headMorgueActor = bodyPart as HeadMorgueActor;
+                    break;
+                case EMorgueBodyPart.LArm:
+                    _lArmMorgueActor = bodyPart as ArmMorgueActor;
+                    break;
+                case EMorgueBodyPart.RArm:
+                    _rArmMorgueActor = bodyPart as ArmMorgueActor;
+                    break;
+                case EMorgueBodyPart.LLeg:
+                    _lLegMorgueActor = bodyPart as LegMorgueActor;
+                    break;
+                case EMorgueBodyPart.RLeg:
+                    _rLegMorgueActor = bodyPart as LegMorgueActor;
+                    break;
+                default:
+                    _torsoMorgueActor = bodyPart as TorsoMorgueActor;
+                    break;
+            }
+
             bodyPart.DismemberOperationState?.ResetOperationState();
 
             RefreshBones(bodyPart.SkinnedMeshRenderer);
@@ -307,6 +343,34 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             {
                 skinnedMesh.rootBone = rootBoneGO.transform;
             }
+        }
+
+        public SkinnedMeshRenderer GetSkinnedMesh(EMorgueBodyPart bodyPartType)
+        {
+            SkinnedMeshRenderer skinnedMesh = null;
+            switch (bodyPartType) 
+            {
+                case EMorgueBodyPart.Head:
+                    skinnedMesh = _headSkinnedMesh;
+                    break;
+                case EMorgueBodyPart.RArm:
+                    skinnedMesh = _rArmSkinnedMesh;
+                    break;
+                case EMorgueBodyPart.LArm:
+                    skinnedMesh = _lArmSkinnedMesh;
+                    break;
+                case EMorgueBodyPart.RLeg:
+                    skinnedMesh = _rLegSkinnedMesh;
+                    break;
+                case EMorgueBodyPart.LLeg:
+                    skinnedMesh = _lLegSkinnedMesh;
+                    break;
+                default:
+                    skinnedMesh = _torsoSkinnedMesh;
+                    break;
+            }
+
+            return skinnedMesh;
         }
 
         public void BeginOperation()

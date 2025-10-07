@@ -15,6 +15,16 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         COUNT
     }
 
+    public enum EMorgueBodyPart
+    {
+        Head,
+        RArm,
+        LArm,
+        RLeg,
+        LLeg,
+        Torso,
+    }
+
     [Serializable]
     public abstract class MorgueBodyVariant
     {

@@ -126,12 +126,12 @@ MonoBehaviour:
   _bodyStorable:
     _storableSize: 10
     _storableType: 0
-  _skinnedMeshRenderer: {fileID: 7026971223350046189}
   _meshRenderer: {fileID: 2229163728432924418}
   _meshFilter: {fileID: 3457798998075425099}
   _operationOverviewVirtualCamera:
     _camType: 0
     _virtualCamera: {fileID: 0}
+  _bodyPartType: 2
   _floatTarget_OnDisconnectBodyPart: {fileID: 0}
   _impulseSource_OnDismemberComplete: {fileID: 0}
   _dismemberOperationState:
@@ -6314,12 +6314,12 @@ MonoBehaviour:
   _bodyStorable:
     _storableSize: 0
     _storableType: 0
-  _skinnedMeshRenderer: {fileID: 8379520998439126788}
   _meshRenderer: {fileID: 6066432034505616386}
   _meshFilter: {fileID: 2825421729381754866}
   _operationOverviewVirtualCamera:
     _camType: 0
     _virtualCamera: {fileID: 0}
+  _bodyPartType: 0
   _floatTarget_OnDisconnectBodyPart: {fileID: 0}
   _impulseSource_OnDismemberComplete: {fileID: 0}
 --- !u!114 &736253990942161014
@@ -6832,12 +6832,12 @@ MonoBehaviour:
   _bodyStorable:
     _storableSize: 0
     _storableType: 0
-  _skinnedMeshRenderer: {fileID: 3617965555972906714}
   _meshRenderer: {fileID: 3334474455945908835}
   _meshFilter: {fileID: 3023147301302828118}
   _operationOverviewVirtualCamera:
     _camType: 103
     _virtualCamera: {fileID: 1690341747505225440}
+  _bodyPartType: 1
   _floatTarget_OnDisconnectBodyPart: {fileID: 11400000, guid: dc83f62facfaf734c8795a1e906ae30f,
     type: 2}
   _impulseSource_OnDismemberComplete: {fileID: 711335498952515950}
@@ -13162,12 +13162,12 @@ MonoBehaviour:
   _bodyStorable:
     _storableSize: 0
     _storableType: 0
-  _skinnedMeshRenderer: {fileID: 4385637875039825130}
   _meshRenderer: {fileID: 8928300179343481154}
   _meshFilter: {fileID: 6656999450041537292}
   _operationOverviewVirtualCamera:
     _camType: 0
     _virtualCamera: {fileID: 0}
+  _bodyPartType: 4
   _floatTarget_OnDisconnectBodyPart: {fileID: 0}
   _impulseSource_OnDismemberComplete: {fileID: 0}
 --- !u!114 &4374838436403665624
@@ -13782,6 +13782,12 @@ MonoBehaviour:
   _rArmPlaceholderGO: {fileID: 8912854600096882882}
   _lLegPlaceholderGO: {fileID: 1264528341021461397}
   _rLegPlaceholderGO: {fileID: 8476540830449570072}
+  _headSkinnedMesh: {fileID: 8379520998439126788}
+  _rArmSkinnedMesh: {fileID: 3617965555972906714}
+  _lArmSkinnedMesh: {fileID: 7026971223350046189}
+  _rLegSkinnedMesh: {fileID: 4565827216711569223}
+  _lLegSkinnedMesh: {fileID: 4385637875039825130}
+  _torsoSkinnedMesh: {fileID: 2116382164477831277}
   _bodyGeometryGO: {fileID: 8060353995403069222}
   _bodyGeometryPlaceholder: {fileID: 3658051860864663620}
   _bodyRigGO: {fileID: 3020762441041837081}
@@ -19214,12 +19220,12 @@ MonoBehaviour:
   _bodyStorable:
     _storableSize: 0
     _storableType: 0
-  _skinnedMeshRenderer: {fileID: 4565827216711569223}
   _meshRenderer: {fileID: 9141582244894964827}
   _meshFilter: {fileID: 5855983102304464932}
   _operationOverviewVirtualCamera:
     _camType: 0
     _virtualCamera: {fileID: 0}
+  _bodyPartType: 3
   _floatTarget_OnDisconnectBodyPart: {fileID: 0}
   _impulseSource_OnDismemberComplete: {fileID: 0}
 --- !u!114 &5577178633396330994
@@ -19690,12 +19696,12 @@ MonoBehaviour:
   _bodyStorable:
     _storableSize: 10
     _storableType: 0
-  _skinnedMeshRenderer: {fileID: 2116382164477831277}
   _meshRenderer: {fileID: 999137558720088494}
   _meshFilter: {fileID: 6472615340518149301}
   _operationOverviewVirtualCamera:
     _camType: 0
     _virtualCamera: {fileID: 0}
+  _bodyPartType: 5
   _floatTarget_OnDisconnectBodyPart: {fileID: 0}
   _impulseSource_OnDismemberComplete: {fileID: 0}
   _headConnector:
