@@ -234,7 +234,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         {
             if (Collider != null)
             {
-                Collider.enabled = set;
+                //Collider.enabled = set;
             }
         }
 

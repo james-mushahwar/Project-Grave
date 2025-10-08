@@ -657,14 +657,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3150993638231892793}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.15666477, y: 0.76265246, z: -0.17268011, w: 0.60332334}
-  m_LocalPosition: {x: -0.805, y: 2.0713964, z: 0.645}
+  m_LocalRotation: {x: 0.30058208, y: 0.68042856, z: -0.24762094, w: 0.6207667}
+  m_LocalPosition: {x: -0.805, y: 1.635, z: 0.645}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8920803196165245800}
   m_Father: {fileID: 1872430802243746451}
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: -90}
+  m_LocalEulerAnglesHint: {x: 134.752, y: -81.28601, z: -171.701}
 --- !u!114 &6624465914371485385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2123,6 +2123,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Candle Light
+      objectReference: {fileID: 0}
+    - target: {fileID: 2430965219920940351, guid: 0f4c952edf198b84cb605f320cc9f9e5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
