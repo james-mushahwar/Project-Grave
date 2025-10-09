@@ -51,8 +51,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         }
 
         [SerializeField]
-        private OperationSite _legForearmInsideOperationSite;
-        public OperationSite LegForearmInsideOperationSite
+        private OperationSite _legForelegInsideOperationSite;
+        public OperationSite LegForelegInsideOperationSite
         {
             get
             {
@@ -61,17 +61,17 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                 //    return null;
                 //}
 
-                if (_legForearmInsideOperationSite == null)
+                if (_legForelegInsideOperationSite == null)
                 {
                     return null;
                 }
 
-                if (_legForearmInsideOperationSite.IsValid() == false)
+                if (_legForelegInsideOperationSite.IsValid() == false)
                 {
                     return null;
                 }
 
-                return _legForearmInsideOperationSite;
+                return _legForelegInsideOperationSite;
             }
         }
 
@@ -93,23 +93,23 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         {
             _operationSites.Clear();
 
-            OperationSite armJointOperationSite = _legJointOperationSite;
-            if (armJointOperationSite != null)
+            OperationSite legJointOperationSite = _legJointOperationSite;
+            if (legJointOperationSite != null)
             {
-                armJointOperationSite.ClearStates();
+                legJointOperationSite.ClearStates();
 
-                armJointOperationSite.AddState(_dismemberOperationState);
-                armJointOperationSite.AddState(_reattachOperationState);
+                legJointOperationSite.AddState(_dismemberOperationState);
+                legJointOperationSite.AddState(_reattachOperationState);
 
-                _operationSites.Add(armJointOperationSite);
+                _operationSites.Add(legJointOperationSite);
             }
 
-            OperationSite armForearmInsideOperationSite = _legForearmInsideOperationSite;
-            if (armForearmInsideOperationSite != null)
+            OperationSite legForelegInsideOperationSite = _legForelegInsideOperationSite;
+            if (legForelegInsideOperationSite != null)
             {
-                armForearmInsideOperationSite.ClearStates();
+                legForelegInsideOperationSite.ClearStates();
 
-                _operationSites.Add(armForearmInsideOperationSite);
+                _operationSites.Add(legForelegInsideOperationSite);
 
             }
         }
