@@ -37,16 +37,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5485954d14dfb9a4c8ead8edb0ded5b1, type: 3}
   m_Name: LiftGammaGain
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   lift:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: -0.026791697}
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
   gamma:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: -0.093770936}
+    m_Value: {x: 1, y: 0.9694159, z: 0.95196116, w: 0.27027026}
   gain:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.9478562, z: 0.872104, w: 0.4956463}
+    m_Value: {x: 1, y: 1, z: 1, w: 0.49896047}
 --- !u!114 &-7029096242629415713
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -87,19 +87,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b2db86121404754db890f4c8dfe81b2, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   skipIterations:
     m_OverrideState: 0
     m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 0.35
+    m_Value: 0.26
   intensity:
     m_OverrideState: 1
-    m_Value: 1.42
+    m_Value: 1
   scatter:
     m_OverrideState: 1
-    m_Value: 0.194
+    m_Value: 0.263
   clamp:
     m_OverrideState: 1
     m_Value: 65464.2
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fa0085f50d5e54f8144f766051a691, type: 3}
   m_Name: FilmGrain
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   type:
     m_OverrideState: 1
     m_Value: 1
@@ -203,7 +203,7 @@ MonoBehaviour:
     m_Value: -9
   tint:
     m_OverrideState: 1
-    m_Value: -3.1
+    m_Value: -4
 --- !u!114 &5791115641761168393
 MonoBehaviour:
   m_ObjectHideFlags: 3
