@@ -89,40 +89,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 1
     - serializedVersion: 16
-      name: sewing_01
-      takeName: Take 001
-      internalID: 6641085478485924818
-      firstFrame: 855
-      lastFrame: 935
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1
-    - serializedVersion: 16
       name: additive_sawing_lower
       takeName: Take 001
       internalID: 6641085478485924818
-      firstFrame: 401
-      lastFrame: 405
+      firstFrame: 400
+      lastFrame: 401
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -150,8 +121,8 @@ ModelImporter:
       name: additive_sawing_tilt_lower
       takeName: Take 001
       internalID: -5059006814000262888
-      firstFrame: 511
-      lastFrame: 515
+      firstFrame: 500
+      lastFrame: 501
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
