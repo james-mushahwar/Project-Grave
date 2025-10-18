@@ -211,6 +211,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
 
         public override void OnMinigameTick()
         {
+            // building momentum
+
+
+            //free flow
+
             bool perfectTimingAvailable = false;
             bool correctDirection = true;
             bool inPerfectZone = _playerAnimator.GetPerfectZoneAvailable();

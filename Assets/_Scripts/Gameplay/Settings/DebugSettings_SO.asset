@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: DebugSettings_SO
   m_EditorClassIdentifier: 
   _debugDrawEnabled: 1
-  _operationEffectivenessFactor: 100
+  _operationEffectivenessFactor: 1

@@ -11,6 +11,12 @@ using UnityEngine;
 
 namespace _Scripts.Org
 {
+    public enum EOperationMinigameState
+    {
+        BuildingMomentum,
+        FreeFlow
+    }
+
     public interface IMorgueTickable
     {
         void Setup();

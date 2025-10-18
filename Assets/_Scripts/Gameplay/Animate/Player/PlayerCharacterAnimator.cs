@@ -8,7 +8,7 @@ using Unity.Collections;
 using UnityEngine;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using UnityEditor.Build;
-using UnityEngine.Animations.Rigging;
+//using UnityEngine.Animations.Rigging;
 using System.Security.Cryptography.X509Certificates;
 using _Scripts.Editortools.Draw;
 using Cinemachine;
@@ -39,25 +39,25 @@ namespace _Scripts.Gameplay.Animate.Player{
         private int _idleLoopAnim_Hash;
         private int _sawingProgressStartLoopAnim_Hash;
 
-        [Header("Rig")] 
-        [SerializeField] 
-        private Rig _rigPosition;
-        [SerializeField]
-        private Transform _rigHandPositionTransform;
-        [SerializeField]
-        private Transform _rigHandChildTransform;
-        public Transform RigHandPositionTransform
-        {
-            get { return _rigHandPositionTransform; }
-        }
-        private Vector3 _rigControlDefaultLocalPosition;
+        //[Header("Rig")] 
+        //[SerializeField] 
+        //private Rig _rigPosition;
+        //[SerializeField]
+        //private Transform _rigHandPositionTransform;
+        //[SerializeField]
+        //private Transform _rigHandChildTransform;
+        //public Transform RigHandPositionTransform
+        //{
+        //    get { return _rigHandPositionTransform; }
+        //}
+        //private Vector3 _rigControlDefaultLocalPosition;
 
-        [SerializeField] 
-        private Rig _rigRotation;
-        [SerializeField] 
-        private Transform _rigHandRotationTransform;
-        [SerializeField]
-        Vector3 _rigHandRotationNaturalOffset;
+        //[SerializeField] 
+        //private Rig _rigRotation;
+        //[SerializeField] 
+        //private Transform _rigHandRotationTransform;
+        //[SerializeField]
+        //Vector3 _rigHandRotationNaturalOffset;
 
         private float _operatingMomentum; // 0 to 1 scale 
         private float _minigameMomentum; // momentum from any current operation minigame, 0 to 1 scale
@@ -188,7 +188,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             //_sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_IK_version");
             _sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_IK_version 2 big Saw");
             //_sawingProgressEndLoopAnim_Hash = Animator.StringToHash("sawing_progress_end");
-            _rigControlDefaultLocalPosition = _rigHandPositionTransform.localPosition;
+            //_rigControlDefaultLocalPosition = _rigHandPositionTransform.localPosition;
 
             _heartbeatLowAudioHandler.Owner = this.gameObject;
             _heartbeatLowAudioHandler.IsActiveMethod = ContinueHeartbeatAudioHandle;
@@ -629,10 +629,10 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         public void ResetRig()
         {
-            SetRigControlPosition(_rigControlDefaultLocalPosition, true);
+            //SetRigControlPosition(_rigControlDefaultLocalPosition, true);
 
-            _rigHandChildTransform.localPosition = Vector3.zero;
-            _rigHandRotationTransform.localEulerAngles = Vector3.zero;
+            //_rigHandChildTransform.localPosition = Vector3.zero;
+            //_rigHandRotationTransform.localEulerAngles = Vector3.zero;
 
             SetRigWeight(0.0f, 0.0f);
 
@@ -642,23 +642,24 @@ namespace _Scripts.Gameplay.Animate.Player{
         {
             if (local)
             {
-                _rigHandPositionTransform.localPosition = pos;
+                //_rigHandPositionTransform.localPosition = pos;
             }
             else
             {
-                _rigHandPositionTransform.position = pos;
+                //_rigHandPositionTransform.position = pos;
             }
         }
 
         public void SetRigControlRotation(Vector3 rot, bool local = false)
         {
+            return;
             if (local)
             {
-                _rigHandRotationTransform.localEulerAngles = rot + _rigHandRotationNaturalOffset;
+                //_rigHandRotationTransform.localEulerAngles = rot + _rigHandRotationNaturalOffset;
             }
             else
             {
-                _rigHandRotationTransform.eulerAngles = rot + _rigHandRotationNaturalOffset;
+                //_rigHandRotationTransform.eulerAngles = rot + _rigHandRotationNaturalOffset;
             }
         }
 
@@ -666,7 +667,7 @@ namespace _Scripts.Gameplay.Animate.Player{
         {
             if (posWeight >= 0.0f)
             {
-                _rigPosition.weight = posWeight;
+               // _rigPosition.weight = posWeight;
             }
 
             //if (rotWeight >= 0.0f)
