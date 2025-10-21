@@ -215,12 +215,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _normalAnimator: {fileID: -7843280604968106094}
   _operatingAnimator: {fileID: 0}
-  _rigPosition: {fileID: 0}
-  _rigHandPositionTransform: {fileID: 0}
-  _rigHandChildTransform: {fileID: 0}
-  _rigRotation: {fileID: 0}
-  _rigHandRotationTransform: {fileID: 0}
-  _rigHandRotationNaturalOffset: {x: 0, y: 0, z: 0}
+  _walkSpeedAnimAccelerateFactor: 5
+  _walkSpeedAnimDecelerateFactor: 7.5
   _operatingDirectionChangeDecayDelayCurve:
     serializedVersion: 2
     m_Curve:

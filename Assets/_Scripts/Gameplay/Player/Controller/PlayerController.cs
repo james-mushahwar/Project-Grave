@@ -185,6 +185,18 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
         }
 
+        public CharacterController CharacterController
+        {
+            get
+            {
+                return _characterController;
+            }
+        }
+
+        public float MoveSpeed { get => moveSpeed; }
+        public Vector3 Velocity { get => velocity; }
+        public Vector3 MoveVector { get => _moveVector; }
+
         private void Start()
         {
             _characterController = GetComponent<CharacterController>();
@@ -320,6 +332,7 @@ namespace _Scripts.Gameplay.Player.Controller{
         {
             velocity.y += gravity * Time.deltaTime; // Apply gravity to the velocity
             _characterController.Move(velocity * Time.deltaTime); // Move the character with gravity
+            velocity = _characterController.velocity;
         }
 
         public void OnMove(InputAction.CallbackContext context)

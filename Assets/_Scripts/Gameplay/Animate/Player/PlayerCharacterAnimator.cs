@@ -36,7 +36,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         #region Hashes
         //animation layer hash
-        private int _idleAnimLayer_Index;
+        private int _baseAnimLayer_Index;
 
         //animation controller state hash
         private int _state_EmptyHandedLoco_Hash;
@@ -51,18 +51,23 @@ namespace _Scripts.Gameplay.Animate.Player{
         #region Params
             #region Moving
             private int _param_walkSpeed_Hash;
+            private float _walkSpeedAlpha; // 0 to 1, idle to max speed
             #endregion
 
             #region Operating
             private int _param_isSawing_Hash;
             private int _param_holdingSaw_Hash;
             private int _param_sawingCutAmount_Hash; // 0 to 1
-            #endregion
+        #endregion
         #endregion
 
         #endregion //hashes
 
-
+        [Header("Moving")]
+        [SerializeField]
+        private float _walkSpeedAnimAccelerateFactor;
+        [SerializeField]
+        private float _walkSpeedAnimDecelerateFactor;
         //[Header("Rig")] 
         //[SerializeField] 
         //private Rig _rigPosition;
@@ -203,7 +208,7 @@ namespace _Scripts.Gameplay.Animate.Player{
         public void Setup() 
         {
             // layers
-            _idleAnimLayer_Index = CurrentAnimator.GetLayerIndex("Base Layer");
+            _baseAnimLayer_Index = CurrentAnimator.GetLayerIndex("Base Layer");
             //_sawingStartAnimLayer_Index = CurrentAnimator.GetLayerIndex("sawing_progress_start");
             //_sawingEndAnimLayer_Index = CurrentAnimator.GetLayerIndex("sawing_progress_end");
 
@@ -232,71 +237,21 @@ namespace _Scripts.Gameplay.Animate.Player{
             _heartbeatLowAudioHandler.IsActiveMethod = ContinueHeartbeatAudioHandle;
         }
 
-        private bool ContinueHeartbeatAudioHandle()
-        {
-            if (_heartbeatLowAudioHandler._ctSource == null || _heartbeatLowAudioHandler._ctSource.IsPlaying() == false)
-            {
-                return false;
-            }
-
-            bool shouldBeActive = false;
-
-            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
-            bool isOperating = currentOpState != null;
-
-            if (isOperating)
-            {
-                shouldBeActive = true;
-            }
-
-            return shouldBeActive;
-        }
-
-        private bool ShouldPlayOperationHeartBeat()
-        {
-            bool shouldBeActive = false;
-
-            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
-            bool isOperating = currentOpState != null;
-
-            if (isOperating)
-            {
-                if (currentOpState is DismemberOperationState)
-                {
-                    if (true)
-                    {
-                        shouldBeActive = true;
-                    }
-                }
-            }
-
-            return shouldBeActive;
-        }
-
         public void ManagedTick() 
         {
+            AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
+
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+
             OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
             bool isOperating = currentOpState != null;
-            bool animInTransition = CurrentAnimator.IsInTransition(_idleAnimLayer_Index);
-            EFeedbackPattern movementFeedback = EFeedbackPattern.None;
-            //_operatingMomentumInvalidInputTimer = Mathf.Clamp(_operatingMomentumInvalidInputTimer - Time.deltaTime, 0.0f, _operatingMomentumInvalidInputDelay);
-            bool limitAnimationPlayback = false;
-            float maxPlaybackLimit = 1.0f;
 
-            EFeedbackPattern operationFeedbackPattern = EFeedbackPattern.Operation_SawSmooth;
-            bool playOperationFeedback = false;
-            float cameraShakeFactor = 1.0f;
-            Vector3 cameraShakeFrictionVelocity = new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.01f, 0.01f), 0f);
+            bool isWalking = isOperating == false; 
 
-            float feedbackLowFrequencyFactor = -1.0f;
-            float feedbackHighFrequencyFactor = -1.0f;
+            bool animInTransition = CurrentAnimator.IsInTransition(_baseAnimLayer_Index);
 
             if (isOperating)
             {
-                //CurrentAnimator.SetLayerWeight(_idleAnimLayer_Index, 0.0f);
-                AnimatorStateInfo idleAnimLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_idleAnimLayer_Index);
-                //AnimatorStateInfo sawingEndAnimatorStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_sawingEndAnimLayer_Index);
-
                 // direction change timer //
                 bool changeDirectionCooldown = _operatingDirectionChangeTimer > 0.0f;
                 if (changeDirectionCooldown)
@@ -324,7 +279,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 {
                     directionFactor = _operatingDirection == EDirectionType.West ? 1.0f : -_operatingSawingPullbackSpeedFactor;
 
-                    if (animInTransition == false && idleAnimLayerStateInfo.shortNameHash.Equals(_state_SawingBlend_Hash) == true)
+                    if (animInTransition == false && baseLayerStateInfo.shortNameHash.Equals(_state_SawingBlend_Hash) == true)
                     {
                         if (ShouldPlayOperationHeartBeat())
                         {
@@ -340,30 +295,30 @@ namespace _Scripts.Gameplay.Animate.Player{
                             }
                         }
 
-                        if (_operatingDirection == EDirectionType.West)
-                        {
-                            limitAnimationPlayback = true;
+                        //if (_operatingDirection == EDirectionType.West)
+                        //{
+                        //    limitAnimationPlayback = true;
 
-                            if (OperationTimingZone == ETimingType.Poor)
-                            {
-                                cameraShakeFactor = 5.0f * (1 - _operatingMomentum);
-                                new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.025f, 0.025f), 0f);
+                        //    if (OperationTimingZone == ETimingType.Poor)
+                        //    {
+                        //        cameraShakeFactor = 5.0f * (1 - _operatingMomentum);
+                        //        new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.025f, 0.025f), 0f);
 
-                                playOperationFeedback = true;
+                        //        playOperationFeedback = true;
 
-                                operationFeedbackPattern = EFeedbackPattern.Operation_SawJammed;
-                            }
-                            else if (_operatingAnimLerpSpeed > 0)
-                            {
-                                cameraShakeFactor = 1 - _operatingMomentum;
-                                cameraShakeFrictionVelocity = new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.01f, 0.01f), 0f);
+                        //        operationFeedbackPattern = EFeedbackPattern.Operation_SawJammed;
+                        //    }
+                        //    else if (_operatingAnimLerpSpeed > 0)
+                        //    {
+                        //        cameraShakeFactor = 1 - _operatingMomentum;
+                        //        cameraShakeFrictionVelocity = new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.01f, 0.01f), 0f);
 
-                                playOperationFeedback = true;
-                            }
-                        }
-                        else
-                        {
-                        }
+                        //        playOperationFeedback = true;
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //}
 
                     }
                 }
@@ -410,32 +365,29 @@ namespace _Scripts.Gameplay.Animate.Player{
                             _bloodAreaFXTimer = 0.5f;
                         }
                     }
-                    
-                    maxPlaybackLimit = equippedTool.ToolProfile.GetAnimationPlaybackLimit();
-                    animationPlaybackLimit = equippedTool.ToolProfile.GetMomentumPlaybackLimit(CurrentMomentum) * maxPlaybackLimit;
                 }
 
 
                 // Operation feedback //
-                if (playOperationFeedback)
-                {
-                    _impulseSource_OperatingFriction.GenerateImpulseWithVelocity(cameraShakeFrictionVelocity * cameraShakeFactor);
+                //if (playOperationFeedback)
+                //{
+                //    _impulseSource_OperatingFriction.GenerateImpulseWithVelocity(cameraShakeFrictionVelocity * cameraShakeFactor);
 
-                    FeedbackManager.Instance.TryFeedbackPattern(operationFeedbackPattern);
-                    if (equippedTool != null)
-                    {
-                        feedbackLowFrequencyFactor = equippedTool.ToolProfile.GetMomentumFeedback(animationSpeedMultiplier);
-                        feedbackHighFrequencyFactor = equippedTool.ToolProfile.GetMomentumFeedback(animationSpeedMultiplier);
-                    }
-                }
-                else
-                {
-                    FeedbackManager.Instance.StopFeedbackPattern();
-                }
-                FeedbackManager.Instance.SetFrequencyFactor(feedbackLowFrequencyFactor, feedbackHighFrequencyFactor);
+                //    FeedbackManager.Instance.TryFeedbackPattern(operationFeedbackPattern);
+                //    if (equippedTool != null)
+                //    {
+                //        feedbackLowFrequencyFactor = equippedTool.ToolProfile.GetMomentumFeedback(animationSpeedMultiplier);
+                //        feedbackHighFrequencyFactor = equippedTool.ToolProfile.GetMomentumFeedback(animationSpeedMultiplier);
+                //    }
+                //}
+                //else
+                //{
+                //    FeedbackManager.Instance.StopFeedbackPattern();
+                //}
+                //FeedbackManager.Instance.SetFrequencyFactor(feedbackLowFrequencyFactor, feedbackHighFrequencyFactor);
                 ////
 
-                if (!animInTransition && idleAnimLayerStateInfo.shortNameHash.Equals(_state_SawingBlend_Hash) == false) //|| sawingEndAnimatorStateInfo.shortNameHash.Equals(_sawingProgressEndLoopAnim_Hash) == false)
+                if (!animInTransition && baseLayerStateInfo.shortNameHash.Equals(_state_SawingBlend_Hash) == false) //|| sawingEndAnimatorStateInfo.shortNameHash.Equals(_sawingProgressEndLoopAnim_Hash) == false)
                 {
 
                     CurrentAnimator.CrossFade(_state_SawingBlend_Hash, 0.5f);
@@ -469,21 +421,21 @@ namespace _Scripts.Gameplay.Animate.Player{
                 if (animationSpeedMultiplier != 0.0f)
                 {
                     // Get the current normalized time and playback speed
-                    float currentNormalizedTime = idleAnimLayerStateInfo.normalizedTime;
-                    float playbackSpeed = animationSpeedMultiplier * idleAnimLayerStateInfo.speed;
+                    float currentNormalizedTime = baseLayerStateInfo.normalizedTime;
+                    float playbackSpeed = animationSpeedMultiplier * baseLayerStateInfo.speed;
 
                     // Calculate the time delta for the next frame
                     float deltaTime = Time.deltaTime;
-                    float normalizedTimeDelta = playbackSpeed * (deltaTime / idleAnimLayerStateInfo.length);
+                    float normalizedTimeDelta = playbackSpeed * (deltaTime / baseLayerStateInfo.length);
 
                     float predictedNormalizedTime = currentNormalizedTime + normalizedTimeDelta;
 
                     bool eastwardEnd = (predictedNormalizedTime < 0.0f && _operatingDirection == EDirectionType.East);
-                    bool westwardEnd = (predictedNormalizedTime > maxPlaybackLimit && _operatingDirection == EDirectionType.West);
-                    changeDirection = eastwardEnd || westwardEnd;
+                   // bool westwardEnd = (predictedNormalizedTime > maxPlaybackLimit && _operatingDirection == EDirectionType.West);
+                    //changeDirection = eastwardEnd || westwardEnd;
 
                     ETimingType previousTiming = OperationTimingZone;
-                    _currentNormaliseAnimPlayback = currentNormalizedTime / maxPlaybackLimit;
+                    _currentNormaliseAnimPlayback = currentNormalizedTime;// / maxPlaybackLimit;
                     _operationTimingZone = GetAnimationTimingZone(_currentNormaliseAnimPlayback);
                     OnTimingTypeChanged(previousTiming, _operationTimingZone);
 
@@ -497,7 +449,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                         }
                         else
                         {
-                            predictedNormalizedTime = maxPlaybackLimit;
+                            //predictedNormalizedTime = maxPlaybackLimit;
                         }
 
                         CurrentAnimator.CrossFade(_state_SawingBlend_Hash, 0.0f, 0, predictedNormalizedTime);
@@ -506,18 +458,21 @@ namespace _Scripts.Gameplay.Animate.Player{
                     
                 }
 
-                CurrentAnimator.SetFloat("Operating_SpeedMultiplier", animationSpeedMultiplier);
-
                 Vector3 worldRot = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
                 //SetRigControlRotation(worldRot);
                 
             }
-            else
+            else if (pc && isWalking)
             {
+                float inputDirection = Mathf.Clamp(pc.MoveVector.magnitude, 0.0f, 1.0f); // 0 to 1 blend idle to full speed
+                bool slowingDown = inputDirection <= 0.0f;
+                _walkSpeedAlpha = Mathf.MoveTowards(_walkSpeedAlpha, inputDirection > 0.0f ? 1.0f : 0.0f, (slowingDown ? _walkSpeedAnimDecelerateFactor : _walkSpeedAnimAccelerateFactor) * Time.deltaTime);
+                Debug.Log("Current float value = " + _walkSpeedAlpha);
+                CurrentAnimator.SetFloat(_param_walkSpeed_Hash, _walkSpeedAlpha);
                 //CurrentAnimator.SetLayerWeight(_sawingStartAnimLayer_Index, 0.0f);
                 //CurrentAnimator.SetLayerWeight(_sawingEndAnimLayer_Index, 0.0f);
 
-                AnimatorStateInfo baseAnimatorStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_idleAnimLayer_Index);
+                AnimatorStateInfo baseAnimatorStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
 
                 if (!animInTransition && baseAnimatorStateInfo.shortNameHash.Equals(_state_EmptyHandedLoco_Hash) == false)
                 {
@@ -530,6 +485,46 @@ namespace _Scripts.Gameplay.Animate.Player{
             }
         }
 
+        #region Audio
+        private bool ContinueHeartbeatAudioHandle()
+        {
+            if (_heartbeatLowAudioHandler._ctSource == null || _heartbeatLowAudioHandler._ctSource.IsPlaying() == false)
+            {
+                return false;
+            }
+
+            bool shouldBeActive = false;
+
+            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+            bool isOperating = currentOpState != null;
+
+            if (isOperating)
+            {
+                shouldBeActive = true;
+            }
+
+            return shouldBeActive;
+        }
+        private bool ShouldPlayOperationHeartBeat()
+        {
+            bool shouldBeActive = false;
+
+            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+            bool isOperating = currentOpState != null;
+
+            if (isOperating)
+            {
+                if (currentOpState is DismemberOperationState)
+                {
+                    if (true)
+                    {
+                        shouldBeActive = true;
+                    }
+                }
+            }
+
+            return shouldBeActive;
+        }
         private void UpdateHeartbeatAudioHandler()
         {
             if (_heartbeatLowAudioHandler._active)
@@ -542,6 +537,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 
             }    
         }
+        #endregion
 
         public ETimingType GetAnimationTimingZone(float ratio)
         {
