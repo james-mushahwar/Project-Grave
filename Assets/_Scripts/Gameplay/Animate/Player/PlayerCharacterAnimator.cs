@@ -34,10 +34,34 @@ namespace _Scripts.Gameplay.Animate.Player{
         private Tweener _playbackSpeedTweener;
         private float OperatingSpeedTweened;
 
+        #region Hashes
+        //animation layer hash
         private int _idleAnimLayer_Index;
 
-        private int _idleLoopAnim_Hash;
-        private int _sawingProgressStartLoopAnim_Hash;
+        //animation controller state hash
+        private int _state_EmptyHandedLoco_Hash;
+        private int _state_PickupEmptyToSaw_Hash;
+        private int _state_EquipSaw_Hash;
+        private int _state_SawIdle_Hash;
+        private int _state_SawingBlend_Hash;
+        private int _state_UnequipSaw_Hash;
+        private int _state_PickupSawToEmpty_Hash;
+
+        //animation parameters hash
+        #region Params
+            #region Moving
+            private int _param_walkSpeed_Hash;
+            #endregion
+
+            #region Operating
+            private int _param_isSawing_Hash;
+            private int _param_holdingSaw_Hash;
+            private int _param_sawingCutAmount_Hash; // 0 to 1
+            #endregion
+        #endregion
+
+        #endregion //hashes
+
 
         //[Header("Rig")] 
         //[SerializeField] 
@@ -184,9 +208,23 @@ namespace _Scripts.Gameplay.Animate.Player{
             //_sawingEndAnimLayer_Index = CurrentAnimator.GetLayerIndex("sawing_progress_end");
 
             // anim hash
-            _idleLoopAnim_Hash = Animator.StringToHash("idle");
+            //_state_EmptyHandedLoco_Hash = Animator.StringToHash("idle");
+            //states
+            _state_EmptyHandedLoco_Hash     = Animator.StringToHash("empty handed Loco Blend Tree");
+            _state_PickupEmptyToSaw_Hash    = Animator.StringToHash("unequip_emptyHanded");
+            _state_EquipSaw_Hash            = Animator.StringToHash("equip_saw");
+            _state_SawIdle_Hash             = Animator.StringToHash("saw_idle");
+            _state_SawingBlend_Hash         = Animator.StringToHash("Sawing Blend Tree");
+            _state_UnequipSaw_Hash          = Animator.StringToHash("unequip_saw");
+            _state_PickupSawToEmpty_Hash    = Animator.StringToHash("equip_emptyHanded");
+
+            _param_walkSpeed_Hash           = Animator.StringToHash("walk_speed");
+            _param_holdingSaw_Hash          = Animator.StringToHash("holding Saw?");
+            _param_isSawing_Hash            = Animator.StringToHash("isSawing?");
+            _param_sawingCutAmount_Hash     = Animator.StringToHash("sawing_cut_amount");
+
             //_sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_IK_version");
-            _sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_IK_version 2 big Saw");
+            //_sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_IK_version 2 big Saw");
             //_sawingProgressEndLoopAnim_Hash = Animator.StringToHash("sawing_progress_end");
             //_rigControlDefaultLocalPosition = _rigHandPositionTransform.localPosition;
 
@@ -286,7 +324,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 {
                     directionFactor = _operatingDirection == EDirectionType.West ? 1.0f : -_operatingSawingPullbackSpeedFactor;
 
-                    if (animInTransition == false && idleAnimLayerStateInfo.shortNameHash.Equals(_sawingProgressStartLoopAnim_Hash) == true)
+                    if (animInTransition == false && idleAnimLayerStateInfo.shortNameHash.Equals(_state_SawingBlend_Hash) == true)
                     {
                         if (ShouldPlayOperationHeartBeat())
                         {
@@ -397,10 +435,10 @@ namespace _Scripts.Gameplay.Animate.Player{
                 FeedbackManager.Instance.SetFrequencyFactor(feedbackLowFrequencyFactor, feedbackHighFrequencyFactor);
                 ////
 
-                if (!animInTransition && idleAnimLayerStateInfo.shortNameHash.Equals(_sawingProgressStartLoopAnim_Hash) == false) //|| sawingEndAnimatorStateInfo.shortNameHash.Equals(_sawingProgressEndLoopAnim_Hash) == false)
+                if (!animInTransition && idleAnimLayerStateInfo.shortNameHash.Equals(_state_SawingBlend_Hash) == false) //|| sawingEndAnimatorStateInfo.shortNameHash.Equals(_sawingProgressEndLoopAnim_Hash) == false)
                 {
 
-                    CurrentAnimator.CrossFade(_sawingProgressStartLoopAnim_Hash, 0.5f);
+                    CurrentAnimator.CrossFade(_state_SawingBlend_Hash, 0.5f);
                     SetRigWeight(1.0f, 1.0f);
                 }
 
@@ -462,7 +500,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                             predictedNormalizedTime = maxPlaybackLimit;
                         }
 
-                        CurrentAnimator.CrossFade(_sawingProgressStartLoopAnim_Hash, 0.0f, 0, predictedNormalizedTime);
+                        CurrentAnimator.CrossFade(_state_SawingBlend_Hash, 0.0f, 0, predictedNormalizedTime);
                         OnSwitchOperatingDirection(_operatingDirection);
                     }
                     
@@ -481,9 +519,9 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 AnimatorStateInfo baseAnimatorStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_idleAnimLayer_Index);
 
-                if (!animInTransition && baseAnimatorStateInfo.shortNameHash.Equals(_idleLoopAnim_Hash) == false)
+                if (!animInTransition && baseAnimatorStateInfo.shortNameHash.Equals(_state_EmptyHandedLoco_Hash) == false)
                 {
-                    CurrentAnimator.CrossFade(_idleLoopAnim_Hash, 0.0f);
+                    CurrentAnimator.CrossFade(_state_EmptyHandedLoco_Hash, 0.0f);
                     //CurrentAnimator.PlayInFixedTime(_idleLoopAnim_Hash);
                     //Debug.Log("Trying to play idle animation");
                     ResetRig();
