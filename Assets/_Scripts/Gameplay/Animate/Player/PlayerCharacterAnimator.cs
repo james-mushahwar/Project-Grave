@@ -52,6 +52,8 @@ namespace _Scripts.Gameplay.Animate.Player{
             #region Moving
             private int _param_walkSpeed_Hash;
             private float _walkSpeedAlpha; // 0 to 1, idle to max speed
+            private int _param_turnLeftRight_Hash;
+            private float _turnLeftRight; // -1 to 1, left to right
             #endregion
 
             #region Operating
@@ -224,6 +226,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             _state_PickupSawToEmpty_Hash    = Animator.StringToHash("equip_emptyHanded");
 
             _param_walkSpeed_Hash           = Animator.StringToHash("walk_speed");
+            _param_turnLeftRight_Hash       = Animator.StringToHash("turnLeftRight");
             _param_holdingSaw_Hash          = Animator.StringToHash("holding Saw?");
             _param_isSawing_Hash            = Animator.StringToHash("isSawing?");
             _param_sawingCutAmount_Hash     = Animator.StringToHash("sawing_cut_amount");
@@ -464,11 +467,29 @@ namespace _Scripts.Gameplay.Animate.Player{
             }
             else if (pc && isWalking)
             {
+                //walk speed
                 float inputDirection = Mathf.Clamp(pc.MoveVector.magnitude, 0.0f, 1.0f); // 0 to 1 blend idle to full speed
                 bool slowingDown = inputDirection <= 0.0f;
-                _walkSpeedAlpha = Mathf.MoveTowards(_walkSpeedAlpha, inputDirection > 0.0f ? 1.0f : 0.0f, (slowingDown ? _walkSpeedAnimDecelerateFactor : _walkSpeedAnimAccelerateFactor) * Time.deltaTime);
+                _walkSpeedAlpha = Mathf.Clamp(Mathf.MoveTowards(_walkSpeedAlpha, inputDirection > 0.0f ? 1.0f : 0.0f, (slowingDown ? _walkSpeedAnimDecelerateFactor : _walkSpeedAnimAccelerateFactor) * Time.deltaTime), 0.0f, 1.0f);
                 Debug.Log("Current float value = " + _walkSpeedAlpha);
                 CurrentAnimator.SetFloat(_param_walkSpeed_Hash, _walkSpeedAlpha);
+
+                //moving/turning left or right
+                Vector3 flattenedForward = pc.FacingDirection;
+                flattenedForward.y = 0.0f;
+
+                Vector3 moveVector = pc.MoveVector;
+                moveVector.z = moveVector.y;
+                moveVector.y = 0.0f;
+                moveVector = pc.transform.TransformDirection(moveVector);
+                moveVector.y = 0f; // Keep on XZ plane
+                moveVector = moveVector.normalized;
+                float inputToPlayerDirection = Vector3.SignedAngle(flattenedForward, moveVector, pc.transform.up);
+
+                float targetTurnAlpha = inputToPlayerDirection / 90.0f;
+                _turnLeftRight = Mathf.Clamp(Mathf.MoveTowards(_turnLeftRight, slowingDown ? 0.0f : targetTurnAlpha, (slowingDown ? _walkSpeedAnimDecelerateFactor : _walkSpeedAnimAccelerateFactor) * Time.deltaTime), -1.0f, 1.0f);
+                CurrentAnimator.SetFloat(_param_turnLeftRight_Hash, _turnLeftRight);
+
                 //CurrentAnimator.SetLayerWeight(_sawingStartAnimLayer_Index, 0.0f);
                 //CurrentAnimator.SetLayerWeight(_sawingEndAnimLayer_Index, 0.0f);
 

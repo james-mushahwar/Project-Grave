@@ -196,6 +196,7 @@ namespace _Scripts.Gameplay.Player.Controller{
         public float MoveSpeed { get => moveSpeed; }
         public Vector3 Velocity { get => velocity; }
         public Vector3 MoveVector { get => _moveVector; }
+        public Vector3 FacingDirection { get => this.transform.forward; }
 
         private void Start()
         {

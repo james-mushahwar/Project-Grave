@@ -355,19 +355,19 @@ BlendTree:
     m_DirectBlendParameter: Operating_SpeedMultiplier
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7816922862777709331, guid: ba3846b6d6ac4ea46a1bad1f91137cb8,
+    m_Motion: {fileID: 6738857648387190584, guid: ba3846b6d6ac4ea46a1bad1f91137cb8,
       type: 3}
     m_Threshold: 0.4
-    m_Position: {x: -1, y: 0}
+    m_Position: {x: 1, y: -0.01}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: walk_speed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 6738857648387190584, guid: ba3846b6d6ac4ea46a1bad1f91137cb8,
+    m_Motion: {fileID: 7816922862777709331, guid: ba3846b6d6ac4ea46a1bad1f91137cb8,
       type: 3}
     m_Threshold: 0.6
-    m_Position: {x: 1, y: 0}
+    m_Position: {x: -1, y: -0.01}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: walk_speed
@@ -390,8 +390,8 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: walk_speed
     m_Mirror: 0
-  m_BlendParameter: walk_speed
-  m_BlendParameterY: turnLeftRight
+  m_BlendParameter: turnLeftRight
+  m_BlendParameterY: walk_speed
   m_MinThreshold: 0
   m_MaxThreshold: 1
   m_UseAutomaticThresholds: 1
@@ -434,6 +434,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: turnLeftRight
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   - m_Name: holding Saw?
     m_Type: 4
     m_DefaultFloat: 0
@@ -447,12 +453,6 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: sawing_cut_amount
-    m_Type: 1
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: turnLeftRight
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
