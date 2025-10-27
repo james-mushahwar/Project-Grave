@@ -8,7 +8,6 @@ using Unity.Collections;
 using UnityEngine;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using UnityEditor.Build;
-//using UnityEngine.Animations.Rigging;
 using System.Security.Cryptography.X509Certificates;
 using _Scripts.Editortools.Draw;
 using Cinemachine;
@@ -32,11 +31,14 @@ namespace _Scripts.Gameplay.Animate.Player{
         public Animator CurrentAnimator { get { return _normalAnimator; } }
 
         private Tweener _playbackSpeedTweener;
-        private float OperatingSpeedTweened;
+        private float _sawingAmount; // 0 to 1
 
         #region Hashes
         //animation layer hash
         private int _baseAnimLayer_Index;
+
+        private int _currentBaseLayerStateHash;
+        private int _previousBaseLayerStateHash;
 
         //animation controller state hash
         private int _state_EmptyHandedLoco_Hash;
@@ -238,6 +240,21 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             _heartbeatLowAudioHandler.Owner = this.gameObject;
             _heartbeatLowAudioHandler.IsActiveMethod = ContinueHeartbeatAudioHandle;
+
+            AnimationManager.Instance.TweenFloat(ref _playbackSpeedTweener, 0.0f, 1.0f, 1.0f, Ease.InOutExpo, UpdateSawingAmount);
+            _playbackSpeedTweener.SetLoops(-1, LoopType.Yoyo);
+            //_playbackSpeedTweener.OnComplete(() => AnimationManager.Instance.TweenFloat(ref _playbackSpeedTweener, 0.0f, 1.0f, 1.0f, Ease.InOutExpo, UpdateSawingAmount));
+        }
+
+        private void UpdateSawingAmount(float value)
+        {
+            _sawingAmount = value;
+        }
+
+        private void Update()
+        {
+            TickAnimState();
+
         }
 
         public void ManagedTick() 
@@ -393,7 +410,9 @@ namespace _Scripts.Gameplay.Animate.Player{
                 if (!animInTransition && baseLayerStateInfo.shortNameHash.Equals(_state_SawingBlend_Hash) == false) //|| sawingEndAnimatorStateInfo.shortNameHash.Equals(_sawingProgressEndLoopAnim_Hash) == false)
                 {
 
-                    CurrentAnimator.CrossFade(_state_SawingBlend_Hash, 0.5f);
+                    //CurrentAnimator.SetBool(_param_holdingSaw_Hash, true);
+                    //CurrentAnimator.SetBool(_param_isSawing_Hash, true);
+                    //CurrentAnimator.CrossFade(_state_SawingBlend_Hash, 0.5f);
                     SetRigWeight(1.0f, 1.0f);
                 }
 
@@ -455,7 +474,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                             //predictedNormalizedTime = maxPlaybackLimit;
                         }
 
-                        CurrentAnimator.CrossFade(_state_SawingBlend_Hash, 0.0f, 0, predictedNormalizedTime);
+                        //CurrentAnimator.CrossFade(_state_SawingBlend_Hash, 0.0f, 0, predictedNormalizedTime);
                         OnSwitchOperatingDirection(_operatingDirection);
                     }
                     
@@ -471,7 +490,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 float inputDirection = Mathf.Clamp(pc.MoveVector.magnitude, 0.0f, 1.0f); // 0 to 1 blend idle to full speed
                 bool slowingDown = inputDirection <= 0.0f;
                 _walkSpeedAlpha = Mathf.Clamp(Mathf.MoveTowards(_walkSpeedAlpha, inputDirection > 0.0f ? 1.0f : 0.0f, (slowingDown ? _walkSpeedAnimDecelerateFactor : _walkSpeedAnimAccelerateFactor) * Time.deltaTime), 0.0f, 1.0f);
-                Debug.Log("Current float value = " + _walkSpeedAlpha);
+                //Debug.Log("Current float value = " + _walkSpeedAlpha);
                 CurrentAnimator.SetFloat(_param_walkSpeed_Hash, _walkSpeedAlpha);
 
                 //moving/turning left or right
@@ -505,6 +524,106 @@ namespace _Scripts.Gameplay.Animate.Player{
                 }
             }
         }
+
+        private void TickAnimState()
+        {
+            AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
+
+            int nextState = baseLayerStateInfo.shortNameHash;
+
+            if (_currentBaseLayerStateHash == -1)
+            {
+                _currentBaseLayerStateHash = _previousBaseLayerStateHash = nextState;
+                return;
+            }
+
+            if (_currentBaseLayerStateHash == nextState)
+            {
+                // nothing changed
+                return;
+            }
+
+            _previousBaseLayerStateHash = _currentBaseLayerStateHash;
+            _currentBaseLayerStateHash = nextState;
+
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+
+            //pickup tool
+            if (_previousBaseLayerStateHash.Equals(_state_PickupEmptyToSaw_Hash))
+            {
+                if (_currentBaseLayerStateHash.Equals(_state_EquipSaw_Hash))
+                {
+                    if (pc.EquippedOperatingTool != null)
+                    {
+                        pc.EquippedOperatingTool.SetVisible(true);
+                    }
+                }
+            }
+
+            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+
+            bool canSaw = (currentOpState != null) && _currentBaseLayerStateHash.Equals(_state_SawIdle_Hash) || _currentBaseLayerStateHash.Equals(_state_SawingBlend_Hash);
+            CurrentAnimator.SetBool(_param_isSawing_Hash, canSaw);
+
+            float sawingAmount = _sawingAmount;
+            CurrentAnimator.SetFloat(_param_sawingCutAmount_Hash, sawingAmount);
+        }
+
+        public void ManagedFixedTick()
+        {
+        }
+        public void ManagedLateTick()
+        {
+        }
+
+        #region Animation states
+        public bool IsAnimationBlockingMovement()
+        {
+            if (CurrentAnimator.IsInTransition(_baseAnimLayer_Index))
+            {
+                return true;
+            }
+
+            AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
+
+            if (baseLayerStateInfo.shortNameHash.Equals(_state_PickupEmptyToSaw_Hash))
+            {
+                return true;
+            }
+
+            return false;
+        }
+        public bool IsAnimationBlockingInput()
+        {
+            if (CurrentAnimator.IsInTransition(_baseAnimLayer_Index))
+            {
+                Debug.Log("Animation is in transition: BLOCK");
+                return true;
+            }
+
+            AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
+
+            if (baseLayerStateInfo.shortNameHash.Equals(_state_PickupEmptyToSaw_Hash))
+            {
+                Debug.Log("Animation is a blocking anim: BLOCK");
+                return true;
+            }
+
+            return false;
+        }
+
+        private void PlayAnimation()
+        {
+        }
+        public void PlayPickupToolAnimation()
+        {
+            CurrentAnimator.SetBool(_param_holdingSaw_Hash, true);
+        }
+        public void PlayPickupEmptyAnimation()
+        {
+
+        }
+        #endregion
 
         #region Audio
         private bool ContinueHeartbeatAudioHandle()
@@ -674,14 +793,6 @@ namespace _Scripts.Gameplay.Animate.Player{
             return playbackSpeed;
         }
 
-        public void ManagedFixedTick() 
-        {
-        }
-
-        public void ManagedLateTick() 
-        { 
-        }
-
         public void ResetRig()
         {
             //SetRigControlPosition(_rigControlDefaultLocalPosition, true);
@@ -690,7 +801,6 @@ namespace _Scripts.Gameplay.Animate.Player{
             //_rigHandRotationTransform.localEulerAngles = Vector3.zero;
 
             SetRigWeight(0.0f, 0.0f);
-
         }
 
         public void SetRigControlPosition(Vector3 pos, bool local = false)

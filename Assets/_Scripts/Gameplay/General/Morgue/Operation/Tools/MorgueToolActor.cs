@@ -8,6 +8,7 @@ using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
 using MoreMountains.Tools;
 using UnityEditor;
+using UnityEditor.XR;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -60,6 +61,27 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
 
         public override void Tick()
         {
+            // show tool or not
+            bool showTool = false;
+
+            if (ToolStorable.IsStored())
+            {
+                if (ToolStorable.Stored != null)
+                {
+                    showTool = true;
+
+                }
+                else
+                {
+                    showTool = true;
+                }
+            }
+            if (showTool != _toolMeshRenderer.enabled)
+            {
+                Debug.Log("Setting tool mesh rendering to " + showTool);
+                _toolMeshRenderer.enabled = showTool;
+            }
+
             if (PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool == this)
             {
                 //_currentTimingZone = GetTimingZone();
@@ -68,6 +90,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
             {
                 _currentTimingZone = ETimingType.None;
             }
+        }
+
+        public void SetVisible(bool set)
+        {
+            _toolMeshRenderer.enabled = set;
         }
 
         public virtual IStorable StoreIntoStorage(IStorage storage)

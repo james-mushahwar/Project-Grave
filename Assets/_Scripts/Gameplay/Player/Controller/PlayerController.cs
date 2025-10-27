@@ -24,6 +24,7 @@ using IIdentifiable = _Scripts.Org.IIdentifiable;
 using _Scripts.Gameplay.General.Identification;
 using static UnityEngine.Rendering.DebugUI;
 using _Scripts.Gameplay.Animate.Player;
+using DG.Tweening;
 
 namespace _Scripts.Gameplay.Player.Controller{
 
@@ -338,10 +339,20 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void OnMove(InputAction.CallbackContext context)
         {
+            if (PlayerCharacterAnimator.IsAnimationBlockingInput())
+            {
+                _moveVector = Vector2.zero;
+                return;
+            }
             _moveVector = context.ReadValue<Vector2>();
         }
         public void OnLook(InputAction.CallbackContext context)
         {
+            if (PlayerCharacterAnimator.IsAnimationBlockingInput())
+            {
+                _lookVector = Vector2.zero;
+                return;
+            }
             _lookVector = context.ReadValue<Vector2>();
         }
         public void OnInventory(InputAction.CallbackContext context)
@@ -368,6 +379,11 @@ namespace _Scripts.Gameplay.Player.Controller{
         public void Operating_OnBack(InputAction.CallbackContext callbackContext)
         {
             if (CameraManager.Instance.IsCameraInTransition())
+            {
+                return;
+            }
+
+            if (PlayerCharacterAnimator.IsAnimationBlockingInput())
             {
                 return;
             }
@@ -422,11 +438,21 @@ namespace _Scripts.Gameplay.Player.Controller{
             {
                 return;
             }
+
+            if (PlayerCharacterAnimator.IsAnimationBlockingInput())
+            {
+                return;
+            }
         }
 
         public void Operating_OnScroll(InputAction.CallbackContext callbackContext)
         {
             if (CameraManager.Instance.IsCameraInTransition())
+            {
+                return;
+            }
+
+            if (PlayerCharacterAnimator.IsAnimationBlockingInput())
             {
                 return;
             }
@@ -441,6 +467,11 @@ namespace _Scripts.Gameplay.Player.Controller{
             return;
 
             if (CameraManager.Instance.IsCameraInTransition())
+            {
+                return;
+            }
+
+            if (PlayerCharacterAnimator.IsAnimationBlockingInput())
             {
                 return;
             }
@@ -494,18 +525,33 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void Operating_ActionLPressed(InputAction.CallbackContext callbackContext)
         {
+            if (PlayerCharacterAnimator.IsAnimationBlockingInput())
+            {
+                return;
+            }
+
             ActionL(callbackContext);
 
         }
 
         public void Operating_ActionLReleased(InputAction.CallbackContext callbackContext)
         {
+            if (PlayerCharacterAnimator.IsAnimationBlockingInput())
+            {
+                return;
+            }
+
             ActionL(callbackContext);
         }
 
         private void ActionL(InputAction.CallbackContext callbackContext)
         {
             if (CameraManager.Instance.IsCameraInTransition())
+            {
+                return;
+            }
+
+            if (PlayerCharacterAnimator.IsAnimationBlockingInput())
             {
                 return;
             }
@@ -538,6 +584,11 @@ namespace _Scripts.Gameplay.Player.Controller{
         public void ActionR(InputAction.CallbackContext callbackContext)
         {
             if (CameraManager.Instance.IsCameraInTransition())
+            {
+                return;
+            }
+
+            if (PlayerCharacterAnimator.IsAnimationBlockingInput())
             {
                 return;
             }
@@ -682,6 +733,11 @@ namespace _Scripts.Gameplay.Player.Controller{
         public void OnActionInput()
         {
             if (CameraManager.Instance.IsCameraInTransition())
+            {
+                return;
+            }
+
+            if (PlayerCharacterAnimator.IsAnimationBlockingInput())
             {
                 return;
             }
@@ -989,12 +1045,16 @@ namespace _Scripts.Gameplay.Player.Controller{
                 if (equipped)
                 {
                     toolToUse.gameObject.SetActive(true);
+                    toolToUse.SetVisible(false);
                 }
             }
 
             //RequestPlayerControllerState(EPlayerControllerState.Operating);
 
             AnimationManager.Instance.StartOperationState(_bodyPartMorgueActor);
+
+            //play equip saw animation
+            PlayerCharacterAnimator.PlayPickupToolAnimation();
 
             //BodyMorgueActor storedBody = _operatingTable.GetStorable<BodyMorgueActor>();
             //if (storedBody != null)

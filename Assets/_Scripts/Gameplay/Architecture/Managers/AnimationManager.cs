@@ -9,6 +9,7 @@ using _Scripts.Gameplay.Player.Controller;
 using UnityEngine;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using MoreMountains.Feedbacks;
+using DG.Tweening;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -120,7 +121,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
         }
 
-       
+        #region Tweening
+        public void TweenFloat(ref Tweener tweener, float from, float to, float duration, Ease easeType, TweenCallback<float> callback)
+        {
+            tweener = DOVirtual.Float(from, to, duration, callback).SetEase(easeType);
+        }
+        #endregion
+
+
     }
 
 }
