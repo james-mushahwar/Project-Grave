@@ -523,9 +523,8 @@ namespace _Scripts.Gameplay.Animate.Player{
                 float turnFactor = 0.0f;
                 //if (turnLeftRight > 0.0f || _walkSpeedAlpha == 0.0f)
                 {
-                    turnFactor = _turnChangeFactorCurve.Evaluate(Mathf.Abs(turnLeftRight)) * _turnChangeDirectionFactor * (returnToNormal ? 2.0f : 1.0f);
+                    turnFactor = _turnChangeFactorCurve.Evaluate(Mathf.Abs(turnLeftRight)) * _turnChangeDirectionFactor * (returnToNormal ? 4.0f : 1.0f);
                 }
-                Debug.Log("Turn Factor = " + turnFactor);
                 _turnLeftRight = Mathf.Clamp(Mathf.MoveTowards(_turnLeftRight, turnLeftRight, turnFactor * Time.deltaTime), -1.0f, 1.0f);
                 CurrentAnimator.SetFloat(_param_turnLeftRight_Hash, -_turnLeftRight);
 
