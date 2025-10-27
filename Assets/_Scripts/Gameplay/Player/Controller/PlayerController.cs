@@ -65,6 +65,7 @@ namespace _Scripts.Gameplay.Player.Controller{
         private CharacterController _characterController;
         private Vector3 _moveVector;
         private Vector3 _lookVector;
+        private Vector3 _previousFacingDirection;
         private Vector3 velocity;
         private bool _isGrounded;
         private bool _isSprinting;
@@ -198,6 +199,18 @@ namespace _Scripts.Gameplay.Player.Controller{
         public Vector3 Velocity { get => velocity; }
         public Vector3 MoveVector { get => _moveVector; }
         public Vector3 FacingDirection { get => this.transform.forward; }
+        public float FacingDirectionChange
+        {
+            get
+            {
+                if (PlayerControllerState != EPlayerControllerState.Normal)
+                {
+                    return 0.0f;
+                }
+
+                return Vector3.SignedAngle(FacingDirection, _previousFacingDirection, Vector3.up);
+            }
+        }
 
         private void Start()
         {
@@ -224,6 +237,8 @@ namespace _Scripts.Gameplay.Player.Controller{
         {
             if (PlayerControllerState == EPlayerControllerState.Normal)
             {
+                _previousFacingDirection = FacingDirection;
+
                 HandleRotation();
                 HandleMovement();
                 HandleJump();
@@ -304,6 +319,8 @@ namespace _Scripts.Gameplay.Player.Controller{
             {
                 return;
             }
+
+
 
             Vector2 mouseInput = _lookVector;
             float mouseX = mouseInput.x * mouseSensitivity * Time.deltaTime;

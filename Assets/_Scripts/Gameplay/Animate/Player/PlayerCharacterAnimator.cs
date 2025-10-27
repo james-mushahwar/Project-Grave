@@ -18,6 +18,7 @@ using System.Numerics;
 using Vector3 = UnityEngine.Vector3;
 using UnityEngine.UIElements;
 using System.Diagnostics.Tracing;
+using Unity.VisualScripting;
 
 namespace _Scripts.Gameplay.Animate.Player{
     
@@ -56,6 +57,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             private float _walkSpeedAlpha; // 0 to 1, idle to max speed
             private int _param_turnLeftRight_Hash;
             private float _turnLeftRight; // -1 to 1, left to right
+            private float _strafeLeftRight; // -1 to 1, left to right
             #endregion
 
             #region Operating
@@ -72,6 +74,14 @@ namespace _Scripts.Gameplay.Animate.Player{
         private float _walkSpeedAnimAccelerateFactor;
         [SerializeField]
         private float _walkSpeedAnimDecelerateFactor;
+        [SerializeField]
+        private float _turnChangeDirectionFactor;
+        [SerializeField]
+        private AnimationCurve _turnChangeFactorCurve;
+        [SerializeField]
+        private float _turnChangeDirectionAccelerateFactor;
+        [SerializeField]
+        private float _turnChangeDirectionDecelerateFactor;
         //[Header("Rig")] 
         //[SerializeField] 
         //private Rig _rigPosition;
@@ -505,9 +515,29 @@ namespace _Scripts.Gameplay.Animate.Player{
                 moveVector = moveVector.normalized;
                 float inputToPlayerDirection = Vector3.SignedAngle(flattenedForward, moveVector, pc.transform.up);
 
-                float targetTurnAlpha = inputToPlayerDirection / 90.0f;
-                _turnLeftRight = Mathf.Clamp(Mathf.MoveTowards(_turnLeftRight, slowingDown ? 0.0f : targetTurnAlpha, (slowingDown ? _walkSpeedAnimDecelerateFactor : _walkSpeedAnimAccelerateFactor) * Time.deltaTime), -1.0f, 1.0f);
-                CurrentAnimator.SetFloat(_param_turnLeftRight_Hash, _turnLeftRight);
+                //change direction
+                float turnLeftRight = pc.FacingDirectionChange;
+                bool negativeTurn = turnLeftRight < 0.0f;
+                //Debug.Log("Turn Amount = " + turnLeftRight);
+                bool returnToNormal = Mathf.Abs(turnLeftRight) < Mathf.Abs(_turnLeftRight); 
+                float turnFactor = 0.0f;
+                //if (turnLeftRight > 0.0f || _walkSpeedAlpha == 0.0f)
+                {
+                    turnFactor = _turnChangeFactorCurve.Evaluate(Mathf.Abs(turnLeftRight)) * _turnChangeDirectionFactor * (returnToNormal ? 2.0f : 1.0f);
+                }
+                Debug.Log("Turn Factor = " + turnFactor);
+                _turnLeftRight = Mathf.Clamp(Mathf.MoveTowards(_turnLeftRight, turnLeftRight, turnFactor * Time.deltaTime), -1.0f, 1.0f);
+                CurrentAnimator.SetFloat(_param_turnLeftRight_Hash, -_turnLeftRight);
+
+                float targetTurnAlpha = inputToPlayerDirection / 360.0f;
+                float strafeLeftRight = 0.0f;
+                if (turnLeftRight == 0.0f)
+                {
+                    strafeLeftRight = Mathf.MoveTowards(targetTurnAlpha, slowingDown ? 0.0f : targetTurnAlpha, (slowingDown ? _walkSpeedAnimDecelerateFactor : _walkSpeedAnimAccelerateFactor) * Time.deltaTime);
+                }
+
+                float finalTurnAmount = Mathf.Clamp(turnLeftRight, -1.0f, 1.0f);
+                //CurrentAnimator.SetFloat(_param_turnLeftRight_Hash, finalTurnAmount);
 
                 //CurrentAnimator.SetLayerWeight(_sawingStartAnimLayer_Index, 0.0f);
                 //CurrentAnimator.SetLayerWeight(_sawingEndAnimLayer_Index, 0.0f);

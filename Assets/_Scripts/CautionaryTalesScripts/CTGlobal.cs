@@ -124,6 +124,21 @@ namespace _Scripts.CautionaryTalesScripts{
             }
         }
         #endregion
+
+        #region Mathematics and Vectors
+        public static float AngleBetween(Vector2 vectorA, Vector2 vectorB)
+        {
+            float angle = Vector2.Angle(vectorA, vectorB);
+            Vector3 cross = Vector3.Cross(vectorA, vectorB);
+
+            if (cross.z > 0)
+            {
+                angle = 360 - angle;
+            }
+
+            return angle;
+        }
+        #endregion
     }
 
 }
