@@ -48,10 +48,18 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public virtual void ManagedPostInGameLoad()
         {
-            _animators = FindObjectsOfType<Animator>().ToList();
-            _stopMotionanimators = FindObjectsOfType<FakeStopMotionAnimator>().ToList();
+            _animators = FindObjectsByType<Animator>(FindObjectsSortMode.None).ToList();
+            _stopMotionanimators = FindObjectsByType<FakeStopMotionAnimator>(FindObjectsSortMode.None).ToList();
 
-            _playerCharacterAnimator = FindObjectOfType<PlayerCharacterAnimator>();
+            PlayerController pc = FindFirstObjectByType<PlayerController>();
+            if (pc != null)
+            {
+                _playerCharacterAnimator = pc.GetComponentInChildren<PlayerCharacterAnimator>();
+            }
+            else
+            {
+                _playerCharacterAnimator = FindFirstObjectByType<PlayerCharacterAnimator>();
+            }
 
             Setup();
         }

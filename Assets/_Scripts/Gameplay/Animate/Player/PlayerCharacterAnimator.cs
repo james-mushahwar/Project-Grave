@@ -19,6 +19,7 @@ using Vector3 = UnityEngine.Vector3;
 using UnityEngine.UIElements;
 using System.Diagnostics.Tracing;
 using Unity.VisualScripting;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace _Scripts.Gameplay.Animate.Player{
     
@@ -251,18 +252,20 @@ namespace _Scripts.Gameplay.Animate.Player{
             _heartbeatLowAudioHandler.Owner = this.gameObject;
             _heartbeatLowAudioHandler.IsActiveMethod = ContinueHeartbeatAudioHandle;
 
-            AnimationManager.Instance.TweenFloat(ref _playbackSpeedTweener, 0.0f, 1.0f, 1.0f, Ease.InOutExpo, UpdateSawingAmount);
+            AnimationManager.Instance.TweenFloat(ref _playbackSpeedTweener, 0.0f, 1.0f, 1.0f, Ease.Linear, UpdateSawingAmount);
             _playbackSpeedTweener.SetLoops(-1, LoopType.Yoyo);
             //_playbackSpeedTweener.OnComplete(() => AnimationManager.Instance.TweenFloat(ref _playbackSpeedTweener, 0.0f, 1.0f, 1.0f, Ease.InOutExpo, UpdateSawingAmount));
         }
 
         private void UpdateSawingAmount(float value)
         {
+            //Debug.Log("Sawing amount = " + value);
             _sawingAmount = value;
         }
 
         private void Update()
         {
+            UpdateAnimState();
             TickAnimState();
 
         }
@@ -554,7 +557,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             }
         }
 
-        private void TickAnimState()
+        private void UpdateAnimState()
         {
             AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
 
@@ -588,13 +591,18 @@ namespace _Scripts.Gameplay.Animate.Player{
                     }
                 }
             }
+        }
 
+        private void TickAnimState()
+        {
             OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
 
             bool canSaw = (currentOpState != null) && _currentBaseLayerStateHash.Equals(_state_SawIdle_Hash) || _currentBaseLayerStateHash.Equals(_state_SawingBlend_Hash);
             CurrentAnimator.SetBool(_param_isSawing_Hash, canSaw);
 
             float sawingAmount = _sawingAmount;
+            Debug.Log("Check Sawing amount = " + sawingAmount);
+
             CurrentAnimator.SetFloat(_param_sawingCutAmount_Hash, sawingAmount);
         }
 
