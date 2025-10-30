@@ -277,7 +277,7 @@ Transform:
   m_GameObject: {fileID: 313408623}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.47126588, z: 0, w: 0.88199127}
-  m_LocalPosition: {x: 28.952326, y: 1.625, z: 53.42139}
+  m_LocalPosition: {x: 30.417126, y: 1.543, z: 53.765636}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -294,17 +294,17 @@ PrefabInstance:
     - target: {fileID: 3578614195820394837, guid: 3f1a389a1d44aae489a05c09f579c16f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 28.8902
+      value: 30.355
       objectReference: {fileID: 0}
     - target: {fileID: 3578614195820394837, guid: 3f1a389a1d44aae489a05c09f579c16f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.076
       objectReference: {fileID: 0}
     - target: {fileID: 3578614195820394837, guid: 3f1a389a1d44aae489a05c09f579c16f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 53.420753
+      value: 53.765
       objectReference: {fileID: 0}
     - target: {fileID: 3578614195820394837, guid: 3f1a389a1d44aae489a05c09f579c16f,
         type: 3}
@@ -341,70 +341,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5593198990031617578, guid: 3f1a389a1d44aae489a05c09f579c16f,
-        type: 3}
-      propertyPath: m_SlopeLimit
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 6575505415537421913, guid: 3f1a389a1d44aae489a05c09f579c16f,
         type: 3}
       propertyPath: m_Name
       value: RealPlayerCharacter_New
-      objectReference: {fileID: 0}
-    - target: {fileID: 7667464773629217296, guid: 3f1a389a1d44aae489a05c09f579c16f,
-        type: 3}
-      propertyPath: _turnChangeFactorCurve.m_Curve.Array.data[1].time
-      value: 8.963355
-      objectReference: {fileID: 0}
-    - target: {fileID: 7667464773629217296, guid: 3f1a389a1d44aae489a05c09f579c16f,
-        type: 3}
-      propertyPath: _turnChangeFactorCurve.m_Curve.Array.data[2].time
-      value: 15.59065
-      objectReference: {fileID: 0}
-    - target: {fileID: 7667464773629217296, guid: 3f1a389a1d44aae489a05c09f579c16f,
-        type: 3}
-      propertyPath: _turnChangeFactorCurve.m_Curve.Array.data[0].value
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7667464773629217296, guid: 3f1a389a1d44aae489a05c09f579c16f,
-        type: 3}
-      propertyPath: _turnChangeFactorCurve.m_Curve.Array.data[1].value
-      value: 11.60228
-      objectReference: {fileID: 0}
-    - target: {fileID: 7667464773629217296, guid: 3f1a389a1d44aae489a05c09f579c16f,
-        type: 3}
-      propertyPath: _turnChangeFactorCurve.m_Curve.Array.data[2].value
-      value: 24.261013
-      objectReference: {fileID: 0}
-    - target: {fileID: 7667464773629217296, guid: 3f1a389a1d44aae489a05c09f579c16f,
-        type: 3}
-      propertyPath: _turnChangeFactorCurve.m_Curve.Array.data[1].inSlope
-      value: 2.1003153
-      objectReference: {fileID: 0}
-    - target: {fileID: 7667464773629217296, guid: 3f1a389a1d44aae489a05c09f579c16f,
-        type: 3}
-      propertyPath: _turnChangeFactorCurve.m_Curve.Array.data[2].inSlope
-      value: 0.009010778
-      objectReference: {fileID: 0}
-    - target: {fileID: 7667464773629217296, guid: 3f1a389a1d44aae489a05c09f579c16f,
-        type: 3}
-      propertyPath: _turnChangeFactorCurve.m_Curve.Array.data[1].inWeight
-      value: 0.079273276
-      objectReference: {fileID: 0}
-    - target: {fileID: 7667464773629217296, guid: 3f1a389a1d44aae489a05c09f579c16f,
-        type: 3}
-      propertyPath: _turnChangeFactorCurve.m_Curve.Array.data[1].outSlope
-      value: 2.1003153
-      objectReference: {fileID: 0}
-    - target: {fileID: 7667464773629217296, guid: 3f1a389a1d44aae489a05c09f579c16f,
-        type: 3}
-      propertyPath: _turnChangeFactorCurve.m_Curve.Array.data[2].inWeight
-      value: 0.11051043
-      objectReference: {fileID: 0}
-    - target: {fileID: 7667464773629217296, guid: 3f1a389a1d44aae489a05c09f579c16f,
-        type: 3}
-      propertyPath: _turnChangeFactorCurve.m_Curve.Array.data[2].outSlope
-      value: 0.009010778
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
