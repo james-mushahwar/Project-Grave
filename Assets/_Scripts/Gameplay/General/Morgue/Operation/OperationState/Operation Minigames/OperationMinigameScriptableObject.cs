@@ -11,6 +11,13 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
     {
         private EOperationMinigameState _operationState;
 
+        [Header("Building Momentum")]
+        private int _momentumChecks; // how many momentum checks have we hit?
+
+        [Header("Free flow")]
+        private float _freeFlowTimer;
+
+        [Header("OLD")]
         private float _operatingMomentum; // 0 to 1 scale 
         private float _operatingMomentumDecayDelayTimer;
         private float _operatingMomentumInvalidInputTimer;
@@ -34,6 +41,9 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         public float PerfectTimingTimer { get => _perfectTimingTimer; set => _perfectTimingTimer = value; }
         public int PerfectTimingWindowsEntered { get => _perfectTimingWindowsEntered; set => _perfectTimingWindowsEntered = value; }
         public bool PerfectTimingActivatedInCurrentWindow { get => _perfectTimingActivatedInCurrentWindow; set => _perfectTimingActivatedInCurrentWindow = value; }
+
+        public float FreeFlowTimer { get => _freeFlowTimer; set => _freeFlowTimer = value; }
+        public int MomentumChecks { get => _momentumChecks; set => _momentumChecks = value; }
 
         public void ResetStats()
         {

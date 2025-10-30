@@ -270,8 +270,10 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         }
 
-        public void ManagedTick() 
+        public void ManagedTick()
         {
+
+            return;
             AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
 
             PlayerController pc = PlayerManager.Instance.CurrentPlayerController;

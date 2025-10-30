@@ -11,6 +11,15 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
     [CreateAssetMenu(menuName = "Operation/OperationMinigame/Dismember", fileName = "DismemberOperationMinigameSO")]
     public class MinigameDismemberScriptableObject : OperationMinigameScriptableObject
     {
+        [Header("Building Momentum")]
+
+        [Header("Free Flow")]
+        [SerializeField]
+        private float _maxFreeFlowTime;
+        [SerializeField]
+        private float _noInputFreeFlowEndTime;
+
+        [Header("OLD")]
         [SerializeField]
         AnimationCurve _operatingMomentumDecayCurve; // rate at which momentum decays when momentum is between 0 to 1.
         [SerializeField]
@@ -18,9 +27,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         [SerializeField]
         AnimationCurve _operatingMomentumDecayDelayCurve; // delay the momentum holds for before decaying after input outside of perfect timing
         [SerializeField]
-        private AnimationCurve _operatingMomentumAdditiveCurve; // momentum gained over time when valid input is held
-        [SerializeField]
-        private AnimationCurve _operatingMomentumBoostCurve; // additional momnetum gained on valid input when momentum is between 0 to 1.
+        private AnimationCurve _operatingMomentumAdditiveCurve; // momentum gain
         [SerializeField]
         private AnimationCurve _operatingMomentumPenaltyCurve; // momentum lost on invalid input when momentum is between 0 to 1.
         [SerializeField]
@@ -30,18 +37,12 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         [SerializeField]
         private float _operatingMomentumInvalidInputDecayDelay; // time needed for max effectiveness of invalid input to take effect, e.g. pressing wrong direction or applying no input
         [SerializeField]
-        private float _operatingMomentumWaitInputDelay; // time to wait for next allowed input (so user can't spam input)
-        [SerializeField]
         private float _perfectTimingMinimumMomentum;
         [SerializeField]
         private float _perfectTimingMinimumWindowsEntered;
 
         [SerializeField]
         private AnimationCurve _timingMomentumChangeAlphaCurve; // 0 to 1 on factor of momentum loss depending on current momentum
-
-        [SerializeField]
-        private FloatTargetProfile _perfectTimingActivateTargetSO;
-
         public override void OnMinigameCompleted()
         {
         }
