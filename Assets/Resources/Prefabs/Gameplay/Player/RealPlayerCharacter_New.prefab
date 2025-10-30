@@ -322,7 +322,7 @@ MonoBehaviour:
     m_AmplitudeGain: 1
     m_FrequencyGain: 1
     m_Duration: 1
-    m_NoiseOffsets: {x: 0, y: 0, z: 0}
+    m_NoiseOffsets: {x: 889.1304, y: -277.13477, z: 579.2069}
 --- !u!1 &3515396233921411005
 GameObject:
   m_ObjectHideFlags: 0
@@ -930,6 +930,9 @@ MonoBehaviour:
   _firstPersonVCam:
     _camType: 0
     _virtualCamera: {fileID: 5631976570910680889}
+  _vCamFreeFlowSawing:
+    _camType: 300
+    _virtualCamera: {fileID: 5410016844467233076}
 --- !u!143 &5593198990031617578
 CharacterController:
   m_ObjectHideFlags: 0
@@ -950,8 +953,8 @@ CharacterController:
   serializedVersion: 3
   m_Height: 1.56
   m_Radius: 0.375
-  m_SlopeLimit: 45
-  m_StepOffset: 0.15
+  m_SlopeLimit: 25
+  m_StepOffset: 0.1
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
@@ -2002,6 +2005,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8954346295022578392}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5410016844467233076 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3985693552796404716, guid: 4255157f30fae0542921f07811374a3e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8954346295022578392}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5944586492719420959 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3331348055605099719, guid: 4255157f30fae0542921f07811374a3e,

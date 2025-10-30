@@ -168,8 +168,11 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         [SerializeField]
         private FVirtualCamera _firstPersonVCam;
+        [SerializeField]
+        private FVirtualCamera _vCamFreeFlowSawing;
 
         public FVirtualCamera FirstPersonVCam { get => _firstPersonVCam; }
+        public FVirtualCamera VCamFreeFlowSawing { get => _vCamFreeFlowSawing; }
 
         public float OperatingSpeed
         {

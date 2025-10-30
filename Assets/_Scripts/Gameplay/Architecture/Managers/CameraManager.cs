@@ -36,6 +36,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         OperationState_LArm,
         OperationState_LLeg,
 
+        //Free flow states 
+        FreeFlow_Sawing = 300,
 
         // Generic
         General_Default = 10000,
@@ -173,6 +175,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     {
                         AssignVirtualCameraType(PlayerManager.Instance.CurrentPlayerController.RuntimeID, vCam.CamType, vCam.VirtualCamera);
                         _currentVCamType = EVirtualCameraType.FirstPersonView_Normal;
+                    }
+
+                    if (PlayerManager.Instance.CurrentPlayerController.VCamFreeFlowSawing.VirtualCamera != null)
+                    {
+                        AssignVirtualCameraType(PlayerManager.Instance.CurrentPlayerController.RuntimeID, PlayerManager.Instance.CurrentPlayerController.VCamFreeFlowSawing.CamType, PlayerManager.Instance.CurrentPlayerController.VCamFreeFlowSawing.VirtualCamera);
                     }
                 }
             }
