@@ -42,6 +42,18 @@ Material:
         m_Texture: {fileID: 2800000, guid: 323499d4ee1232c4c8346a4f62466941, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _InfectionTexture:
+        m_Texture: {fileID: 2800000, guid: 35509b28e9bdcab4f81a5ef8b64f4b32, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Infection_Gradient:
+        m_Texture: {fileID: 2800000, guid: cb8e1a352fadb1e489cdf59caaaa5b30, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Infection_Source_Texture:
+        m_Texture: {fileID: 2800000, guid: b2b4061d3637c7143b7a8616aea9a32c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Mesh_Normal_Map:
         m_Texture: {fileID: 2800000, guid: 9f6849522f52f32459d3715cc0167e96, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -81,8 +93,15 @@ Material:
     m_Ints: []
     m_Floats:
     - _Frame: 0
+    - _Infection_1_Falloff_Shape: 0
+    - _Infection_1_SourceFalloff_Size: 31.68
+    - _Infection_1_Source_Size: 0
+    - _Infection_Source_Gradient_Power: 1.27
+    - _Infection_Source_Size: 0.05
+    - _Infection_Source_Strength: 11.09
     - _Infection_Value_1: 0
     - _Infection_Value_2: 0
+    - _Infection_Value_3: 0
     - _Intensity: 1
     - _Normal_Noise_Blend_Weight: 0.233
     - _Normal_Noise_Scale: 22.5
@@ -90,6 +109,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Steps: 10
+    - _Strength: 47.4
     - _TimeMultiplier: 0
     - _TriPlanarPower: 5
     - _WPO_Displacement: 0.01
@@ -97,6 +117,9 @@ Material:
     m_Colors:
     - _Base_TextureTint: {r: 1, g: 1, b: 1, a: 0}
     - _Base_Texture_Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _Infection_1_Source_Point: {r: 0.25, g: 0.85, b: 0, a: 0}
+    - _Infection_2_Source_Point: {r: 0.26, g: 0.67, b: 0, a: 0}
+    - _Infection_3_Source_Point: {r: 0.34, g: 0.66, b: 0, a: 0}
     - _Main_Tint: {r: 1, g: 1, b: 1, a: 0}
     - _UVPanning: {r: 1, g: 1, b: 0, a: 0}
     - _UVScale: {r: 10, g: 10, b: 0, a: 0}
