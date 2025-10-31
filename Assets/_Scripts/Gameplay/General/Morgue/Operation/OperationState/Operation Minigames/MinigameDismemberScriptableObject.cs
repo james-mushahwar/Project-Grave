@@ -1,6 +1,7 @@
 ﻿using _Scripts.Gameplay.Animate.Player;
 using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.Architecture.Misc;
+using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
 using Cinemachine;
@@ -103,6 +104,61 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         {
             bool success = true;
             EDirectionType inputDirection = left ? EDirectionType.West : EDirectionType.East;
+            OperationDismemberMorgueTool dismemberTool = _pc.EquippedOperatingTool as OperationDismemberMorgueTool;
+
+            if (dismemberTool == null)
+            {
+                Debug.LogError("Dismember Op and No Dismember tool equipped?!");
+                return false;
+            }
+
+            if (left)
+            {
+                _runtimeStats.LTInputHeld = !released;
+            }
+            else
+            {
+                _runtimeStats.RTInputHeld = !released;
+            }
+
+            if (_runtimeStats.OperationMinigameState == EOperationMinigameState.BuildingMomentum)
+            {
+                bool shouldChangeDirection = false;
+                bool correctTiming = false;
+                if (released == false)
+                {
+                    if (left && inputDirection == EDirectionType.West)
+                    {
+                        //
+                    }
+                }
+                else
+                {
+                    // are we releasing in the right window?
+                    float momentumBuildZone = dismemberTool.GetMomentumZone(_runtimeStats.MomentumChecks);
+                    correctTiming = momentumBuildZone - _pc.PlayerCharacterAnimator.GetSawingAmount() < Mathf.Abs(0.1f);
+
+                    shouldChangeDirection = correctTiming;
+
+                    if (shouldChangeDirection)
+                    {
+                        _playerAnimator.OnDismemeberInputReleased();
+                    }
+                    if (correctTiming)
+                    {
+                        _runtimeStats.MomentumChecks++;
+                        if (_runtimeStats.MomentumChecks >= dismemberTool.GetBuildMomentumCount())
+                        {
+                            // move to Free flow
+                            Debug.Log("Free flow!!!");
+                        }
+                    }
+                }
+            }
+            
+
+            return success;
+            //EDirectionType inputDirection = left ? EDirectionType.West : EDirectionType.East;
             bool correctDirection = inputDirection == _playerAnimator.GetOperatingDirection();
 
             if (left)
@@ -212,10 +268,42 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
 
         public override void OnMinigameTick()
         {
-            // building momentum
+            bool buildingMomentum = _runtimeStats.OperationMinigameState == EOperationMinigameState.BuildingMomentum;
+            EDirectionType operatingDirection = _playerAnimator.GetOperatingDirection();
+            bool requireInput = (buildingMomentum && operatingDirection == EDirectionType.West);
 
+            float minigameMomentum = 1.0f;
+            // building momentum
+            if (buildingMomentum)
+            {
+                if (operatingDirection == EDirectionType.West)
+                {
+                    if (_runtimeStats.GetInputHeld(EInputType.LTrigger))
+                    {
+                        // building momentum
+                    }
+                    else
+                    {
+                        minigameMomentum = requireInput ? 0.0f : 0.1f;
+                    }
+                }
+                else
+                {
+                    if (_playerAnimator.GetSawingAmount() == 0.0f)
+                    {
+                        if (operatingDirection == EDirectionType.East)
+                        {
+                            _playerAnimator.OnSwitchOperatingDirection(_playerAnimator.GetOperatingDirection());
+                        }
+                    }
+                }
+            }
+
+            _playerAnimator.MinigameMomentum = minigameMomentum;
 
             //free flow
+
+            return;
 
             bool perfectTimingAvailable = false;
             bool correctDirection = true;

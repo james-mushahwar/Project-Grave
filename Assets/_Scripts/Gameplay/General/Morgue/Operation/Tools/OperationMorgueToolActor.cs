@@ -8,8 +8,13 @@ using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
     
-    public abstract class OperationMorgueToolActor : MorgueToolActor
+    public abstract class OperationMorgueToolActor : MorgueToolActor, IMomentumTool, ISpeedTool
     {
+        [SerializeField]
+        private OperationToolProfileScriptableObject _toolProfile;
+
+        public override ToolProfileScriptableObject ToolProfile { get { return _toolProfile; } } 
+
         [SerializeField]
         private EOperationType _operationType;
 
@@ -103,6 +108,22 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
         {
             return _operationLerpToolElapsed > 0.0f && _operationLerpToolElapsed < 1.0f;
         }
+
+        public float GetMomentumZone(int index)
+        {
+            return _toolProfile.MomentumZone.TimingZones[index];
+        }
+
+        public int GetBuildMomentumCount()
+        {
+            return _toolProfile.MomentumZone.TimingZones.Count;
+        }
+
+        public float GetSpeedFactor()
+        {
+            return _toolProfile.SpeedFactor;
+        }
+
     }
     
 }

@@ -38,10 +38,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
 
         public IStorage Stored => _toolStorable.Stored;
 
-        [SerializeField]
-        private ToolProfileScriptableObject _toolProfile;
-
-        public ToolProfileScriptableObject ToolProfile { get => _toolProfile; }
+        public abstract ToolProfileScriptableObject ToolProfile { get; }
         public ETimingType CurrentTimingZone { get => _currentTimingZone; }
 
         public override void Setup()
