@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using _Scripts.Gameplay.Architecture.Managers;
 using UnityEngine;
 
@@ -22,6 +23,15 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
     }
 
     [Serializable]
+    public struct FMomentumZone
+    {
+        [SerializeField]
+        private List<float> _timingZones;
+
+        public List<float> TimingZones { get => _timingZones; }
+    }
+
+    [Serializable]
     public struct FTimingZone
     {
         [SerializeField] private ETimingType _timingType;
@@ -40,6 +50,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
 
     public abstract class ToolProfileScriptableObject : ScriptableObject
     {
+        [Header("OLD")]
         [SerializeField]
         private AnimationCurve _momentumEffectivenessCurve; // from 0 to 1 scale
 

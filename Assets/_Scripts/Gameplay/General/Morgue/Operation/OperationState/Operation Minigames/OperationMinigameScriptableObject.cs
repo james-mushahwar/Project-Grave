@@ -48,6 +48,9 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         public void ResetStats()
         {
             _operationState = EOperationMinigameState.BuildingMomentum;
+            _momentumChecks = 0;
+            _freeFlowTimer = 0.0f;
+
             _operatingMomentum = 0f;
             _operatingMomentumDecayDelayTimer = 0f;
             _operatingMomentumInvalidInputTimer = 0f;

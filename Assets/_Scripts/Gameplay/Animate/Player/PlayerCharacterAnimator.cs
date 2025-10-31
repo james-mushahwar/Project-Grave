@@ -20,6 +20,7 @@ using UnityEngine.UIElements;
 using System.Diagnostics.Tracing;
 using Unity.VisualScripting;
 using static UnityEngine.Rendering.DebugUI;
+using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
 
 namespace _Scripts.Gameplay.Animate.Player{
     
@@ -252,7 +253,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             _heartbeatLowAudioHandler.Owner = this.gameObject;
             _heartbeatLowAudioHandler.IsActiveMethod = ContinueHeartbeatAudioHandle;
 
-            AnimationManager.Instance.TweenFloat(ref _playbackSpeedTweener, 0.0f, 1.0f, 1.0f, Ease.Linear, UpdateSawingAmount);
+            //AnimationManager.Instance.TweenFloat(ref _playbackSpeedTweener, 0.0f, 1.0f, 1.0f, Ease.Linear, UpdateSawingAmount);
             _playbackSpeedTweener.SetLoops(-1, LoopType.Yoyo);
             //_playbackSpeedTweener.OnComplete(() => AnimationManager.Instance.TweenFloat(ref _playbackSpeedTweener, 0.0f, 1.0f, 1.0f, Ease.InOutExpo, UpdateSawingAmount));
         }
@@ -261,6 +262,11 @@ namespace _Scripts.Gameplay.Animate.Player{
         {
             //Debug.Log("Sawing amount = " + value);
             _sawingAmount = value;
+        }
+
+        public float GetSawingAmount()
+        {
+            return _sawingAmount;
         }
 
         private void Update()
@@ -602,10 +608,28 @@ namespace _Scripts.Gameplay.Animate.Player{
             bool canSaw = (currentOpState != null) && _currentBaseLayerStateHash.Equals(_state_SawIdle_Hash) || _currentBaseLayerStateHash.Equals(_state_SawingBlend_Hash);
             CurrentAnimator.SetBool(_param_isSawing_Hash, canSaw);
 
-            float sawingAmount = _sawingAmount;
-            Debug.Log("Check Sawing amount = " + sawingAmount);
+            float sawDirectionFactor = (_operatingDirection == EDirectionType.East ? -1.0f : 1.0f);
+            
+            if (canSaw)
+            {
+                float sawingAmountDelta = 0.0f;
+                float toolSpeed = 1.0f;
+                MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
+                if (equippedTool is ISpeedTool)
+                {
+                    toolSpeed = (equippedTool as ISpeedTool).GetSpeedFactor();
+                }
 
-            CurrentAnimator.SetFloat(_param_sawingCutAmount_Hash, sawingAmount);
+                sawingAmountDelta = (sawDirectionFactor * _minigameMomentum * toolSpeed) * Time.deltaTime;
+                _sawingAmount = Mathf.Clamp(_sawingAmount + sawingAmountDelta, 0.0f, 1.0f);
+            }
+            else
+            {
+                _sawingAmount = 0.0f;
+            }
+            Debug.Log("Momentum amount = " + _minigameMomentum + ", SawDirectionFactor = " + sawDirectionFactor);
+
+            CurrentAnimator.SetFloat(_param_sawingCutAmount_Hash, _sawingAmount);
         }
 
         public void ManagedFixedTick()
