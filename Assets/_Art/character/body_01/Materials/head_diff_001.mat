@@ -85,6 +85,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _VeinsTexture:
+        m_Texture: {fileID: 2800000, guid: c7ed8f6061823da4798f7d105b95f239, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Veins_Gradient:
+        m_Texture: {fileID: 2800000, guid: d9f4c9340b6823e45917f4709360121c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -114,15 +122,18 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _Frame: 0
+    - _Frame: 2
     - _GlossMapScale: 1
     - _Glossiness: 0.4472136
     - _GlossyReflections: 1
+    - _Infection_Value_1: 0
+    - _Infection_Value_2: 0
     - _Intensity: 1
     - _Metallic: 0
     - _Mode: 0
     - _Normal_Noise_Blend_Weight: 0.9
     - _Normal_Noise_Scale: 1
+    - _Normal_Texture_Strength: 2
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueControl: 0
@@ -136,17 +147,19 @@ Material:
     - _Steps: 10
     - _Surface: 0
     - _TimeMultiplier: 0.15
-    - _TriPlanarPower: 25
+    - _TriPlanarPower: 10
     - _UVSec: 0
     - _WPO_Displacement: -0.01
     - _WorkflowMode: 1
-    - _World_Scale: 10
+    - _World_Scale: 5
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+    - _Base_Texture_Tint: {r: 0.5372549, g: 0.5372549, b: 0.5372549, a: 1}
     - _Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Main_Tint: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _UVPanning: {r: 2, g: 2, b: 0, a: 0}
     - _UV_Base_Scale: {r: 1, g: 1, b: 0, a: 0}
