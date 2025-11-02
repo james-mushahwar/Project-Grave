@@ -95,11 +95,11 @@ Material:
     - _Frame: 0
     - _Infection_1_Falloff_Shape: 0
     - _Infection_1_SourceFalloff_Size: 31.68
-    - _Infection_1_Source_Size: 0
+    - _Infection_1_Source_Size: 0.16
     - _Infection_Source_Gradient_Power: 1.27
     - _Infection_Source_Size: 0.05
     - _Infection_Source_Strength: 11.09
-    - _Infection_Value_1: 0
+    - _Infection_Value_1: 0.776
     - _Infection_Value_2: 0
     - _Infection_Value_3: 0
     - _Intensity: 1
