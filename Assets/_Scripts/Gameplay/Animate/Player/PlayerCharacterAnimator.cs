@@ -603,10 +603,73 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         private void TickAnimState()
         {
-            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+            //Walking/Idle
+            AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
 
-            bool canSaw = (currentOpState != null) && _currentBaseLayerStateHash.Equals(_state_SawIdle_Hash) || _currentBaseLayerStateHash.Equals(_state_SawingBlend_Hash);
-            CurrentAnimator.SetBool(_param_isSawing_Hash, canSaw);
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+
+            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+            bool isOperating = currentOpState != null;
+            bool isWalking = isOperating == false;
+
+            if (pc == null)
+            {
+                return;
+            }
+
+            if (isWalking)
+            {
+                //walk speed
+                float inputDirection = Mathf.Clamp(pc.MoveVector.magnitude, 0.0f, 1.0f); // 0 to 1 blend idle to full speed
+                bool slowingDown = inputDirection <= 0.0f;
+                _walkSpeedAlpha = Mathf.Clamp(Mathf.MoveTowards(_walkSpeedAlpha, inputDirection > 0.0f ? 1.0f : 0.0f, (slowingDown ? _walkSpeedAnimDecelerateFactor : _walkSpeedAnimAccelerateFactor) * Time.deltaTime), 0.0f, 1.0f);
+                //Debug.Log("Current float value = " + _walkSpeedAlpha);
+                CurrentAnimator.SetFloat(_param_walkSpeed_Hash, _walkSpeedAlpha);
+
+                //moving/turning left or right
+                Vector3 flattenedForward = pc.FacingDirection;
+                flattenedForward.y = 0.0f;
+
+                Vector3 moveVector = pc.MoveVector;
+                moveVector.z = moveVector.y;
+                moveVector.y = 0.0f;
+                moveVector = pc.transform.TransformDirection(moveVector);
+                moveVector.y = 0f; // Keep on XZ plane
+                moveVector = moveVector.normalized;
+                float inputToPlayerDirection = Vector3.SignedAngle(flattenedForward, moveVector, pc.transform.up);
+
+                //change direction
+                float turnLeftRight = pc.FacingDirectionChange;
+                bool negativeTurn = turnLeftRight < 0.0f;
+                //Debug.Log("Turn Amount = " + turnLeftRight);
+                bool returnToNormal = Mathf.Abs(turnLeftRight) < Mathf.Abs(_turnLeftRight);
+                float turnFactor = 0.0f;
+                //if (turnLeftRight > 0.0f || _walkSpeedAlpha == 0.0f)
+                {
+                    turnFactor = _turnChangeFactorCurve.Evaluate(Mathf.Abs(turnLeftRight)) * _turnChangeDirectionFactor * (returnToNormal ? 4.0f : 1.0f);
+                }
+                _turnLeftRight = Mathf.Clamp(Mathf.MoveTowards(_turnLeftRight, turnLeftRight, turnFactor * Time.deltaTime), -1.0f, 1.0f);
+                CurrentAnimator.SetFloat(_param_turnLeftRight_Hash, -_turnLeftRight);
+
+                float targetTurnAlpha = inputToPlayerDirection / 360.0f;
+                float strafeLeftRight = 0.0f;
+                if (turnLeftRight == 0.0f)
+                {
+                    strafeLeftRight = Mathf.MoveTowards(targetTurnAlpha, slowingDown ? 0.0f : targetTurnAlpha, (slowingDown ? _walkSpeedAnimDecelerateFactor : _walkSpeedAnimAccelerateFactor) * Time.deltaTime);
+                }
+
+                float finalTurnAmount = Mathf.Clamp(turnLeftRight, -1.0f, 1.0f);
+
+                return;
+            }
+
+            //Operation
+            bool moveToSawingPose = (currentOpState != null) && _currentBaseLayerStateHash.Equals(_state_SawIdle_Hash) || _currentBaseLayerStateHash.Equals(_state_SawingBlend_Hash);
+            bool canSaw = (currentOpState != null) && _currentBaseLayerStateHash.Equals(_state_SawingBlend_Hash);
+
+            Debug.Log("Can Saw: " + canSaw);
+
+            CurrentAnimator.SetBool(_param_isSawing_Hash, moveToSawingPose);
 
             float sawDirectionFactor = (_operatingDirection == EDirectionType.East ? -1.0f : 1.0f);
             

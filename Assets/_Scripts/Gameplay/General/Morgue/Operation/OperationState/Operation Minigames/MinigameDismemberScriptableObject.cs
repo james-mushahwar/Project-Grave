@@ -136,16 +136,19 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                 {
                     // are we releasing in the right window?
                     float momentumBuildZone = dismemberTool.GetMomentumZone(_runtimeStats.MomentumChecks);
-                    correctTiming = momentumBuildZone - _pc.PlayerCharacterAnimator.GetSawingAmount() < Mathf.Abs(0.1f);
+                    float momentumDiff = momentumBuildZone - _pc.PlayerCharacterAnimator.GetSawingAmount();
+                    correctTiming = momentumDiff < Mathf.Abs(0.1f);
 
                     shouldChangeDirection = correctTiming;
 
+                    Debug.Log("Momentum diff timing: " + momentumDiff);
                     if (shouldChangeDirection)
                     {
                         _playerAnimator.OnDismemeberInputReleased();
                     }
                     if (correctTiming)
                     {
+                        
                         _runtimeStats.MomentumChecks++;
                         if (_runtimeStats.MomentumChecks >= dismemberTool.GetBuildMomentumCount())
                         {
