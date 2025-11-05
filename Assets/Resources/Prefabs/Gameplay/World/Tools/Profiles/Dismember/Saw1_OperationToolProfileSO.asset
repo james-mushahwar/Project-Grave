@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a7daa33388a59aa49949e7751d8502d1, type: 3}
-  m_Name: Dismember_OperationToolProfileSO
+  m_Name: Saw1_OperationToolProfileSO
   m_EditorClassIdentifier: 
   _momentumEffectivenessCurve:
     serializedVersion: 2
@@ -153,13 +153,17 @@ MonoBehaviour:
   _momentumTimingZoneIntervals: []
   _defaultToolTexture: {fileID: 0}
   _maxProceedStep: 0.2
-  _momentumZone:
-    _timingZones:
-    - 0.3
-    - 0.5
-    - 0.6
-    - 0.8
-  speedFactor: 1
+  _momentumZones:
+  - _timingZone: 0.5
+    _momentumSpeedFactor: 0.3
+  - _timingZone: 0.6
+    _momentumSpeedFactor: 0.4
+  - _timingZone: 0.7
+    _momentumSpeedFactor: 0.5
+  - _timingZone: 0.8
+    _momentumSpeedFactor: 0.55
+  _buildingMomentumSpeedFactor: 1
+  _freeFlowSpeedFactor: 0.5
   _minMaxForwardSpeed: {x: 0, y: 0}
   _momentumToSpeedCurve:
     serializedVersion: 2

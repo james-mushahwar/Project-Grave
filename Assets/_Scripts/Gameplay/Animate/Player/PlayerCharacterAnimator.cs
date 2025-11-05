@@ -680,7 +680,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
                 if (equippedTool is ISpeedTool)
                 {
-                    toolSpeed = (equippedTool as ISpeedTool).GetSpeedFactor();
+                    toolSpeed = (equippedTool as ISpeedTool).GetSpeedFactor(PlayerManager.Instance.CurrentPlayerController);
                 }
 
                 sawingAmountDelta = (sawDirectionFactor * _minigameMomentum * toolSpeed) * Time.deltaTime;

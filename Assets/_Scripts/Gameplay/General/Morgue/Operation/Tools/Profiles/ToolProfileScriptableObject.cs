@@ -26,9 +26,12 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
     public struct FMomentumZone
     {
         [SerializeField]
-        private List<float> _timingZones;
+        private float _timingZone;
+        [SerializeField]
+        private float _momentumSpeedFactor;
 
-        public List<float> TimingZones { get => _timingZones; }
+        public float TimingZone { get => _timingZone; }
+        public float MomentumSpeedFactor { get => _momentumSpeedFactor; }
     }
 
     [Serializable]

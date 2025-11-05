@@ -25,6 +25,7 @@ using _Scripts.Gameplay.General.Identification;
 using static UnityEngine.Rendering.DebugUI;
 using _Scripts.Gameplay.Animate.Player;
 using DG.Tweening;
+using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
 
 namespace _Scripts.Gameplay.Player.Controller{
 
@@ -52,7 +53,7 @@ namespace _Scripts.Gameplay.Player.Controller{
         Forensic = 300,
     }
 
-    public class PlayerController : MonoBehaviour, IPossess, IInteractor, IIdentifiable, IOperator
+    public class PlayerController : MonoBehaviour, IPossess, IInteractor, IIdentifiable, IOperator, IToolUser
     {
         [Header("Movement Settings")]
         [SerializeField] private float moveSpeed = 5f;
@@ -1299,6 +1300,19 @@ namespace _Scripts.Gameplay.Player.Controller{
             }
 
             _playerControllerState = EPlayerControllerState.NONE;
+        }
+
+        public EOperationMinigameState GetToolUserState()
+        {
+            bool inFreeFlow = ChosenOperationState.OpMinigame.GetInFreeFlow();
+
+            return inFreeFlow ? EOperationMinigameState.FreeFlow : EOperationMinigameState.BuildingMomentum; ;
+        }
+
+        public int GetBuildMomentumCounts()
+        {
+            bool isOperating = ChosenOperationState != null;
+            return isOperating ? ChosenOperationState.OpMinigame.GetMomentumChecks() : -1;
         }
     }
 }

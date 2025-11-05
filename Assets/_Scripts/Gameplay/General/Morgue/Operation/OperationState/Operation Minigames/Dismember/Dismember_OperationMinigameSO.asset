@@ -18,6 +18,83 @@ MonoBehaviour:
     _okayTiming: 0
     _greatTiming: 0.01
     _perfectTiming: 0.1
+  _buildingMomentumDeltaCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.20499691
+      inSlope: 0.567608
+      outSlope: 0.567608
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.047507297
+    - serializedVersion: 3
+      time: 1
+      value: 0.20499691
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _losingMomentumDeltaCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.2909788
+      inSlope: 0.8145841
+      outSlope: 0.8145841
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.063118234
+    - serializedVersion: 3
+      time: 1
+      value: 0.2909788
+      inSlope: -0.6348655
+      outSlope: -0.6348655
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.040037632
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _buildingMomentumForwardTarget: 1
+  _buildingMomentumBackwardTarget: 0.9
+  _noInputMomentumDeltaCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.002078112
+      value: 2
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.99756336
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _noInputMomentumTarget: 0
+  _maxFreeFlowTime: 5
+  _noInputFreeFlowEndTime: 2
   _operatingMomentumDecayCurve:
     serializedVersion: 2
     m_Curve:
@@ -123,30 +200,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _operatingMomentumBoostCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.10012419
-      inSlope: -0.13523442
-      outSlope: -0.13523442
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.0522512
-    - serializedVersion: 3
-      time: 1
-      value: 0.026269682
-      inSlope: -0.012524934
-      outSlope: -0.012524934
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.0556252
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   _operatingMomentumPenaltyCurve:
     serializedVersion: 2
     m_Curve:
@@ -206,7 +259,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   _operatingMomentumIgnorePenaltiesCutoff: 0.25
   _operatingMomentumInvalidInputDecayDelay: 0.675
-  _operatingMomentumWaitInputDelay: 0.5
   _perfectTimingMinimumMomentum: 0.67
   _perfectTimingMinimumWindowsEntered: 5
   _timingMomentumChangeAlphaCurve:
@@ -242,5 +294,3 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _perfectTimingActivateTargetSO: {fileID: 11400000, guid: 57214c112c058ad4c8a1fadbf829b694,
-    type: 2}

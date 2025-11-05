@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using _Scripts.Gameplay.Player.Controller;
+using _Scripts.Org;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,9 +11,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
     {
         [Header("NEW")]
         [SerializeField]
-        private FMomentumZone _momentumZone;
+        private List<FMomentumZone> _momentumZones;
         [SerializeField]
-        private float speedFactor;
+        private float _buildingMomentumSpeedFactor;
+        [SerializeField]
+        private float _freeFlowSpeedFactor;
         [SerializeField]
         private Vector2 _minMaxForwardSpeed;
         [SerializeField]
@@ -21,8 +25,9 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
         [SerializeField]
         private Vector2 _minMaxAnimationDisplacement;
 
-        public FMomentumZone MomentumZone { get => _momentumZone; set => _momentumZone = value; }
-        public float SpeedFactor { get => speedFactor; set => speedFactor = value; }
+        public List<FMomentumZone> MomentumZones { get => _momentumZones; set => _momentumZones = value; }
+        public float BuildingMomentumSpeedFactor { get => _buildingMomentumSpeedFactor; set => _buildingMomentumSpeedFactor = value; }
+        public float FreeFlowSpeedFactor { get => _freeFlowSpeedFactor; set => _freeFlowSpeedFactor = value; }
         public Vector2 MinMaxForwardSpeed { get => _minMaxForwardSpeed; set => _minMaxForwardSpeed = value; }
         public AnimationCurve MomentumToSpeedCurve { get => _momentumToSpeedCurve; set => _momentumToSpeedCurve = value; }
         public Vector2 MinMaxBackwardSpeed { get => _minMaxBackwardSpeed; set => _minMaxBackwardSpeed = value; }
@@ -31,12 +36,22 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
 
     internal interface IMomentumTool
     {
-        public float GetMomentumZone(int index);
+        public float GetMomentumZoneTiming(int index);
+        public float GetMomentumZoneSpeedFactor(int index);
         public int GetBuildMomentumCount();
+
     }
 
     internal interface ISpeedTool
     {
-        public float GetSpeedFactor();
+        public float GetSpeedFactor(IToolUser toolUSer);
+        public float GetBuildingMomentumSpeed();
+        public float GetFreeFlowSpeed();
+    }
+
+    public interface IToolUser
+    {
+        public EOperationMinigameState GetToolUserState();
+        public int GetBuildMomentumCounts();
     }
 }

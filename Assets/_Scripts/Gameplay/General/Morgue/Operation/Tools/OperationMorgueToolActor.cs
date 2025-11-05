@@ -1,6 +1,8 @@
-﻿using _Scripts.Gameplay.Architecture.Managers;
+﻿using _Scripts.Gameplay.Animate.Player;
+using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
 using _Scripts.Gameplay.Player.Controller;
+using _Scripts.Org;
 using MoreMountains.Feedbacks;
 using System.Collections;
 using System.Collections.Generic;
@@ -109,19 +111,45 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
             return _operationLerpToolElapsed > 0.0f && _operationLerpToolElapsed < 1.0f;
         }
 
-        public float GetMomentumZone(int index)
+        public float GetMomentumZoneTiming(int index)
         {
-            return _toolProfile.MomentumZone.TimingZones[index];
+            return _toolProfile.MomentumZones[index].TimingZone;
+        }
+
+        public float GetMomentumZoneSpeedFactor(int index)
+        {
+            return _toolProfile.MomentumZones[index].MomentumSpeedFactor;
         }
 
         public int GetBuildMomentumCount()
         {
-            return _toolProfile.MomentumZone.TimingZones.Count;
+            return _toolProfile.MomentumZones.Count;
         }
 
-        public float GetSpeedFactor()
+        public float GetSpeedFactor(IToolUser toolUser)
         {
-            return _toolProfile.SpeedFactor;
+            if (toolUser == null)
+            {
+                return GetBuildingMomentumSpeed();
+            }
+
+            EOperationMinigameState inFreeFlow = toolUser.GetToolUserState();
+            int momentumCounts = toolUser.GetBuildMomentumCounts();
+
+            float speed = inFreeFlow == EOperationMinigameState.FreeFlow ? GetFreeFlowSpeed() : GetBuildingMomentumSpeed();
+            float momentumStageFactor = momentumCounts == -1 ? 1.0f : GetMomentumZoneSpeedFactor(momentumCounts);
+
+            return speed * momentumStageFactor; 
+        }
+
+        public float GetBuildingMomentumSpeed()
+        {
+            return _toolProfile.BuildingMomentumSpeedFactor;
+        }
+        
+        public float GetFreeFlowSpeed()
+        {
+            return _toolProfile.FreeFlowSpeedFactor;
         }
 
     }

@@ -30,7 +30,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         private int _perfectTimingWindowsEntered;
         private bool _perfectTimingActivatedInCurrentWindow;
 
-        public EOperationMinigameState OperationMinigameState { get { return _operationState; } }
+        public EOperationMinigameState OperationMinigameState { get => _operationState; set => _operationState = value; }
         public float OperatingMomentum { get => _operatingMomentum; set => _operatingMomentum = value; }
         public float OperatingMomentumDecayDelayTimer { get => _operatingMomentumDecayDelayTimer; set => _operatingMomentumDecayDelayTimer = value; }
         public float OperatingMomentumInvalidInputTimer { get => _operatingMomentumInvalidInputTimer; set => _operatingMomentumInvalidInputTimer = value; }
@@ -106,6 +106,16 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         public bool GetInputHeld(EInputType inputType)
         {
             return _runtimeStats.GetInputHeld(inputType);
+        }
+
+        public bool GetInFreeFlow()
+        {
+            return _runtimeStats.OperationMinigameState == EOperationMinigameState.FreeFlow;
+        }
+
+        public int GetMomentumChecks()
+        {
+            return _runtimeStats.MomentumChecks;
         }
     }
     
