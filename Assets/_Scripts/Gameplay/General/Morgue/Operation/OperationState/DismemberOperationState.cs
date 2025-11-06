@@ -50,12 +50,32 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             if (OperationManager.Instance.CurrentOpIndicator != null)
             {
                 PlayerController pc = Operator as PlayerController;
+
                 ETimingType timing = ETimingType.None;
                 if (pc != null)
                 {
                     timing = pc.OperatingTiming;
+                    OperationManager.Instance.CurrentOpIndicator.UpdateTiming(timing);
+
+                    if (pc.EquippedOperatingTool != null && pc.ChosenOperationState != null)
+                    {
+                        OperationDismemberMorgueTool dismemberTool = pc.EquippedOperatingTool as OperationDismemberMorgueTool;
+                        bool tickIndicator = dismemberTool != null && pc.ChosenOperationState.OpMinigame.CheckOperationState(EOperationMinigameState.BuildingMomentum);
+                        
+                        if (tickIndicator)
+                        {     
+                            PlayerCharacterAnimator animator = pc.PlayerCharacterAnimator;
+                            float momentumBuildZone = dismemberTool.GetMomentumZoneTiming(pc.ChosenOperationState.OpMinigame.GetMomentumChecks());
+                            float momentumDiff = Mathf.Abs(momentumBuildZone - pc.PlayerCharacterAnimator.GetSawingAmount());
+
+                            OperationManager.Instance.CurrentOpIndicator.UpdateTiming(momentumDiff);
+                        }
+                        else
+                        {
+                            OperationManager.Instance.CurrentOpIndicator.Deactivate();
+                        }
+                    }
                 }
-                OperationManager.Instance.CurrentOpIndicator.UpdateTiming(timing);
             }
         }
 
@@ -96,7 +116,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
 
             if (OperationManager.Instance.CurrentOpIndicator != null)
             {
-                OperationManager.Instance.CurrentOpIndicator.Activate();
+                //OperationManager.Instance.CurrentOpIndicator.Activate();
             }
             //_awaitingInputs.Clear();
             //_awaitingInputs.Add(Architecture.Managers.EInputType.RTrigger);

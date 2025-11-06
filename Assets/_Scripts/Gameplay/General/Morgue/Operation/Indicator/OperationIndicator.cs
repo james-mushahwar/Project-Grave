@@ -5,6 +5,7 @@ using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 
 using UnityEngine;
 using DG.Tweening;
+using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 
 namespace _Scripts.Gameplay.General.Morgue.Operation.Indicator {
     
@@ -46,9 +47,10 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Indicator {
             transform.localPosition = Vector3.zero;
 
             gameObject.SetActive(true);
+            AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_PerfectTimingActivated_01, gameObject.transform.position);
 
             _activateTween = _visualsTransform.DOMoveY(_activateZOffset, _activateTweenDuration).SetEase(Ease.OutBounce);
-            _meshRenderer.material.color = Color.green;
+            //_meshRenderer.material.color = Color.green;
 
         }
 
@@ -67,11 +69,42 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Indicator {
 
         }
 
+        public void UpdateTiming(float difference)
+        {
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+
+            float timingWindow = 0.1f;
+
+            if (pc.ChosenOperationState != null)
+            {
+                timingWindow = pc.ChosenOperationState.OpMinigame.GetTimingWindow();
+            }
+            if ((difference < timingWindow) && pc.PlayerCharacterAnimator.GetOperatingDirection() == EDirectionType.West)
+            {
+                if (_activateTween.IsActive() == false)
+                {
+                    Activate();
+                }
+            }
+            else
+            {
+                if (gameObject.activeSelf)
+                {
+                    Deactivate();
+                }
+            }
+        }
         public void UpdateTiming(ETimingType timing)
         {
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+            MorgueToolActor equippedTool = pc.EquippedOperatingTool;
+            PlayerCharacterAnimator animator = pc.PlayerCharacterAnimator;
+
+
+            return;
             Color newColour = Color.white;
 
-            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+            //PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
             if (pc != null)
             {
                 if (pc.ChosenOperationState != null)

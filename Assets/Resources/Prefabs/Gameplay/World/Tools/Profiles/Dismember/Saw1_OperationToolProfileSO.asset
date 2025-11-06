@@ -162,8 +162,8 @@ MonoBehaviour:
     _momentumSpeedFactor: 0.5
   - _timingZone: 0.8
     _momentumSpeedFactor: 0.55
-  _buildingMomentumSpeedFactor: 1
-  _freeFlowSpeedFactor: 0.5
+  _buildingMomentumSpeedFactor: 2
+  _freeFlowSpeedFactor: 1
   _minMaxForwardSpeed: {x: 0, y: 0}
   _momentumToSpeedCurve:
     serializedVersion: 2
@@ -173,3 +173,66 @@ MonoBehaviour:
     m_RotationOrder: 4
   _minMaxBackwardSpeed: {x: 0, y: 0}
   _minMaxAnimationDisplacement: {x: 0, y: 0}
+  _verticalDisplacementCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _tiltTargetCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.001752425
+      value: 0.30168536
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 0.4018256
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.35
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _tiltLerpSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.013582562
+      value: 0.47403142
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.80948377
+      inSlope: 0.81907254
+      outSlope: 0.81907254
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.22490764
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

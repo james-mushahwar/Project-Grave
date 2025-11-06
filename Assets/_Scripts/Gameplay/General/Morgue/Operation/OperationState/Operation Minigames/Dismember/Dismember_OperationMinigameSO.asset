@@ -93,8 +93,10 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _noInputMomentumTarget: 0
+  _correctTimingWindow: 0.2
   _maxFreeFlowTime: 5
   _noInputFreeFlowEndTime: 2
+  _freeFlowMomentumTarget: 2
   _operatingMomentumDecayCurve:
     serializedVersion: 2
     m_Curve:

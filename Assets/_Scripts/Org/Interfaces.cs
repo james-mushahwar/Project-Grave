@@ -17,6 +17,12 @@ namespace _Scripts.Org
         FreeFlow
     }
 
+    public enum EPlayerAnimState
+    {
+        Tool_Repositioning,
+        Tool_Action
+    }
+
     public interface IMorgueTickable
     {
         void Setup();

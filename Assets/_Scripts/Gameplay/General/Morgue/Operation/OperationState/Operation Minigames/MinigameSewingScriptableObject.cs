@@ -8,6 +8,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
     [CreateAssetMenu(menuName = "Operation/OperationMinigame/Stitching", fileName = "StitchingOperationMinigameSO")]
     public class MinigameSewingScriptableObject : OperationMinigameScriptableObject
     {
+        public override float GetTimingWindow()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void OnEnterPerfectWindow()
         {
             throw new System.NotImplementedException();

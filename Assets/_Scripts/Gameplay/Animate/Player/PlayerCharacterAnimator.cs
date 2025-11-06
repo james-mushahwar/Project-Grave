@@ -35,10 +35,13 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         private Tweener _playbackSpeedTweener;
         private float _sawingAmount; // 0 to 1
+        private float _handTilt;
 
         #region Hashes
         //animation layer hash
         private int _baseAnimLayer_Index;
+        private int _sawingVerticalAnimLayer_Index;
+        private int _sawingWristTiltAnimLayer_Index;
 
         private int _currentBaseLayerStateHash;
         private int _previousBaseLayerStateHash;
@@ -225,6 +228,8 @@ namespace _Scripts.Gameplay.Animate.Player{
         {
             // layers
             _baseAnimLayer_Index = CurrentAnimator.GetLayerIndex("Base Layer");
+            _sawingVerticalAnimLayer_Index = CurrentAnimator.GetLayerIndex("lower Arm Additive Layer");
+            _sawingWristTiltAnimLayer_Index = CurrentAnimator.GetLayerIndex("tilt Wrist Additive Layer");
             //_sawingStartAnimLayer_Index = CurrentAnimator.GetLayerIndex("sawing_progress_start");
             //_sawingEndAnimLayer_Index = CurrentAnimator.GetLayerIndex("sawing_progress_end");
 
@@ -406,6 +411,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                             _bloodAreaFXTimer = 0.5f;
                         }
                     }
+
                 }
 
 
@@ -612,6 +618,13 @@ namespace _Scripts.Gameplay.Animate.Player{
             bool isOperating = currentOpState != null;
             bool isWalking = isOperating == false;
 
+            CurrentAnimator.SetLayerWeight(_sawingWristTiltAnimLayer_Index, 0.0f);
+            CurrentAnimator.SetLayerWeight(_sawingVerticalAnimLayer_Index, 0.0f);
+
+            float tiltLayerWeight = 0.0f;
+            float tiltTarget = 0.0f;
+            float displacementLayerWeight = 0.0f;
+
             if (pc == null)
             {
                 return;
@@ -666,6 +679,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             //Operation
             bool moveToSawingPose = (currentOpState != null) && _currentBaseLayerStateHash.Equals(_state_SawIdle_Hash) || _currentBaseLayerStateHash.Equals(_state_SawingBlend_Hash);
             bool canSaw = (currentOpState != null) && _currentBaseLayerStateHash.Equals(_state_SawingBlend_Hash);
+            bool inFreeFlow = currentOpState != null && currentOpState.OpMinigame.CheckOperationState(Org.EOperationMinigameState.FreeFlow);
 
             Debug.Log("Can Saw: " + canSaw);
 
@@ -682,7 +696,58 @@ namespace _Scripts.Gameplay.Animate.Player{
                 {
                     toolSpeed = (equippedTool as ISpeedTool).GetSpeedFactor(PlayerManager.Instance.CurrentPlayerController);
                 }
+                
+                if (equippedTool is IMomentumTool)
+                {
+                    IMomentumTool mTool = (equippedTool as IMomentumTool);
+                    tiltTarget = mTool.GetTiltTarget(_minigameMomentum);
+                    float tiltDelta = mTool.GetTiltDelta(_minigameMomentum) * Time.deltaTime;
 
+                    _handTilt = Mathf.MoveTowards(_handTilt, tiltTarget, tiltDelta);
+
+                    displacementLayerWeight = 0.0f;
+                }
+
+                //progress operation
+                if (inFreeFlow)
+                {
+                    Vector3 progressPosition = currentOpState.GetProgressPosition();
+                    Vector3 progressRotation = currentOpState.GetProgressRotation(false);
+
+                    float deltaProceedStep = 0.0f;
+                    if (equippedTool != null)
+                    {
+                        deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(_minigameMomentum) * DebugManager.Instance.DebugSettings.OperationEffectivenessFactor;
+
+                        if (_bloodAreaFXTimer > 0.0f)
+                        {
+                            _bloodAreaFXTimer = Mathf.Clamp(_bloodAreaFXTimer - Time.deltaTime, 0.0f, 10.0f);
+                        }
+                        else
+                        {
+                            //Debug.Log("Effectiveness = " + effectiveness);
+                            if (Mathf.Abs(_minigameMomentum) > 0.1f)
+                            {
+                                ParticleManager.Instance.TryPlayParticleSystem(EParticleType.VFX_BloodSplatter_Area, progressPosition, progressRotation);
+                                AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioCue.SFX_BloodSplatter_LowEnergy, progressPosition);
+                                _bloodAreaFXTimer = 0.5f;
+                            }
+                        }
+                    }
+
+                    if (PlayerManager.Instance.CurrentPlayerController.ChosenOperationState != null)
+                    {
+                        PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.ProceedOperation(deltaProceedStep);
+                    }
+
+                    if (_sawingAmount == 0.0f || _sawingAmount == 1.0f)
+                    {
+                        OnSwitchOperatingDirection(_operatingDirection);
+                        sawDirectionFactor = (_operatingDirection == EDirectionType.East ? -1.0f : 1.0f);
+                    }
+                }
+
+                float sawingProgressDelta = _minigameMomentum * toolSpeed * Time.deltaTime;
                 sawingAmountDelta = (sawDirectionFactor * _minigameMomentum * toolSpeed) * Time.deltaTime;
                 _sawingAmount = Mathf.Clamp(_sawingAmount + sawingAmountDelta, 0.0f, 1.0f);
             }
@@ -693,6 +758,9 @@ namespace _Scripts.Gameplay.Animate.Player{
             Debug.Log("Momentum amount = " + _minigameMomentum + ", SawDirectionFactor = " + sawDirectionFactor);
 
             CurrentAnimator.SetFloat(_param_sawingCutAmount_Hash, _sawingAmount);
+
+            CurrentAnimator.SetLayerWeight(_sawingWristTiltAnimLayer_Index, _handTilt);
+            CurrentAnimator.SetLayerWeight(_sawingVerticalAnimLayer_Index, displacementLayerWeight);
         }
 
         public void ManagedFixedTick()

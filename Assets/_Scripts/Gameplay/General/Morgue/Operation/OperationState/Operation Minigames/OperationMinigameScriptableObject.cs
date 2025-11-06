@@ -13,6 +13,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
 
         [Header("Building Momentum")]
         private int _momentumChecks; // how many momentum checks have we hit?
+        private bool _correctTiming;
 
         [Header("Free flow")]
         private float _freeFlowTimer;
@@ -44,6 +45,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
 
         public float FreeFlowTimer { get => _freeFlowTimer; set => _freeFlowTimer = value; }
         public int MomentumChecks { get => _momentumChecks; set => _momentumChecks = value; }
+        public bool CorrectTiming { get => _correctTiming; set => _correctTiming = value; }
 
         public void ResetStats()
         {
@@ -108,6 +110,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
             return _runtimeStats.GetInputHeld(inputType);
         }
 
+        public bool CheckOperationState(EOperationMinigameState state)
+        {
+            return _runtimeStats.OperationMinigameState == state;
+        }
+
         public bool GetInFreeFlow()
         {
             return _runtimeStats.OperationMinigameState == EOperationMinigameState.FreeFlow;
@@ -117,6 +124,8 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         {
             return _runtimeStats.MomentumChecks;
         }
+
+        public abstract float GetTimingWindow();
     }
     
 }

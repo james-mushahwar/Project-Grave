@@ -25,6 +25,16 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
         [SerializeField]
         private Vector2 _minMaxAnimationDisplacement;
 
+        [Header("Displacement Up/Down")]
+        [SerializeField]
+        private AnimationCurve _verticalDisplacementCurve; // values for what the hand displacement should be
+
+        [Header("Wrist tilt")]
+        [SerializeField]
+        private AnimationCurve _tiltTargetCurve; // weight the anim layer should be to tilt the wrist down.
+        [SerializeField]
+        private AnimationCurve _tiltLerpSpeedCurve;
+
         public List<FMomentumZone> MomentumZones { get => _momentumZones; set => _momentumZones = value; }
         public float BuildingMomentumSpeedFactor { get => _buildingMomentumSpeedFactor; set => _buildingMomentumSpeedFactor = value; }
         public float FreeFlowSpeedFactor { get => _freeFlowSpeedFactor; set => _freeFlowSpeedFactor = value; }
@@ -32,6 +42,9 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
         public AnimationCurve MomentumToSpeedCurve { get => _momentumToSpeedCurve; set => _momentumToSpeedCurve = value; }
         public Vector2 MinMaxBackwardSpeed { get => _minMaxBackwardSpeed; set => _minMaxBackwardSpeed = value; }
         public Vector2 MinMaxAnimationDisplacement { get => _minMaxAnimationDisplacement; set => _minMaxAnimationDisplacement = value; }
+        public AnimationCurve VerticalDisplacementCurve { get => _verticalDisplacementCurve; }
+        public AnimationCurve TiltTargetCurve { get => _tiltTargetCurve; }
+        public AnimationCurve TiltLerpSpeedCurve { get => _tiltLerpSpeedCurve; }
     }
 
     internal interface IMomentumTool
@@ -39,7 +52,9 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles{
         public float GetMomentumZoneTiming(int index);
         public float GetMomentumZoneSpeedFactor(int index);
         public int GetBuildMomentumCount();
-
+        public float GetTiltTarget(float momentum);
+        public float GetTiltDelta(float momentum);
+        public float GetVerticalOffset(float momentum);
     }
 
     internal interface ISpeedTool

@@ -133,5 +133,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _meshRenderer: {fileID: 950279256078990202}
   _visualsTransform: {fileID: 3812535949521433342}
-  _activateTweenDuration: 2
+  _activateTweenDuration: 1
   _activateZOffset: 1.35

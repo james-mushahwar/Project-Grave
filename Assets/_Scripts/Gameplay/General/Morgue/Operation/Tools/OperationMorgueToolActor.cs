@@ -152,6 +152,20 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
             return _toolProfile.FreeFlowSpeedFactor;
         }
 
+        public float GetTiltTarget(float momentum)
+        {
+            return _toolProfile.TiltTargetCurve.Evaluate(momentum);
+        }
+
+        public float GetTiltDelta(float momentum)
+        {
+            return _toolProfile.TiltLerpSpeedCurve.Evaluate(momentum);
+        }
+
+        public float GetVerticalOffset(float momentum)
+        {
+            return _toolProfile.VerticalDisplacementCurve.Evaluate(momentum);
+        }
     }
     
 }

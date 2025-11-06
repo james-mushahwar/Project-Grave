@@ -1306,13 +1306,13 @@ namespace _Scripts.Gameplay.Player.Controller{
         {
             bool inFreeFlow = ChosenOperationState.OpMinigame.GetInFreeFlow();
 
-            return inFreeFlow ? EOperationMinigameState.FreeFlow : EOperationMinigameState.BuildingMomentum; ;
+            return inFreeFlow ? EOperationMinigameState.FreeFlow : EOperationMinigameState.BuildingMomentum;
         }
 
         public int GetBuildMomentumCounts()
         {
             bool isOperating = ChosenOperationState != null;
-            return isOperating ? ChosenOperationState.OpMinigame.GetMomentumChecks() : -1;
+            return isOperating && ChosenOperationState.OpMinigame.CheckOperationState(EOperationMinigameState.BuildingMomentum) ? ChosenOperationState.OpMinigame.GetMomentumChecks() : -1;
         }
     }
 }

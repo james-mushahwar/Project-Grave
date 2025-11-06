@@ -26,12 +26,16 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         private AnimationCurve _noInputMomentumDeltaCurve;
         [SerializeField]
         private float _noInputMomentumTarget;
+        [SerializeField]
+        private float _correctTimingWindow = 0.1f;
 
         [Header("Free Flow")]
         [SerializeField]
         private float _maxFreeFlowTime;
         [SerializeField]
         private float _noInputFreeFlowEndTime;
+        [SerializeField]
+        private float _freeFlowMomentumTarget;
 
         [Header("OLD")]
         [SerializeField]
@@ -62,6 +66,11 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         {
             get
             {
+                if (_runtimeStats.OperationMinigameState == EOperationMinigameState.FreeFlow)
+                {
+                    return _freeFlowMomentumTarget;
+                }
+
                 EDirectionType operatingDirection = _playerAnimator.GetOperatingDirection();
 
                 bool incorrectInput = (operatingDirection == EDirectionType.West && _runtimeStats.LTInputHeld == false);
@@ -165,7 +174,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                     // are we releasing in the right window?
                     float momentumBuildZone = dismemberTool.GetMomentumZoneTiming(_runtimeStats.MomentumChecks);
                     float momentumDiff = momentumBuildZone - _pc.PlayerCharacterAnimator.GetSawingAmount();
-                    correctTiming = Mathf.Abs(momentumDiff) < 0.1f;
+                    correctTiming = Mathf.Abs(momentumDiff) < _correctTimingWindow;
 
                     shouldChangeDirection = true;
 
@@ -173,26 +182,12 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                     if (shouldChangeDirection)
                     {
                         _playerAnimator.OnDismemeberInputReleased();
+                        _runtimeStats.OperatingMomentum = 0.0f;
                     }
-                    if (correctTiming)
-                    {
-                        _runtimeStats.MomentumChecks++;
-                        if (_runtimeStats.MomentumChecks >= dismemberTool.GetBuildMomentumCount())
-                        {
-                            // move to Free flow
-                            Debug.Log("Free flow!!!");
-                            _runtimeStats.OperationMinigameState = EOperationMinigameState.FreeFlow;
-                        }
-                    }
-                    else
-                    {
-                        // lose some momentum
-                        if (_runtimeStats.MomentumChecks > 0)
-                        {
-                            _runtimeStats.MomentumChecks--;
-                        }
-                    }
+                    
                 }
+
+                _runtimeStats.CorrectTiming = correctTiming;
             }
             
             return success;
@@ -307,11 +302,14 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
         public override void OnMinigameTick()
         {
             bool buildingMomentum = _runtimeStats.OperationMinigameState == EOperationMinigameState.BuildingMomentum;
+            bool inFreeFlow = _runtimeStats.OperationMinigameState == EOperationMinigameState.FreeFlow;
             EDirectionType operatingDirection = _playerAnimator.GetOperatingDirection();
             bool requireInput = (buildingMomentum && operatingDirection == EDirectionType.West);
+            OperationDismemberMorgueTool dismemberTool = _pc.EquippedOperatingTool as OperationDismemberMorgueTool;
 
             float minigameMomentum = _playerAnimator.MinigameMomentum;
             float momentumDelta = 0.0f;
+
             // building momentum
             if (buildingMomentum)
             {
@@ -331,21 +329,49 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                 }
                 else
                 {
-
-
                     if (_playerAnimator.GetSawingAmount() == 0.0f)
                     {
                         if (operatingDirection == EDirectionType.East)
                         {
+                            if (_runtimeStats.CorrectTiming)
+                            {
+                                _runtimeStats.MomentumChecks++;
+                            }
+                            else
+                            {
+                                // lose some momentum
+                                if (_runtimeStats.MomentumChecks > 0)
+                                {
+                                    _runtimeStats.MomentumChecks--;
+                                }
+                            }
+                            _runtimeStats.CorrectTiming = false;
+
+                            if (_runtimeStats.MomentumChecks >= dismemberTool.GetBuildMomentumCount())
+                            {
+                                // move to Free flow
+                                Debug.Log("Free flow!!!");
+                                _runtimeStats.OperationMinigameState = EOperationMinigameState.FreeFlow;
+                            }
+                            minigameMomentum = 0.0f;
                             _playerAnimator.OnSwitchOperatingDirection(_playerAnimator.GetOperatingDirection());
                         }
                     }
                 }
             }
+            else if (inFreeFlow)
+            {
+                // free flow
+                minigameMomentum = TargetMinigameMomentum;
+            }
 
             bool negativeDelta = TargetMinigameMomentum < _playerAnimator.MinigameMomentum;
             momentumDelta = momentumDelta * (negativeDelta ? -1.0f : 1.0f);
 
+            if (minigameMomentum == 0.0f)
+            {
+                // do nothing
+            }
             if (Mathf.Abs(momentumDelta * Time.deltaTime) > Mathf.Abs(_playerAnimator.MinigameMomentum - TargetMinigameMomentum))
             {
                 minigameMomentum = TargetMinigameMomentum;
@@ -354,7 +380,8 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
             {
                 Mathf.Clamp(minigameMomentum += (momentumDelta * Time.deltaTime), 0.0f, 1.0f);
             }
-            _playerAnimator.MinigameMomentum = minigameMomentum;
+            _runtimeStats.OperatingMomentum = minigameMomentum;
+            _playerAnimator.MinigameMomentum = _runtimeStats.OperatingMomentum;
 
             //free flow
 
@@ -486,7 +513,12 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
             float momentumChange = _inputTimingBoostValues.GetValue(timingType);
             float momentumFactor = _timingMomentumChangeAlphaCurve.Evaluate(_runtimeStats.OperatingMomentum);
 
-            _runtimeStats.OperatingMomentum += momentumChange * momentumFactor;
+            //_runtimeStats.OperatingMomentum += momentumChange * momentumFactor;
+        }
+
+        public override float GetTimingWindow()
+        {
+            return _correctTimingWindow;
         }
     }
 
