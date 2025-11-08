@@ -290,20 +290,27 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         }
 
-        public bool PlayAnimSawForward(float playRate = 1.0f)
+        public bool PlayAnimSawForward(float playRate = 1.0f, float normalisedOffset = 0.0f)
         {
             CurrentAnimator.SetBool(_param_SawBackward_Hash, false);
             CurrentAnimator.SetBool(_param_SawForward_Hash, true);
 
+            CurrentAnimator.CrossFade(_state_SawingForward_Hash, 0.0f);
+            CurrentAnimator.playbackTime = normalisedOffset;
             CurrentAnimator.speed = playRate;
             return true;
         }
 
-        public bool PlayAnimSawBackward(float playRate)
+        public bool PlayAnimSawBackward(float playRate = 1.0f, float normalisedOffset = 0.0f)
         {
+            CurrentAnimator.SetBool(_param_SawForward_Hash, false);
+            CurrentAnimator.SetBool(_param_SawBackward_Hash, true);
 
+            CurrentAnimator.CrossFade(_state_SawingBackward_Hash, 0.0f);
+            CurrentAnimator.playbackTime = normalisedOffset;
+            CurrentAnimator.speed = playRate;
             return true;
-        }  
+        }
 
         public void ManagedTick()
         {
@@ -786,7 +793,17 @@ namespace _Scripts.Gameplay.Animate.Player{
                 if (baseLayerStateInfo.shortNameHash.Equals(_state_SawingStartIdle_Hash))
                 {
                     Debug.Log("Play sawing forward anim");
-                    PlayAnimSawForward(1.0f);
+                    PlayAnimSawForward();
+                }
+            }
+            else
+            {
+                if (baseLayerStateInfo.shortNameHash.Equals(_state_SawingForward_Hash))
+                {
+                    if (baseLayerStateInfo.normalizedTime >= 1.0f)
+                    {
+                        PlayAnimSawBackward();
+                    }
                 }
             }
 
