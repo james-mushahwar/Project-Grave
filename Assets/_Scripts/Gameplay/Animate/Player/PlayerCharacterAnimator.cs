@@ -51,24 +51,28 @@ namespace _Scripts.Gameplay.Animate.Player{
         private int _state_PickupEmptyToSaw_Hash;
         private int _state_EquipSaw_Hash;
         private int _state_SawIdle_Hash;
-        private int _state_SawingBlend_Hash;
+        private int _state_SawingStartIdle_Hash;
+        private int _state_SawingForward_Hash;
+        private int _state_SawingBackward_Hash;
         private int _state_UnequipSaw_Hash;
         private int _state_PickupSawToEmpty_Hash;
 
         //animation parameters hash
         #region Params
-            #region Moving
-            private int _param_walkSpeed_Hash;
-            private float _walkSpeedAlpha; // 0 to 1, idle to max speed
-            private int _param_turnLeftRight_Hash;
-            private float _turnLeftRight; // -1 to 1, left to right
-            private float _strafeLeftRight; // -1 to 1, left to right
-            #endregion
+        #region Moving
+        private int _param_walkSpeed_Hash;
+        private float _walkSpeedAlpha; // 0 to 1, idle to max speed
+        private int _param_turnLeftRight_Hash;
+        private float _turnLeftRight; // -1 to 1, left to right
+        private float _strafeLeftRight; // -1 to 1, left to right
+        #endregion
 
-            #region Operating
-            private int _param_isSawing_Hash;
-            private int _param_holdingSaw_Hash;
-            private int _param_sawingCutAmount_Hash; // 0 to 1
+        #region Operating
+        private int _param_isSawing_Hash;
+        private int _param_holdingSaw_Hash;
+        //private int _param_sawingCutAmount_Hash; // 0 to 1
+        private int _param_SawForward_Hash;
+        private int _param_SawBackward_Hash;
         #endregion
         #endregion
 
@@ -240,15 +244,20 @@ namespace _Scripts.Gameplay.Animate.Player{
             _state_PickupEmptyToSaw_Hash    = Animator.StringToHash("unequip_emptyHanded");
             _state_EquipSaw_Hash            = Animator.StringToHash("equip_saw");
             _state_SawIdle_Hash             = Animator.StringToHash("saw_idle");
-            _state_SawingBlend_Hash         = Animator.StringToHash("Sawing Blend Tree");
+            _state_SawingStartIdle_Hash     = Animator.StringToHash("saw_start_position");
+
+            _state_SawingForward_Hash       = Animator.StringToHash("saw_cut");
+            _state_SawingBackward_Hash      = Animator.StringToHash("saw_back");
             _state_UnequipSaw_Hash          = Animator.StringToHash("unequip_saw");
             _state_PickupSawToEmpty_Hash    = Animator.StringToHash("equip_emptyHanded");
 
             _param_walkSpeed_Hash           = Animator.StringToHash("walk_speed");
             _param_turnLeftRight_Hash       = Animator.StringToHash("turnLeftRight");
             _param_holdingSaw_Hash          = Animator.StringToHash("holding Saw?");
+            _param_SawForward_Hash          = Animator.StringToHash("sawing_cut_anim");
+            _param_SawBackward_Hash         = Animator.StringToHash("sawing_back_anim");
             _param_isSawing_Hash            = Animator.StringToHash("isSawing?");
-            _param_sawingCutAmount_Hash     = Animator.StringToHash("sawing_cut_amount");
+            //_param_sawingCutAmount_Hash     = Animator.StringToHash("sawing_cut_amount");
 
             //_sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_IK_version");
             //_sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_IK_version 2 big Saw");
@@ -280,6 +289,21 @@ namespace _Scripts.Gameplay.Animate.Player{
             TickAnimState();
 
         }
+
+        public bool PlayAnimSawForward(float playRate = 1.0f)
+        {
+            CurrentAnimator.SetBool(_param_SawBackward_Hash, false);
+            CurrentAnimator.SetBool(_param_SawForward_Hash, true);
+
+            CurrentAnimator.speed = playRate;
+            return true;
+        }
+
+        public bool PlayAnimSawBackward(float playRate)
+        {
+
+            return true;
+        }  
 
         public void ManagedTick()
         {
@@ -325,48 +349,48 @@ namespace _Scripts.Gameplay.Animate.Player{
                 {
                     directionFactor = _operatingDirection == EDirectionType.West ? 1.0f : -_operatingSawingPullbackSpeedFactor;
 
-                    if (animInTransition == false && baseLayerStateInfo.shortNameHash.Equals(_state_SawingBlend_Hash) == true)
-                    {
-                        if (ShouldPlayOperationHeartBeat())
-                        {
-                            if (_heartbeatLowAudioHandler._active == false)
-                            {
-                                AudioManager.Instance.TryPlayAudioSourceAttached(EAudioType.SFX_Heartbeat_Low,
-                                    this.transform, _heartbeatLowAudioHandler);
-                                //_heartbeatLowAudioHandler.VolumeAlpha = 0.7f;
-                                bool playLouder = _operatingDirection == EDirectionType.West && !currentOpState.GetInputHeld(EInputType.LTrigger);
-                                //_heartbeatLowAudioHandler.VolumeAlpha = Mathf.MoveTowards(_heartbeatLowAudioHandler.VolumeAlpha, 1.0f, _heartbeatAudioVolumeAlpha * Time.deltaTime);
-                                _heartbeatLowAudioHandler.VolumeAlpha = playLouder ? 1.0f : 0.5f;
-                                _heartbeatLowAudioHandler.PitchAlpha = Mathf.Clamp(_operatingMomentum, 0.0f, 1.0f);
-                            }
-                        }
+                    //if (animInTransition == false && baseLayerStateInfo.shortNameHash.Equals(_state_SawingBlend_Hash) == true)
+                    //{
+                    //    if (ShouldPlayOperationHeartBeat())
+                    //    {
+                    //        if (_heartbeatLowAudioHandler._active == false)
+                    //        {
+                    //            AudioManager.Instance.TryPlayAudioSourceAttached(EAudioType.SFX_Heartbeat_Low,
+                    //                this.transform, _heartbeatLowAudioHandler);
+                    //            //_heartbeatLowAudioHandler.VolumeAlpha = 0.7f;
+                    //            bool playLouder = _operatingDirection == EDirectionType.West && !currentOpState.GetInputHeld(EInputType.LTrigger);
+                    //            //_heartbeatLowAudioHandler.VolumeAlpha = Mathf.MoveTowards(_heartbeatLowAudioHandler.VolumeAlpha, 1.0f, _heartbeatAudioVolumeAlpha * Time.deltaTime);
+                    //            _heartbeatLowAudioHandler.VolumeAlpha = playLouder ? 1.0f : 0.5f;
+                    //            _heartbeatLowAudioHandler.PitchAlpha = Mathf.Clamp(_operatingMomentum, 0.0f, 1.0f);
+                    //        }
+                    //    }
 
-                        //if (_operatingDirection == EDirectionType.West)
-                        //{
-                        //    limitAnimationPlayback = true;
+                    //    //if (_operatingDirection == EDirectionType.West)
+                    //    //{
+                    //    //    limitAnimationPlayback = true;
 
-                        //    if (OperationTimingZone == ETimingType.Poor)
-                        //    {
-                        //        cameraShakeFactor = 5.0f * (1 - _operatingMomentum);
-                        //        new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.025f, 0.025f), 0f);
+                    //    //    if (OperationTimingZone == ETimingType.Poor)
+                    //    //    {
+                    //    //        cameraShakeFactor = 5.0f * (1 - _operatingMomentum);
+                    //    //        new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.025f, 0.025f), 0f);
 
-                        //        playOperationFeedback = true;
+                    //    //        playOperationFeedback = true;
 
-                        //        operationFeedbackPattern = EFeedbackPattern.Operation_SawJammed;
-                        //    }
-                        //    else if (_operatingAnimLerpSpeed > 0)
-                        //    {
-                        //        cameraShakeFactor = 1 - _operatingMomentum;
-                        //        cameraShakeFrictionVelocity = new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.01f, 0.01f), 0f);
+                    //    //        operationFeedbackPattern = EFeedbackPattern.Operation_SawJammed;
+                    //    //    }
+                    //    //    else if (_operatingAnimLerpSpeed > 0)
+                    //    //    {
+                    //    //        cameraShakeFactor = 1 - _operatingMomentum;
+                    //    //        cameraShakeFrictionVelocity = new Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.01f, 0.01f), 0f);
 
-                        //        playOperationFeedback = true;
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //}
+                    //    //        playOperationFeedback = true;
+                    //    //    }
+                    //    //}
+                    //    //else
+                    //    //{
+                    //    //}
 
-                    }
+                    //}
                 }
 
                 UpdateHeartbeatAudioHandler();
@@ -434,14 +458,14 @@ namespace _Scripts.Gameplay.Animate.Player{
                 //FeedbackManager.Instance.SetFrequencyFactor(feedbackLowFrequencyFactor, feedbackHighFrequencyFactor);
                 ////
 
-                if (!animInTransition && baseLayerStateInfo.shortNameHash.Equals(_state_SawingBlend_Hash) == false) //|| sawingEndAnimatorStateInfo.shortNameHash.Equals(_sawingProgressEndLoopAnim_Hash) == false)
-                {
+                //if (!animInTransition && baseLayerStateInfo.shortNameHash.Equals(_state_SawingBlend_Hash) == false) //|| sawingEndAnimatorStateInfo.shortNameHash.Equals(_sawingProgressEndLoopAnim_Hash) == false)
+                //{
 
-                    //CurrentAnimator.SetBool(_param_holdingSaw_Hash, true);
-                    //CurrentAnimator.SetBool(_param_isSawing_Hash, true);
-                    //CurrentAnimator.CrossFade(_state_SawingBlend_Hash, 0.5f);
-                    SetRigWeight(1.0f, 1.0f);
-                }
+                //    //CurrentAnimator.SetBool(_param_holdingSaw_Hash, true);
+                //    //CurrentAnimator.SetBool(_param_isSawing_Hash, true);
+                //    //CurrentAnimator.CrossFade(_state_SawingBlend_Hash, 0.5f);
+                //    SetRigWeight(1.0f, 1.0f);
+                //}
 
                 // progress operation //
                 if (PlayerManager.Instance.CurrentPlayerController.ChosenOperationState != null)
@@ -677,8 +701,8 @@ namespace _Scripts.Gameplay.Animate.Player{
             }
 
             //Operation
-            bool moveToSawingPose = (currentOpState != null) && _currentBaseLayerStateHash.Equals(_state_SawIdle_Hash) || _currentBaseLayerStateHash.Equals(_state_SawingBlend_Hash);
-            bool canSaw = (currentOpState != null) && _currentBaseLayerStateHash.Equals(_state_SawingBlend_Hash);
+            bool moveToSawingPose = (currentOpState != null) && (_currentBaseLayerStateHash.Equals(_state_SawIdle_Hash) || _currentBaseLayerStateHash.Equals(_state_SawingStartIdle_Hash));
+            bool canSaw = (currentOpState != null) && (_currentBaseLayerStateHash.Equals(_state_SawingForward_Hash) || _currentBaseLayerStateHash.Equals(_state_SawingBackward_Hash));
             bool inFreeFlow = currentOpState != null && currentOpState.OpMinigame.CheckOperationState(Org.EOperationMinigameState.FreeFlow);
 
             Debug.Log("Can Saw: " + canSaw);
@@ -755,9 +779,19 @@ namespace _Scripts.Gameplay.Animate.Player{
             {
                 _sawingAmount = 0.0f;
             }
-            Debug.Log("Momentum amount = " + _minigameMomentum + ", SawDirectionFactor = " + sawDirectionFactor);
+            //Debug.Log("Momentum amount = " + _minigameMomentum + ", SawDirectionFactor = " + sawDirectionFactor);
 
-            CurrentAnimator.SetFloat(_param_sawingCutAmount_Hash, _sawingAmount);
+            if (CurrentAnimator.GetBool(_param_SawForward_Hash) == false)
+            {
+                if (baseLayerStateInfo.shortNameHash.Equals(_state_SawingStartIdle_Hash))
+                {
+                    Debug.Log("Play sawing forward anim");
+                    PlayAnimSawForward(1.0f);
+                }
+            }
+
+
+            //CurrentAnimator.SetFloat(_param_sawingCutAmount_Hash, _sawingAmount);
 
             CurrentAnimator.SetLayerWeight(_sawingWristTiltAnimLayer_Index, _handTilt);
             CurrentAnimator.SetLayerWeight(_sawingVerticalAnimLayer_Index, displacementLayerWeight);
