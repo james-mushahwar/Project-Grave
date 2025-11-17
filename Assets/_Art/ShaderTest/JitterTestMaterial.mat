@@ -43,11 +43,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _InfectionTexture:
-        m_Texture: {fileID: 2800000, guid: 35509b28e9bdcab4f81a5ef8b64f4b32, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7179d7a1439cca645bab796f2bff44f5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Infection_Gradient:
-        m_Texture: {fileID: 2800000, guid: cb8e1a352fadb1e489cdf59caaaa5b30, type: 3}
+        m_Texture: {fileID: 2800000, guid: 30801cb290877c7448de2b486d5a31a0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Infection_Source_Texture:
@@ -56,6 +56,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Mesh_Normal_Map:
         m_Texture: {fileID: 2800000, guid: 9f6849522f52f32459d3715cc0167e96, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetalSmoothness:
+        m_Texture: {fileID: 2800000, guid: 3280b9171e51a3241b9660f6e1e0294c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Noise_Texture:
@@ -96,18 +100,33 @@ Material:
     - _Infection_1_Falloff_Shape: 0
     - _Infection_1_SourceFalloff_Size: 31.68
     - _Infection_1_Source_Size: 0.16
+    - _Infection_1_Value: 0
+    - _Infection_2_Falloff_Shape: 2
+    - _Infection_2_SourceFalloff_Size: 1
+    - _Infection_2_Source_Size: 0.1
+    - _Infection_2_Use: 0
+    - _Infection_2_Value: 0
+    - _Infection_3_Falloff_Shape: 2
+    - _Infection_3_SourceFalloff_Size: 1
+    - _Infection_3_Source_Size: 0.1
+    - _Infection_3_Use: 0
+    - _Infection_3_Value: 0
+    - _Infection_Intensity: 5
     - _Infection_Source_Gradient_Power: 1.27
     - _Infection_Source_Size: 0.05
     - _Infection_Source_Strength: 11.09
+    - _Infection_Use: 1
     - _Infection_Value_1: 0.776
     - _Infection_Value_2: 0
     - _Infection_Value_3: 0
     - _Intensity: 1
-    - _Normal_Noise_Blend_Weight: 0.233
+    - _Normal_Noise_Blend_Weight: 0
     - _Normal_Noise_Scale: 22.5
-    - _Normal_Texture_Strength: 0.7
+    - _Normal_Texture_Strength: 0
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Setup: 0
+    - _Smoothness: 1
     - _Steps: 10
     - _Strength: 47.4
     - _TimeMultiplier: 0
