@@ -44,6 +44,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: e0d3f5c6d9a611445a85ba1125534368, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Base_Texture:
+        m_Texture: {fileID: 2800000, guid: e0d3f5c6d9a611445a85ba1125534368, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 2800000, guid: eee4cba58771e264fac5a33b80ca6bd5, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -64,12 +68,36 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _InfectionTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Infection_Gradient:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Infection_Source_Texture:
+        m_Texture: {fileID: 2800000, guid: b2b4061d3637c7143b7a8616aea9a32c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: e0d3f5c6d9a611445a85ba1125534368, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Mesh_Normal_Map:
+        m_Texture: {fileID: 2800000, guid: eee4cba58771e264fac5a33b80ca6bd5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetalSmoothness:
+        m_Texture: {fileID: 2800000, guid: 1c450ce49d39f5a42a18c20b77ca18b9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 2800000, guid: 1c450ce49d39f5a42a18c20b77ca18b9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise_Texture:
+        m_Texture: {fileID: 2800000, guid: 10e7c81bccf528b468314ffae2d979ee, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -103,7 +131,7 @@ Material:
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
-    - _BumpScale: 1
+    - _BumpScale: 2
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
@@ -113,29 +141,65 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
+    - _Frame: 5
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
+    - _Infection_1_Falloff_Shape: 2
+    - _Infection_1_SourceFalloff_Size: 1
+    - _Infection_1_Source_Size: 0.1
+    - _Infection_1_Value: 1
+    - _Infection_2_Falloff_Shape: 2
+    - _Infection_2_SourceFalloff_Size: 1
+    - _Infection_2_Source_Size: 0.1
+    - _Infection_2_Use: 0
+    - _Infection_2_Value: 0
+    - _Infection_3_Falloff_Shape: 2
+    - _Infection_3_SourceFalloff_Size: 1
+    - _Infection_3_Source_Size: 0.1
+    - _Infection_3_Use: 0
+    - _Infection_3_Value: 0
+    - _Infection_Intensity: 1
+    - _Infection_Use: 0
+    - _Intensity: 0.165
     - _Metallic: 0
     - _Mode: 0
+    - _Normal_Noise_Blend_Weight: 0.077
+    - _Normal_Noise_Scale: 1
+    - _Normal_Texture_Strength: 2
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0
+    - _Setup: 0
+    - _Smoothness: 0.661
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
+    - _Steps: 10
     - _Surface: 0
+    - _TimeMultiplier: 0.176
+    - _TriPlanarPower: 5
     - _UVSec: 0
+    - _WPO_Displacement: -0.015
     - _WorkflowMode: 1
+    - _World_Scale: 2
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+    - _Base_Texture_Tint: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Infection_1_Source_Point: {r: 0.23, g: 0.79, b: 0, a: 0}
+    - _Infection_2_Source_Point: {r: 0, g: 0, b: 0, a: 0}
+    - _Infection_3_Source_Point: {r: 0, g: 0, b: 0, a: 0}
+    - _Main_Tint: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _UVPanning: {r: 2, g: 2, b: 0, a: 0}
+    - _UV_Base_Scale: {r: 1, g: 1, b: 0, a: 0}
+    - _UV_Noise_Scale: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
