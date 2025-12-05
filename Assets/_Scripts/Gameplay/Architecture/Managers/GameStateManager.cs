@@ -36,6 +36,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField] private DebugManager _debugManagerPrefab;
         [SerializeField] private LightingManager _lightingManagerPrefab;
         [SerializeField] private CollectibleManager _collectibleManagerPrefab;
+        [SerializeField] private ActionSequenceManager _actionSequenceManagerPrefab;
 
         EGameState _gameState = EGameState.Bootstrap;
         public EGameState GameState
@@ -102,6 +103,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _managers.Add(GameObject.Instantiate(_debugManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_lightingManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_collectibleManagerPrefab, this.transform));
+            _managers.Add(GameObject.Instantiate(_actionSequenceManagerPrefab, this.transform));
         }
 
         void Start()

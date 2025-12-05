@@ -478,9 +478,14 @@ namespace _Scripts.Org
 
     public interface IActionSequence
     {
+        bool Play();
+        bool Stop();
+        bool Pause();
+
         bool IsPlaying();
         bool CanPlay();
         public ActionSequenceSettings ActionSequenceSettings { get; }
+        public RuntimeID RuntimeId { get; }
 
         void OnStarted();
         void OnPaused();

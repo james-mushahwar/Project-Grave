@@ -1555,8 +1555,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 465042460}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.47126588, z: 0, w: 0.88199127}
-  m_LocalPosition: {x: 30.417126, y: 1.701, z: 53.765636}
+  m_LocalRotation: {x: 0, y: 0.5007874, z: 0, w: 0.8655703}
+  m_LocalPosition: {x: 29.262028, y: 1.966, z: 53.69644}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3144,6 +3144,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1359258311}
   - component: {fileID: 1359258310}
+  - component: {fileID: 1359258313}
+  - component: {fileID: 1359258312}
   m_Layer: 0
   m_Name: Timeline_enterDeadBodyTimeline
   m_TagString: Untagged
@@ -3161,7 +3163,7 @@ PlayableDirector:
   m_Enabled: 1
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: ff66c1818b1eb2d46b3b63282276e5c6, type: 2}
-  m_InitialState: 1
+  m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
@@ -3194,6 +3196,38 @@ Transform:
   - {fileID: 321029226}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1359258312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359258309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a56d669340ead4d4cb82c096624df8c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.ActionSequence.TimelineActionSequence
+  _actionSequenceSettings:
+    _isCritical: 0
+    _actionSequenceType: 0
+    _actionSequencePriority: 0
+    _actionSequenceEvent: 100
+  _playableDirector: {fileID: 1359258310}
+  _runtimeId: {fileID: 1359258313}
+--- !u!114 &1359258313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359258309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c326a8f33ea0544a80821936d6e98be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.General.Identification.RuntimeID
+  _defaultID: a3df430e-90b3-4ac2-bc31-4b4d8a68966d
 --- !u!1 &1408240537
 GameObject:
   m_ObjectHideFlags: 0
@@ -6108,6 +6142,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2140967885}
   - component: {fileID: 2140967884}
+  - component: {fileID: 2140967887}
+  - component: {fileID: 2140967886}
   m_Layer: 0
   m_Name: Timeline_exitDeadBody_Timeline
   m_TagString: Untagged
@@ -6153,6 +6189,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2140967886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2140967883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a56d669340ead4d4cb82c096624df8c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.ActionSequence.TimelineActionSequence
+  _actionSequenceSettings:
+    _isCritical: 0
+    _actionSequenceType: 0
+    _actionSequencePriority: 0
+    _actionSequenceEvent: 101
+  _playableDirector: {fileID: 2140967884}
+  _runtimeId: {fileID: 2140967887}
+--- !u!114 &2140967887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2140967883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c326a8f33ea0544a80821936d6e98be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.General.Identification.RuntimeID
+  _defaultID: cf58bfe6-8011-4ccb-8b1d-a3f313352917
 --- !u!1001 &5231150708274757542
 PrefabInstance:
   m_ObjectHideFlags: 0
