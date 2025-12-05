@@ -155,6 +155,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 }
             }
         }
+
+        public void TogglePlayerInputPrompt(EInputType inputType, bool b, Transform promptTransform)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

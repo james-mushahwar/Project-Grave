@@ -63,13 +63,15 @@ namespace _Scripts.Gameplay.Player.Controller{
         [SerializeField] private Transform groundCheck;
         [SerializeField] private LayerMask groundMask;
 
+        [SerializeField]
         private CharacterController _characterController;
         private Vector3 _moveVector;
-        private Vector3 _lookVector;
+        private Vector3 _lookVector = Vector3.zero;
         private Vector3 _previousFacingDirection;
         private Vector3 velocity;
         private bool _isGrounded;
         private bool _isSprinting;
+        private bool _isFirstMove = true;
 
         private float _operatingHorz;
         private float _operatingVert;
@@ -95,9 +97,22 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         [Header("Mouse Look Settings")]
         [SerializeField] private float mouseSensitivity = 100f;
-        private float xRotation = 0f;
+        private float _xRotation = 0f;
 
         public InputController InputController { get; private set; }
+        public void PrePossessState()
+        {
+            _characterController.detectCollisions = false;
+            CharacterController.enabled = false;
+        }
+
+        public void PostPossessState()
+        {
+            CharacterController.enabled = true;
+            _characterController.detectCollisions = true;
+            _characterController.Move(Vector3.zero);
+
+        }
 
         #region PlayerCharacter
         [SerializeField]
@@ -195,6 +210,10 @@ namespace _Scripts.Gameplay.Player.Controller{
         {
             get
             {
+                if (_characterController == null)
+                {
+                    _characterController = GetComponent<CharacterController>();
+                }
                 return _characterController;
             }
         }
@@ -218,7 +237,8 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         private void Start()
         {
-            _characterController = GetComponent<CharacterController>();
+            _lookVector = Vector3.zero;
+            _isFirstMove = true;
 
             InputManager.Instance.PossessPlayer(this);
         }
@@ -286,20 +306,31 @@ namespace _Scripts.Gameplay.Player.Controller{
         {
             //DrawGizmos.ForArrowGizmo()
         }
+
+        public bool CanPlayerMove()
+        {
+            return _characterController.enabled && Application.isPlaying && Application.isFocused;
+        }
+
         private void HandleMovement()
         {
+            if (!CanPlayerMove())
+            {
+                return;
+            }
+
             float moveX = _moveVector.x; // Horizontal movement
             float moveZ = _moveVector.y; // Forward movement
 
             // Sprinting
-            if (Keyboard.current.leftShiftKey.isPressed)
-            {
-                _isSprinting = true;
-            }
-            else
-            {
-                _isSprinting = false;
-            }
+            //if (Keyboard.current.leftShiftKey.isPressed)
+            //{
+            //    _isSprinting = true;
+            //}
+            //else
+            //{
+            //    _isSprinting = false;
+            //}
 
             // Calculate movement direction
             Vector3 move = transform.right * moveX + transform.forward * moveZ;
@@ -324,7 +355,10 @@ namespace _Scripts.Gameplay.Player.Controller{
                 return;
             }
 
-
+            if (!CanPlayerMove())
+            {
+                return;
+            }
 
             Vector2 mouseInput = _lookVector;
             float mouseX = mouseInput.x * mouseSensitivity * Time.deltaTime;
@@ -333,11 +367,11 @@ namespace _Scripts.Gameplay.Player.Controller{
             GameObject vCameraGameObject = CameraManager.Instance.CmBrain.ActiveVirtualCamera.VirtualCameraGameObject;
             if (vCameraGameObject != null)
             {
-                vCameraGameObject.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f); // Rotate the camera
+                vCameraGameObject.transform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f); // Rotate the camera
             }
 
-            xRotation -= mouseY;
-            xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Clamp the vertical rotation
+            _xRotation -= mouseY;
+            _xRotation = Mathf.Clamp(_xRotation, -90f, 90f); // Clamp the vertical rotation
             transform.Rotate(Vector3.up * mouseX); // Rotate the player
         }
 
@@ -353,6 +387,11 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         private void ApplyGravity()
         {
+            if (!CanPlayerMove())
+            {
+                return;
+            }
+
             velocity.y += gravity * Time.deltaTime; // Apply gravity to the velocity
             _characterController.Move(velocity * Time.deltaTime); // Move the character with gravity
             velocity = _characterController.velocity;
@@ -360,6 +399,11 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void OnMove(InputAction.CallbackContext context)
         {
+            if (!CanPlayerMove())
+            {
+                return;
+            }
+
             if (PlayerCharacterAnimator.IsAnimationBlockingInput())
             {
                 _moveVector = Vector2.zero;
@@ -369,11 +413,24 @@ namespace _Scripts.Gameplay.Player.Controller{
         }
         public void OnLook(InputAction.CallbackContext context)
         {
+            if (!CanPlayerMove())
+            {
+                return;
+            }
+
             if (PlayerCharacterAnimator.IsAnimationBlockingInput())
             {
                 _lookVector = Vector2.zero;
                 return;
             }
+            //Debug.Log("Look Vec is: " + _lookVector);
+
+            if (_isFirstMove)
+            {
+                _isFirstMove = false;
+                return;
+            }
+
             _lookVector = context.ReadValue<Vector2>();
         }
         public void OnInventory(InputAction.CallbackContext context)

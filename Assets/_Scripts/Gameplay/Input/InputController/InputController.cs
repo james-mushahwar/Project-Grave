@@ -10,6 +10,10 @@ namespace _Scripts.Gameplay.Input.InputController{
     public interface IPossess
     {
         InputController InputController { get; }
+
+        void PrePossessState();
+        void PostPossessState();
+
         bool AttemptPossess(InputController controller);
         bool AttemptUnpossess(InputController controller);
         void PossessTick();

@@ -463,4 +463,31 @@ namespace _Scripts.Org
         Vignette,
     }
     #endregion
+
+    #region ActionSequence
+
+    public enum EActionSequenceType
+    {
+
+    }
+
+    public enum EActionSequencePriority
+    {
+
+    }
+
+    public interface IActionSequence
+    {
+        bool IsPlaying();
+        bool CanPlay();
+        public ActionSequenceSettings ActionSequenceSettings { get; }
+
+        void OnStarted();
+        void OnPaused();
+        void OnCompleted();
+    }
+
+    
+
+    #endregion
 }

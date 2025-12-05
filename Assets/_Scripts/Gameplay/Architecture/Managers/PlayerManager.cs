@@ -41,15 +41,29 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     _currentPlayerController = pc;
                 }
             }
+
+            if (_currentPlayerController)
+            {
+                _currentPlayerController.PrePossessState();
+            }
         }
         // after world (level, area, zone) finished loading
-        public virtual void ManagedPostInGameLoad() { }
+        public virtual void ManagedPostInGameLoad()
+        {
+            if (_currentPlayerController)
+            {
+                _currentPlayerController.PostPossessState();
+            }
+        }
         // save states are restored
         public virtual void ManagedRestoreSave() { }
         // after save states are restored
         public virtual void ManagedPostRestoreSave() { }
         // before play begins 
-        public virtual void ManagedPrePlayGame() { }
+        public virtual void ManagedPrePlayGame()
+        {
+            
+        }
         // tick for playing game 
         public virtual void ManagedTick()
         {
