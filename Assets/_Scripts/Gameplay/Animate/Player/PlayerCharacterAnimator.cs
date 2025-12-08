@@ -298,6 +298,8 @@ namespace _Scripts.Gameplay.Animate.Player{
             CurrentAnimator.CrossFade(_state_SawingForward_Hash, 0.0f);
             CurrentAnimator.playbackTime = normalisedOffset;
             CurrentAnimator.speed = playRate;
+
+            _operatingDirection = EDirectionType.West;
             return true;
         }
 
@@ -309,6 +311,8 @@ namespace _Scripts.Gameplay.Animate.Player{
             CurrentAnimator.CrossFade(_state_SawingBackward_Hash, 0.0f);
             CurrentAnimator.playbackTime = normalisedOffset;
             CurrentAnimator.speed = playRate;
+
+            _operatingDirection = EDirectionType.East;
             return true;
         }
 
@@ -739,8 +743,20 @@ namespace _Scripts.Gameplay.Animate.Player{
             float sawDirectionFactor = (_operatingDirection == EDirectionType.East ? -1.0f : 1.0f);
 
             bool isSawing = baseLayerStateInfo.shortNameHash.Equals(_state_SawingForward_Hash) || baseLayerStateInfo.shortNameHash.Equals(_state_SawingBackward_Hash);
+            bool isSawingForward = isSawing && _operatingDirection == EDirectionType.West;
+            bool isSawingBackward = isSawing && _operatingDirection == EDirectionType.East;
+            
             if (isSawing)
             {
+                if (isSawingForward)
+                {
+
+                }
+                else if (isSawingBackward)
+                {
+
+                }
+
                 if (canSaw)
                 {
                     float sawingAmountDelta = 0.0f;
@@ -1324,7 +1340,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         public void SetOperatingDirection(EDirectionType direction)
         {
-            _operatingDirection = direction;
+            //_operatingDirection = direction;
         }
 
         public bool GetPerfectTimingActive()
