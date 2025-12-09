@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: body_001_Hi_face_mat_001_BaseMap
+  m_Name: body_001_torso_Jitter_Mat
   m_Shader: {fileID: -6465566751694194690, guid: 4b0f781415aa3a7459b35b311fc1cdad,
     type: 3}
   m_Parent: {fileID: 0}
@@ -26,15 +26,15 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: db85eb56b5814fb469eb785e9e0849c7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 323499d4ee1232c4c8346a4f62466941, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Base_Texture:
-        m_Texture: {fileID: 2800000, guid: 041559e8cae086c4eabc74ea9576fed6, type: 3}
+        m_Texture: {fileID: 2800000, guid: 323499d4ee1232c4c8346a4f62466941, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 57de3a4b7a1c24d49a3a4b6ff175266f, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -53,24 +53,40 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _InfectionTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Infection_Gradient:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Infection_Source_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: db85eb56b5814fb469eb785e9e0849c7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 323499d4ee1232c4c8346a4f62466941, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mesh_Normal_Map:
-        m_Texture: {fileID: 2800000, guid: 57de3a4b7a1c24d49a3a4b6ff175266f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9f6849522f52f32459d3715cc0167e96, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetalSmoothness:
+        m_Texture: {fileID: 2800000, guid: 3280b9171e51a3241b9660f6e1e0294c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 533132e37462efa49868aec99eeb74a1, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Noise_Texture:
-        m_Texture: {fileID: 2800000, guid: fc55c8af6f8df0c4c8143b592fc01603, type: 3}
+        m_Texture: {fileID: 2800000, guid: 10e7c81bccf528b468314ffae2d979ee, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal_Noise:
-        m_Texture: {fileID: 2800000, guid: fc55c8af6f8df0c4c8143b592fc01603, type: 3}
+        m_Texture: {fileID: 2800000, guid: 27cad7f360ea1c64d9abfa0ed6554bb1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -86,11 +102,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _VeinsTexture:
-        m_Texture: {fileID: 2800000, guid: c7ed8f6061823da4798f7d105b95f239, type: 3}
+        m_Texture: {fileID: 2800000, guid: 35509b28e9bdcab4f81a5ef8b64f4b32, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Veins_Gradient:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: cb8e1a352fadb1e489cdf59caaaa5b30, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -122,23 +138,40 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _Frame: 0
+    - _Frame: 2
     - _GlossMapScale: 1
     - _Glossiness: 0.4472136
     - _GlossyReflections: 1
+    - _Infection_1_Falloff_Shape: 2
+    - _Infection_1_SourceFalloff_Size: 1
+    - _Infection_1_Source_Size: 0.1
+    - _Infection_1_Value: 1
+    - _Infection_2_Falloff_Shape: 2
+    - _Infection_2_SourceFalloff_Size: 1
+    - _Infection_2_Source_Size: 0.1
+    - _Infection_2_Use: 0
+    - _Infection_2_Value: 0
+    - _Infection_3_Falloff_Shape: 2
+    - _Infection_3_SourceFalloff_Size: 1
+    - _Infection_3_Source_Size: 0.1
+    - _Infection_3_Use: 0
+    - _Infection_3_Value: 0
+    - _Infection_Intensity: 1
+    - _Infection_Use: 0
     - _Infection_Value_1: 0
     - _Infection_Value_2: 0
-    - _Intensity: 0.5
+    - _Intensity: 0.165
     - _Metallic: 0
     - _Mode: 0
-    - _Normal_Noise_Blend_Weight: 0.9
-    - _Normal_Noise_Scale: 1
-    - _Normal_Texture_Strength: 1
+    - _Normal_Noise_Blend_Weight: 0.077
+    - _Normal_Noise_Scale: 50
+    - _Normal_Texture_Strength: 1.011
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _Setup: 0
     - _Smoothness: 0.4472136
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -146,27 +179,30 @@ Material:
     - _SrcBlendAlpha: 1
     - _Steps: 10
     - _Surface: 0
-    - _TimeMultiplier: 0
-    - _TriPlanarPower: 1
+    - _TimeMultiplier: 0.176
+    - _TriPlanarPower: 10
     - _UVSec: 0
-    - _WPO_Displacement: 0
+    - _WPO_Displacement: -0.015
     - _WorkflowMode: 1
-    - _World_Scale: 1
+    - _World_Scale: 5
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
-    - _Base_Texture_Tint: {r: 0.5372549, g: 0.5372549, b: 0.5372549, a: 1}
+    - _Base_Texture_Tint: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
     - _Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Infection_1_Source_Point: {r: 0.23, g: 0.79, b: 0, a: 0}
+    - _Infection_2_Source_Point: {r: 0, g: 0, b: 0, a: 0}
+    - _Infection_3_Source_Point: {r: 0, g: 0, b: 0, a: 0}
     - _Main_Tint: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _UVPanning: {r: 1, g: 1, b: 0, a: 0}
+    - _UVPanning: {r: 5, g: 5, b: 0, a: 0}
     - _UV_Base_Scale: {r: 1, g: 1, b: 0, a: 0}
     - _UV_Noise_Scale: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &2739057321571360166
+--- !u!114 &7396540542323998618
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
