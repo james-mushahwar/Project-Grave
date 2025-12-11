@@ -6517,6 +6517,11 @@ PrefabInstance:
       propertyPath: _operatingTable
       value: 
       objectReference: {fileID: 1120555650}
+    - target: {fileID: 6387381253590982008, guid: d4bc4754ca38d944080872de9b9f907d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8797936349771960083, guid: d4bc4754ca38d944080872de9b9f907d,
         type: 3}
       propertyPath: m_LocalPosition.x
