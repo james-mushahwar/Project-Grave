@@ -26,6 +26,7 @@ using static UnityEngine.Rendering.DebugUI;
 using _Scripts.Gameplay.Animate.Player;
 using DG.Tweening;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
+using static SerializableDictionary;
 
 namespace _Scripts.Gameplay.Player.Controller{
 
@@ -1054,6 +1055,42 @@ namespace _Scripts.Gameplay.Player.Controller{
                 }
 
             }
+        }
+
+        public void Event_ExamineSaw_Pickup()
+        {
+            PlayerCharacterAnimator.PlayExamineSawAnimation();
+        }
+
+        public void Event_TryEquipTool(MorgueToolActor tool)
+        {
+            IStorage nextStorage = PlayerStorage.GetNextBestStorage();
+            if (nextStorage != null)
+            {
+                IStorable prevStored = nextStorage.TryRemove(null);
+                if (prevStored != null)
+                {
+                    MorgueToolActor oldTool = prevStored.GetStorableParent() as MorgueToolActor;
+                    if (oldTool != null)
+                    {
+                        ReturnOperatingToolToSlot(oldTool);
+                    }
+                }
+
+                bool stored = nextStorage.TryStore(tool);
+
+                tool.gameObject.SetActive(true);
+            }
+        }
+
+        public void Event_TryUnequipTool()
+        {
+            if (EquippedOperatingTool)
+            {
+                EquippedOperatingTool.gameObject.SetActive(false);
+                ReturnOperatingToolToSlot(EquippedOperatingTool);
+            }
+            PlayerCharacterAnimator.PlayExamineSawEndAnimation();
         }
 
         public void BeginOperatingOverview(OperatingTable opTable, BodyPartMorgueActor bodyPart)

@@ -1185,6 +1185,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &309246423 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1555677547704495696, guid: e94ca3a9fcce9af408defe6ed2bdf0d6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5231150708274757542}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e17921656f606c41abc767e731999f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &321029225
 GameObject:
   m_ObjectHideFlags: 0
@@ -3619,6 +3631,122 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1562946719
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1562946720}
+  - component: {fileID: 1562946721}
+  - component: {fileID: 1562946722}
+  m_Layer: 0
+  m_Name: TimelineDirector_PickupSaw
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1562946720
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562946719}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1634074412}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!320 &1562946721
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562946719}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: f0deddaddf6879e4c8a96b33edc0dec9, type: 2}
+  m_InitialState: 0
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 7327983131711297295, guid: f0deddaddf6879e4c8a96b33edc0dec9, type: 2}
+    value: {fileID: 1562946722}
+  m_ExposedReferences:
+    m_References: []
+--- !u!114 &1562946722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562946719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalReceiver
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 9fa641b6daa4e2f428ce3abb6b30570e, type: 2}
+    - {fileID: 11400000, guid: dc5a1543ef33c9b4a81aa99c6673d954, type: 2}
+    - {fileID: 11400000, guid: fb5dcd1743dfe9543a6dbeee191a5419, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1634074410}
+          m_TargetAssemblyTypeName: _Scripts.Gameplay.ActionSequence.TimelineActionSequence,
+            Assembly-CSharp
+          m_MethodName: Player_ExamineSaw_Pickup_Event
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1634074410}
+          m_TargetAssemblyTypeName: _Scripts.Gameplay.ActionSequence.TimelineActionSequence,
+            Assembly-CSharp
+          m_MethodName: Player_ExamineSaw_Equip_Event
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 309246423}
+            m_ObjectArgumentAssemblyTypeName: _Scripts.Gameplay.General.Morgue.Operation.Tools.MorgueToolActor,
+              Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1634074410}
+          m_TargetAssemblyTypeName: _Scripts.Gameplay.ActionSequence.TimelineActionSequence,
+            Assembly-CSharp
+          m_MethodName: Player_ExamineSaw_Unequip_Event
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1577848557
 GameObject:
   m_ObjectHideFlags: 0
@@ -3746,6 +3874,74 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 31.943, y: 0, z: 0}
+--- !u!1 &1634074409
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1634074412}
+  - component: {fileID: 1634074411}
+  - component: {fileID: 1634074410}
+  m_Layer: 0
+  m_Name: Timeline_PickupSaw
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1634074410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1634074409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a56d669340ead4d4cb82c096624df8c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.ActionSequence.TimelineActionSequence
+  _actionSequenceSettings:
+    _isCritical: 1
+    _actionSequenceType: 0
+    _actionSequencePriority: 0
+    _actionSequenceEvent: 100
+  _playableDirector: {fileID: 1562946721}
+  _runtimeId: {fileID: 1634074411}
+  _onFinishedActionSequence: 104
+  _onFinishedActionSequenceInvokeDelay: 1
+--- !u!114 &1634074411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1634074409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c326a8f33ea0544a80821936d6e98be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.General.Identification.RuntimeID
+  _defaultID: eb0d6ded-7574-4f2e-95af-ed27192a7e88
+--- !u!4 &1634074412
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1634074409}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 33.23484, y: 0.4, z: 53.56557}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1562946720}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1641968199
 GameObject:
   m_ObjectHideFlags: 0
@@ -6517,6 +6713,11 @@ PrefabInstance:
       propertyPath: _operatingTable
       value: 
       objectReference: {fileID: 1120555650}
+    - target: {fileID: 6387381253590982008, guid: d4bc4754ca38d944080872de9b9f907d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8797936349771960083, guid: d4bc4754ca38d944080872de9b9f907d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6614,5 +6815,6 @@ SceneRoots:
   - {fileID: 1767378210}
   - {fileID: 2031785085}
   - {fileID: 46908750}
+  - {fileID: 1634074412}
   - {fileID: 1359258311}
   - {fileID: 2140967885}

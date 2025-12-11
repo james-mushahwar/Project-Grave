@@ -108,6 +108,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             IActionSequence actionSeq = null;
             if (_eventActionSequences.TryGetValue(actionSeqEvent, out actionSeq))
             {
+                _previousMajorActionSequence = actionSeqEvent;
                 return actionSeq.Play();
             }
 
