@@ -31,7 +31,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         public void ManagedPostInGameLoad()
         {
-            Invoke("Debug_EnterAssistant", 5.0f);
+            //Invoke("Debug_EnterAssistant", 5.0f);
         }
 
         // tick for playing game 
