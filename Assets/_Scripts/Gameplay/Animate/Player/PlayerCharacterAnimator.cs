@@ -71,6 +71,7 @@ namespace _Scripts.Gameplay.Animate.Player{
         #region Operating
         private int _param_isSawing_Hash;
         private int _param_holdingSaw_Hash;
+        private int _param_examineSaw_Hash;
         //private int _param_sawingCutAmount_Hash; // 0 to 1
         private int _param_SawForward_Hash;
         private int _param_SawBackward_Hash;
@@ -256,6 +257,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             _param_walkSpeed_Hash           = Animator.StringToHash("walk_speed");
             _param_turnLeftRight_Hash       = Animator.StringToHash("turnLeftRight");
             _param_holdingSaw_Hash          = Animator.StringToHash("holding Saw?");
+            _param_examineSaw_Hash          = Animator.StringToHash("examine_saw");
             _param_SawForward_Hash          = Animator.StringToHash("sawing_cut_anim");
             _param_SawBackward_Hash         = Animator.StringToHash("sawing_back_anim");
             _param_isSawing_Hash            = Animator.StringToHash("isSawing?");
@@ -888,6 +890,19 @@ namespace _Scripts.Gameplay.Animate.Player{
         private void PlayAnimation()
         {
         }
+
+        public void PlayExamineSawAnimation()
+        {
+            CurrentAnimator.CrossFade(_state_ExamineSaw_Hash, 0.1f);
+            //CurrentAnimator.SetBool(_param_holdingSaw_Hash, true);
+            CurrentAnimator.SetBool(_param_examineSaw_Hash, true);
+        }
+
+        public void PlayExamineSawEndAnimation()
+        {
+            CurrentAnimator.SetBool(_param_examineSaw_Hash, false);
+        }
+
         public void PlayPickupToolAnimation()
         {
             CurrentAnimator.SetBool(_param_holdingSaw_Hash, true);

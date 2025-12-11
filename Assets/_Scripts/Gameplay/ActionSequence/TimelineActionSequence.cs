@@ -1,5 +1,6 @@
 ﻿using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Identification;
+using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Org;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -125,6 +126,22 @@ namespace _Scripts.Gameplay.ActionSequence {
             OnCompleted();
         }
 
+
+        // Scene specific actions and functions -- for cross scene comms.
+        public void Player_ExamineSaw_Pickup_Event()
+        {
+            PlayerManager.Instance.CurrentPlayerController.Event_ExamineSaw_Pickup();
+        }
+
+        public void Player_ExamineSaw_Equip_Event(MorgueToolActor tool)
+        {
+            PlayerManager.Instance.CurrentPlayerController.Event_TryEquipTool(tool);
+        }
+
+        public void Player_ExamineSaw_Unequip_Event()
+        {
+            PlayerManager.Instance.CurrentPlayerController.Event_TryUnequipTool();
+        }
     }
-    
+
 }
