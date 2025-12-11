@@ -155,6 +155,12 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
 
         public virtual bool OnInteract(IInteractor interactor = null)
         {
+            if (ActionSequenceManager.Instance.CanPlayActionSequence(EActionSequenceEvent.Day0_PickupSaw, null))
+            {
+                ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_PickupSaw);
+                return false;
+            }
+
             PlayerController pc = interactor as PlayerController;
 
             if (pc != null)

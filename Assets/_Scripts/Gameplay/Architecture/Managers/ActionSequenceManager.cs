@@ -11,7 +11,10 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         // these are the names unique events that play in the game such as cutscenes
         None = 0,
         //Day 0
-        Day0_AssistantEnters = 100,
+        Day0_PickupSaw = 100,
+        Day0_TableExits,
+        Day0_MeetReceptionist,
+        Day0_AssistantEnters,
         Day0_AssistantExits,
     }
 
@@ -19,6 +22,9 @@ namespace _Scripts.Gameplay.Architecture.Managers {
     // we must ensure anything triggered is done so safely and also ended safely, allowing player control or disabling it if necessary.
     public class ActionSequenceManager : GameManager<ActionSequenceManager>, IManager
     {
+        private EActionSequenceEvent _previousMajorActionSequence = EActionSequenceEvent.None;
+        private List<EActionSequenceEvent> _majorActionSequenceHistory;
+
         private Dictionary<RuntimeID, IActionSequence> _runtimeActionSequences = new Dictionary<RuntimeID, IActionSequence>();
 
         private Dictionary<EActionSequenceEvent, IActionSequence> _eventActionSequences = new Dictionary<EActionSequenceEvent, IActionSequence>();
@@ -83,6 +89,16 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             }
         }
 
+        public bool CanPlayActionSequence(EActionSequenceEvent seqEvent, IActionSequence actionSeq)
+        {
+            bool canPlay = true;
+            if (seqEvent == EActionSequenceEvent.Day0_PickupSaw)
+            {
+                canPlay = _previousMajorActionSequence == EActionSequenceEvent.None;
+            }
+
+            return canPlay;
+        }
         public bool TryPlayActionSequence(IActionSequence actionSeq)
         {
             return false;
@@ -96,6 +112,11 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             }
 
             return false;
+        }
+
+        private void OnActionSequenceCompleted()
+        {
+            
         }
     }
 

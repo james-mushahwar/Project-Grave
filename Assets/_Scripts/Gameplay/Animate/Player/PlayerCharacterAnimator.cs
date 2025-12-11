@@ -56,6 +56,7 @@ namespace _Scripts.Gameplay.Animate.Player{
         private int _state_SawingBackward_Hash;
         private int _state_UnequipSaw_Hash;
         private int _state_PickupSawToEmpty_Hash;
+        private int _state_ExamineSaw_Hash;
 
         //animation parameters hash
         #region Params
@@ -250,6 +251,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             _state_SawingBackward_Hash      = Animator.StringToHash("saw_back");
             _state_UnequipSaw_Hash          = Animator.StringToHash("unequip_saw");
             _state_PickupSawToEmpty_Hash    = Animator.StringToHash("equip_emptyHanded");
+            _state_ExamineSaw_Hash          = Animator.StringToHash("saw_examine");
 
             _param_walkSpeed_Hash           = Animator.StringToHash("walk_speed");
             _param_turnLeftRight_Hash       = Animator.StringToHash("turnLeftRight");

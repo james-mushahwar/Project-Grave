@@ -14,10 +14,17 @@ namespace _Scripts.Gameplay.ActionSequence {
         [SerializeField] private PlayableDirector _playableDirector;
         [SerializeField] private RuntimeID _runtimeId;
 
+        [Header("Post action sequence")]
+        [SerializeField]
+        private EActionSequenceEvent _onFinishedActionSequence;
+        [SerializeField]
+        private float _onFinishedActionSequenceInvokeDelay;
+
         private bool _isPlaying;
 
         private void Start()
         {
+            //_playableDirector.stopped += OnCompleted();
         }
 
         public bool Play()
@@ -80,6 +87,16 @@ namespace _Scripts.Gameplay.ActionSequence {
         public void OnCompleted()
         {
             _isPlaying = false;
+
+            if (_onFinishedActionSequence != EActionSequenceEvent.None)
+            {
+                Invoke("InvokeFinishedActionSequence", _onFinishedActionSequenceInvokeDelay);
+            }
+        }
+
+        private void InvokeFinishedActionSequence()
+        {
+            ActionSequenceManager.Instance.TryPlayActionSequence(_onFinishedActionSequence);
         }
 
         void OnEnable()
@@ -105,7 +122,7 @@ namespace _Scripts.Gameplay.ActionSequence {
 
         void OnPlayableDirectorStopped(PlayableDirector aDirector)
         {
-            OnPaused();
+            OnCompleted();
         }
 
     }
