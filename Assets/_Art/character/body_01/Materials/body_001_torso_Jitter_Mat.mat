@@ -189,7 +189,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
-    - _Base_Texture_Tint: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
+    - _Base_Texture_Tint: {r: 0.8000001, g: 0.8000001, b: 0.8000001, a: 1}
     - _Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Infection_1_Source_Point: {r: 0.23, g: 0.79, b: 0, a: 0}
