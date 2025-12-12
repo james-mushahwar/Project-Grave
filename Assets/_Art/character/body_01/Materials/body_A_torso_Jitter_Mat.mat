@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: body_001_torso_Jitter_Mat
+  m_Name: body_A_torso_Jitter_Mat
   m_Shader: {fileID: -6465566751694194690, guid: 4b0f781415aa3a7459b35b311fc1cdad,
     type: 3}
   m_Parent: {fileID: 0}
