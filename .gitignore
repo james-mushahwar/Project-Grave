@@ -71,3 +71,7 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Assets/_Art/tools/textures/saw_02_large_sub_saw_diff_progression_PSD.psd.meta
+Assets/_Art/World/terrain/textures/goryGround_002_PSD.psd
+Assets/_Art/World/terrain/textures/goryGround_002_PSD.psd.meta
+Assets/_Art/tools/textures/saw_02_large_sub_saw_diff_progression_PSD.psd
