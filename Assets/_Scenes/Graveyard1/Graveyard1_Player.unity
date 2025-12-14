@@ -250,7 +250,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 45
+  field of view: 46
   orthographic: 0
   orthographic size: 10
   m_Depth: 0
@@ -276,8 +276,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 313408623}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.2694807, y: -0.25401765, z: 0.083584964, w: 0.9251318}
-  m_LocalPosition: {x: 27.36261, y: 1.0089002, z: 52.166737}
+  m_LocalRotation: {x: 0, y: 0.5007874, z: 0, w: 0.8655703}
+  m_LocalPosition: {x: 29.262028, y: 1.966, z: 53.69644}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -293,6 +293,8 @@ GameObject:
   m_Component:
   - component: {fileID: 781777860}
   - component: {fileID: 781777856}
+  - component: {fileID: 781777862}
+  - component: {fileID: 781777861}
   m_Layer: 0
   m_Name: Timeline_intro_cutscene
   m_TagString: Untagged
@@ -310,7 +312,7 @@ PlayableDirector:
   m_Enabled: 1
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: d4a5b5e1ae069f246ac025a2093a53af, type: 2}
-  m_InitialState: 1
+  m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
@@ -399,6 +401,40 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &781777861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781777855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a56d669340ead4d4cb82c096624df8c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.ActionSequence.TimelineActionSequence
+  _actionSequenceSettings:
+    _isCritical: 1
+    _actionSequenceType: 0
+    _actionSequencePriority: 0
+    _actionSequenceEvent: 10000
+  _playableDirector: {fileID: 781777856}
+  _runtimeId: {fileID: 781777862}
+  _onFinishedActionSequence: 0
+  _onFinishedActionSequenceInvokeDelay: 0
+--- !u!114 &781777862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781777855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c326a8f33ea0544a80821936d6e98be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.General.Identification.RuntimeID
+  _defaultID: 450472ef-0ae7-4358-a8d4-43dcd12f0777
 --- !u!1 &825429428
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,6 +556,12 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 1234823066}
+--- !u!4 &969705984 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8635292087288501950, guid: 3f1a389a1d44aae489a05c09f579c16f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1115890637}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1115890637
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -743,6 +785,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RealPlayerCharacter_New
       objectReference: {fileID: 0}
+    - target: {fileID: 7188639273327027184, guid: 3f1a389a1d44aae489a05c09f579c16f,
+        type: 3}
+      propertyPath: _rHand._storageSpace
+      value: 
+      objectReference: {fileID: 969705984}
     - target: {fileID: 7425474763597030312, guid: 3f1a389a1d44aae489a05c09f579c16f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z

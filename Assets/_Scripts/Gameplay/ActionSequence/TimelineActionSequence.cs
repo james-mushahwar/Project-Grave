@@ -89,10 +89,13 @@ namespace _Scripts.Gameplay.ActionSequence {
         {
             _isPlaying = false;
 
+            ActionSequenceManager.Instance.OnActionSequenceCompleted(_actionSequenceSettings.ActionSequenceEvent);
+
             if (_onFinishedActionSequence != EActionSequenceEvent.None)
             {
                 Invoke("InvokeFinishedActionSequence", _onFinishedActionSequenceInvokeDelay);
             }
+
         }
 
         private void InvokeFinishedActionSequence()
@@ -110,7 +113,7 @@ namespace _Scripts.Gameplay.ActionSequence {
 
         void OnDisable()
         {
-            ActionSequenceManager.Instance.TryUnregisterActionSequence(this);
+            ActionSequenceManager.Instance?.TryUnregisterActionSequence(this);
 
             _playableDirector.played -= OnPlayableDirectorPlayed;
             _playableDirector.stopped -= OnPlayableDirectorStopped;

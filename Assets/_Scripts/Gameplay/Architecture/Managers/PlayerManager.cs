@@ -54,6 +54,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 _currentPlayerController.PostPossessState();
             }
+
+            ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.DayAny_WakeUp);
         }
         // save states are restored
         public virtual void ManagedRestoreSave() { }

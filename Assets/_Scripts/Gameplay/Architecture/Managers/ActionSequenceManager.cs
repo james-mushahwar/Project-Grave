@@ -16,6 +16,9 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         Day0_MeetReceptionist,
         Day0_AssistantEnters,
         Day0_AssistantExits,
+
+        //DayLoop - can happen multiple times any day 
+        DayAny_WakeUp = 10000,
     }
 
     // this is the manager that deals with all the animation timelines and cutscenes that can be triggered
@@ -25,9 +28,19 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         private EActionSequenceEvent _previousMajorActionSequence = EActionSequenceEvent.None;
         private List<EActionSequenceEvent> _majorActionSequenceHistory;
 
+        private List<IActionSequence> _currentMajorActionSequences = new List<IActionSequence>();
+
         private Dictionary<RuntimeID, IActionSequence> _runtimeActionSequences = new Dictionary<RuntimeID, IActionSequence>();
 
         private Dictionary<EActionSequenceEvent, IActionSequence> _eventActionSequences = new Dictionary<EActionSequenceEvent, IActionSequence>();
+
+        public bool MajorActionSequencesPlaying
+        {
+            get
+            {
+                return _currentMajorActionSequences.Count > 0;
+            }
+        }
 
         public void ManagedPostInGameLoad()
         {
@@ -94,7 +107,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             bool canPlay = true;
             if (seqEvent == EActionSequenceEvent.Day0_PickupSaw)
             {
-                canPlay = _previousMajorActionSequence == EActionSequenceEvent.None;
+                canPlay = _previousMajorActionSequence == EActionSequenceEvent.DayAny_WakeUp;
             }
 
             return canPlay;
@@ -109,15 +122,27 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             if (_eventActionSequences.TryGetValue(actionSeqEvent, out actionSeq))
             {
                 _previousMajorActionSequence = actionSeqEvent;
+                if (actionSeq.ActionSequenceSettings.IsCritical)
+                {
+                    _currentMajorActionSequences.Add(actionSeq);
+                }
                 return actionSeq.Play();
             }
 
             return false;
         }
 
-        private void OnActionSequenceCompleted()
+        public void OnActionSequenceCompleted(EActionSequenceEvent actionSeqEvent)
         {
-            
+            IActionSequence actionSeq = null;
+            if (_eventActionSequences.TryGetValue(actionSeqEvent, out actionSeq))
+            {
+                if (_currentMajorActionSequences.Contains(actionSeq))
+                {
+                    _currentMajorActionSequences.Remove(actionSeq);
+                }
+            }
+
         }
     }
 

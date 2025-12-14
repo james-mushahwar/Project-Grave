@@ -308,14 +308,15 @@ namespace _Scripts.Gameplay.Player.Controller{
             //DrawGizmos.ForArrowGizmo()
         }
 
-        public bool CanPlayerMove()
+        public bool CanPlayerCharacterMove()
         {
-            return _characterController.enabled && Application.isPlaying && Application.isFocused;
+            bool blockedByActionSequence = ActionSequenceManager.Instance.MajorActionSequencesPlaying;
+            return _characterController.enabled && Application.isPlaying && Application.isFocused && !blockedByActionSequence;
         }
 
         private void HandleMovement()
         {
-            if (!CanPlayerMove())
+            if (!CanPlayerCharacterMove())
             {
                 return;
             }
@@ -356,7 +357,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                 return;
             }
 
-            if (!CanPlayerMove())
+            if (!CanPlayerCharacterMove())
             {
                 return;
             }
@@ -388,7 +389,7 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         private void ApplyGravity()
         {
-            if (!CanPlayerMove())
+            if (!CanPlayerCharacterMove())
             {
                 return;
             }
@@ -400,7 +401,7 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (!CanPlayerMove())
+            if (!CanPlayerCharacterMove())
             {
                 return;
             }
@@ -414,7 +415,7 @@ namespace _Scripts.Gameplay.Player.Controller{
         }
         public void OnLook(InputAction.CallbackContext context)
         {
-            if (!CanPlayerMove())
+            if (!CanPlayerCharacterMove())
             {
                 return;
             }
@@ -1079,7 +1080,12 @@ namespace _Scripts.Gameplay.Player.Controller{
 
                 bool stored = nextStorage.TryStore(tool);
 
-                tool.gameObject.SetActive(true);
+                if (stored)
+                {
+                    EquippedOperatingTool = tool;
+                    tool.gameObject.SetActive(true);
+                    tool.transform.localEulerAngles = Vector3.zero;
+                }
             }
         }
 
@@ -1087,8 +1093,8 @@ namespace _Scripts.Gameplay.Player.Controller{
         {
             if (EquippedOperatingTool)
             {
-                EquippedOperatingTool.gameObject.SetActive(false);
                 ReturnOperatingToolToSlot(EquippedOperatingTool);
+                EquippedOperatingTool.gameObject.SetActive(false);
             }
             PlayerCharacterAnimator.PlayExamineSawEndAnimation();
         }
