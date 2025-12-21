@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91d3671a02747445ba57d8117b1fe1a4, type: 3}
-  m_Name: Dialogue-Intro-1-1
+  m_Name: Day0_MeetReceptionist_Dialogue
   m_EditorClassIdentifier: 
   _dialogueType: 0
   _phrases:
-  - _text: Hello, thigoipdgjnd vndslkbvn er fdj oiv jdrig a\se;lik\ser \;g org io
-      \
+  - _text: Greetings...
     _receiveInput: 0
     _isSkipable: 0
     _isAuto: 0
@@ -23,25 +22,25 @@ MonoBehaviour:
     _textSpeed: 8
     _fasterTextSpeed: 16
     _startOfPhraseWait: 0
-    _endOfPhraseWait: 0
+    _endOfPhraseWait: 0.8
     _closeTextBox: 0
-  - _text: This is a text test
+  - _text: Stay a while...
     _receiveInput: 0
     _isSkipable: 0
-    _isAuto: 0
+    _isAuto: 1
     _instantText: 0
-    _textSpeed: 1
-    _fasterTextSpeed: 2
+    _textSpeed: 8
+    _fasterTextSpeed: 16
     _startOfPhraseWait: 0
     _endOfPhraseWait: 0
     _closeTextBox: 0
-  - _text: Just checking it works
+  - _text: For eternity!
     _receiveInput: 0
     _isSkipable: 0
-    _isAuto: 0
+    _isAuto: 1
     _instantText: 0
-    _textSpeed: 1
-    _fasterTextSpeed: 2
+    _textSpeed: 8
+    _fasterTextSpeed: 16
     _startOfPhraseWait: 0
     _endOfPhraseWait: 0
-    _closeTextBox: 1
+    _closeTextBox: 0

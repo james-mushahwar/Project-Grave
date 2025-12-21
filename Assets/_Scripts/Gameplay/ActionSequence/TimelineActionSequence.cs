@@ -1,4 +1,7 @@
-﻿using _Scripts.Gameplay.Architecture.Managers;
+﻿using _Scripts._Game.Dialogue;
+using _Scripts._Game.Sequencer;
+using _Scripts._Game.Sequencer.Dialogue;
+using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Org;
@@ -14,6 +17,8 @@ namespace _Scripts.Gameplay.ActionSequence {
         [SerializeField] private ActionSequenceSettings _actionSequenceSettings;
         [SerializeField] private PlayableDirector _playableDirector;
         [SerializeField] private RuntimeID _runtimeId;
+
+        //[Header("Optional")] [SerializeField] private EDialogueType _dialogueType;
 
         [Header("Post action sequence")]
         [SerializeField]
@@ -144,6 +149,19 @@ namespace _Scripts.Gameplay.ActionSequence {
         public void Player_ExamineSaw_Unequip_Event()
         {
             PlayerManager.Instance.CurrentPlayerController.Event_TryUnequipTool();
+        }
+
+        //Dialogue events
+        public void Dialogue_StartSequenceable_Event()
+        {
+            Sequenceable seq = GetComponent<Sequenceable>();
+
+            if (seq == null)
+            {
+                return;
+            }
+
+            SequencerManager.Instance.TryRegisterSequence(seq, new SequenceSettings());
         }
     }
 

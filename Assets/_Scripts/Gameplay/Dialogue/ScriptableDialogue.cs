@@ -7,6 +7,8 @@ namespace _Scripts._Game.Dialogue{
     
     public enum EDialogueType
     {
+        Speech,
+        Narration,
         Overview,
         CharacterOverview,
         CharacterWorld,
@@ -23,8 +25,8 @@ namespace _Scripts._Game.Dialogue{
         [SerializeField] private bool _isAuto;      // does text move onto next or close automatically?
         [SerializeField] private bool _instantText; // post all text instantly
         [Header("Text speed properties")]
-        [SerializeField] private float _textSpeed = 48.0f;
-        [SerializeField] private float _fasterTextSpeed = 64.0f;
+        [SerializeField] private float _textSpeed = 8.0f;
+        [SerializeField] private float _fasterTextSpeed = 16.0f;
         [Header("Wait properties")]
         [SerializeField] private float _startOfPhraseWait = 0.5f;
         [SerializeField] private float _endOfPhraseWait = 2.0f;
@@ -45,6 +47,14 @@ namespace _Scripts._Game.Dialogue{
         public bool InstantText { get { return _instantText; } }
 
         public float TextSpeed { get { return _textSpeed; } }
+
+        public float SecondsPerChar
+        {
+            get
+            {
+                return 1 / _textSpeed;
+            }
+        }
         public float FasterTextSpeed { get { return _fasterTextSpeed; } }
         public float StartOfPhraseWait { get { return _startOfPhraseWait; } }
         public float EndOfPhraseWait { get { return _endOfPhraseWait; } }

@@ -13,7 +13,6 @@ namespace _Scripts._Game.Sequencer{
     {
         //Player
         public bool _freezePlayer = false;
-        public bool _disableDispossessEnemy = false;
 
         //General
         public bool _canAlwaysRun = false;
@@ -24,7 +23,6 @@ namespace _Scripts._Game.Sequencer{
     {
         private List<Sequenceable> _activeSequences = new List<Sequenceable>();
         private int _freezePlayerStack;
-        private int _disableDispossesActionStack;
         private Dictionary<string, SequenceSettings> _sequenceSettings = new Dictionary<string, SequenceSettings>();
 
         public bool IsSequenceActive
@@ -36,10 +34,7 @@ namespace _Scripts._Game.Sequencer{
         {
             get { return _freezePlayerStack > 0; }
         }
-        public bool DisableDispossessAction
-        {
-            get { return _disableDispossesActionStack > 0; }
-        }
+
 
         // Start is called before the first frame update
         public void ManagedPreInGameLoad()
@@ -62,10 +57,7 @@ namespace _Scripts._Game.Sequencer{
                 _freezePlayerStack = 0;
             }
 
-            if (_disableDispossesActionStack != 0)
-            {
-                _disableDispossesActionStack = 0;
-            }
+            
             _activeSequences.Clear();
             _sequenceSettings.Clear();
         }
@@ -119,10 +111,6 @@ namespace _Scripts._Game.Sequencer{
                             }
                         }
 
-                        if (settings._disableDispossessEnemy)
-                        {
-                            _disableDispossesActionStack--;
-                        }
                     }
                     _sequenceSettings.Remove(sequence.RuntimeID);
                     _activeSequences.RemoveAt(i);
@@ -146,11 +134,6 @@ namespace _Scripts._Game.Sequencer{
                     {
                         //freeze player
                     }
-                }
-
-                if (seqSettings._disableDispossessEnemy)
-                {
-                    _disableDispossesActionStack++;
                 }
 
                 _sequenceSettings.Add(runtimeID, seqSettings);
@@ -182,10 +165,6 @@ namespace _Scripts._Game.Sequencer{
                     {
                         //unfreeze player
                     }
-                }
-                if (seqSettings._disableDispossessEnemy)
-                {
-                    _disableDispossesActionStack--;
                 }
 
                 _sequenceSettings.Remove(runtimeID);

@@ -12,6 +12,7 @@ namespace _Scripts._Game.UI.Dialogue{
     
     public class TypewriterEffect : BaseWriterEffect
     {
+        [SerializeField] private float _defaultCharPerSecond;
 
         public override IEnumerator TypeText(string textToType, TMP_Text textLabel)
         {
@@ -21,7 +22,7 @@ namespace _Scripts._Game.UI.Dialogue{
 
             while (charIndex < textToType.Length)
             {
-                t += Time.deltaTime;
+                t += Time.fixedDeltaTime * _defaultCharPerSecond;
                 int newcharIndex = Mathf.FloorToInt(t);
 
                 if (newcharIndex > charIndex)
@@ -61,18 +62,25 @@ namespace _Scripts._Game.UI.Dialogue{
             {
                 while (charIndex < textToType.Length)
                 {
-                    t += Time.deltaTime * phrase.TextSpeed;
+                    t += Time.fixedDeltaTime * phrase.SecondsPerChar;
 
-                    int newcharIndex = Mathf.FloorToInt(t);
+                    //int newcharIndex = Mathf.FloorToInt(t);
 
-                    if (newcharIndex > charIndex)
-                    {
-                        charIndex = Mathf.Clamp(newcharIndex, 0, textToType.Length);
+                    //if (newcharIndex > charIndex)
+                    //{
+                    //    charIndex = Mathf.Clamp(newcharIndex, 0, textToType.Length);
 
-                        textLabel.text = textToType.Substring(0, charIndex);
-                    }
+                    //    textLabel.text = textToType.Substring(0, charIndex);
+                    //    Debug.Log(name + " text is: " + textLabel.text);
+                    //}
+                    int newcharIndex = charIndex;
+                    newcharIndex++;
+                    charIndex = Mathf.Clamp(newcharIndex, 0, textToType.Length);
 
-                    yield return null;
+                    textLabel.text = textToType.Substring(0, charIndex);
+                    Debug.Log(name + " text is: " + textLabel.text);
+
+                    yield return TaskManager.Instance.WaitForSecondsPool.Get(phrase.SecondsPerChar);
                 }
             }
 
@@ -93,6 +101,8 @@ namespace _Scripts._Game.UI.Dialogue{
             }
 
             textLabel.text = "";
+            Debug.Log(name + " text is finished");
+
         }
     }
 }

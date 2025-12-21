@@ -16,6 +16,11 @@ TagManager:
   - GlobalVolume
   - Light_Sun
   - Light_Moon
+  - UI_World
+  - UI_Overview
+  - UI_CharacterOverview
+  - UI_CharacterWorld
+  - UI_Speech
   layers:
   - Default
   - TransparentFX

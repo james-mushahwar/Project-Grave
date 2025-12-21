@@ -23,6 +23,19 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         void Start()
         {
+            GameObject speechGameObject = GameObject.FindGameObjectWithTag("UI_Speech");
+            if (speechGameObject)
+            {
+                TMP_Text speechTextBox = speechGameObject.GetComponentInChildren<TMP_Text>();
+                speechGameObject.SetActive(false);
+                _dialoguePauseCheckDict.Add(EDialogueType.Speech, false);
+                _textGameObjectDictionary.Add(EDialogueType.Speech, speechGameObject);
+                if (speechTextBox)
+                {
+                    _textBoxDictionary.Add(EDialogueType.Speech, speechTextBox);
+                }
+            }
+
             GameObject overviewGameObject = GameObject.FindGameObjectWithTag("UI_Overview");
             if (overviewGameObject)
             {
@@ -212,6 +225,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public void OnDialogueFinished()
         {
+            _textGameObjectDictionary[EDialogueType.Speech].SetActive(false);
             Debug.Log("DIALOGUE TASK FIN");
         }
 

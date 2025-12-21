@@ -276,8 +276,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 313408623}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.5007874, z: 0, w: 0.8655703}
-  m_LocalPosition: {x: 29.262028, y: 1.966, z: 53.69644}
+  m_LocalRotation: {x: -0.07092337, y: 0.703541, z: 0.07092337, w: 0.703541}
+  m_LocalPosition: {x: 47.817, y: 1.564, z: 55.476}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -295,6 +295,8 @@ GameObject:
   - component: {fileID: 781777856}
   - component: {fileID: 781777862}
   - component: {fileID: 781777861}
+  - component: {fileID: 781777864}
+  - component: {fileID: 781777863}
   m_Layer: 0
   m_Name: Timeline_intro_cutscene
   m_TagString: Untagged
@@ -323,6 +325,8 @@ PlayableDirector:
     value: {fileID: 825429428}
   - key: {fileID: -8879930984139552250, guid: d4a5b5e1ae069f246ac025a2093a53af, type: 2}
     value: {fileID: 825429431}
+  - key: {fileID: -2168821315365514864, guid: d4a5b5e1ae069f246ac025a2093a53af, type: 2}
+    value: {fileID: 781777864}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &781777857
@@ -398,7 +402,8 @@ Transform:
   m_LocalPosition: {x: 33.02154, y: 3.20391, z: 50.825}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1432960047}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &781777861
@@ -435,6 +440,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.General.Identification.RuntimeID
   _defaultID: 450472ef-0ae7-4358-a8d4-43dcd12f0777
+--- !u!114 &781777863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781777855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42985724cbfe94d50a69592d59c62786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts._Game.Sequencer.SequenceableGroup
+  _acceptInput: 0
+  _isSimultaneousGroup: 0
+  _sequenceables:
+  - {fileID: 1432960048}
+--- !u!114 &781777864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781777855}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalReceiver
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: ed9abe364a50eed44826881820e12080, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 781777861}
+          m_TargetAssemblyTypeName: _Scripts.Gameplay.ActionSequence.TimelineActionSequence,
+            Assembly-CSharp
+          m_MethodName: Dialogue_StartSequenceable_Event
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &825429428
 GameObject:
   m_ObjectHideFlags: 0
@@ -895,6 +947,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 825429429}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1432960046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1432960047}
+  - component: {fileID: 1432960049}
+  - component: {fileID: 1432960048}
+  m_Layer: 0
+  m_Name: sequenceablespeech
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1432960047
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432960046}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 781777860}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1432960048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432960046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ebec7d6423343dcb6c86ad893e69f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts._Game.Sequencer.Dialogue.TextSequenceable
+  _acceptInput: 0
+  _scriptableDialogue: {fileID: 11400000, guid: c668a027f791a2d48b63a343fd4a97d9,
+    type: 2}
+  _dialogueType: 0
+--- !u!114 &1432960049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432960046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c326a8f33ea0544a80821936d6e98be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.General.Identification.RuntimeID
+  _defaultID: 0337bc15-d156-4232-a27d-f2900a3f5190
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

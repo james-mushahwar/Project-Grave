@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts._Game.Sequencer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -37,6 +38,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField] private LightingManager _lightingManagerPrefab;
         [SerializeField] private CollectibleManager _collectibleManagerPrefab;
         [SerializeField] private ActionSequenceManager _actionSequenceManagerPrefab;
+        [SerializeField] private DialogueManager _dialogueManagerPrefab;
+        [SerializeField] private SequencerManager _sequencerManagerPrefab;
 
         EGameState _gameState = EGameState.Bootstrap;
         public EGameState GameState
@@ -104,6 +107,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _managers.Add(GameObject.Instantiate(_lightingManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_collectibleManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_actionSequenceManagerPrefab, this.transform));
+            _managers.Add(GameObject.Instantiate(_dialogueManagerPrefab, this.transform));
+            _managers.Add(GameObject.Instantiate(_sequencerManagerPrefab, this.transform));
         }
 
         void Start()
