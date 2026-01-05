@@ -179,7 +179,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _Steps: 10
     - _Surface: 0
-    - _TimeMultiplier: 0.176
+    - _TimeMultiplier: 0.75
     - _TriPlanarPower: 10
     - _UVSec: 0
     - _WPO_Displacement: -0.015
