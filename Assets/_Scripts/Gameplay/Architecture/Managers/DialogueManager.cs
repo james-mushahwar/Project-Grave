@@ -191,6 +191,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 Phrase TPhrase = (object)text as Phrase;
                 if (TPhrase != null)
                 {
+                    if (TPhrase.CharacterAnimation != null)
+                    {
+                        AnimationManager.Instance.AnimateCharacter(TPhrase.CharacterAnimation);
+                    }
+
                     returnTask = new Task(writerEffect.TypeText(TPhrase, textBox), true);
                     if (returnTask != null)
                     {

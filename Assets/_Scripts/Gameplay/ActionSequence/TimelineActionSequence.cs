@@ -5,6 +5,7 @@ using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Org;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -14,6 +15,10 @@ namespace _Scripts.Gameplay.ActionSequence {
     [RequireComponent(typeof(RuntimeID))]
     public class TimelineActionSequence : MonoBehaviour, IActionSequence
     {
+        [Header("Start options")] 
+        [SerializeField]
+        private CinemachineVirtualCamera _startTimelineCamera;
+
         [SerializeField] private ActionSequenceSettings _actionSequenceSettings;
         [SerializeField] private PlayableDirector _playableDirector;
         [SerializeField] private RuntimeID _runtimeId;
@@ -27,6 +32,7 @@ namespace _Scripts.Gameplay.ActionSequence {
         private float _onFinishedActionSequenceInvokeDelay;
 
         private bool _isPlaying;
+        private bool _isPaused;
 
         private void Start()
         {
@@ -38,6 +44,7 @@ namespace _Scripts.Gameplay.ActionSequence {
             if (CanPlay())
             {
                 _playableDirector.Play();
+                _isPaused = false;
                 return true;
             }
 
@@ -57,6 +64,13 @@ namespace _Scripts.Gameplay.ActionSequence {
 
         public bool Pause()
         {
+            if (_isPlaying)
+            {
+                _isPaused = true;
+                _playableDirector.Pause();
+                return true;
+            }
+
             return false;
         }
 
@@ -67,7 +81,7 @@ namespace _Scripts.Gameplay.ActionSequence {
 
         public bool CanPlay()
         {
-            return _isPlaying == false;
+            return _isPlaying == false || _isPaused == true;
         }
 
         public ActionSequenceSettings ActionSequenceSettings
@@ -83,6 +97,11 @@ namespace _Scripts.Gameplay.ActionSequence {
         public void OnStarted()
         {
             _isPlaying = true;
+
+            if (_startTimelineCamera)
+            {
+                _startTimelineCamera.enabled = true;
+            }
         }
 
         public void OnPaused()
@@ -94,13 +113,17 @@ namespace _Scripts.Gameplay.ActionSequence {
         {
             _isPlaying = false;
 
+            if (_startTimelineCamera)
+            {
+                _startTimelineCamera.enabled = false;
+            }
+
             ActionSequenceManager.Instance.OnActionSequenceCompleted(_actionSequenceSettings.ActionSequenceEvent);
 
             if (_onFinishedActionSequence != EActionSequenceEvent.None)
             {
                 Invoke("InvokeFinishedActionSequence", _onFinishedActionSequenceInvokeDelay);
             }
-
         }
 
         private void InvokeFinishedActionSequence()
@@ -134,6 +157,21 @@ namespace _Scripts.Gameplay.ActionSequence {
             OnCompleted();
         }
 
+        public void StartTimelineActionSequence_Event()
+        {
+            if (_startTimelineCamera)
+            {
+                _startTimelineCamera.enabled = true;
+            }
+        }
+
+        public void EndTimelineActionSequence_Event()
+        {
+            if (_startTimelineCamera)
+            {
+                _startTimelineCamera.enabled = false;
+            }
+        }
 
         // Scene specific actions and functions -- for cross scene comms.
         public void Player_ExamineSaw_Pickup_Event()
@@ -151,8 +189,16 @@ namespace _Scripts.Gameplay.ActionSequence {
             PlayerManager.Instance.CurrentPlayerController.Event_TryUnequipTool();
         }
 
+        //Receptionist
+        public void Receptionist_TurnToPlayer_Event()
+        {
+            CharacterAnimation anim = new CharacterAnimation(EMorgueCharacter.Receptionist, EMorgueCharacterAnimationType.Speech_1, true);
+
+            AnimationManager.Instance.AnimateCharacter(anim);
+        }
+
         //Dialogue events
-        public void Dialogue_StartSequenceable_Event()
+        public void Dialogue_StartSequenceable_Event(bool pause = false)
         {
             Sequenceable seq = GetComponent<Sequenceable>();
 
@@ -162,6 +208,11 @@ namespace _Scripts.Gameplay.ActionSequence {
             }
 
             SequencerManager.Instance.TryRegisterSequence(seq, new SequenceSettings());
+
+            if (pause)
+            {
+                ActionSequenceManager.Instance.TryPauseActionSequence(ActionSequenceSettings.ActionSequenceEvent, EActionSequencePauseReason.Dialogue);
+            }
         }
     }
 

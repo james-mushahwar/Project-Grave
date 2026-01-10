@@ -78,7 +78,7 @@ namespace _Scripts._Game.UI.Dialogue{
                     charIndex = Mathf.Clamp(newcharIndex, 0, textToType.Length);
 
                     textLabel.text = textToType.Substring(0, charIndex);
-                    Debug.Log(name + " text is: " + textLabel.text);
+                    //Debug.Log(name + " text is: " + textLabel.text);
 
                     yield return TaskManager.Instance.WaitForSecondsPool.Get(phrase.SecondsPerChar);
                 }

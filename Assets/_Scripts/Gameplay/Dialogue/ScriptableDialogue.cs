@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Gameplay.Architecture.Managers;
 using UnityEngine;
 
 namespace _Scripts._Game.Dialogue{
@@ -32,6 +33,12 @@ namespace _Scripts._Game.Dialogue{
         [SerializeField] private float _endOfPhraseWait = 2.0f;
         [SerializeField] private bool _closeTextBox = false;
 
+        [Header("Speech Properties - to animate character")] 
+        [SerializeField]
+        private bool _playAnimAtEnd = false; // plays at start by default
+        [SerializeField]
+        private CharacterAnimation _characterAnimation;
+
         public Phrase()
         {
             _textSpeed = 48.0f; // chars per second
@@ -59,6 +66,11 @@ namespace _Scripts._Game.Dialogue{
         public float StartOfPhraseWait { get { return _startOfPhraseWait; } }
         public float EndOfPhraseWait { get { return _endOfPhraseWait; } }
         public bool CloseTextBox { get { return _closeTextBox; } }
+
+        public CharacterAnimation CharacterAnimation
+        {
+            get { return _characterAnimation; }
+        }
     }
 
     [CreateAssetMenu(menuName = "Dialogue/Dialogue")]

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Identification;
 using UnityEngine;
 
@@ -19,6 +20,9 @@ namespace _Scripts._Game.Sequencer{
         private RuntimeID _runtimeID;
         public override string RuntimeID => _runtimeID.RuntimeId;
 
+        [SerializeField] 
+        private EActionSequencePauseReason _onFinished_TryPauseReason;
+
         private void Awake()
         {
             _runtimeID = GetComponent<RuntimeID>();
@@ -34,6 +38,11 @@ namespace _Scripts._Game.Sequencer{
         {
             _isStarted = false;
             _sequenceIndex = 0;
+
+            if (_onFinished_TryPauseReason != EActionSequencePauseReason.None)
+            {
+                ActionSequenceManager.Instance.TryUnpauseActionSequence(_onFinished_TryPauseReason);
+            }
         }
 
         public override void Tick()
