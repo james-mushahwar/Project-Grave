@@ -191,7 +191,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 Phrase TPhrase = (object)text as Phrase;
                 if (TPhrase != null)
                 {
-                    if (TPhrase.CharacterAnimation != null)
+                    if (TPhrase.PlayAnimAtEnd == false && TPhrase.CharacterAnimation != null)
                     {
                         AnimationManager.Instance.AnimateCharacter(TPhrase.CharacterAnimation);
                     }

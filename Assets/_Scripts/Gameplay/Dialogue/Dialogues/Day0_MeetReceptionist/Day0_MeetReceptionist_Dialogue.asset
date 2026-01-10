@@ -72,5 +72,5 @@ MonoBehaviour:
     _playAnimAtEnd: 0
     _characterAnimation:
       _character: 2
-      _animationType: 1
+      _animationType: 0
       _loop: 0

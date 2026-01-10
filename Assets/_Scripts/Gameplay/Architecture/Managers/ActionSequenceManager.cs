@@ -162,8 +162,11 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             IActionSequence actionSeq = null;
             if (_actionSequencePauseDictionary.TryGetValue(pauseReason, out actionSeq))
             {
-                _actionSequencePauseDictionary[pauseReason] = null;
-                return actionSeq.Play();
+                if (actionSeq != null)
+                {
+                    _actionSequencePauseDictionary[pauseReason] = null;
+                    return actionSeq.Play();
+                }
             }
 
             return false;

@@ -67,10 +67,15 @@ namespace _Scripts._Game.Dialogue{
         public float EndOfPhraseWait { get { return _endOfPhraseWait; } }
         public bool CloseTextBox { get { return _closeTextBox; } }
 
+        public bool PlayAnimAtEnd
+        {
+            get { return _playAnimAtEnd; }
+        }
         public CharacterAnimation CharacterAnimation
         {
             get { return _characterAnimation; }
         }
+
     }
 
     [CreateAssetMenu(menuName = "Dialogue/Dialogue")]
