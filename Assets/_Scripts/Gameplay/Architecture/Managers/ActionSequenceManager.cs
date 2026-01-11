@@ -121,6 +121,10 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             {
                 canPlay = _previousMajorActionSequence == EActionSequenceEvent.Day0_PickupSaw;
             }
+            else if (seqEvent == EActionSequenceEvent.Day0_AssistantEnters)
+            {
+                canPlay = _previousMajorActionSequence == EActionSequenceEvent.Day0_MeetReceptionist;
+            }
 
             return canPlay;
         }
@@ -133,12 +137,15 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             IActionSequence actionSeq = null;
             if (_eventActionSequences.TryGetValue(actionSeqEvent, out actionSeq))
             {
-                if (actionSeq.ActionSequenceSettings.IsCritical)
+                if (CanPlayActionSequence(actionSeqEvent, actionSeq))
                 {
-                    _previousMajorActionSequence = actionSeqEvent;
-                    _currentMajorActionSequences.Add(actionSeq);
+                    if (actionSeq.ActionSequenceSettings.IsCritical)
+                    {
+                        _previousMajorActionSequence = actionSeqEvent;
+                        _currentMajorActionSequences.Add(actionSeq);
+                    }
+                    return actionSeq.Play();
                 }
-                return actionSeq.Play();
             }
 
             return false;

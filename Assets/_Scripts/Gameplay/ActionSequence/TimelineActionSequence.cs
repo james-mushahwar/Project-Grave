@@ -197,6 +197,19 @@ namespace _Scripts.Gameplay.ActionSequence {
             AnimationManager.Instance.AnimateCharacter(anim);
         }
 
+        public void Receptionist_TurnFromPlayer_Event()
+        {
+            CharacterAnimation anim = new CharacterAnimation(EMorgueCharacter.Receptionist, EMorgueCharacterAnimationType.None, true);
+
+            AnimationManager.Instance.AnimateCharacter(anim);
+        }
+
+        //Asistant
+        public void Assistant_EnterWithBody_Event()
+        {
+            MorgueManager.Instance.Debug_SpawnMorgueActor();
+        }
+
         //Dialogue events
         public void Dialogue_StartSequenceable_Event(bool pause = false)
         {

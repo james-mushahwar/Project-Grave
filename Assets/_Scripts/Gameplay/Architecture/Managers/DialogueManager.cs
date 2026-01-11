@@ -28,7 +28,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 TMP_Text speechTextBox = speechGameObject.GetComponentInChildren<TMP_Text>();
                 speechGameObject.SetActive(false);
-                _dialoguePauseCheckDict.Add(EDialogueType.Speech, false);
+                _dialoguePauseCheckDict.Add(EDialogueType.Speech, true);
                 _textGameObjectDictionary.Add(EDialogueType.Speech, speechGameObject);
                 if (speechTextBox)
                 {

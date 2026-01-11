@@ -71,6 +71,6 @@ MonoBehaviour:
     _closeTextBox: 1
     _playAnimAtEnd: 0
     _characterAnimation:
-      _character: 2
+      _character: 0
       _animationType: 0
       _loop: 0
