@@ -14,33 +14,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dialogueType: 0
   _phrases:
-  - _text: Greetings...
-    _receiveInput: 0
-    _isSkipable: 0
-    _isAuto: 0
-    _instantText: 0
-    _textSpeed: 8
-    _fasterTextSpeed: 16
-    _startOfPhraseWait: 0
-    _endOfPhraseWait: 0.8
-    _closeTextBox: 0
-  - _text: Stay a while...
+  - _text: Welcome! Welcome! I see you have your saw!
     _receiveInput: 0
     _isSkipable: 0
     _isAuto: 1
     _instantText: 0
-    _textSpeed: 8
+    _textSpeed: 50
     _fasterTextSpeed: 16
-    _startOfPhraseWait: 0
-    _endOfPhraseWait: 0
+    _startOfPhraseWait: 0.25
+    _endOfPhraseWait: 1
     _closeTextBox: 0
-  - _text: For eternity!
+    _playAnimAtEnd: 0
+    _characterAnimation:
+      _character: 2
+      _animationType: 1
+      _loop: 0
+  - _text: There's work to be done... and so much more!
     _receiveInput: 0
     _isSkipable: 0
     _isAuto: 1
     _instantText: 0
-    _textSpeed: 8
+    _textSpeed: 50
     _fasterTextSpeed: 16
-    _startOfPhraseWait: 0
-    _endOfPhraseWait: 0
+    _startOfPhraseWait: 0.1
+    _endOfPhraseWait: 1
     _closeTextBox: 0
+    _playAnimAtEnd: 0
+    _characterAnimation:
+      _character: 2
+      _animationType: 1
+      _loop: 0
+  - _text: There's no time to slack and stand about.
+    _receiveInput: 0
+    _isSkipable: 0
+    _isAuto: 1
+    _instantText: 0
+    _textSpeed: 50
+    _fasterTextSpeed: 16
+    _startOfPhraseWait: 0.1
+    _endOfPhraseWait: 1
+    _closeTextBox: 0
+    _playAnimAtEnd: 0
+    _characterAnimation:
+      _character: 2
+      _animationType: 1
+      _loop: 0
+  - _text: Let's just say, you've really got your work... cut out!
+    _receiveInput: 0
+    _isSkipable: 0
+    _isAuto: 1
+    _instantText: 0
+    _textSpeed: 50
+    _fasterTextSpeed: 16
+    _startOfPhraseWait: 0.1
+    _endOfPhraseWait: 1.5
+    _closeTextBox: 1
+    _playAnimAtEnd: 0
+    _characterAnimation:
+      _character: 0
+      _animationType: 0
+      _loop: 0

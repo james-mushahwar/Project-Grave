@@ -21,6 +21,12 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         DayAny_WakeUp = 10000,
     }
 
+    public enum EActionSequencePauseReason : uint
+    {
+        None = 0,
+        Dialogue,
+    }
+
     // this is the manager that deals with all the animation timelines and cutscenes that can be triggered
     // we must ensure anything triggered is done so safely and also ended safely, allowing player control or disabling it if necessary.
     public class ActionSequenceManager : GameManager<ActionSequenceManager>, IManager
@@ -33,6 +39,8 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         private Dictionary<RuntimeID, IActionSequence> _runtimeActionSequences = new Dictionary<RuntimeID, IActionSequence>();
 
         private Dictionary<EActionSequenceEvent, IActionSequence> _eventActionSequences = new Dictionary<EActionSequenceEvent, IActionSequence>();
+
+        private Dictionary<EActionSequencePauseReason, IActionSequence> _actionSequencePauseDictionary = new Dictionary<EActionSequencePauseReason, IActionSequence>();
 
         public bool MajorActionSequencesPlaying
         {
@@ -113,6 +121,10 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             {
                 canPlay = _previousMajorActionSequence == EActionSequenceEvent.Day0_PickupSaw;
             }
+            else if (seqEvent == EActionSequenceEvent.Day0_AssistantEnters)
+            {
+                canPlay = _previousMajorActionSequence == EActionSequenceEvent.Day0_MeetReceptionist;
+            }
 
             return canPlay;
         }
@@ -125,12 +137,43 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             IActionSequence actionSeq = null;
             if (_eventActionSequences.TryGetValue(actionSeqEvent, out actionSeq))
             {
-                if (actionSeq.ActionSequenceSettings.IsCritical)
+                if (CanPlayActionSequence(actionSeqEvent, actionSeq))
                 {
-                    _previousMajorActionSequence = actionSeqEvent;
-                    _currentMajorActionSequences.Add(actionSeq);
+                    if (actionSeq.ActionSequenceSettings.IsCritical)
+                    {
+                        _previousMajorActionSequence = actionSeqEvent;
+                        _currentMajorActionSequences.Add(actionSeq);
+                    }
+                    return actionSeq.Play();
                 }
-                return actionSeq.Play();
+            }
+
+            return false;
+        }
+
+        public bool TryPauseActionSequence(EActionSequenceEvent actionSeqEvent, EActionSequencePauseReason pauseReason)
+        {
+            IActionSequence actionSeq = null;
+            if (_eventActionSequences.TryGetValue(actionSeqEvent, out actionSeq))
+            {
+                _actionSequencePauseDictionary.TryAdd(pauseReason, actionSeq);
+
+                return actionSeq.Pause();
+            }
+
+            return false;
+        }
+
+        public bool TryUnpauseActionSequence(EActionSequencePauseReason pauseReason)
+        {
+            IActionSequence actionSeq = null;
+            if (_actionSequencePauseDictionary.TryGetValue(pauseReason, out actionSeq))
+            {
+                if (actionSeq != null)
+                {
+                    _actionSequencePauseDictionary[pauseReason] = null;
+                    return actionSeq.Play();
+                }
             }
 
             return false;
@@ -147,6 +190,17 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 }
             }
 
+        }
+
+        public bool IsActionSequencePausedForReason(EActionSequencePauseReason pauseReason)
+        {
+            IActionSequence actionSeq = null;
+            if (_actionSequencePauseDictionary.TryGetValue(pauseReason, out actionSeq))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 

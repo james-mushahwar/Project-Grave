@@ -250,7 +250,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 {
                     activate = ActivateVirtualCamera(vCam);
                 }
-                else
+                else if (ActionSequenceManager.Instance.MajorActionSequencesPlaying == false)
                 {
                     activate = ActivateVirtualCamera(id, vCamType);
                 }

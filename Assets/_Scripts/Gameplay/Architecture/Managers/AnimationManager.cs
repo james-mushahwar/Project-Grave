@@ -1,10 +1,12 @@
-﻿using _Scripts.Gameplay.Animate;
+﻿using System;
+using _Scripts.Gameplay.Animate;
 using _Scripts.Gameplay.Animate.Player;
 using _Scripts.Gameplay.General.Morgue.Bodies;
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using _Scripts.Gameplay.Animate.Receptionist;
 using _Scripts.Gameplay.Player.Controller;
 using UnityEngine;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
@@ -20,6 +22,64 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         COUNT
     }
 
+    public enum EMorgueCharacter
+    {
+        None = 0,
+        MainCharacter,
+        Receptionist,
+    }
+
+    public enum EMorgueCharacterAnimationType
+    {
+        None = 0,
+
+        //Speech
+        Speech_1 = 1,
+        Speech_2,
+        Speech_3,
+
+        //Gestures
+        Point_1 = 10,
+    }
+
+    public interface ICharacterAnimator
+    {
+        public bool TryPlayAnimation(EMorgueCharacterAnimationType animType, bool loop);
+    }
+
+    [Serializable]
+    public class CharacterAnimation
+    {
+        [SerializeField] private EMorgueCharacter _character;
+        [SerializeField] private EMorgueCharacterAnimationType _animationType;
+        [SerializeField] private bool _loop;
+
+        public EMorgueCharacter Character
+        {
+            get { return _character; }
+        }
+
+        public EMorgueCharacterAnimationType AnimationType
+        {
+            get { return _animationType; }
+        }
+
+        public bool Loop
+        {
+            get { return _loop; }
+        }
+
+        public CharacterAnimation()
+        {
+
+        }
+
+        public CharacterAnimation(EMorgueCharacter character, EMorgueCharacterAnimationType animType, bool loop)
+        {
+            _character = character; _animationType = animType; _loop = loop; 
+        }
+    }
+
     public class AnimationManager : GameManager<AnimationManager>, IManager
     {
         #region Animation
@@ -30,6 +90,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         #region Animators
         private PlayerCharacterAnimator _playerCharacterAnimator;
+        private ReceptionistAnimator _receptionistAnimator;
         #endregion
 
         #region Stopmotion
@@ -60,6 +121,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 _playerCharacterAnimator = FindFirstObjectByType<PlayerCharacterAnimator>();
             }
+
+            _receptionistAnimator = FindFirstObjectByType<ReceptionistAnimator>();
 
             Setup();
         }
@@ -126,6 +189,17 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 _playerCharacterAnimator.CurrentAnimator.transform.SetParent(playerCharHolder);
                 _playerCharacterAnimator.CurrentAnimator.transform.localPosition = Vector3.zero;
                 _playerCharacterAnimator.CurrentAnimator.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            }
+        }
+
+        public void AnimateCharacter(CharacterAnimation characterAnimation)
+        {
+            EMorgueCharacter character = characterAnimation.Character;
+            EMorgueCharacterAnimationType characterAnimType = characterAnimation.AnimationType;
+
+            if (character == EMorgueCharacter.Receptionist)
+            {
+                _receptionistAnimator.TryPlayAnimation(characterAnimType, characterAnimation.Loop);
             }
         }
 

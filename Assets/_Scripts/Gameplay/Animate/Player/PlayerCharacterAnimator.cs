@@ -24,7 +24,7 @@ using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
 
 namespace _Scripts.Gameplay.Animate.Player{
     
-    public class PlayerCharacterAnimator : MonoBehaviour, IManaged
+    public class PlayerCharacterAnimator : MonoBehaviour, IManaged, ICharacterAnimator
     {
         [SerializeField]
         private Animator _normalAnimator;
@@ -1411,6 +1411,11 @@ namespace _Scripts.Gameplay.Animate.Player{
             return false;
         }
         #endregion
+
+        public bool TryPlayAnimation(EMorgueCharacterAnimationType animType, bool loop)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
 }
