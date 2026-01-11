@@ -19,8 +19,6 @@ namespace _Scripts.Editor {
         [SerializeField]
         private List<SceneAsset> _allLightingScenes;
 
-
-
         public void drawUIButtons()
         {
             if (GUILayout.Button("Load Player Scenes (Additive)"))
