@@ -8,6 +8,7 @@ using UnityEngine;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationSite;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Gameplay.General.Morgue.Operation.Indicator;
+using _Scripts.Gameplay.General.Morgue;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
     
@@ -17,6 +18,22 @@ namespace _Scripts.Gameplay.Architecture.Managers{
     {
         [SerializeField]
         private OperationIndicator _dismemberIndicator;
+
+        private OperatingTable _operatingTable;
+
+        public OperatingTable OperatingTable { get { return _operatingTable; } }
+        public BodyMorgueActor BodyOnTable
+        {
+            get
+            {
+                if (OperatingTable == null)
+                {
+                    return null;
+                }
+
+                return OperatingTable.GetBody();
+            }
+        }
 
         public OperationIndicator CurrentOpIndicator
         {
@@ -86,7 +103,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // before world (level, area, zone) starts loading
         public virtual void ManagedPreInGameLoad() { }
         // after world (level, area, zone) finished loading
-        public virtual void ManagedPostInGameLoad() { }
+        public virtual void ManagedPostInGameLoad() 
+        {
+            _operatingTable = GameObject.FindAnyObjectByType<OperatingTable>();
+        }
         // save states are restored
         public virtual void ManagedRestoreSave() { }
         // after save states are restored

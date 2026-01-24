@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using _Scripts.CautionaryTalesScripts;
+using _Scripts.Gameplay.Animate.JitterAnimation;
 using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
@@ -49,6 +50,13 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         [SerializeField] private SkinnedMeshRenderer _rLegSkinnedMesh;
         [SerializeField] private SkinnedMeshRenderer _lLegSkinnedMesh;
         [SerializeField] private SkinnedMeshRenderer _torsoSkinnedMesh;
+
+        [SerializeField] private JitterBehaviour _headJitter;
+        [SerializeField] private JitterBehaviour _torsoJitter;
+        [SerializeField] private JitterBehaviour _lArmJitter;
+        [SerializeField] private JitterBehaviour _rArmJitter;
+        [SerializeField] private JitterBehaviour _lLegJitter;
+        [SerializeField] private JitterBehaviour _rLegJitter;
 
         [SerializeField]
         private GameObject _bodyGeometryGO;
@@ -391,6 +399,27 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         {
             _bodyAnimator.PlayAnimation(_endOperation_AnimName, 1.0f, 0.0f, true);
         }
+
+        #region Jitter
+        public void SetBodPartJitter(EMorgueBodyPart bodyPart, EJitteryType jitterType)
+        {
+            JitterBehaviour jitterBehaviour = null;
+
+            switch (bodyPart) 
+            { 
+                case EMorgueBodyPart.RArm:
+                    jitterBehaviour = _rArmJitter;
+                    break;
+                default:
+                    break;
+            }
+
+            if (jitterBehaviour)
+            {
+                jitterBehaviour.SetJitter(jitterType);
+            }
+        }
+        #endregion
     }
-    
+
 }

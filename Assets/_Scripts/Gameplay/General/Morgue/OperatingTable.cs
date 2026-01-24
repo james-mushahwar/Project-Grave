@@ -177,6 +177,16 @@ namespace _Scripts.Gameplay.General.Morgue{
             return _tableStorageSlot.IsFull();
         }
 
+        public BodyMorgueActor GetBody()
+        {
+            if (IsFull())
+            {
+                return (BodyMorgueActor)_tableStorageSlot.Storable;
+            }
+
+            return null;
+        }
+
         //private int GetStoredCount()
         //{
         //    int storedCount = 0;

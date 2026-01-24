@@ -1,0 +1,70 @@
+﻿using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.Settings;
+using NUnit.Framework;
+using System.Collections.Generic;
+using UnityEngine;
+using static _Scripts.Gameplay.Settings.SO_JitterPresets;
+
+namespace _Scripts.Gameplay.Animate.JitterAnimation {
+    
+    public class JitterBehaviour : MonoBehaviour
+    {
+        [SerializeField]
+        private List<Renderer> _jitterRenderer;
+        private List<Material> _jitterMaterials = new List<Material>();
+
+        void Start()
+        {
+            //LoadMaterials();
+            SetDefaultJitter();
+        }
+
+        public void SetJitter(EJitteryType jitterType)
+        {
+            if (_jitterMaterials.Count == 0)
+            {
+                LoadMaterials();
+            }    
+
+            JitterPreset jitterPreset = new JitterPreset();
+
+            if (AnimationManager.Instance.GetJitter(jitterType, out jitterPreset) != jitterType)
+            {
+                return;
+            }
+
+            for (int i = 0; i < _jitterMaterials.Count; i++)
+            {
+                Material mat = _jitterMaterials[i];
+
+                if (mat == null)
+                {
+                    continue;
+                }
+
+                mat.SetFloat("_Steps", jitterPreset.Steps); 
+                mat.SetFloat("_Frame", jitterPreset.Frame); 
+                mat.SetFloat("_TimeMultiplier", jitterPreset.TimeMultiplier); 
+            }
+        }
+
+        private void LoadMaterials()
+        {
+            _jitterMaterials = new List<Material>();
+            foreach (Renderer r in _jitterRenderer)
+            {
+                foreach (Material mat in r.materials)
+                {
+                    _jitterMaterials.Add(mat);
+                }
+            }
+        }
+
+        [ContextMenu("Set Default Jitter")]
+        private void SetDefaultJitter()
+        {
+            SetJitter(EJitteryType.Standard);
+        }
+    }
+    
+}

@@ -12,6 +12,8 @@ using UnityEngine;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using MoreMountains.Feedbacks;
 using DG.Tweening;
+using _Scripts.Gameplay.Settings;
+using static _Scripts.Gameplay.Settings.SO_JitterPresets;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -42,10 +44,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         Point_1 = 10,
     }
 
-    public enum EJitteryType : uint
+    public enum EJitteryType : int
     {
-        None,
-        Standard,
+        None = -1,
+
+        Standard = 0,
         ItemOfInterest,
         Focus,
     }
@@ -110,6 +113,13 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField] private AnimationSettingsScriptable _animSettingsSO;
         #endregion
 
+        #region Jitter
+        [SerializeField]
+        private SO_JitterPresets _jitterPreset;
+
+        private Dictionary<EJitteryType, JitterPreset> _jitterPresetDict = new Dictionary<EJitteryType, JitterPreset>();
+        #endregion
+
         public Animation GetMorgueAnimTypeAnimation(EMorgueAnimType animType)
         {
             return _morgueAnimTypeAnimationDictionary[animType];
@@ -131,6 +141,17 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
 
             _receptionistAnimator = FindFirstObjectByType<ReceptionistAnimator>();
+
+            JitterPreset noneJitter = new JitterPreset();
+            noneJitter.Frame = 1;
+            noneJitter.Steps = 1;
+            noneJitter.TimeMultiplier = 0.0f;
+            _jitterPresetDict.Add(EJitteryType.None, noneJitter);
+
+            for (int i = 0; i < _jitterPreset.JitterPresets.Count; i++)
+            {
+                _jitterPresetDict.Add((EJitteryType)i, _jitterPreset.JitterPresets[i]);
+            }
 
             Setup();
         }
@@ -218,7 +239,19 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         }
         #endregion
 
+        #region Jitter
 
+        public EJitteryType GetJitter(EJitteryType jitteryType, out JitterPreset jitterPreset)
+        {
+            EJitteryType chosenJitterType = EJitteryType.None;
+
+            if (_jitterPresetDict.TryGetValue(jitteryType, out jitterPreset))
+            {
+                chosenJitterType = jitteryType;
+            }
+            return chosenJitterType;
+        }
+        #endregion
     }
 
 }

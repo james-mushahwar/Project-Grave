@@ -3,6 +3,7 @@ using _Scripts._Game.Sequencer;
 using _Scripts._Game.Sequencer.Dialogue;
 using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Identification;
+using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Org;
 using Cinemachine;
@@ -227,6 +228,47 @@ namespace _Scripts.Gameplay.ActionSequence {
                 ActionSequenceManager.Instance.TryPauseActionSequence(ActionSequenceSettings.ActionSequenceEvent, EActionSequencePauseReason.Dialogue);
             }
         }
+
+        //Operation
+        public void Operation_BodyPartJitter_Head_Standard() { }
+        public void Operation_BodyPartJitter_Head_Interest() { }
+        public void Operation_BodyPartJitter_Head_Focus() { }
+
+        public void Operation_BodyPartJitter_Torso_Standard() { }
+        public void Operation_BodyPartJitter_Torso_Interest() { }
+        public void Operation_BodyPartJitter_Torso_Focus() { }
+
+        public void Operation_BodyPartJitter_RArm_Standard() 
+        {
+            BodyMorgueActor body = OperationManager.Instance.BodyOnTable;
+
+            if (body)
+            {
+                body.SetBodPartJitter(EMorgueBodyPart.RArm, EJitteryType.Standard);
+            }
+        }
+        public void Operation_BodyPartJitter_RArm_Interest()
+        {
+            BodyMorgueActor body = OperationManager.Instance.BodyOnTable;
+
+            if (body)
+            {
+                body.SetBodPartJitter(EMorgueBodyPart.RArm, EJitteryType.ItemOfInterest);
+            }
+        }
+        public void Operation_BodyPartJitter_RArm_Focus()
+        {
+            BodyMorgueActor body = OperationManager.Instance.BodyOnTable;
+
+            if (body)
+            {
+                body.SetBodPartJitter(EMorgueBodyPart.RArm, EJitteryType.Focus);
+            }
+        }
+
+        public void Operation_BodyPartJitter_LArm(EJitteryType jitterType) { }
+        public void Operation_BodyPartJitter_LLeg(EJitteryType jitterType) { }
+        public void Operation_BodyPartJitter_RLeg(EJitteryType jitterType) { }
     }
 
 }
