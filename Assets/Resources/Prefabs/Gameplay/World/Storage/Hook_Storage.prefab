@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 8664812732357557477}
   - component: {fileID: 7048917469614803576}
   - component: {fileID: 778513791115918106}
-  - component: {fileID: 5720768684272803538}
   - component: {fileID: 7084565295668997782}
-  - component: {fileID: 3464310048115326867}
+  - component: {fileID: 2227558247419566458}
+  - component: {fileID: 5903236498026467882}
   m_Layer: 7
   m_Name: Hook_Storage
   m_TagString: Untagged
@@ -94,29 +94,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1471873117835692111}
-  m_Mesh: {fileID: 0}
---- !u!64 &5720768684272803538
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1471873117835692111}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 6099800089077584851, guid: a41443f5835949c428c6cfffe6c0ee84, type: 3}
 --- !u!114 &7084565295668997782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,7 +111,7 @@ MonoBehaviour:
     _storableSize: 20
     _storableTypeFilter: 
     _storageSpace: {fileID: 1848669494717236261}
---- !u!114 &3464310048115326867
+--- !u!114 &2227558247419566458
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,32 +120,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 1471873117835692111}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8233d90336aea43098adf6dbabd606a2, type: 3}
+  m_Script: {fileID: 11500000, guid: 7cc03590fcd466d4790bb5c9793e6e91, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.ProBuilderMesh
-  m_MeshFormatVersion: 0
-  m_Faces: []
-  m_SharedVertices: []
-  m_SharedTextures: []
-  m_Positions: []
-  m_Textures0: []
-  m_Textures2: []
-  m_Textures3: []
-  m_Tangents: []
-  m_Colors: []
-  m_UnwrapParameters:
-    m_HardAngle: 88
-    m_PackMargin: 20
-    m_AngleError: 8
-    m_AreaError: 15
-  m_PreserveMeshAssetOnDestroy: 0
-  assetGuid: 
-  m_Mesh: {fileID: 0}
-  m_VersionIndex: 0
-  m_IsSelectable: 1
-  m_SelectedFaces: 
-  m_SelectedEdges: []
-  m_SelectedVertices: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Animate.JitterAnimation.JitterBehaviour
+  _jitterRenderer:
+  - {fileID: 7048917469614803576}
+--- !u!65 &5903236498026467882
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471873117835692111}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.55, y: 1.6139915, z: 0.26}
+  m_Center: {x: -0.11, y: -0.46815065, z: -0.000000018623044}
 --- !u!1 &1982558027233592966
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +171,7 @@ Transform:
   m_GameObject: {fileID: 1982558027233592966}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.404, y: 0.338, z: 0.694}
+  m_LocalPosition: {x: -0.255, y: -0.999, z: -0.002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -261,6 +239,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: meatHook_staticMesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a41443f5835949c428c6cfffe6c0ee84,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
