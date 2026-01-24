@@ -42,6 +42,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         Point_1 = 10,
     }
 
+    public enum EJitteryType : uint
+    {
+        None,
+        Standard,
+        ItemOfInterest,
+        Focus,
+    }
+
     public interface ICharacterAnimator
     {
         public bool TryPlayAnimation(EMorgueCharacterAnimationType animType, bool loop);
