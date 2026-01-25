@@ -225,6 +225,13 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             return tool;
         }
+
+        public T IsCarrying<T>() where T : class, IStorable
+        {
+            T carried = _hands.GetStorable<T>();
+
+            return carried;
+        }    
     }
     
 }

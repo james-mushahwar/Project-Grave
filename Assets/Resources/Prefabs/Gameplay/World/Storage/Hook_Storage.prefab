@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1833810152192036645, guid: a41443f5835949c428c6cfffe6c0ee84, type: 3}
+  - {fileID: 2100000, guid: 0e2ef9ae988459743940398734d250c9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,6 +111,8 @@ MonoBehaviour:
     _storableSize: 20
     _storableTypeFilter: 
     _storageSpace: {fileID: 1848669494717236261}
+  _jitterBehaviour: {fileID: 2227558247419566458}
+  _updateJitter: 1
 --- !u!114 &2227558247419566458
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,17 +8,17 @@ namespace _Scripts.Gameplay.General.Morgue.Storage{
     
     public class CoatStorage : MorgueStorage
     {
-        [SerializeField] private MorgueToolActor _operatingTool;
+        //[SerializeField] private MorgueToolActor _operatingTool;
         public MorgueToolActor OperatingTool
         {
-            get { return _operatingTool; }
+            get { return GetStorable<MorgueToolActor>(); }
         }
 
         public override void Setup()
         {
             base.Setup();
 
-            _singleSlot.TryStore(_operatingTool);
+            //_singleSlot.TryStore(_operatingTool);
         }
 
         public override bool IsInteractable(IInteractor interactor = null)

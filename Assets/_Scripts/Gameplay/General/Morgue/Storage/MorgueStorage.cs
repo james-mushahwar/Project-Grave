@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Gameplay.Animate.JitterAnimation;
 using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
 using UnityEngine;
@@ -10,6 +12,10 @@ namespace _Scripts.Gameplay.General.Morgue.Storage{
     public class MorgueStorage : MorgueActor, IStorage, IInteractable
     {
         [SerializeField] protected FStorageSlot _singleSlot;
+
+        [SerializeField] protected JitterBehaviour _jitterBehaviour;
+
+        [SerializeField] protected bool _updateJitter;
 
         public FStorageSlot StorageSlot
         {
@@ -38,6 +44,26 @@ namespace _Scripts.Gameplay.General.Morgue.Storage{
 
         public override void Tick()
         {
+            if (_updateJitter)
+            {
+                EJitteryType jitterType = EJitteryType.Standard;
+
+                if (IsFull() == false)
+                {
+                    PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+
+                    if (pc)
+                    {
+                        if (pc.PlayerStorage.IsCarrying<BodyPartMorgueActor>() != null)
+                        {
+                            jitterType = EJitteryType.ItemOfInterest;
+                        }
+                    }
+                }
+
+                _jitterBehaviour.SetJitter(jitterType);
+            }
+            
         }
 
         //IStorage

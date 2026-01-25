@@ -13,6 +13,8 @@ namespace _Scripts.Gameplay.Animate.JitterAnimation {
         private List<Renderer> _jitterRenderer;
         private List<Material> _jitterMaterials = new List<Material>();
 
+        private EJitteryType _currentJitter = EJitteryType.None;
+
         void Start()
         {
             //LoadMaterials();
@@ -25,6 +27,11 @@ namespace _Scripts.Gameplay.Animate.JitterAnimation {
             {
                 LoadMaterials();
             }    
+
+            if (_currentJitter == jitterType)
+            {
+                return;
+            }
 
             JitterPreset jitterPreset = new JitterPreset();
 
@@ -46,6 +53,8 @@ namespace _Scripts.Gameplay.Animate.JitterAnimation {
                 mat.SetFloat("_Frame", jitterPreset.Frame); 
                 mat.SetFloat("_TimeMultiplier", jitterPreset.TimeMultiplier); 
             }
+
+            _currentJitter = jitterType;
         }
 
         private void LoadMaterials()
