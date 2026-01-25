@@ -73,9 +73,10 @@ GameObject:
   - component: {fileID: 5752970611798425589}
   - component: {fileID: 8295024445241481583}
   - component: {fileID: 1321272979859805475}
+  - component: {fileID: 1689779854349845772}
   m_Layer: 7
   m_Name: Operation_Saw
-  m_TagString: Untagged
+  m_TagString: Tool_Starter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -140,6 +141,20 @@ MonoBehaviour:
   _lerpMoveSpeed: 6.5
   _toolProfile: {fileID: 11400000, guid: 4a021cb7eb9c51e4f959dd69c2da2184, type: 2}
   _operationType: 0
+--- !u!114 &1689779854349845772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7713958118740304052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cc03590fcd466d4790bb5c9793e6e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Animate.JitterAnimation.JitterBehaviour
+  _jitterRenderer:
+  - {fileID: 3935853717382403649}
 --- !u!1001 &1325110179291919058
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -207,7 +222,12 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 9ad92d989e25e014881dce7ea24f660e, type: 2}
+      objectReference: {fileID: 2100000, guid: ded4b4b44efe17d48aac032e9d1c0b39, type: 2}
+    - target: {fileID: -7511558181221131132, guid: b14163f065b80294582de650a652350d,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 11237c9c0735f3042a05f1593e7a7d00, type: 2}
     - target: {fileID: 919132149155446097, guid: b14163f065b80294582de650a652350d,
         type: 3}
       propertyPath: m_Name
@@ -301,6 +321,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b14163f065b80294582de650a652350d,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ded4b4b44efe17d48aac032e9d1c0b39, type: 2}
+    - target: {fileID: -7511558181221131132, guid: b14163f065b80294582de650a652350d,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 11237c9c0735f3042a05f1593e7a7d00, type: 2}
     - target: {fileID: 919132149155446097, guid: b14163f065b80294582de650a652350d,
         type: 3}
       propertyPath: m_Name

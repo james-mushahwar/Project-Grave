@@ -1,6 +1,7 @@
 ﻿using _Scripts._Game.Dialogue;
 using _Scripts._Game.Sequencer;
 using _Scripts._Game.Sequencer.Dialogue;
+using _Scripts.Gameplay.Animate.JitterAnimation;
 using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.General.Morgue.Bodies;
@@ -8,6 +9,7 @@ using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Org;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
@@ -226,6 +228,50 @@ namespace _Scripts.Gameplay.ActionSequence {
             if (pause)
             {
                 ActionSequenceManager.Instance.TryPauseActionSequence(ActionSequenceSettings.ActionSequenceEvent, EActionSequencePauseReason.Dialogue);
+            }
+        }
+
+        //Jitter
+        public void Jitter_SetJitterBehaviour_Standard(GameObject go)
+        {
+            if (go == null)
+            {
+                return;
+            }
+
+            JitterBehaviour jitter = go.GetComponent<JitterBehaviour>();
+
+            if (jitter)
+            {
+                jitter.SetJitter(EJitteryType.Standard);
+            }
+        }
+        public void Jitter_SetJitterBehaviour_Interest(GameObject go)
+        {
+            if (go == null)
+            {
+                return;
+            }
+
+            JitterBehaviour jitter = go.GetComponent<JitterBehaviour>();
+
+            if (jitter)
+            {
+                jitter.SetJitter(EJitteryType.ItemOfInterest);
+            }
+        }
+        public void Jitter_SetJitterBehaviour_Focus(GameObject go)
+        {
+            if (go == null)
+            {
+                return;
+            }
+
+            JitterBehaviour jitter = go.GetComponent<JitterBehaviour>();
+
+            if (jitter)
+            {
+                jitter.SetJitter(EJitteryType.Focus);
             }
         }
 

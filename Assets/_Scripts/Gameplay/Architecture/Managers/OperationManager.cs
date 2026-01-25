@@ -9,10 +9,13 @@ using _Scripts.Gameplay.General.Morgue.Operation.OperationSite;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Gameplay.General.Morgue.Operation.Indicator;
 using _Scripts.Gameplay.General.Morgue;
+using UnityEditor.EditorTools;
+using _Scripts.Gameplay.Animate.JitterAnimation;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
     
     //keeps track of all operation states active in the game. Keeps track of all operation tool profiles(?)
+    //keeps track of all operation tools too
 
     public class OperationManager : GameManager<OperationManager>, IManager
     {
@@ -34,6 +37,17 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return OperatingTable.GetBody();
             }
         }
+
+        #region Tools
+        private OperationDismemberMorgueTool _starterSaw;
+        public OperationDismemberMorgueTool StarterSaw
+        {
+            get
+            {
+                return _starterSaw;
+            }
+        }
+        #endregion
 
         public OperationIndicator CurrentOpIndicator
         {
@@ -106,6 +120,29 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public virtual void ManagedPostInGameLoad() 
         {
             _operatingTable = GameObject.FindAnyObjectByType<OperatingTable>();
+
+            //tools- dismember tools
+            OperationDismemberMorgueTool[] dismemberTools = FindObjectsByType<OperationDismemberMorgueTool>(FindObjectsSortMode.None);
+            foreach (OperationDismemberMorgueTool dismemberTool in dismemberTools)
+            {
+                if (dismemberTool != null) 
+                { 
+                    if (dismemberTool.gameObject.tag == "Tool_Starter")
+                    {
+                        _starterSaw = dismemberTool; 
+                    }
+                }
+            }
+
+            if (StarterSaw)
+            {
+                // start jitter for tutorial
+                JitterBehaviour jitter = StarterSaw.GetComponent<JitterBehaviour>();
+                if (jitter)
+                {
+                    jitter.SetJitter(EJitteryType.ItemOfInterest);
+                }
+            }
         }
         // save states are restored
         public virtual void ManagedRestoreSave() { }

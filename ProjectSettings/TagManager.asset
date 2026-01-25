@@ -21,6 +21,7 @@ TagManager:
   - UI_CharacterOverview
   - UI_CharacterWorld
   - UI_Speech
+  - Tool_Starter
   layers:
   - Default
   - TransparentFX

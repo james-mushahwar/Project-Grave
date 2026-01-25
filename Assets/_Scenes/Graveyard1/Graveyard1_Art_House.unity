@@ -1540,38 +1540,12 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 5231150708274757542}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1227086217}
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e17921656f606c41abc767e731999f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &320330842 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3053142375811681511, guid: e94ca3a9fcce9af408defe6ed2bdf0d6,
-    type: 3}
-  m_PrefabInstance: {fileID: 5231150708274757542}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &320330844 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 3557294639962467634, guid: e94ca3a9fcce9af408defe6ed2bdf0d6,
-    type: 3}
-  m_PrefabInstance: {fileID: 5231150708274757542}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &320330846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 320330842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cc03590fcd466d4790bb5c9793e6e91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Animate.JitterAnimation.JitterBehaviour
-  _jitterRenderer:
-  - {fileID: 320330844}
 --- !u!1 &321029225
 GameObject:
   m_ObjectHideFlags: 0
@@ -3668,6 +3642,12 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &1227086217 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7840070629945908167, guid: e94ca3a9fcce9af408defe6ed2bdf0d6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5231150708274757542}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1257370442
 GameObject:
   m_ObjectHideFlags: 0
@@ -4389,6 +4369,19 @@ MonoBehaviour:
             m_ObjectArgument: {fileID: 309246423}
             m_ObjectArgumentAssemblyTypeName: _Scripts.Gameplay.General.Morgue.Operation.Tools.MorgueToolActor,
               Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1634074410}
+          m_TargetAssemblyTypeName: _Scripts.Gameplay.ActionSequence.TimelineActionSequence,
+            Assembly-CSharp
+          m_MethodName: Jitter_SetJitterBehaviour_Standard
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1227086217}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -6268,6 +6261,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1437867531}
     m_Modifications:
+    - target: {fileID: 1555677547704495696, guid: e94ca3a9fcce9af408defe6ed2bdf0d6,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1872430802243746451, guid: e94ca3a9fcce9af408defe6ed2bdf0d6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6318,39 +6316,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3557294639962467634, guid: e94ca3a9fcce9af408defe6ed2bdf0d6,
-        type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3557294639962467634, guid: e94ca3a9fcce9af408defe6ed2bdf0d6,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[2]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 32a78405d098bdd41964404d58b0891f, type: 2}
     - target: {fileID: 6938955139711103593, guid: e94ca3a9fcce9af408defe6ed2bdf0d6,
         type: 3}
       propertyPath: m_Name
       value: Operating Table
       objectReference: {fileID: 0}
-    - target: {fileID: 7365671515689854463, guid: e94ca3a9fcce9af408defe6ed2bdf0d6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8222856910486905347, guid: e94ca3a9fcce9af408defe6ed2bdf0d6,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3053142375811681511, guid: e94ca3a9fcce9af408defe6ed2bdf0d6,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 320330846}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e94ca3a9fcce9af408defe6ed2bdf0d6, type: 3}
 --- !u!4 &5231150708274757543 stripped
 Transform:
