@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using _Scripts._Game.UI.Dialogue;
 using UnityEngine;
 using TMPro;
+using _Scripts._Game.Sequencer.Dialogue;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
     
@@ -13,6 +14,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private Dictionary<EDialogueType, bool> _dialoguePauseCheckDict = new Dictionary<EDialogueType, bool>(); // should each dialogue type pause the game when active?
 
         private BaseWriterEffect[] _writerEffects;
+
+        private Dictionary<EDialogueEvent, TextSequenceable> _dialoguesDictionary = new Dictionary<EDialogueEvent, TextSequenceable>();
 
         private Dictionary<EDialogueType, Task> _dialogueTasks = new Dictionary<EDialogueType, Task>();
 
@@ -90,6 +93,19 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             // writer effects
             _writerEffects = GetComponents<BaseWriterEffect>();
+
+            //dialogues
+            TextSequenceable[] ts = gameObject.GetComponentsInChildren<TextSequenceable>();
+            foreach(TextSequenceable seq in ts)
+            {
+                if (seq != null) 
+                { 
+                    if (seq.ScriptableDialogue.DialogueEvent != EDialogueEvent.None)
+                    {
+                        _dialoguesDictionary.TryAdd(seq.ScriptableDialogue.DialogueEvent, seq);
+                    }
+                }
+            }
         }
 
         private void Update()
@@ -227,11 +243,22 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             return textBox;
         }
 
-
         public void OnDialogueFinished()
         {
             _textGameObjectDictionary[EDialogueType.Speech].SetActive(false);
             Debug.Log("DIALOGUE TASK FIN");
+        }
+
+        public bool TryPlayDialogue(EDialogueEvent dialogueEvent)
+        {
+            _dialoguesDictionary.TryGetValue(dialogueEvent, out TextSequenceable ts);
+
+            if (ts != null)
+            {
+                ts.Begin();
+                return true;
+            }
+            return false;
         }
 
         public void ManagedPreInGameLoad()
@@ -253,6 +280,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
              
         }
+
+
     }
     
 }

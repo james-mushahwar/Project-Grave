@@ -1845,7 +1845,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 46
+  field of view: 60
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -3944,6 +3944,7 @@ MonoBehaviour:
     m_Signals:
     - {fileID: 11400000, guid: 985c6cae3e1fde04fa6c9e7bf2c516d9, type: 2}
     - {fileID: 11400000, guid: b8f0aa2b14ffd1b429af043b2a068be8, type: 2}
+    - {fileID: 11400000, guid: dfba714bf07d95e459d91ad43cfae6d5, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -3966,6 +3967,21 @@ MonoBehaviour:
           m_TargetAssemblyTypeName: _Scripts.Gameplay.ActionSequence.TimelineActionSequence,
             Assembly-CSharp
           m_MethodName: Operation_BodyPartJitter_RArm_Interest
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1359258312}
+          m_TargetAssemblyTypeName: _Scripts.Gameplay.ActionSequence.TimelineActionSequence,
+            Assembly-CSharp
+          m_MethodName: DIalogue_SawBodyPrompt_Event
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

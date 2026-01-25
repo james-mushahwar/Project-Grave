@@ -231,6 +231,11 @@ namespace _Scripts.Gameplay.ActionSequence {
             }
         }
 
+        public void DIalogue_SawBodyPrompt_Event()
+        {
+            DialogueManager.Instance.TryPlayDialogue(EDialogueEvent.Day0_SawBody_Prompt);
+        }
+
         //Jitter
         public void Jitter_SetJitterBehaviour_Standard(GameObject go)
         {

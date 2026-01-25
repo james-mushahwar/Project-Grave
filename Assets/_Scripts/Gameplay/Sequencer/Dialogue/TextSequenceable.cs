@@ -15,6 +15,7 @@ namespace _Scripts._Game.Sequencer.Dialogue{
         [SerializeField]
         private EDialogueType _dialogueType;
 
+
         private int _phrasesIndex = 0;
         private Task _taskRef;
 
@@ -22,6 +23,8 @@ namespace _Scripts._Game.Sequencer.Dialogue{
         private bool _isStarted;
 
         public override string RuntimeID => _runtimeID.RuntimeId;
+
+        public ScriptableDialogue ScriptableDialogue { get => _scriptableDialogue; }
 
         private void Awake()
         {

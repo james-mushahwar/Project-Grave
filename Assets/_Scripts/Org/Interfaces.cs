@@ -35,6 +35,8 @@ namespace _Scripts.Org
         Operation_SuccessInput, 
         Operation_FailureInput, 
         Operation_CancelInput,
+
+        Operation_Completed = 10,
         COUNT
     }
     public interface IMorgueReactable

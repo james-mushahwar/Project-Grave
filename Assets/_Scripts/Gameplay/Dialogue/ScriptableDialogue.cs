@@ -17,6 +17,16 @@ namespace _Scripts._Game.Dialogue{
         INVALID
     }
 
+    public enum EDialogueEvent
+    {
+        None = 0,
+        Day0_MeetReceptionist_Speech,
+        Day0_SawBody_Prompt,
+        Day0_StoreBody_Prompt,
+        Day0_ReturnToReceptionist_Prompt,
+        Day0_Exposition_Speech,
+    }
+
     [Serializable]
     public class Phrase
     {
@@ -82,6 +92,8 @@ namespace _Scripts._Game.Dialogue{
     public class ScriptableDialogue : ScriptableObject
     {
         [SerializeField] private EDialogueType _dialogueType;
+        [SerializeField]
+        private EDialogueEvent _dialogueEvent;
 
         [SerializeField] private Phrase[] _phrases = { new Phrase() };
 
@@ -89,6 +101,7 @@ namespace _Scripts._Game.Dialogue{
         {
             get => _dialogueType;
         }
+        public EDialogueEvent DialogueEvent { get => _dialogueEvent; }
 
         public Phrase GetPhrase(int index)
         {
