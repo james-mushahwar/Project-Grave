@@ -14,6 +14,7 @@ using UnityEngine;
 using System.Runtime.InteropServices.WindowsRuntime;
 using _Scripts.Gameplay.Architecture.Misc;
 using Random = UnityEngine.Random;
+using _Scripts._Game.Dialogue;
 
 namespace _Scripts.Gameplay.General.Morgue.Bodies{
     
@@ -241,6 +242,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                         }
 
                         AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_OperationCompleteReaction_01, PlayerManager.Instance.CurrentPlayerController.transform.position);
+
+                        if (ActionSequenceManager.Instance.PreviousMajorActionSequence == EActionSequenceEvent.Day0_AssistantEnters)
+                        {
+                            DialogueManager.Instance.TryPlayDialogue(EDialogueEvent.Day0_StoreBody_Prompt);
+                        }
 
                         if (_impulseSource_OnDismemberComplete != null)
                         {

@@ -16,6 +16,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         Day0_MeetReceptionist,
         Day0_AssistantEnters,
         Day0_AssistantExits,
+        Day0_SawBodyPart0,
 
         //DayLoop - can happen multiple times any day 
         DayAny_WakeUp = 10000,
@@ -49,6 +50,8 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 return _currentMajorActionSequences.Count > 0;
             }
         }
+
+        public EActionSequenceEvent PreviousMajorActionSequence { get => _previousMajorActionSequence; }
 
         public void ManagedPostInGameLoad()
         {

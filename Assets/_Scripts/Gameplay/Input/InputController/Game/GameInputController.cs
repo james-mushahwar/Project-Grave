@@ -14,6 +14,9 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
     [CreateAssetMenu(fileName = "Game_IC", menuName = "ScriptableObject/Input/InputController/GameInputController")]
     public class GameInputController : InputController
     {
+        [SerializeField]
+        private float _viewTraceLength = 2.5f;
+
         public override void Enable()
         {
             base.Enable();
@@ -77,7 +80,7 @@ namespace _Scripts.Gameplay.Input.InputController.Game{
 
             _selectedObject =  null;
 
-            if (Physics.Raycast(ray, out hit, 5.0f, _selectableLayer)) // Perform the raycast
+            if (Physics.Raycast(ray, out hit, _viewTraceLength, _selectableLayer)) // Perform the raycast
             {
                 GameObject selectedObject = hit.collider.gameObject; // Get the selected object
                 //Debug.Log("Selected Object: " + selectedObject.name);
