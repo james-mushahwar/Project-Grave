@@ -19,7 +19,7 @@ namespace _Scripts.Editor
         {
             SerializedProperty listProperty = serializedObject.FindProperty("JitterPresets");
             list = new ReorderableList(serializedObject, listProperty, true, true, true, true);
-            list.elementHeight = EditorGUIUtility.singleLineHeight * 5 + 10;
+            list.elementHeight = EditorGUIUtility.singleLineHeight * 6 + 15;
 
             // List draw header callback
             list.drawHeaderCallback = (Rect rect) =>
@@ -35,6 +35,11 @@ namespace _Scripts.Editor
                 float verticalOffset = 2;
                 float fieldHeight = EditorGUIUtility.singleLineHeight;
                 float spacing = 2;
+
+                Rect PresetTypeRect = new Rect(rect.x, rect.y + verticalOffset, rect.width, fieldHeight);
+                EditorGUI.PropertyField(PresetTypeRect, element.FindPropertyRelative("jitterType"));
+
+                verticalOffset += fieldHeight + spacing;
 
                 Rect PresetNameRect = new Rect(rect.x, rect.y + verticalOffset, rect.width, fieldHeight);
                 EditorGUI.PropertyField(PresetNameRect, element.FindPropertyRelative("PresetName"));
