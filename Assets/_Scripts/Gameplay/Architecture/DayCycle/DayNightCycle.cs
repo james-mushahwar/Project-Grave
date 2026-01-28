@@ -1,7 +1,9 @@
-﻿using _Scripts.Gameplay.Architecture.Managers;
+﻿using _Scripts.Gameplay.ActionSequence;
+using _Scripts.Gameplay.Architecture.Managers;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using UnityEngine.Playables;
 
 namespace _Scripts.Gameplay.Architecture.DayCycle {
 
@@ -23,6 +25,9 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
         private float timeOfDay = 0f; // Normalized time (0 to 1 for a full day)
         [SerializeField]
         private float _timeElapseFactor = 1.0f; // multiplier for time passing
+
+        [SerializeField]
+        private PlayableDirector _dayNightTimeline;
 
         private Light Sun
         {
@@ -51,6 +56,7 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
 
         public void ManagedTick()
         {
+            return;
             if (!CanTick)
             {
                 return;
@@ -81,6 +87,17 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
             // Optional: Adjust sun/moon colors
             Sun.color = Color.Lerp(new Color(1f, 0.5f, 0.5f), Color.white, Sun.intensity / 1.5f); // Warm at dawn/dusk
             Moon.color = new Color(0.8f, 0.8f, 1f); // Cool moonlight
+        }
+
+        public void PlayDayNightTimeline()
+        {
+            _dayNightTimeline.playableGraph.GetRootPlayable(0).SetSpeed(1.0f);
+            _dayNightTimeline.Play();
+        }
+
+        public void PauseDayNightTimeline()
+        {
+            _dayNightTimeline.playableGraph.GetRootPlayable(0).SetSpeed(0.0f);
         }
 
         public void Enable()

@@ -73,7 +73,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public const uint MORGUE_TIMING_POOR = 1;
         public const uint MORGUE_TIMING_NULL = 0;
 
-        [SerializeField] private DayNightCycle _dayNightCycle;
+        private DayNightCycle _dayNightCycle;
 
         private static string[] MORGUE_TIMING_PHRASES =
         {
@@ -130,6 +130,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 morgueTickable.Setup();
             }
 
+            _dayNightCycle = FindObjectOfType<DayNightCycle>();
             //Debug_SpawnMorgueActor();
         }
         // save states are restored
@@ -359,6 +360,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             return EAudioType.SFX_Timing_None + (int)timingType;
         }
 
+
+        //DayNight cycle
+        public void InvokeDayNightTransition()
+        {
+            _dayNightCycle.PlayDayNightTimeline();
+        }
     }
     
 }

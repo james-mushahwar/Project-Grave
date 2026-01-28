@@ -245,6 +245,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
                         if (ActionSequenceManager.Instance.PreviousMajorActionSequence == EActionSequenceEvent.Day0_AssistantEnters)
                         {
+                            MorgueManager.Instance.InvokeDayNightTransition();
+
                             DialogueManager.Instance.TryPlayDialogue(EDialogueEvent.Day0_StoreBody_Prompt);
                         }
 
