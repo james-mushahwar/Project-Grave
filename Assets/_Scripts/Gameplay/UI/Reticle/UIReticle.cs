@@ -49,7 +49,8 @@ namespace _Scripts.Gameplay.UI.Reticle{
 
                 if (PlayerManager.Instance.CurrentPlayerController != null)
                 {
-                    if (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState != Player.Controller.EPlayerControllerState.Normal)
+                    if (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState != Player.Controller.EPlayerControllerState.Normal ||
+                        PlayerManager.Instance.CurrentPlayerController.CanPlayerCharacterMove() == false)
                     {
                         showAnyReticle = false;
                     }
