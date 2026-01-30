@@ -247,6 +247,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                         {
                             MorgueManager.Instance.InvokeDayNightTransition();
 
+                            _bodyMorgueActor.SetBodPartJitter(_bodyPartType, EJitteryType.Standard);
+
                             DialogueManager.Instance.TryPlayDialogue(EDialogueEvent.Day0_StoreBody_Prompt);
                         }
 

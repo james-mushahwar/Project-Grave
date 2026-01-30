@@ -28,6 +28,8 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
 
         [SerializeField]
         private PlayableDirector _dayNightTimeline;
+        [SerializeField]
+        private float _dayNightTransitionSpeed = 1.0f;
 
         private Light Sun
         {
@@ -91,8 +93,8 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
 
         public void PlayDayNightTimeline()
         {
-            _dayNightTimeline.playableGraph.GetRootPlayable(0).SetSpeed(1.0f);
             _dayNightTimeline.Play();
+            _dayNightTimeline.playableGraph.GetRootPlayable(0).SetSpeed(_dayNightTransitionSpeed);
         }
 
         public void PauseDayNightTimeline()

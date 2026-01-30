@@ -5009,6 +5009,7 @@ MonoBehaviour:
   dayDuration: 600
   _timeElapseFactor: 1
   _dayNightTimeline: {fileID: 1625429005}
+  _dayNightTransitionSpeed: 0.25
 --- !u!1 &1634074409
 GameObject:
   m_ObjectHideFlags: 0
