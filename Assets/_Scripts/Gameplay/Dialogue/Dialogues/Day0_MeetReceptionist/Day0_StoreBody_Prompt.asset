@@ -15,7 +15,8 @@ MonoBehaviour:
   _dialogueType: 0
   _dialogueEvent: 3
   _phrases:
-  - _text: "Now that\u2019s how a body part falls, don\u2019t wait, don\u2019t stall."
+  - _text: "Now that\u2019s how a body part falls, don\u2019t wait, don\u2019t stall.
+      On a rusty hook, oh I am certain there it will look!"
     _receiveInput: 0
     _isSkipable: 0
     _isAuto: 1
@@ -27,21 +28,6 @@ MonoBehaviour:
     _closeTextBox: 0
     _playAnimAtEnd: 0
     _characterAnimation:
-      _character: 2
-      _animationType: 1
-      _loop: 0
-  - _text: On a rusty hook, oh I am certain there it will look!
-    _receiveInput: 0
-    _isSkipable: 0
-    _isAuto: 1
-    _instantText: 0
-    _textSpeed: 50
-    _fasterTextSpeed: 16
-    _startOfPhraseWait: 0.25
-    _endOfPhraseWait: 1
-    _closeTextBox: 1
-    _playAnimAtEnd: 0
-    _characterAnimation:
-      _character: 2
-      _animationType: 1
+      _character: 0
+      _animationType: 0
       _loop: 0

@@ -15,22 +15,8 @@ MonoBehaviour:
   _dialogueType: 0
   _dialogueEvent: 2
   _phrases:
-  - _text: 'A corpse awaits, now roll up your sleeves. '
-    _receiveInput: 0
-    _isSkipable: 0
-    _isAuto: 1
-    _instantText: 0
-    _textSpeed: 50
-    _fasterTextSpeed: 16
-    _startOfPhraseWait: 0.25
-    _endOfPhraseWait: 1
-    _closeTextBox: 0
-    _playAnimAtEnd: 0
-    _characterAnimation:
-      _character: 2
-      _animationType: 1
-      _loop: 0
-  - _text: "Remove it\u2019s limbs with a little elbow grease! "
+  - _text: "A corpse awaits, now roll up your sleeves. Remove it\u2019s limbs with
+      a little elbow grease! "
     _receiveInput: 0
     _isSkipable: 0
     _isAuto: 1
@@ -42,6 +28,6 @@ MonoBehaviour:
     _closeTextBox: 1
     _playAnimAtEnd: 0
     _characterAnimation:
-      _character: 2
-      _animationType: 1
+      _character: 0
+      _animationType: 0
       _loop: 0
