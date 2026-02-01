@@ -255,7 +255,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             if (ts != null)
             {
-                ts.Begin();
+                ts.StartTask();
                 return true;
             }
             return false;

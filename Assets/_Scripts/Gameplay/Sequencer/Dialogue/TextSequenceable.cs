@@ -39,14 +39,27 @@ namespace _Scripts._Game.Sequencer.Dialogue{
             _isStarted = true; 
         }
 
+        public void StartTask()
+        {
+            Begin();
+            _taskRef.Finished += Finished;
+        }
+
         public override void Stop()
         {
             _phrasesIndex = 0;
             if (_taskRef != null)
             {
+                _taskRef.Finished -= Finished;
                 _taskRef.Stop();
                 _taskRef = null;
             }
+        }
+
+        public void Finished(bool manual)
+        {
+            DialogueManager.Instance.OnDialogueFinished();
+            Stop();
         }
 
         public override void Tick()
