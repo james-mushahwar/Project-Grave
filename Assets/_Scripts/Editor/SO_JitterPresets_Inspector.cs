@@ -19,7 +19,7 @@ namespace _Scripts.Editor
         {
             SerializedProperty listProperty = serializedObject.FindProperty("JitterPresets");
             list = new ReorderableList(serializedObject, listProperty, true, true, true, true);
-            list.elementHeight = EditorGUIUtility.singleLineHeight * 6 + 15;
+            list.elementHeight = EditorGUIUtility.singleLineHeight * 7 + 15;
 
             // List draw header callback
             list.drawHeaderCallback = (Rect rect) =>
@@ -37,7 +37,7 @@ namespace _Scripts.Editor
                 float spacing = 2;
 
                 Rect PresetTypeRect = new Rect(rect.x, rect.y + verticalOffset, rect.width, fieldHeight);
-                EditorGUI.PropertyField(PresetTypeRect, element.FindPropertyRelative("jitterType"));
+                EditorGUI.PropertyField(PresetTypeRect, element.FindPropertyRelative("jitterType"), new GUIContent("jitterType", "Magical Tooltip"));
 
                 verticalOffset += fieldHeight + spacing;
 
@@ -58,6 +58,11 @@ namespace _Scripts.Editor
 
                 Rect TimeMultiplierRect = new Rect(rect.x, rect.y + verticalOffset, rect.width, fieldHeight);
                 EditorGUI.PropertyField(TimeMultiplierRect, element.FindPropertyRelative("TimeMultiplier"));
+
+                verticalOffset += fieldHeight + spacing;
+
+                Rect WPORect = new Rect(rect.x, rect.y + verticalOffset, rect.width, fieldHeight);
+                EditorGUI.PropertyField(WPORect, element.FindPropertyRelative("WPODisplacement"));
 
                 verticalOffset += fieldHeight + spacing;
 
@@ -87,6 +92,7 @@ namespace _Scripts.Editor
                         element.FindPropertyRelative("Steps").floatValue = r.sharedMaterial.GetFloat("_Steps");
                         element.FindPropertyRelative("Frame").floatValue = r.sharedMaterial.GetFloat("_Frame");
                         element.FindPropertyRelative("TimeMultiplier").floatValue = r.sharedMaterial.GetFloat("_TimeMultiplier");
+                        element.FindPropertyRelative("WPODisplacement").floatValue = r.sharedMaterial.GetFloat("_WPO_Displacement");
 
                         Debug.Log($"{r.sharedMaterial.GetFloat("_Steps")} -- {r.sharedMaterial.GetFloat("_Frame")} -- {r.sharedMaterial.GetFloat("_TimeMultiplier")}");
                         break;
@@ -113,11 +119,15 @@ namespace _Scripts.Editor
 
                 foreach (Renderer r in renderers)
                 {
-                    if (r.sharedMaterial.shader.name == "Shader Graphs/PerFrameJitterTest")
+                    foreach (Material m in r.sharedMaterials)
                     {
-                        r.sharedMaterial.SetFloat("_Steps", _preset.Steps);
-                        r.sharedMaterial.SetFloat("_Frame", _preset.Frame);
-                        r.sharedMaterial.SetFloat("_TimeMultiplier", _preset.TimeMultiplier);
+                        if (r.sharedMaterial.shader.name == "Shader Graphs/PerFrameJitterTest")
+                        {
+                            m.SetFloat("_Steps", _preset.Steps);
+                            m.SetFloat("_Frame", _preset.Frame);
+                            m.SetFloat("_TimeMultiplier", _preset.TimeMultiplier);
+                            m.SetFloat("_WPO_Displacement", _preset.WPODisplacement);
+                        }
                     }
                 }
             }
@@ -131,6 +141,7 @@ namespace _Scripts.Editor
             temp.Steps = element.FindPropertyRelative("Steps").floatValue;
             temp.Frame = element.FindPropertyRelative("Frame").floatValue;
             temp.TimeMultiplier = element.FindPropertyRelative("TimeMultiplier").floatValue;
+            temp.WPODisplacement = element.FindPropertyRelative("WPODisplacement").floatValue;
             ApplyToSelected(temp);
         }
 
@@ -146,6 +157,7 @@ namespace _Scripts.Editor
                     newJitterPreset.Steps = r.sharedMaterial.GetFloat("_Steps");
                     newJitterPreset.Frame = r.sharedMaterial.GetFloat("_Frame");
                     newJitterPreset.TimeMultiplier = r.sharedMaterial.GetFloat("_TimeMultiplier");
+                    newJitterPreset.WPODisplacement = r.sharedMaterial.GetFloat("_WPO_Displacement");
                     _target.JitterPresets.Add(newJitterPreset);
                     break;
                 }

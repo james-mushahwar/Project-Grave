@@ -27,14 +27,17 @@ namespace _Scripts.Gameplay.Settings {
             public float Frame;
             [SerializeField]
             public float TimeMultiplier;
+            [SerializeField]
+            public float WPODisplacement;
     
-            public JitterPreset(EJitteryType _jitterType, string _presetName, float _steps, float _frame, float _timeMultiplier)
+            public JitterPreset(EJitteryType _jitterType, string _presetName, float _steps, float _frame, float _timeMultiplier,  float _WPODisplacement)
             {
                 jitterType = _jitterType;
                 PresetName = _presetName;
                 Steps = _steps;
                 Frame = _frame;
                 TimeMultiplier = _timeMultiplier;
+                WPODisplacement = _WPODisplacement;
             }
         }
     }
