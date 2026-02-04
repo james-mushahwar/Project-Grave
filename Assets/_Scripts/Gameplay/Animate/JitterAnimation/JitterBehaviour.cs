@@ -3,6 +3,7 @@ using _Scripts.Gameplay.Settings;
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using static _Scripts.Gameplay.Settings.SO_JitterPresets;
 
 namespace _Scripts.Gameplay.Animate.JitterAnimation {
@@ -13,6 +14,8 @@ namespace _Scripts.Gameplay.Animate.JitterAnimation {
         private List<Renderer> _jitterRenderer;
         private List<Material> _jitterMaterials = new List<Material>();
 
+        [SerializeField]
+        private EJitteryType _defaultJitter = EJitteryType.Standard;
         private EJitteryType _currentJitter = EJitteryType.None;
 
         void Start()
@@ -21,18 +24,13 @@ namespace _Scripts.Gameplay.Animate.JitterAnimation {
             SetDefaultJitter();
         }
 
-        public void SetJitter(EJitteryType jitterType)
+        private void Update()
         {
-            if (_jitterMaterials.Count == 0)
-            {
-                LoadMaterials();
-            }    
+            UpdateJitterParameters(_currentJitter);
+        }
 
-            if (_currentJitter == jitterType)
-            {
-                return;
-            }
-
+        private void UpdateJitterParameters(EJitteryType jitterType)
+        {
             JitterPreset jitterPreset = new JitterPreset();
 
             if (AnimationManager.Instance.GetJitter(jitterType, out jitterPreset) != jitterType)
@@ -49,9 +47,23 @@ namespace _Scripts.Gameplay.Animate.JitterAnimation {
                     continue;
                 }
 
-                mat.SetFloat("_Steps", jitterPreset.Steps); 
-                mat.SetFloat("_Frame", jitterPreset.Frame); 
-                mat.SetFloat("_TimeMultiplier", jitterPreset.TimeMultiplier); 
+                mat.SetFloat("_Steps", jitterPreset.Steps);
+                mat.SetFloat("_Frame", jitterPreset.Frame);
+                mat.SetFloat("_TimeMultiplier", jitterPreset.TimeMultiplier);
+                mat.SetFloat("_WPODisplacement", jitterPreset.WPODisplacement);
+            }
+        }
+
+        public void SetJitter(EJitteryType jitterType)
+        {
+            if (_jitterMaterials.Count == 0)
+            {
+                LoadMaterials();
+            }    
+
+            if (_currentJitter == jitterType)
+            {
+                return;
             }
 
             _currentJitter = jitterType;
@@ -72,7 +84,7 @@ namespace _Scripts.Gameplay.Animate.JitterAnimation {
         [ContextMenu("Set Default Jitter")]
         private void SetDefaultJitter()
         {
-            SetJitter(EJitteryType.Standard);
+            SetJitter(_defaultJitter);
         }
     }
     

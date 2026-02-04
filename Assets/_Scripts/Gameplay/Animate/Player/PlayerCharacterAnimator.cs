@@ -23,7 +23,9 @@ using static UnityEngine.Rendering.DebugUI;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
 
 namespace _Scripts.Gameplay.Animate.Player{
+
     
+
     public class PlayerCharacterAnimator : MonoBehaviour, IManaged, ICharacterAnimator
     {
         [SerializeField]
@@ -322,11 +324,16 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         public void ManagedTick()
         {
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+
+            if (pc.CanPlayerCharacterMove() == false)
+            {
+                return;
+            }
 
             return;
-            AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
 
-            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+            AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
 
             OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
             bool isOperating = currentOpState != null;
@@ -408,7 +415,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                     //}
                 }
 
-                UpdateHeartbeatAudioHandler();
+                //UpdateHeartbeatAudioHandler();
 
                 bool stopMovement = GetOperatingDirection() == EDirectionType.West && !currentOpState.GetInputHeld(EInputType.LTrigger);
                 if (stopMovement)
@@ -601,11 +608,9 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 if (!animInTransition && baseAnimatorStateInfo.shortNameHash.Equals(_state_EmptyHandedLoco_Hash) == false)
                 {
-                    CurrentAnimator.CrossFade(_state_EmptyHandedLoco_Hash, 0.0f);
-                    //CurrentAnimator.PlayInFixedTime(_idleLoopAnim_Hash);
-                    //Debug.Log("Trying to play idle animation");
-                    ResetRig();
-                    _operatingMomentum = 0.0f;
+                    //CurrentAnimator.CrossFade(_state_EmptyHandedLoco_Hash, 0.0f);
+                    //ResetRig();
+                    //_operatingMomentum = 0.0f;
                 }
             }
         }

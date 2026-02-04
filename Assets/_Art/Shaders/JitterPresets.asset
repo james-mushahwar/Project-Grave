@@ -13,15 +13,21 @@ MonoBehaviour:
   m_Name: JitterPresets
   m_EditorClassIdentifier: Assembly-CSharp-Editor::_Scripts.Editor.SO_JitterPresets
   JitterPresets:
-  - PresetName: Standard
+  - jitterType: 0
+    PresetName: Standard
     Steps: 10
     Frame: 2
     TimeMultiplier: 0.176
-  - PresetName: Item Of Interest
+    WPODisplacement: 0
+  - jitterType: 1
+    PresetName: Item Of Interest
     Steps: 10
     Frame: 2
     TimeMultiplier: 0.5
-  - PresetName: Focus Item
+    WPODisplacement: 0
+  - jitterType: 2
+    PresetName: Focus Item
     Steps: 10
     Frame: 2
     TimeMultiplier: 0.75
+    WPODisplacement: 0

@@ -1166,7 +1166,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                 if (equipped)
                 {
                     toolToUse.gameObject.SetActive(true);
-                    toolToUse.SetVisible(false);
+                    toolToUse.SetVisible(true);
                 }
             }
 

@@ -117,7 +117,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField]
         private SO_JitterPresets _jitterPreset;
 
-        private Dictionary<EJitteryType, JitterPreset> _jitterPresetDict = new Dictionary<EJitteryType, JitterPreset>();
+        //private Dictionary<EJitteryType, JitterPreset> _jitterPresetDict = new Dictionary<EJitteryType, JitterPreset>();
         #endregion
 
         public Animation GetMorgueAnimTypeAnimation(EMorgueAnimType animType)
@@ -146,11 +146,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             noneJitter.Frame = 1;
             noneJitter.Steps = 1;
             noneJitter.TimeMultiplier = 0.0f;
-            _jitterPresetDict.Add(EJitteryType.None, noneJitter);
+            //_jitterPresetDict.Add(EJitteryType.None, noneJitter);
 
             for (int i = 0; i < _jitterPreset.JitterPresets.Count; i++)
             {
-                _jitterPresetDict.Add((EJitteryType)i, _jitterPreset.JitterPresets[i]);
+                //_jitterPresetDict.Add((EJitteryType)i, _jitterPreset.JitterPresets[i]);
             }
 
             Setup();
@@ -245,7 +245,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             EJitteryType chosenJitterType = EJitteryType.None;
 
-            if (_jitterPresetDict.TryGetValue(jitteryType, out jitterPreset))
+            if (_jitterPreset.TryGetPreset(jitteryType, out jitterPreset))
             {
                 chosenJitterType = jitteryType;
             }

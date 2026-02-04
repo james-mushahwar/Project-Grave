@@ -155,6 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Animate.JitterAnimation.JitterBehaviour
   _jitterRenderer:
   - {fileID: 3935853717382403649}
+  _defaultJitter: 1
 --- !u!1001 &1325110179291919058
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -40,5 +40,27 @@ namespace _Scripts.Gameplay.Settings {
                 WPODisplacement = _WPODisplacement;
             }
         }
+
+        public bool TryGetPreset(EJitteryType jitterType, out JitterPreset out_Preset)
+        {
+            out_Preset = default;
+
+            return FindPreset(jitterType, out out_Preset);
+        }  
+        
+        public bool FindPreset(EJitteryType jitterType, out JitterPreset out_Preset)
+        {
+            out_Preset = default;
+            for (int i = 0; i < JitterPresets.Count; i++)
+            {
+                if (JitterPresets[i].jitterType == jitterType)
+                {
+                    out_Preset = JitterPresets[i];
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
