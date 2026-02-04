@@ -50,7 +50,7 @@ namespace _Scripts.Gameplay.Animate.JitterAnimation {
                 mat.SetFloat("_Steps", jitterPreset.Steps);
                 mat.SetFloat("_Frame", jitterPreset.Frame);
                 mat.SetFloat("_TimeMultiplier", jitterPreset.TimeMultiplier);
-                mat.SetFloat("_WPODisplacement", jitterPreset.WPODisplacement);
+                mat.SetFloat("_WPO_Displacement", jitterPreset.WPODisplacement);
             }
         }
 
