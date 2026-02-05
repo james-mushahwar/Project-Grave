@@ -17,17 +17,17 @@ MonoBehaviour:
     PresetName: Standard
     Steps: 10
     Frame: 2
-    TimeMultiplier: 0.176
-    WPODisplacement: 0
+    TimeMultiplier: 0.1
+    WPODisplacement: 0.01
   - jitterType: 1
     PresetName: Item Of Interest
-    Steps: 10
-    Frame: 2
-    TimeMultiplier: 0.5
-    WPODisplacement: 0
+    Steps: 2
+    Frame: 5
+    TimeMultiplier: 1
+    WPODisplacement: 0.008
   - jitterType: 2
     PresetName: Focus Item
-    Steps: 10
-    Frame: 2
-    TimeMultiplier: 0.75
-    WPODisplacement: 0
+    Steps: 5
+    Frame: 5
+    TimeMultiplier: 0.5
+    WPODisplacement: 0.005
