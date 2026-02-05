@@ -82,7 +82,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Noise_Texture:
-        m_Texture: {fileID: 2800000, guid: aebcb029a9f15944981d194b1a02a1ac, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7f2ccd3f36b998a4eb173474e37d15ab, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal_Noise:
@@ -138,7 +138,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _Frame: 5
+    - _Frame: 7
     - _GlossMapScale: 1
     - _Glossiness: 0.4472136
     - _GlossyReflections: 1
@@ -177,12 +177,12 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
-    - _Steps: 2
+    - _Steps: 10
     - _Surface: 0
-    - _TimeMultiplier: 1
+    - _TimeMultiplier: 0.05
     - _TriPlanarPower: 10
     - _UVSec: 0
-    - _WPO_Displacement: 0.008
+    - _WPO_Displacement: 0.015
     - _WorkflowMode: 1
     - _World_Scale: 5
     - _XRMotionVectorsPass: 1

@@ -16,9 +16,9 @@ MonoBehaviour:
   - jitterType: 0
     PresetName: Standard
     Steps: 10
-    Frame: 2
-    TimeMultiplier: 0.1
-    WPODisplacement: 0.01
+    Frame: 7
+    TimeMultiplier: 0.05
+    WPODisplacement: 0.015
   - jitterType: 1
     PresetName: Item Of Interest
     Steps: 2
@@ -28,6 +28,6 @@ MonoBehaviour:
   - jitterType: 2
     PresetName: Focus Item
     Steps: 5
-    Frame: 5
-    TimeMultiplier: 0.5
-    WPODisplacement: 0.005
+    Frame: 1
+    TimeMultiplier: 0.6
+    WPODisplacement: 0.0055
