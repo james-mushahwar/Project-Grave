@@ -452,8 +452,8 @@ namespace _Scripts.Gameplay.Animate.Player{
                         //Debug.Log("Effectiveness = " + effectiveness);
                         if (Mathf.Abs(animationSpeedMultiplier) > 0.1f)
                         {
-                            ParticleManager.Instance.TryPlayParticleSystem(EParticleType.VFX_BloodSplatter_Area, progressPosition, progressRotation);
-                            AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioCue.SFX_BloodSplatter_LowEnergy, progressPosition);
+                            //ParticleManager.Instance.TryPlayParticleSystem(EParticleType.VFX_BloodSplatter_Area, progressPosition, progressRotation);
+                            //AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioCue.SFX_BloodSplatter_LowEnergy, progressPosition);
                             _bloodAreaFXTimer = 0.5f;
                         }
                     }
@@ -921,6 +921,8 @@ namespace _Scripts.Gameplay.Animate.Player{
         #region Audio
         private bool ContinueHeartbeatAudioHandle()
         {
+            return false;
+
             if (_heartbeatLowAudioHandler._ctSource == null || _heartbeatLowAudioHandler._ctSource.IsPlaying() == false)
             {
                 return false;
@@ -964,7 +966,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             {
                 if (_heartbeatLowAudioHandler.VolumeAlpha < 1.0f)
                 {
-                    _heartbeatLowAudioHandler.VolumeAlpha = Mathf.MoveTowards(_heartbeatLowAudioHandler.VolumeAlpha, 1.0f, _heartbeatAudioVolumeAlpha * Time.deltaTime);
+                   // _heartbeatLowAudioHandler.VolumeAlpha = Mathf.MoveTowards(_heartbeatLowAudioHandler.VolumeAlpha, 1.0f, _heartbeatAudioVolumeAlpha * Time.deltaTime);
                 }
                 
                 
@@ -1009,25 +1011,17 @@ namespace _Scripts.Gameplay.Animate.Player{
                 EAudioType timingAudio = MorgueManager.Instance.GetTimingAudio(newTiming);
                 if (newTiming == ETimingType.Perfect)
                 {
-                    VolumeManager.Instance.OnOperationEnterPerfectZone();
+                    //VolumeManager.Instance.OnOperationEnterPerfectZone();
                 }
 
                 if (timingAudio != EAudioType.SFX_Timing_None)
                 {
-                    AudioManager.Instance.TryPlayAudioSourceAtLocation(timingAudio, transform.position);
+                    //AudioManager.Instance.TryPlayAudioSourceAtLocation(timingAudio, transform.position);
                 }
             }
             else
             {
-                if (newTiming == ETimingType.Poor && _operatingDirection == EDirectionType.West)
-                {
-                    if (currentOpState != null && dismemberOpState != null)
-                    {
-                        Vector3 offsetRotation = new Vector3(0.0f, -90.0f, 0.0f);
-                        dismemberOpState.PlayDirectionBloodFX(true, offsetRotation);
-
-                    }
-                }
+                
             }
         }
 
@@ -1162,117 +1156,28 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         public void OnActionLRInput()
         {
-            return;
-            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
-            MorgueToolActor equippedTool = pc.EquippedOperatingTool;
-
-            if (equippedTool == null)
-            {
-                return;
-            }
-
-            bool validInput = true;
-            bool penalty = false;
-            bool perfectTiming = false;
-
-            if (!perfectTiming)
-            {
-                //if (_operatingMomentumInvalidInputTimer > 0.0f)
-                //{
-                //    _operatingMomentumInvalidInputTimer = _operatingMomentumInvalidInputDelay;
-                //    validInput = false;
-                //}
-                //else if (_operatingMomentumValidInputCutoff < _operatingMomentum)
-                //{
-                //    penalty = true;
-
-                //    validInput = false;
-                //}
-
-            }
-
-            float momentumPenalty = 0.0f;
-            float momentumBoost = 0.0f;
-
-            if (!validInput)
-            {
-                if (penalty)
-                {
-                    //momentumPenalty = _operatingMomentumPenaltyCurve.Evaluate(_operatingMomentum);
-                    //FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawBreak);
-                    VolumeManager.Instance.OnOperationPenaltyInput();
-                }
-            }
-            else
-            {
-                //momentumBoost = _operatingMomentumAdditiveCurve.Evaluate(_operatingMomentum);
-                VolumeManager.Instance.OnOperationFlowStateActivated();
-            }
-
-            _operatingMomentum += (momentumBoost - momentumPenalty);
-            if (validInput)
-            {
-                //_operatingMomentumDecayDelayTimer = _operatingMomentumDecayDelayCurve.Evaluate(_operatingMomentum);
-            }
-            else
-            {
-               // _operatingMomentumDecayDelayTimer = 0.0f;
-            }
+            
 
         }
 
         public void OnEvent_PerfectZone(EDirectionType direction)
         {
-            if (CurrentAnimator.speed != 0.0f)
-            {
-                bool playingForwards = direction == _operatingDirection;
-                TriggerPerfectZone(playingForwards);
-            }
+            
         }
 
         private void OnEvent_ExitPerfectZone(EDirectionType direction)
         {
-            if (CurrentAnimator.speed != 0.0f)
-            {
-                //bool playingForwards = CurrentAnimator.speed >= 0.0f;
-                bool playingForwards = direction == _operatingDirection;
-                TriggerPerfectZone(!playingForwards);
-            }
-            
+          
         }
 
         private void TriggerPerfectZone(bool set)
         {
-            if (set != _inPerfectZone)
-            {
-                _inPerfectZone = set;
-                if (!_inPerfectZone)
-                {
-                    //SetPerfectTimingActive(false);
-
-                    OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
-
-                    if (currentOpState != null)
-                    {
-                        currentOpState.OnExitPerfectTimingWindow();
-                    }
-                }
-                else
-                {
-                    OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
-
-                    if (currentOpState != null)
-                    {
-                        currentOpState.OnEnterPerfectTimingWindow();
-                    }
-                }
-                OperationManager.Instance.TriggerPerfectZone(set);
-            }
+            
         }
 
         public bool GetPerfectZoneAvailable()
         {
-            return _inPerfectZone;
+            return false;
         }
 
         public void OnDismemeberInputReleased()
@@ -1314,10 +1219,6 @@ namespace _Scripts.Gameplay.Animate.Player{
                 float animationPlaybackLimit = equippedTool.ToolProfile.GetMomentumPlaybackLimit(CurrentMomentum) * maxPlaybackLimit;
 
                 DismemberOperationState dismemberOpState = currentOpState as DismemberOperationState;
-                if (dismemberOpState != null && _operationTimingZone != ETimingType.Poor)
-                {
-                    dismemberOpState.PlayDirectionBloodFX(position == EDirectionType.West);
-                }
 
                 if (position == EDirectionType.West)
                 {
@@ -1327,31 +1228,23 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                     if (OperationTimingZone > 0)
                     {
-                        string phrase = MorgueManager.GetTimingPhrase((int)OperationTimingZone);
-                        UIManager.Instance.TrySpawnTextObject(phrase, textPosition, textRotation, Vector3.up);
-
-                        if (OperationTimingZone == ETimingType.Perfect)
-                        {
-                            AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_PerfectTimingActivated_01, textRotation);
-                            TimeManager.Instance.TryRequestTimeScale(ETimeImportance.Low, 0.25f, 0.1f, 0.5f, 0.1f);
-                            CollectibleManager.Instance.OnUpgradeTrigger(Collectible.EGameplayEvents.PerfectSaw);
-                        }
+                      
                     }
 
-                    currentOpState.OpMinigame.OnTimingZoneUpdate(OperationTimingZone);
+                    //currentOpState.OpMinigame.OnTimingZoneUpdate(OperationTimingZone);
                 }
             }
 
             SetChangeDirectionTimer();
 
             bool perfectTiming = PlayerManager.Instance.CurrentPlayerController.PlayerCharacterAnimator.GetPerfectTimingActive();
-            float factor = _operatingDirection == EDirectionType.East ? (perfectTiming ? 1.0f : 0.25f) : ((perfectTiming ? 1.0f : 0.05f));
+            float factor = _operatingDirection == EDirectionType.East ? (perfectTiming ? 0.1f : 0.12f) : ((perfectTiming ? 1.0f : 0.05f));
             Vector3 velocity = new Vector3((_operatingDirection == EDirectionType.East ? 1.0f : -1.0f) * Random.RandomRange(0.05f, 0.075f), Random.Range(-0.05f, 0.05f), 0.05f) * factor;
-            _cinemachineImpulseSource_Bump.GenerateImpulseWithVelocity(velocity);
+            //_cinemachineImpulseSource_Bump.GenerateImpulseWithVelocity(velocity);
 
             if (_operatingDirection == EDirectionType.West)
             {
-                VolumeManager.Instance.OnOperationInputPrompt();
+                //VolumeManager.Instance.OnOperationInputPrompt();
             }
         }
 
