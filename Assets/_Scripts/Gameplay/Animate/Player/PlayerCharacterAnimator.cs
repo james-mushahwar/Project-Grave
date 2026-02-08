@@ -291,8 +291,14 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         private void Update()
         {
+            TickInput();
+
             UpdateAnimState();
             TickAnimState();
+        }
+
+        private void TickInput()
+        {
 
         }
 
@@ -788,16 +794,17 @@ namespace _Scripts.Gameplay.Animate.Player{
                     }
 
                     //progress operation
+
                     //if (inFreeFlow)
                     {
-                        Vector3 progressPosition = currentOpState.GetProgressPosition();
-                        Vector3 progressRotation = currentOpState.GetProgressRotation(false);
 
                         float deltaProceedStep = 0.0f;
                         if (equippedTool != null)
                         {
                             deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(1.0f) * DebugManager.Instance.DebugSettings.OperationEffectivenessFactor;
                             //deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(_minigameMomentum) * DebugManager.Instance.DebugSettings.OperationEffectivenessFactor;
+
+                           
 
                             //if (_bloodAreaFXTimer > 0.0f)
                             //{
@@ -820,6 +827,12 @@ namespace _Scripts.Gameplay.Animate.Player{
                             PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.ProceedOperation(deltaProceedStep);
                         }
 
+                        Vector3 progressPosition = currentOpState.GetProgressPosition(false) - currentOpState.OperationStartTransform.position;
+                        Vector3 progressRotation = currentOpState.GetProgressRotation(false);
+
+                        //CurrentAnimator.transform.position = progressPosition;
+                        CurrentAnimator.transform.position = currentOpState.OperationStartOffsetTransform.position + progressPosition;
+                        
                         //if (_sawingAmount == 0.0f || _sawingAmount == 1.0f)
                         //{
                         //    OnSwitchOperatingDirection(_operatingDirection);
