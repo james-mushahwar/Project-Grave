@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5903236498026467882}
   m_Layer: 7
   m_Name: Hook_Storage
-  m_TagString: Untagged
+  m_TagString: Storage_Hook
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,6 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Animate.JitterAnimation.JitterBehaviour
   _jitterRenderer:
   - {fileID: 7048917469614803576}
+  _defaultJitter: 0
 --- !u!65 &5903236498026467882
 BoxCollider:
   m_ObjectHideFlags: 0

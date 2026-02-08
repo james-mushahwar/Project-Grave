@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Day0_MeetReceptionist_Dialogue
   m_EditorClassIdentifier: 
   _dialogueType: 0
+  _dialogueEvent: 0
   _phrases:
   - _text: Welcome! Welcome! I see you have your saw!
     _receiveInput: 0
@@ -44,7 +45,7 @@ MonoBehaviour:
       _character: 2
       _animationType: 1
       _loop: 0
-  - _text: There's no time to slack and stand about.
+  - _text: So no time to slack and stand about.
     _receiveInput: 0
     _isSkipable: 0
     _isAuto: 1

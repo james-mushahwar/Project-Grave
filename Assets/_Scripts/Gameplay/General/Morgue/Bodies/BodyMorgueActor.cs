@@ -7,6 +7,7 @@ using _Scripts.Gameplay.Animate.JitterAnimation;
 using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
+using _Scripts.Gameplay.General.Morgue.Storage;
 using _Scripts.Gameplay.Input.InputController.Game;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
@@ -96,6 +97,18 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                         //storableMono.gameObject.transform.localPosition = Vector3.zero;
                         //storableMono.gameObject.transform.rotation = StorageSpace.rotation;
                         //storableMono.gameObject.transform.localScale = localScale;
+
+                        if (storage.GetStorageParent() is MorgueStorage)
+                        {
+                            MorgueStorage morgueStorage = (MorgueStorage)storage;
+                            if (morgueStorage)
+                            {
+                                if (morgueStorage.IsHookStorage)
+                                {
+                                    MorgueManager.Instance.InvokeDayNightTransition();
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -157,6 +170,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             MorgueManager.Instance.PopulateMorgueBody(this);
 
             _bodyStorable.StorableParent = this;
+
+            _bodyAnimator.Setup();
         }
 
         public override void Tick()
@@ -386,18 +401,20 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             OperationState currentOp = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
             if (currentOp != null)
             {
-                _bodyAnimator.PlayAnimation(currentOp.BeginOperationBodyAnimName, 1.0f , 0.0f, true);
+                //_bodyAnimator.PlayAnimation(EBodyMorgueActorAnimation.Operating_Position_RArm, 1.0f , 0.0f, true);
+                _bodyAnimator.Set_Animation_OperationPositionRArm(true);
             }
         }
 
         public void TickOperation(float elapsedTime)
         {
-            _bodyAnimator.SetAnimPoistion(elapsedTime);
+            //_bodyAnimator.SetAnimPoistion(elapsedTime);
         }
 
         public void StopOperation()
         {
-            _bodyAnimator.PlayAnimation(_endOperation_AnimName, 1.0f, 0.0f, true);
+            //_bodyAnimator.PlayAnimation(_endOperation_AnimName, 1.0f, 0.0f, true);
+            _bodyAnimator.Set_Animation_OperationPositionRArm(false);
         }
 
         #region Jitter

@@ -15,6 +15,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using _Scripts.Gameplay.Architecture.Misc;
 using Random = UnityEngine.Random;
 using _Scripts._Game.Dialogue;
+using _Scripts.Gameplay.General.Morgue.Storage;
 
 namespace _Scripts.Gameplay.General.Morgue.Bodies{
     
@@ -131,6 +132,18 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                         storableMono.gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
                         //SkinnedMeshRenderer?.transform.localPosition = Vector3.zero;
                         //storableMono.gameObject.transform.localScale = localScale;
+
+                        if (storage.GetStorageParent() is MorgueStorage)
+                        {
+                            MorgueStorage morgueStorage = (MorgueStorage)storage.GetStorageParent();
+                            if (morgueStorage)
+                            {
+                                if (morgueStorage.IsHookStorage)
+                                {
+                                    MorgueManager.Instance.InvokeDayNightTransition();
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -506,6 +519,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             {
                 opState.EndOperationState();
             }
+            _bodyMorgueActor?.StopOperation();
         }
     }
     

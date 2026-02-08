@@ -211,8 +211,6 @@ namespace _Scripts.Gameplay.ActionSequence {
         public void Assistant_EnterWithBody_Event()
         {
             MorgueManager.Instance.Debug_SpawnMorgueActor();
-
-            MorgueManager.Instance.InvokeDayNightTransition();
         }
 
         //Dialogue events

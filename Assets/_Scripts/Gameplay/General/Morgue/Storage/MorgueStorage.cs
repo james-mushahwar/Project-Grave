@@ -17,10 +17,14 @@ namespace _Scripts.Gameplay.General.Morgue.Storage{
 
         [SerializeField] protected bool _updateJitter;
 
+        private bool _isHookStorage = false;
+
         public FStorageSlot StorageSlot
         {
             get { return _singleSlot; }
         }
+
+        public bool IsHookStorage { get => _isHookStorage; }
 
         //MorgueActor
         public override void EnterHouseThroughChute()
@@ -40,6 +44,8 @@ namespace _Scripts.Gameplay.General.Morgue.Storage{
         public override void Setup()
         {
             _singleSlot.StorageParent = this;
+
+            _isHookStorage = gameObject.tag == "Storage_Hook";
         }
 
         public override void Tick()

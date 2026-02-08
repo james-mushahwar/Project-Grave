@@ -269,10 +269,10 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState.OperationMin
                     {
                         penalty = _operatingMomentumPenaltyCurve.Evaluate(_runtimeStats.OperatingMomentum);
                         //FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawBreak);
-                        VolumeManager.Instance.OnOperationPenaltyInput();
+                        //VolumeManager.Instance.OnOperationPenaltyInput();
                         //TimeManager.Instance.TryRequestTimeScale(ETimeImportance.Low, 0.0f, 0.0f, 0.025f, 0.2f);
-                        MorgueManager.Instance.OnStimulusReceived(EMorgueStimulus.Operation_FailureInput, _pc.OperatingTable.gameObject);
-                        CameraManager.Instance.OnPenaltyInput();
+                        //MorgueManager.Instance.OnStimulusReceived(EMorgueStimulus.Operation_FailureInput, _pc.OperatingTable.gameObject);
+                        //CameraManager.Instance.OnPenaltyInput();
                     }
                 }
             }
