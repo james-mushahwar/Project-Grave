@@ -171,6 +171,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
             _bodyStorable.StorableParent = this;
 
+            _bodyAnimator.BodyMorgueActor = this;
             _bodyAnimator.Setup();
         }
 
@@ -193,6 +194,10 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
             OperationState currentOp = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
 
+            if (_bodyAnimator)
+            {
+                _bodyAnimator.ManagedTick();
+            }
         }
 
         public override void ToggleProne(bool set)

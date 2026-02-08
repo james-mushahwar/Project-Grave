@@ -98,6 +98,8 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
             }
         }
 
+        public BodyPartMorgueActor BodyPartMorgueActor { get => _bodyPartMorgueActor; }
+
         public void SetupOperationState()
         {
             if (RuntimeID != null)

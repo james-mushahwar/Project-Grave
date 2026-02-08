@@ -1,6 +1,8 @@
 ﻿using _Scripts.Gameplay.Architecture.Managers;
+using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
@@ -23,6 +25,9 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies {
         public Animator CurrentAnimator { get { return _normalAnimator; } }
 
         public bool CanTick { get => true; set => throw new System.NotImplementedException(); }
+
+        private BodyMorgueActor _bodyMorgueActor;
+        public BodyMorgueActor BodyMorgueActor { get => _bodyMorgueActor; set => _bodyMorgueActor = value; }
 
         public Dictionary<EBodyMorgueActorAnimation, int> _bodyAnimationDict = new Dictionary<EBodyMorgueActorAnimation, int>();
 
@@ -69,6 +74,34 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies {
 
         public void Enable()
         {
+        }
+
+        public void ManagedTick()
+        {
+            //operation tick
+            OperationState currentOp = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+            if (currentOp != null)
+            {
+                float opProgress = currentOp.NormalisedProgress;
+                if (currentOp.BodyPartMorgueActor != null)
+                {
+                    BodyPartMorgueActor bodyPart = currentOp.BodyPartMorgueActor;
+
+                    if (bodyPart.BodyPartType == EMorgueBodyPart.RArm)
+                    {
+                        CurrentAnimator.SetLayerWeight(_rArmAnimLayer_Index, opProgress);
+                    }
+                }
+            }
+            else if (_bodyMorgueActor && _bodyMorgueActor.RArmMorgueActor == false)
+            {
+                CurrentAnimator.SetLayerWeight(_rArmAnimLayer_Index, 1.0f);
+            }
+            else
+            {
+                CurrentAnimator.SetLayerWeight(_rArmAnimLayer_Index, 0.0f);
+            }
+
         }
 
         public void PlayAnimation(EBodyMorgueActorAnimation animType, float offset = 0.0f, float crossFade = 0.0f, bool pauseOnStart = false)

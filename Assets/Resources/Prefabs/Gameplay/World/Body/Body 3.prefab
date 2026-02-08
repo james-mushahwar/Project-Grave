@@ -18172,7 +18172,7 @@ MonoBehaviour:
     _operationEndTransform: {fileID: 721260419216286315}
     _operationStartOffsetTransform: {fileID: 2543564306707494131}
     _bodyPartMorgueActor: {fileID: 2280305488631668035}
-    _duration: 1
+    _duration: 2
     _runtimeID: {fileID: 2845633092960539945}
     _beginOperation_BodyAnimName: sawing_flesh_seperate
     _opMinigame: {fileID: 11400000, guid: 7ec7c396c72bab741bab926a533f5021, type: 2}
@@ -55219,6 +55219,7 @@ MonoBehaviour:
   - {fileID: 3617965555972906714}
   - {fileID: 4565827216711569223}
   - {fileID: 4385637875039825130}
+  _defaultJitter: 0
 --- !u!1 &7210033133182848951
 GameObject:
   m_ObjectHideFlags: 0
@@ -81349,6 +81350,7 @@ MonoBehaviour:
   _jitterRenderer:
   - {fileID: 7026971223350046189}
   - {fileID: 2229163728432924418}
+  _defaultJitter: 0
 --- !u!1 &3686837344771641384 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6556127302002863644, guid: 3cfc68dfc1a81b348911c792f34061e6,
@@ -81370,6 +81372,7 @@ MonoBehaviour:
   _jitterRenderer:
   - {fileID: 3617965555972906714}
   - {fileID: 3334474455945908835}
+  _defaultJitter: 0
 --- !u!137 &4385637875039825130 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6127893220860072670, guid: 3cfc68dfc1a81b348911c792f34061e6,
@@ -81430,6 +81433,7 @@ MonoBehaviour:
   _jitterRenderer:
   - {fileID: 8379520998439126788}
   - {fileID: 6066432034505616386}
+  _defaultJitter: 0
 --- !u!1 &6235198134869201566 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4562590249696521386, guid: 3cfc68dfc1a81b348911c792f34061e6,
@@ -81478,6 +81482,7 @@ MonoBehaviour:
   _jitterRenderer:
   - {fileID: 4565827216711569223}
   - {fileID: 1155660167165754657}
+  _defaultJitter: 0
 --- !u!1 &6794456885773384901 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4007234493485564657, guid: 3cfc68dfc1a81b348911c792f34061e6,
@@ -81526,6 +81531,7 @@ MonoBehaviour:
   _jitterRenderer:
   - {fileID: 2116382164477831277}
   - {fileID: 999137558720088494}
+  _defaultJitter: 0
 --- !u!137 &7026971223350046189 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 599714440815252441, guid: 3cfc68dfc1a81b348911c792f34061e6,
@@ -81580,6 +81586,7 @@ MonoBehaviour:
   _jitterRenderer:
   - {fileID: 4385637875039825130}
   - {fileID: 8928300179343481154}
+  _defaultJitter: 0
 --- !u!137 &8379520998439126788 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2133657220799854896, guid: 3cfc68dfc1a81b348911c792f34061e6,
