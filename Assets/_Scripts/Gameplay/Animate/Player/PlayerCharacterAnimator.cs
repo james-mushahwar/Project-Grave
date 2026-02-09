@@ -299,7 +299,44 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         private void TickInput()
         {
+            AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
 
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+
+            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+            bool isOperating = currentOpState != null;
+
+
+            bool isSawing = baseLayerStateInfo.shortNameHash.Equals(_state_SawingForward_Hash) || baseLayerStateInfo.shortNameHash.Equals(_state_SawingBackward_Hash);
+            bool isSawingForward = isSawing && _operatingDirection == EDirectionType.West;
+            bool isSawingBackward = isSawing && _operatingDirection == EDirectionType.East;
+
+            if (isOperating)
+            {
+                float targetPlayRate = 1.0f;
+                float lerpSpeed = 1.0f;
+
+                if (isSawingForward)
+                {
+                    if (currentOpState.GetInputHeld(EInputType.LTrigger) == false)
+                    {
+                        targetPlayRate = 0.0f;
+                        lerpSpeed = 2.5f;
+                    }
+                }
+                else if (isSawingBackward)
+                {
+                    if (currentOpState.GetInputHeld(EInputType.LTrigger))
+                    {
+                        targetPlayRate = 0.5f;
+                        lerpSpeed = 1.0f;
+                    }
+                }
+
+                CurrentAnimator.speed = Mathf.MoveTowards(CurrentAnimator.speed, targetPlayRate, lerpSpeed * Time.deltaTime);
+
+                CurrentAnimator.speed = targetPlayRate;
+            }
         }
 
         public bool PlayAnimSawForward(float playRate = 1.0f, float normalisedOffset = 0.0f)
@@ -748,7 +785,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             {
                 if (baseLayerStateInfo.shortNameHash.Equals(_state_SawingForward_Hash))
                 {
-                    if (baseLayerStateInfo.normalizedTime >= 1.0f)
+                    if (baseLayerStateInfo.normalizedTime >= 0.95f && currentOpState.GetInputHeld(EInputType.LTrigger) == false)
                     {
                         PlayAnimSawBackward();
                     }
@@ -801,7 +838,8 @@ namespace _Scripts.Gameplay.Animate.Player{
                         float deltaProceedStep = 0.0f;
                         if (equippedTool != null)
                         {
-                            deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(1.0f) * DebugManager.Instance.DebugSettings.OperationEffectivenessFactor;
+                            float animSpeed = CurrentAnimator.speed * (baseLayerStateInfo.normalizedTime <= 0.95f ? 1.0f : 0.0f);
+                            deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(CurrentAnimator.speed) * DebugManager.Instance.DebugSettings.OperationEffectivenessFactor;
                             //deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(_minigameMomentum) * DebugManager.Instance.DebugSettings.OperationEffectivenessFactor;
 
                            
