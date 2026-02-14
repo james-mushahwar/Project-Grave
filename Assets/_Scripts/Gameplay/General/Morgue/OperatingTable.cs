@@ -25,7 +25,14 @@ namespace _Scripts.Gameplay.General.Morgue{
         [SerializeField] private FVirtualCamera _vCamera_RArmView;
         [SerializeField] private FVirtualCamera _vCamera_RLegView;
         [SerializeField] private FVirtualCamera _vCamera_LArmView;
-        [SerializeField] private FVirtualCamera _vCamera_LLegView; 
+        [SerializeField] private FVirtualCamera _vCamera_LLegView;
+
+        [SerializeField] private Transform _player_Operating_Head;
+        [SerializeField] private Transform _player_Operating_Torso;
+        [SerializeField] private Transform _player_Operating_RArm;
+        [SerializeField] private Transform _player_Operating_LArm;
+        [SerializeField] private Transform _player_Operating_RLeg;
+        [SerializeField] private Transform _player_Operating_LLeg;
 
         [SerializeField] private List<MorgueToolActor> _operatingTools = new List<MorgueToolActor>();
         public int OperatingToolsCount { get { return _operatingTools.Count; } }
@@ -108,6 +115,27 @@ namespace _Scripts.Gameplay.General.Morgue{
             }
 
             return vCam;
+        }
+
+        public Transform GetOperationTransform(EMorgueBodyPart bodyPartType)
+        {
+            switch (bodyPartType)
+            {
+                case EMorgueBodyPart.Head:
+                    return _player_Operating_Head;
+                case EMorgueBodyPart.Torso:
+                    return _player_Operating_Torso;
+                case EMorgueBodyPart.RArm:
+                    return _player_Operating_RArm;
+                case EMorgueBodyPart.LArm:
+                    return _player_Operating_LArm;
+                case EMorgueBodyPart.RLeg:
+                    return _player_Operating_RLeg;
+                case EMorgueBodyPart.LLeg:
+                    return _player_Operating_LLeg;
+                default:
+                    return null;
+            }
         }
 
         public IStorable TryRemove(IStorable storable)

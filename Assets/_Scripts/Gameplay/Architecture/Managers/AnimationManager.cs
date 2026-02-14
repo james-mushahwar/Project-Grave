@@ -14,6 +14,7 @@ using MoreMountains.Feedbacks;
 using DG.Tweening;
 using _Scripts.Gameplay.Settings;
 using static _Scripts.Gameplay.Settings.SO_JitterPresets;
+using _Scripts.Gameplay.General.Morgue;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -188,24 +189,35 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public void StartOperationState(BodyPartMorgueActor bodyPart)
         {
             Vector3 startLocation = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.position;
-            _playerCharacterAnimator.CurrentAnimator.transform.SetParent(PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartOffsetTransform);
-            _playerCharacterAnimator.CurrentAnimator.transform.localPosition = Vector3.zero;
-            _playerCharacterAnimator.CurrentAnimator.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
-            MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
-            Vector3 handDistance = Vector3.zero;
-            Vector3 direction = -PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
-            if (equippedTool != null)
+            OperatingTable opTable = PlayerManager.Instance.CurrentPlayerController.OperatingTable;
+            if (opTable && bodyPart)
             {
-                handDistance = _playerCharacterAnimator.GetToolStartToHeldSocket();
+                Transform opTransform = opTable.GetOperationTransform(bodyPart.BodyPartType);
+
+                if (opTransform != null)
+                {
+                    _playerCharacterAnimator.CurrentAnimator.transform.SetParent(opTransform);
+                    _playerCharacterAnimator.CurrentAnimator.transform.localRotation = Quaternion.Euler(Vector3.zero);
+                    _playerCharacterAnimator.CurrentAnimator.transform.localPosition = Vector3.zero;
+                }
             }
 
-            Vector3 worldPos = startLocation + (direction * handDistance.magnitude);
-            _playerCharacterAnimator.SetRigControlPosition(worldPos);
 
-            Vector3 worldRot = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState
-                .OperationStartTransform.right;
-            _playerCharacterAnimator.SetRigControlRotation(worldRot);
+            //MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
+            //Vector3 handDistance = Vector3.zero;
+            //Vector3 direction = -PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.OperationStartTransform.right;
+            //if (equippedTool != null)
+            //{
+            //    handDistance = _playerCharacterAnimator.GetToolStartToHeldSocket();
+            //}
+
+            //Vector3 worldPos = startLocation + (direction * handDistance.magnitude);
+            //_playerCharacterAnimator.SetRigControlPosition(worldPos);
+
+            //Vector3 worldRot = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState
+            //    .OperationStartTransform.right;
+            //_playerCharacterAnimator.SetRigControlRotation(worldRot);
         }
 
         public void EndOperationState(BodyPartMorgueActor bodyPart)

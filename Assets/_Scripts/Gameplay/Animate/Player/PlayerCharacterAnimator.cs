@@ -865,11 +865,13 @@ namespace _Scripts.Gameplay.Animate.Player{
                             PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.ProceedOperation(deltaProceedStep);
                         }
 
-                        Vector3 progressPosition = currentOpState.GetProgressPosition(false) - currentOpState.OperationStartTransform.position;
-                        Vector3 progressRotation = currentOpState.GetProgressRotation(false);
+                        //Vector3 progressPosition = currentOpState.GetProgressPosition(false) - currentOpState.OperationStartTransform.position;
+                        //Vector3 progressRotation = currentOpState.GetProgressRotation(false);
+                        displacementLayerWeight = currentOpState.NormalisedProgress;
+
 
                         //CurrentAnimator.transform.position = progressPosition;
-                        CurrentAnimator.transform.position = currentOpState.OperationStartOffsetTransform.position + progressPosition;
+                        //CurrentAnimator.transform.position = currentOpState.OperationStartOffsetTransform.position + progressPosition;
                         
                         //if (_sawingAmount == 0.0f || _sawingAmount == 1.0f)
                         //{
