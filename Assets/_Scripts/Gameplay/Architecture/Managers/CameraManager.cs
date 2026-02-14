@@ -11,6 +11,7 @@ using System;
 using _Scripts.Gameplay.General.Morgue;
 using UnityEditor;
 using DG.Tweening;
+using _Scripts.Gameplay.General.Morgue.Bodies;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -213,15 +214,15 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 RuntimeID id = null;
                 CinemachineVirtualCamera vCam = null;
 
-                if (OperationManager.Instance.IsInOperationOverview())
+                if (OperationManager.Instance.IsInOperationOverview() || OperationManager.Instance.IsOperating())
                 {
                     if (PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor != null && PlayerManager.Instance.CurrentPlayerController.OperatingTable != null)
                     {
                         OperatingTable opTable = PlayerManager.Instance.CurrentPlayerController.OperatingTable;
-                        vCamType = PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.OperationOverviewVirtualCamera.CamType;
-                        id = opTable.RuntimeID;
+                        EMorgueBodyPart partType = PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.BodyPartType;
 
-                        vCam = opTable.GetVirtualCamera(vCamType);
+                        vCam = opTable.GetVirtualCamera(partType);
+                        id = opTable.RuntimeID;
                         //id = PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor.RuntimeID;
                     }
                     //else if (PlayerManager.Instance.CurrentPlayerController.BodyPartMorgueActor == null)
