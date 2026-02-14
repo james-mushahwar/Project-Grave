@@ -48,8 +48,13 @@ namespace _Scripts.Gameplay.General.Morgue{
             
             _tableStorageSlot.StorageParent = this;
 
-            for (int i = 0; i < _opToolStorageSlots.Count; i++)
+            for (int i = 0; i < _operatingTools.Count; i++)
             {
+                if (_operatingTools[i] == null)
+                {
+                    continue;
+                }
+
                 FStorageSlot slot = _opToolStorageSlots[i];
                 if (slot != null)
                 {

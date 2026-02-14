@@ -296,7 +296,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             if (_runtimeIdVirtualCameraDictionary.ContainsKey(runtimeID.RuntimeId))
             {
-                _runtimeIdVirtualCameraDictionary[runtimeID.RuntimeId].Add(cameraType, vCam);
+                _runtimeIdVirtualCameraDictionary[runtimeID.RuntimeId].TryAdd(cameraType, vCam);
 
                 assign = true;
             }
