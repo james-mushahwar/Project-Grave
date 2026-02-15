@@ -241,6 +241,8 @@ namespace _Scripts.Gameplay.Animate.Player{
             //_sawingStartAnimLayer_Index = CurrentAnimator.GetLayerIndex("sawing_progress_start");
             //_sawingEndAnimLayer_Index = CurrentAnimator.GetLayerIndex("sawing_progress_end");
 
+            //CurrentAnimator.SetLayerWeight(_sawingVerticalAnimLayer_Index, 1.0f);
+
             // anim hash
             //_state_EmptyHandedLoco_Hash = Animator.StringToHash("idle");
             //states
@@ -705,8 +707,8 @@ namespace _Scripts.Gameplay.Animate.Player{
             bool isOperating = currentOpState != null;
             bool isWalking = isOperating == false;
 
-            CurrentAnimator.SetLayerWeight(_sawingWristTiltAnimLayer_Index, 0.0f);
-            CurrentAnimator.SetLayerWeight(_sawingVerticalAnimLayer_Index, 0.0f);
+            //CurrentAnimator.SetLayerWeight(_sawingWristTiltAnimLayer_Index, 0.0f);
+            //CurrentAnimator.SetLayerWeight(_sawingVerticalAnimLayer_Index, 0.0f);
 
             float tiltLayerWeight = 0.0f;
             float tiltTarget = 0.0f;
@@ -867,7 +869,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                         //Vector3 progressPosition = currentOpState.GetProgressPosition(false) - currentOpState.OperationStartTransform.position;
                         //Vector3 progressRotation = currentOpState.GetProgressRotation(false);
-                        displacementLayerWeight = currentOpState.NormalisedProgress;
+                        //displacementLayerWeight = currentOpState.NormalisedProgress;
 
 
                         //CurrentAnimator.transform.position = progressPosition;
@@ -898,8 +900,8 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             //CurrentAnimator.SetFloat(_param_sawingCutAmount_Hash, _sawingAmount);
 
-            CurrentAnimator.SetLayerWeight(_sawingWristTiltAnimLayer_Index, _handTilt);
-            CurrentAnimator.SetLayerWeight(_sawingVerticalAnimLayer_Index, displacementLayerWeight);
+            //CurrentAnimator.SetLayerWeight(_sawingWristTiltAnimLayer_Index, _handTilt);
+            //CurrentAnimator.SetLayerWeight(_sawingVerticalAnimLayer_Index, displacementLayerWeight);
         }
 
         public void ManagedFixedTick()
