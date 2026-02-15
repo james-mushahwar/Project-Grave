@@ -200,6 +200,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             }
         }
 
+        public void OnOperationChangeDirection()
+        {
+            _bodyAnimator.TriggerSkinJiggle();
+        }
+
         public override void ToggleProne(bool set)
         {
             if (Collider != null)

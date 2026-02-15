@@ -1,9 +1,11 @@
 ﻿using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using static UnityEngine.Rendering.DebugUI;
 
 namespace _Scripts.Gameplay.General.Morgue.Bodies {
@@ -37,6 +39,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies {
         private int _rArmAnimLayer_Index;
         [SerializeField]
         private AnimationCurve _rArmFleshLayer_Curve;
+        private Tweener _op_SkinJiggleTween;
+        private float _op_SkinJiggle;
 
         //animation controller state hash
         private int _state_Operation_Idle_Hash;
@@ -85,13 +89,17 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies {
             if (currentOp != null)
             {
                 float opProgress = _rArmFleshLayer_Curve.Evaluate(currentOp.NormalisedProgress);
+
+                float skinJiggle = _op_SkinJiggle;
+
+                float skinTarget = Mathf.Clamp(opProgress + skinJiggle, 0.0f, 1.0f);
                 if (currentOp.BodyPartMorgueActor != null)
                 {
                     BodyPartMorgueActor bodyPart = currentOp.BodyPartMorgueActor;
 
                     if (bodyPart.BodyPartType == EMorgueBodyPart.RArm)
                     {
-                        CurrentAnimator.SetLayerWeight(_rArmAnimLayer_Index, opProgress);
+                        CurrentAnimator.SetLayerWeight(_rArmAnimLayer_Index, skinTarget);
                     }
                 }
             }
@@ -128,6 +136,28 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies {
             {
                 CurrentAnimator.speed = 0.0f;
             }
+        }
+
+        public void TriggerSkinJiggle()
+        {
+            _op_SkinJiggle = 0.0f;
+            _op_SkinJiggleTween.Kill();
+            _op_SkinJiggleTween = DOVirtual.Float(0.0f, 0.05f, 0.8f, (float value) =>
+            {
+                _op_SkinJiggle = value;
+                Debug.Log("SKin jiggle " +  _op_SkinJiggle);
+            }).SetEase(Ease.InOutBounce);
+
+            _op_SkinJiggleTween.OnComplete(() => TweenFloat(ref _op_SkinJiggleTween, _op_SkinJiggle, 0.0f, 0.8f, _op_SkinJiggle, Ease.OutBounce));
+
+        }
+
+        private void TweenFloat(ref Tweener tweener, float from, float to, float duration, float param, Ease easeType)
+        {
+            tweener = DOVirtual.Float(from, to, duration, value =>
+            {
+                param = value;
+            }).SetEase(easeType);
         }
 
         public void Set_Animation_OperationPositionRArm(bool set)

@@ -21,6 +21,7 @@ using System.Diagnostics.Tracing;
 using Unity.VisualScripting;
 using static UnityEngine.Rendering.DebugUI;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
+using _Scripts.Gameplay.General.Morgue.Bodies;
 
 namespace _Scripts.Gameplay.Animate.Player{
 
@@ -350,7 +351,18 @@ namespace _Scripts.Gameplay.Animate.Player{
             //CurrentAnimator.playbackTime = normalisedOffset;
             CurrentAnimator.speed = playRate;
 
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+            if (pc)
+            {
+                BodyMorgueActor body = pc.BodyPartMorgueActor.BodyMorgueActor;
+                if (body)
+                {
+                    body.OnOperationChangeDirection();
+                }
+            }
+
             _operatingDirection = EDirectionType.West;
+
             return true;
         }
 
@@ -362,6 +374,16 @@ namespace _Scripts.Gameplay.Animate.Player{
             CurrentAnimator.CrossFade(_state_SawingForward_Hash, 0.0f, _baseAnimLayer_Index, normalisedOffset);
             //CurrentAnimator.playbackTime = normalisedOffset;
             CurrentAnimator.speed = playRate;
+
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+            if (pc)
+            {
+                BodyMorgueActor body = pc.BodyPartMorgueActor.BodyMorgueActor;
+                if (body)
+                {
+                    body.OnOperationChangeDirection();
+                }
+            }
 
             _operatingDirection = EDirectionType.East;
             return true;
