@@ -645,7 +645,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                     if (ChosenOperationState != null)
                     {
                         ChosenOperationState.OnActionLInput(pressed);
-                        _playerCharacterAnimator.OnActionLRInput();
+                        _playerCharacterAnimator.OnActionLInput(pressed);
                     }
                 }
             }
@@ -683,8 +683,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                     if (ChosenOperationState != null)
                     {
                         ChosenOperationState.OnActionRInput(pressed);
-
-                        _playerCharacterAnimator.OnActionLRInput();
+                        //_playerCharacterAnimator.OnActionLInput(pressed);
                     }
                 }
             }

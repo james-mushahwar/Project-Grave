@@ -323,7 +323,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                     if (currentOpState.GetInputHeld(EInputType.LTrigger) == false)
                     {
                         targetPlayRate = 0.0f;
-                        lerpSpeed = 2.5f;
+                        lerpSpeed = 0.75f;
                     }
                 }
                 else if (isSawingBackward)
@@ -331,7 +331,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                     if (currentOpState.GetInputHeld(EInputType.LTrigger))
                     {
                         targetPlayRate = 0.5f;
-                        lerpSpeed = 1.0f;
+                        lerpSpeed = 0.5f;
                     }
                 }
 
@@ -346,8 +346,8 @@ namespace _Scripts.Gameplay.Animate.Player{
             CurrentAnimator.SetBool(_param_SawBackward_Hash, false);
             CurrentAnimator.SetBool(_param_SawForward_Hash, true);
 
-            CurrentAnimator.CrossFade(_state_SawingForward_Hash, 0.0f);
-            CurrentAnimator.playbackTime = normalisedOffset;
+            CurrentAnimator.CrossFade(_state_SawingForward_Hash, 0.0f, _baseAnimLayer_Index, normalisedOffset);
+            //CurrentAnimator.playbackTime = normalisedOffset;
             CurrentAnimator.speed = playRate;
 
             _operatingDirection = EDirectionType.West;
@@ -359,8 +359,8 @@ namespace _Scripts.Gameplay.Animate.Player{
             CurrentAnimator.SetBool(_param_SawForward_Hash, false);
             CurrentAnimator.SetBool(_param_SawBackward_Hash, true);
 
-            CurrentAnimator.CrossFade(_state_SawingBackward_Hash, 0.0f);
-            CurrentAnimator.playbackTime = normalisedOffset;
+            CurrentAnimator.CrossFade(_state_SawingForward_Hash, 0.0f, _baseAnimLayer_Index, normalisedOffset);
+            //CurrentAnimator.playbackTime = normalisedOffset;
             CurrentAnimator.speed = playRate;
 
             _operatingDirection = EDirectionType.East;
@@ -766,30 +766,27 @@ namespace _Scripts.Gameplay.Animate.Player{
             }
 
             //Operation
-            bool moveToSawingPose = (currentOpState != null) && (_currentBaseLayerStateHash.Equals(_state_SawIdle_Hash) || _currentBaseLayerStateHash.Equals(_state_SawingStartIdle_Hash));
+            bool moveToSawingPose = (currentOpState != null) && (_currentBaseLayerStateHash.Equals(_state_SawingStartIdle_Hash));
+            bool sawingIdlePose = (currentOpState != null) && (_currentBaseLayerStateHash.Equals(_state_SawIdle_Hash));
             bool canSaw = (currentOpState != null) && (_currentBaseLayerStateHash.Equals(_state_SawingForward_Hash) || _currentBaseLayerStateHash.Equals(_state_SawingBackward_Hash));
             bool inFreeFlow = currentOpState != null && currentOpState.OpMinigame.CheckOperationState(Org.EOperationMinigameState.FreeFlow);
 
             Debug.Log("Can Saw: " + canSaw);
 
-            CurrentAnimator.SetBool(_param_isSawing_Hash, moveToSawingPose);
+            CurrentAnimator.SetBool(_param_isSawing_Hash, moveToSawingPose || sawingIdlePose);
 
             //basic sawing anim
-            if (CurrentAnimator.GetBool(_param_SawForward_Hash) == false)
+            if (currentOpState != null)
             {
-                if (baseLayerStateInfo.shortNameHash.Equals(_state_SawingStartIdle_Hash))
+                if (currentOpState.GetInputHeld(EInputType.LTrigger))
                 {
-                    Debug.Log("Play sawing forward anim");
-                    PlayAnimSawForward();
-                }
-            }
-            else
-            {
-                if (baseLayerStateInfo.shortNameHash.Equals(_state_SawingForward_Hash))
-                {
-                    if (baseLayerStateInfo.normalizedTime >= 0.95f && currentOpState.GetInputHeld(EInputType.LTrigger) == false)
+                    if (CurrentAnimator.GetBool(_param_SawForward_Hash) == false)
                     {
-                        PlayAnimSawBackward();
+                        if (baseLayerStateInfo.shortNameHash.Equals(_state_SawingStartIdle_Hash))
+                        {
+                            Debug.Log("Play sawing forward anim");
+                            PlayAnimSawForward();
+                        }
                     }
                 }
             }
@@ -799,7 +796,12 @@ namespace _Scripts.Gameplay.Animate.Player{
             bool isSawing = baseLayerStateInfo.shortNameHash.Equals(_state_SawingForward_Hash) || baseLayerStateInfo.shortNameHash.Equals(_state_SawingBackward_Hash);
             bool isSawingForward = isSawing && _operatingDirection == EDirectionType.West;
             bool isSawingBackward = isSawing && _operatingDirection == EDirectionType.East;
-            
+
+            if (isSawing || sawingIdlePose || moveToSawingPose)
+            {
+                displacementLayerWeight = currentOpState.NormalisedProgress;
+            }
+
             if (isSawing)
             {
                 if (isSawingForward)
@@ -829,58 +831,53 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                         _handTilt = Mathf.MoveTowards(_handTilt, tiltTarget, tiltDelta);
 
-                        displacementLayerWeight = 0.0f;
+                        //displacementLayerWeight = 0.0f;
                     }
 
                     //progress operation
-
-                    //if (inFreeFlow)
+                    float deltaProceedStep = 0.0f;
+                    if (equippedTool != null)
                     {
+                        float animSpeed = CurrentAnimator.speed * (baseLayerStateInfo.normalizedTime <= 0.95f ? 1.0f : 0.0f);
+                        deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(animSpeed) * DebugManager.Instance.DebugSettings.OperationEffectivenessFactor;
+                        //deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(_minigameMomentum) * DebugManager.Instance.DebugSettings.OperationEffectivenessFactor;
 
-                        float deltaProceedStep = 0.0f;
-                        if (equippedTool != null)
-                        {
-                            float animSpeed = CurrentAnimator.speed * (baseLayerStateInfo.normalizedTime <= 0.95f ? 1.0f : 0.0f);
-                            deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(CurrentAnimator.speed) * DebugManager.Instance.DebugSettings.OperationEffectivenessFactor;
-                            //deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(_minigameMomentum) * DebugManager.Instance.DebugSettings.OperationEffectivenessFactor;
+                       
 
-                           
-
-                            //if (_bloodAreaFXTimer > 0.0f)
-                            //{
-                            //    _bloodAreaFXTimer = Mathf.Clamp(_bloodAreaFXTimer - Time.deltaTime, 0.0f, 10.0f);
-                            //}
-                            //else
-                            //{
-                            //    //Debug.Log("Effectiveness = " + effectiveness);
-                            //    if (Mathf.Abs(_minigameMomentum) > 0.1f)
-                            //    {
-                            //        ParticleManager.Instance.TryPlayParticleSystem(EParticleType.VFX_BloodSplatter_Area, progressPosition, progressRotation);
-                            //        AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioCue.SFX_BloodSplatter_LowEnergy, progressPosition);
-                            //        _bloodAreaFXTimer = 0.5f;
-                            //    }
-                            //}
-                        }
-
-                        if (PlayerManager.Instance.CurrentPlayerController.ChosenOperationState != null)
-                        {
-                            PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.ProceedOperation(deltaProceedStep);
-                        }
-
-                        //Vector3 progressPosition = currentOpState.GetProgressPosition(false) - currentOpState.OperationStartTransform.position;
-                        //Vector3 progressRotation = currentOpState.GetProgressRotation(false);
-                        //displacementLayerWeight = currentOpState.NormalisedProgress;
-
-
-                        //CurrentAnimator.transform.position = progressPosition;
-                        //CurrentAnimator.transform.position = currentOpState.OperationStartOffsetTransform.position + progressPosition;
-                        
-                        //if (_sawingAmount == 0.0f || _sawingAmount == 1.0f)
+                        //if (_bloodAreaFXTimer > 0.0f)
                         //{
-                        //    OnSwitchOperatingDirection(_operatingDirection);
-                        //    sawDirectionFactor = (_operatingDirection == EDirectionType.East ? -1.0f : 1.0f);
+                        //    _bloodAreaFXTimer = Mathf.Clamp(_bloodAreaFXTimer - Time.deltaTime, 0.0f, 10.0f);
+                        //}
+                        //else
+                        //{
+                        //    //Debug.Log("Effectiveness = " + effectiveness);
+                        //    if (Mathf.Abs(_minigameMomentum) > 0.1f)
+                        //    {
+                        //        ParticleManager.Instance.TryPlayParticleSystem(EParticleType.VFX_BloodSplatter_Area, progressPosition, progressRotation);
+                        //        AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioCue.SFX_BloodSplatter_LowEnergy, progressPosition);
+                        //        _bloodAreaFXTimer = 0.5f;
+                        //    }
                         //}
                     }
+
+                    if (PlayerManager.Instance.CurrentPlayerController.ChosenOperationState != null)
+                    {
+                        PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.ProceedOperation(deltaProceedStep);
+                    }
+
+                    //Vector3 progressPosition = currentOpState.GetProgressPosition(false) - currentOpState.OperationStartTransform.position;
+                    //Vector3 progressRotation = currentOpState.GetProgressRotation(false);
+
+
+                    //CurrentAnimator.transform.position = progressPosition;
+                    //CurrentAnimator.transform.position = currentOpState.OperationStartOffsetTransform.position + progressPosition;
+                    
+                    //if (_sawingAmount == 0.0f || _sawingAmount == 1.0f)
+                    //{
+                    //    OnSwitchOperatingDirection(_operatingDirection);
+                    //    sawDirectionFactor = (_operatingDirection == EDirectionType.East ? -1.0f : 1.0f);
+                    //}
+                    
 
                     //float sawingProgressDelta = _minigameMomentum * toolSpeed * Time.deltaTime;
                     //sawingAmountDelta = (sawDirectionFactor * _minigameMomentum * toolSpeed) * Time.deltaTime;
@@ -900,8 +897,8 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             //CurrentAnimator.SetFloat(_param_sawingCutAmount_Hash, _sawingAmount);
 
-            //CurrentAnimator.SetLayerWeight(_sawingWristTiltAnimLayer_Index, _handTilt);
-            //CurrentAnimator.SetLayerWeight(_sawingVerticalAnimLayer_Index, displacementLayerWeight);
+            CurrentAnimator.SetLayerWeight(_sawingWristTiltAnimLayer_Index, _handTilt);
+            CurrentAnimator.SetLayerWeight(_sawingVerticalAnimLayer_Index, displacementLayerWeight);
         }
 
         public void ManagedFixedTick()
@@ -1209,10 +1206,41 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         #region Operation animation
 
-        public void OnActionLRInput()
+        public void OnActionLInput(bool pressed)
         {
-            
+            AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
 
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+
+            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+            bool isOperating = currentOpState != null;
+
+            if (pressed)
+            {
+                if (isOperating)
+                {
+                    //basic sawing anim
+                    if (CurrentAnimator.GetBool(_param_SawForward_Hash) == false)
+                    {
+                        if (baseLayerStateInfo.shortNameHash.Equals(_state_SawingStartIdle_Hash))
+                        {
+                            Debug.Log("Play sawing forward anim");
+                            PlayAnimSawForward();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (isOperating)
+                {
+                    if (baseLayerStateInfo.shortNameHash.Equals(_state_SawingForward_Hash))
+                    {
+                        float offset = baseLayerStateInfo.normalizedTime;
+                        PlayAnimSawBackward(1.0f, offset);
+                    }
+                }
+            }
         }
 
         public void OnEvent_PerfectZone(EDirectionType direction)

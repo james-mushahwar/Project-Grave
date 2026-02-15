@@ -18172,7 +18172,7 @@ MonoBehaviour:
     _operationEndTransform: {fileID: 721260419216286315}
     _operationStartOffsetTransform: {fileID: 2543564306707494131}
     _bodyPartMorgueActor: {fileID: 2280305488631668035}
-    _duration: 2
+    _duration: 5
     _runtimeID: {fileID: 2845633092960539945}
     _beginOperation_BodyAnimName: sawing_flesh_seperate
     _opMinigame: {fileID: 11400000, guid: 7ec7c396c72bab741bab926a533f5021, type: 2}
@@ -69994,8 +69994,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8060353995403069222}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.70710677, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.9, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -81066,6 +81066,91 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: skinned_char Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.data[1].time
+      value: 0.1351111
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.data[2].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.data[1].value
+      value: 0.35898134
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.data[2].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.data[0].inSlope
+      value: 2.8507326
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.data[1].inSlope
+      value: 1.9593374
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.data[2].inSlope
+      value: 0.40227443
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.data[0].outSlope
+      value: 2.8507326
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.data[1].outSlope
+      value: 1.9593374
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.data[2].inWeight
+      value: 0.04734981
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.data[2].outSlope
+      value: 0.40227443
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.data[0].outWeight
+      value: 0.018374559
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.data[1].outWeight
+      value: 0.03825554
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.data[0].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659922687568580229, guid: 3cfc68dfc1a81b348911c792f34061e6,
+        type: 3}
+      propertyPath: _rArmFleshLayer_Curve.m_Curve.Array.data[1].tangentMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7884291507420222260, guid: 3cfc68dfc1a81b348911c792f34061e6,
         type: 3}

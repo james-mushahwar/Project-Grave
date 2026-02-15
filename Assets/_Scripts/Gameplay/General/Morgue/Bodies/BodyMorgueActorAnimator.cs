@@ -35,6 +35,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies {
         //animation layer hash
         private int _baseAnimLayer_Index;
         private int _rArmAnimLayer_Index;
+        [SerializeField]
+        private AnimationCurve _rArmFleshLayer_Curve;
 
         //animation controller state hash
         private int _state_Operation_Idle_Hash;
@@ -82,7 +84,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies {
             OperationState currentOp = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
             if (currentOp != null)
             {
-                float opProgress = currentOp.NormalisedProgress;
+                float opProgress = _rArmFleshLayer_Curve.Evaluate(currentOp.NormalisedProgress);
                 if (currentOp.BodyPartMorgueActor != null)
                 {
                     BodyPartMorgueActor bodyPart = currentOp.BodyPartMorgueActor;
