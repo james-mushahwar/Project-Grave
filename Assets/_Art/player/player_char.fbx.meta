@@ -179,7 +179,7 @@ ModelImporter:
       name: saw_cut
       takeName: Take 001
       internalID: -6788666626592393668
-      firstFrame: 1001
+      firstFrame: 1002
       lastFrame: 1030
       wrapMode: 0
       orientationOffsetY: 0
@@ -209,7 +209,7 @@ ModelImporter:
       takeName: Take 001
       internalID: 1702301948168947093
       firstFrame: 1030
-      lastFrame: 1059
+      lastFrame: 1042
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -412,7 +412,7 @@ ModelImporter:
       takeName: Take 001
       internalID: -4068993222697286061
       firstFrame: 1520
-      lastFrame: 1535
+      lastFrame: 1570
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -732,6 +732,64 @@ ModelImporter:
       internalID: 5970547076685445538
       firstFrame: 2500
       lastFrame: 2904
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: saw_back_fail
+      takeName: Take 001
+      internalID: -5729363228569848670
+      firstFrame: 2950
+      lastFrame: 2979
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: saw_back_stuck_loop
+      takeName: Take 001
+      internalID: -7820077891452772538
+      firstFrame: 3001
+      lastFrame: 3020
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
