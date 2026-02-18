@@ -180,12 +180,9 @@ namespace _Scripts.Gameplay.General.Morgue{
                 }
             }
 
-            if (storable as BodyMorgueActor)
+            if (storable.GetStorableParent() as BodyMorgueActor)
             {
-                if (_tableStorageSlot.TryFind(storable))
-                {
-                    return _tableStorageSlot.GetStorageSpace(storable);
-                }
+                return _tableStorageSlot.GetStorageSpace(storable);
             }
 
             return null;

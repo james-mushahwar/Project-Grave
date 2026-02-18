@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using _Scripts._Game.Sequencer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using _Scripts.Gameplay.Settings;
+
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -18,6 +20,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
     public class GameStateManager : Singleton<GameStateManager>
     {
         [Header("Scriptables")]
+        [SerializeField] private MasterProjectSettings _masterProjectSettings;
 
         [Header("Managers")]
         [SerializeField] private AudioManager _audioManagerPrefab;
@@ -45,6 +48,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public EGameState GameState
         {
             get => _gameState;
+        }
+
+        public bool IsPlayingFullGame
+        {
+            get
+            {
+                return _masterProjectSettings.PlayFullGame;
+            }
         }
 
         private List<IManager> _managers = new List<IManager>();

@@ -12,6 +12,7 @@ namespace _Scripts.Editor {
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObject/Load Levels SO", order = 1)]
     public class SO_LoadLevels : ScriptableObject
     {
+        [Header("Scenes")]
         [SerializeField]
         private List<SceneAsset> _allPlayerScenes;
         [SerializeField]

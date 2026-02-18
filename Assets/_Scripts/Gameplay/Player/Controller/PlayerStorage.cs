@@ -27,6 +27,24 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         private List<IStorage> _pockets = new List<IStorage>();
 
+        void Start()
+        {
+            if (GameStateManager.Instance.IsPlayingFullGame == false)
+            {
+                if (GetToolOfType(EOperationType.Dismember) == null)
+                {
+                    OperationDismemberMorgueTool startSaw = OperationManager.Instance.StarterSaw;
+
+                    if (startSaw != null)
+                    {
+                        PlayerManager.Instance.CurrentPlayerController.Event_TryEquipTool(startSaw);
+                        PlayerManager.Instance.CurrentPlayerController.Event_TryUnequipTool();
+
+                    }
+                }
+            }
+        }
+
         public FStorageSlot GetPrimaryHand(EPlayerControllerState forceState = EPlayerControllerState.NONE)
         {
             PlayerController pc = PlayerManager.Instance.CurrentPlayerController;

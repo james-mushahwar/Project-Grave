@@ -129,7 +129,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 canPlay = _previousMajorActionSequence == EActionSequenceEvent.Day0_MeetReceptionist;
             }
 
-            return canPlay;
+            return canPlay && GameStateManager.Instance.IsPlayingFullGame;
         }
         public bool TryPlayActionSequence(IActionSequence actionSeq)
         {
@@ -137,6 +137,11 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         }
         public bool TryPlayActionSequence(EActionSequenceEvent actionSeqEvent)
         {
+            if (!GameStateManager.Instance.IsPlayingFullGame)
+            {
+                return false;
+            }
+
             IActionSequence actionSeq = null;
             if (_eventActionSequences.TryGetValue(actionSeqEvent, out actionSeq))
             {

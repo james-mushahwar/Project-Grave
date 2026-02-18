@@ -12,6 +12,8 @@ using UnityEditor.Animations;
 using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
+using _Scripts.Gameplay.Settings;
+using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -110,13 +112,16 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // after world (level, area, zone) finished loading
         public virtual void ManagedPostInGameLoad()
         {
-            _houseChuteRoot = GameObject.FindGameObjectWithTag("Transform_ChuteRoot");
-
-            for (int i = 0; i < 5; i++)
+            if (GameStateManager.Instance.IsPlayingFullGame)
             {
-                MorgueActor actor = Instantiate<MorgueActor>(_morgueActor, _houseChuteRoot.transform, false);
-                actor.transform.localPosition = Vector3.left * (i * 2.0f);
-                _pendingHouseMorgueActors.Add(actor);
+                _houseChuteRoot = GameObject.FindGameObjectWithTag("Transform_ChuteRoot");
+
+                for (int i = 0; i < 5; i++)
+                {
+                    MorgueActor actor = Instantiate<MorgueActor>(_morgueActor, _houseChuteRoot.transform, false);
+                    actor.transform.localPosition = Vector3.left * (i * 2.0f);
+                    _pendingHouseMorgueActors.Add(actor);
+                }
             }
 
             if (InputManager.Instance != null)
@@ -147,9 +152,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 _morgueTickables[i].Tick();
             }
 
-            #region DayNight Cycle
-            _dayNightCycle.ManagedTick();
-            #endregion
+            if (GameStateManager.Instance.IsPlayingFullGame)
+            {
+                #region DayNight Cycle
+                _dayNightCycle.ManagedTick();
+                #endregion
+            }
         }
         // before world (level, area, zone) starts unloading
         public virtual void ManagedPreTearddownGame() { }
@@ -165,7 +173,59 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         //Animation and spawning
         public void Debug_SpawnMorgueActor()
         {
-            MorgueActor actorSpawned = TrySpawnHouseChuteMorgueActor();
+            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+            bool isOperating = currentOpState != null;
+
+            if (isOperating)
+            {
+                return;
+            }
+
+            if (GameStateManager.Instance.IsPlayingFullGame)
+            {
+                MorgueActor actorSpawned = TrySpawnHouseChuteMorgueActor();
+            }
+            else
+            {
+                
+                OperatingTable opTable = OperationManager.Instance.OperatingTable;
+                if (opTable)
+                {
+                    if (opTable.GetStorable<BodyMorgueActor>() != null)
+                    {
+                        BodyMorgueActor oldBody = opTable.GetStorable<BodyMorgueActor>();
+                        if (oldBody != null)
+                        {
+                            Destroy(oldBody);
+                        }
+                    }
+
+                    MorgueActor newBody = Instantiate<MorgueActor>(_morgueActor, this.transform, true);
+
+                    if (newBody != null)
+                    {
+                        newBody.Setup();
+
+                        BodyMorgueActor bodyMorgueActor = (BodyMorgueActor)newBody;
+                        if (bodyMorgueActor != null)
+                        {
+                            bodyMorgueActor.StoreIntoStorage(opTable);
+                        }
+                        else
+                        {
+                            IStorable stoableBody = (IStorable)newBody;
+                            if (opTable.TryStore(stoableBody))
+                            {
+                                newBody.transform.SetParent(opTable.GetStorageSpace(stoableBody));
+                                newBody.transform.localPosition = Vector3.zero;
+                                newBody.transform.localRotation = Quaternion.identity;
+                            }
+                            
+                        }
+                        
+                    }
+                }
+            }
         }
         public MorgueActor TrySpawnHouseChuteMorgueActor()
         {
