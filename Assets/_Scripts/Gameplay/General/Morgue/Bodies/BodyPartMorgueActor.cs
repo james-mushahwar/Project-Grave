@@ -109,6 +109,14 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         protected List<Rigidbody> _rigidBodies;
 
+        void Start()
+        {
+            if (MorgueManager.Instance.AddMorgueTickable(this))
+            {
+                Setup();
+            }
+        }
+
         public bool IsStored()
         {
             return _bodyStorable.IsStored();

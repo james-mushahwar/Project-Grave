@@ -206,6 +206,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     {
                         newBody.Setup();
 
+                        AddMorgueTickable(newBody);
+
                         BodyMorgueActor bodyMorgueActor = (BodyMorgueActor)newBody;
                         if (bodyMorgueActor != null)
                         {
@@ -227,6 +229,18 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 }
             }
         }
+
+        public bool AddMorgueTickable(IMorgueTickable morgueTickable)
+        {
+            if (_morgueTickables.Contains(morgueTickable))
+            {
+                return false;
+            }
+
+            _morgueTickables.Add(morgueTickable);
+            return true;
+        }
+
         public MorgueActor TrySpawnHouseChuteMorgueActor()
         {
             bool spawned = false;
@@ -426,6 +440,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             _dayNightCycle.PlayDayNightTimeline();
         }
+
+        
     }
     
 }

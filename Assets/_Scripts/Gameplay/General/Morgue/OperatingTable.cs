@@ -68,6 +68,8 @@ namespace _Scripts.Gameplay.General.Morgue{
                     slot.TryStore(_operatingTools[i]);
                 }
             }
+
+            MorgueManager.Instance.AddMorgueTickable(this);
         }
 
         public void Tick()
