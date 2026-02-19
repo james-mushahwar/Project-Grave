@@ -85,33 +85,26 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies {
         public void ManagedTick()
         {
             //operation tick
-            OperationState currentOp = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
-            if (currentOp != null)
-            {
-                float opProgress = _rArmFleshLayer_Curve.Evaluate(currentOp.NormalisedProgress);
+            float skinSeparateOp = 0.0f;
+            float skinJiggle = _op_SkinJiggle;
+            float skinTarget = 0.0f;
 
-                float skinJiggle = _op_SkinJiggle;
+            BodyPartMorgueActor rArm = _bodyMorgueActor.RArmMorgueActor;
 
-                float skinTarget = Mathf.Clamp(opProgress + skinJiggle, 0.0f, 1.0f);
-                if (currentOp.BodyPartMorgueActor != null)
+            if (rArm != null) 
+            { 
+                DismemberOperationState dismemberOperationState = rArm.DismemberOperationState;
+                if (dismemberOperationState != null)
                 {
-                    BodyPartMorgueActor bodyPart = currentOp.BodyPartMorgueActor;
+                    float opProgress = _rArmFleshLayer_Curve.Evaluate(dismemberOperationState.NormalisedProgress);
 
-                    if (bodyPart.BodyPartType == EMorgueBodyPart.RArm)
-                    {
-                        CurrentAnimator.SetLayerWeight(_rArmAnimLayer_Index, skinTarget);
-                    }
+                    skinSeparateOp = opProgress;
                 }
             }
-            else if (_bodyMorgueActor && _bodyMorgueActor.RArmMorgueActor == false)
-            {
-                CurrentAnimator.SetLayerWeight(_rArmAnimLayer_Index, 1.0f);
-            }
-            else
-            {
-                CurrentAnimator.SetLayerWeight(_rArmAnimLayer_Index, 0.0f);
-            }
 
+            skinTarget = Mathf.Clamp(skinSeparateOp + skinJiggle, 0.0f, 1.0f);
+
+            CurrentAnimator.SetLayerWeight(_rArmAnimLayer_Index, skinTarget);
         }
 
         public void PlayAnimation(EBodyMorgueActorAnimation animType, float offset = 0.0f, float crossFade = 0.0f, bool pauseOnStart = false)

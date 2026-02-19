@@ -1227,6 +1227,8 @@ namespace _Scripts.Gameplay.Player.Controller{
                     }
                 }
 
+                ReturnOperatingToolToSlot(EquippedOperatingTool);
+
                 _operatingTable = null;
 
                 //_chosenOperationState = null;
