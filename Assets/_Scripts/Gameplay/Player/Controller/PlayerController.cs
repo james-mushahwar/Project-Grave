@@ -605,10 +605,12 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void Operating_ActionLPressed(InputAction.CallbackContext callbackContext)
         {
-            if (PlayerCharacterAnimator.IsAnimationBlockingInput())
-            {
-                return;
-            }
+            Debug.LogWarning("Action");
+
+            //if (PlayerCharacterAnimator.IsAnimationBlockingInput())
+            //{
+            //    return;
+            //}
 
             ActionL(callbackContext);
 
@@ -616,10 +618,10 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void Operating_ActionLReleased(InputAction.CallbackContext callbackContext)
         {
-            if (PlayerCharacterAnimator.IsAnimationBlockingInput())
-            {
-                return;
-            }
+            //if (PlayerCharacterAnimator.IsAnimationBlockingInput())
+            //{
+            //    return;
+            //}
 
             ActionL(callbackContext);
         }
@@ -631,10 +633,10 @@ namespace _Scripts.Gameplay.Player.Controller{
                 return;
             }
 
-            if (PlayerCharacterAnimator.IsAnimationBlockingInput())
-            {
-                return;
-            }
+            //if (PlayerCharacterAnimator.IsAnimationBlockingInput())
+            //{
+            //    return;
+            //}
 
             bool operating = OperationManager.Instance.IsInAnyOperatingMode();
             bool pressed = callbackContext.started;

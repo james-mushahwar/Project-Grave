@@ -338,7 +338,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
                 CurrentAnimator.speed = Mathf.MoveTowards(CurrentAnimator.speed, targetPlayRate, lerpSpeed * Time.deltaTime);
 
-                CurrentAnimator.speed = targetPlayRate;
+                //CurrentAnimator.speed = targetPlayRate;
             }
         }
 
@@ -349,7 +349,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             CurrentAnimator.CrossFade(_state_SawingForward_Hash, 0.0f, _baseAnimLayer_Index, normalisedOffset);
             //CurrentAnimator.playbackTime = normalisedOffset;
-            CurrentAnimator.speed = playRate;
+            //CurrentAnimator.speed = playRate;
 
             PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
             if (pc)
@@ -373,7 +373,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             CurrentAnimator.CrossFade(_state_SawingForward_Hash, 0.0f, _baseAnimLayer_Index, normalisedOffset);
             //CurrentAnimator.playbackTime = normalisedOffset;
-            CurrentAnimator.speed = playRate;
+            //CurrentAnimator.speed = playRate;
 
             PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
             if (pc)
@@ -860,7 +860,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                     float deltaProceedStep = 0.0f;
                     if (equippedTool != null)
                     {
-                        float animSpeed = CurrentAnimator.speed * (baseLayerStateInfo.normalizedTime <= 0.95f ? 1.0f : 0.0f);
+                        float animSpeed = (baseLayerStateInfo.normalizedTime <= 0.95f ? 1.0f : 0.0f);
                         deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(animSpeed) * DebugManager.Instance.DebugSettings.OperationEffectivenessFactor;
                         //deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(_minigameMomentum) * DebugManager.Instance.DebugSettings.OperationEffectivenessFactor;
 
@@ -921,6 +921,20 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             CurrentAnimator.SetLayerWeight(_sawingWristTiltAnimLayer_Index, _handTilt);
             CurrentAnimator.SetLayerWeight(_sawingVerticalAnimLayer_Index, displacementLayerWeight);
+        }
+
+        void OnGUI()
+        {
+            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+            bool inputHeld = false;
+
+            if (currentOpState != null)
+            {
+                inputHeld = currentOpState.GetInputHeld(EInputType.LTrigger);
+            }
+            GUI.Label(DebugManager.Instance.OnGUITextRect, "Input held = " + (inputHeld));
+            GUI.Label(DebugManager.Instance.OnGUITextRect, "Animator speed = " + CurrentAnimator.speed);
+            GUI.Label(DebugManager.Instance.OnGUITextRect, "Saw direction = " + (_operatingDirection == EDirectionType.West ? "Forward" : "Backward"));
         }
 
         public void ManagedFixedTick()

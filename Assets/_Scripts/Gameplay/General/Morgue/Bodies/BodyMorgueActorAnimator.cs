@@ -138,7 +138,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies {
             _op_SkinJiggleTween = DOVirtual.Float(0.0f, 0.05f, 0.8f, (float value) =>
             {
                 _op_SkinJiggle = value;
-                Debug.Log("SKin jiggle " +  _op_SkinJiggle);
+                //Debug.Log("SKin jiggle " +  _op_SkinJiggle);
             }).SetEase(Ease.InOutBounce);
 
             _op_SkinJiggleTween.OnComplete(() => TweenFloat(ref _op_SkinJiggleTween, _op_SkinJiggle, 0.0f, 0.8f, _op_SkinJiggle, Ease.OutBounce));
