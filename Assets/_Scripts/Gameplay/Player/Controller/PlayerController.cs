@@ -799,6 +799,14 @@ namespace _Scripts.Gameplay.Player.Controller{
             InputController = null;
         }
 
+        public void ClearInput()
+        {
+            _moveVector = Vector3.zero;
+            _lookVector = Vector3.zero;
+            velocity = Vector3.zero;
+            _characterController.Move(Vector3.zero);
+        }
+
         public T GetInputController<T>() where T : InputController
         {
             T inputController = null;
@@ -1157,6 +1165,8 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             _bodyPartMorgueActor.StartOperation(_chosenOperationState, this);
 
+            ClearInput();
+
             AudioManager.Instance.TransitionToSnapshot(EAudioSnapshot.Operation_Calm, 0.5f);
             //_bodyPartMorgueActor.OperationState.BeginOperationState();
 
@@ -1228,6 +1238,8 @@ namespace _Scripts.Gameplay.Player.Controller{
                         storedBody.ToggleCollision(true);
                     }
                 }
+
+                ClearInput();
 
                 ReturnOperatingToolToSlot(EquippedOperatingTool);
 

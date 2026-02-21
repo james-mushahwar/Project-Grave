@@ -171,6 +171,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             
         }
+
+        public void OnPlayCriticalActionSequence()
+        {
+            PlayerManager.Instance.CurrentPlayerController.ClearInput();
+        }
     }
 
 }

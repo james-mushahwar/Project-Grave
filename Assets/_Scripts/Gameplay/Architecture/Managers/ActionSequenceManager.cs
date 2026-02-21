@@ -151,6 +151,8 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                     {
                         _previousMajorActionSequence = actionSeqEvent;
                         _currentMajorActionSequences.Add(actionSeq);
+
+                        GameStateManager.Instance.OnPlayCriticalActionSequence();
                     }
                     return actionSeq.Play();
                 }
