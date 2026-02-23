@@ -57,6 +57,8 @@ namespace _Scripts.Gameplay.Animate.Player{
         private int _state_SawingStartIdle_Hash;
         private int _state_SawingForward_Hash;
         private int _state_SawingBackward_Hash;
+        private int _state_SawBackFail_Hash;
+        private int _state_SawBackStuck_Hash;
         private int _state_UnequipSaw_Hash;
         private int _state_PickupSawToEmpty_Hash;
         private int _state_ExamineSaw_Hash;
@@ -78,6 +80,8 @@ namespace _Scripts.Gameplay.Animate.Player{
         //private int _param_sawingCutAmount_Hash; // 0 to 1
         private int _param_SawForward_Hash;
         private int _param_SawBackward_Hash;
+        private int _param_SawBack_Stuck;
+        private int _param_SawBack_Fail;
         #endregion
         #endregion
 
@@ -255,6 +259,8 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             _state_SawingForward_Hash       = Animator.StringToHash("saw_cut");
             _state_SawingBackward_Hash      = Animator.StringToHash("saw_back");
+            _state_SawBackFail_Hash         = Animator.StringToHash("saw_back_fail");
+            _state_SawBackStuck_Hash        = Animator.StringToHash("saw_back_stuck_loop");
             _state_UnequipSaw_Hash          = Animator.StringToHash("unequip_saw");
             _state_PickupSawToEmpty_Hash    = Animator.StringToHash("equip_emptyHanded");
             _state_ExamineSaw_Hash          = Animator.StringToHash("saw_examine");
@@ -265,6 +271,8 @@ namespace _Scripts.Gameplay.Animate.Player{
             _param_examineSaw_Hash          = Animator.StringToHash("examine_saw");
             _param_SawForward_Hash          = Animator.StringToHash("sawing_cut_anim");
             _param_SawBackward_Hash         = Animator.StringToHash("sawing_back_anim");
+            _param_SawBack_Stuck            = Animator.StringToHash("Saw_Back_Stuck_Loop_anim");
+            _param_SawBack_Fail             = Animator.StringToHash("Saw_Back_Fail_anim");
             _param_isSawing_Hash            = Animator.StringToHash("isSawing?");
             //_param_sawingCutAmount_Hash     = Animator.StringToHash("sawing_cut_amount");
 
@@ -302,15 +310,13 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         private void TickInput()
         {
-            AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
 
             PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
 
             OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
             bool isOperating = currentOpState != null;
 
-
-            bool isSawing = baseLayerStateInfo.shortNameHash.Equals(_state_SawingForward_Hash) || baseLayerStateInfo.shortNameHash.Equals(_state_SawingBackward_Hash);
+            bool isSawing = IsSawing();
             bool isSawingForward = isSawing && _operatingDirection == EDirectionType.West;
             bool isSawingBackward = isSawing && _operatingDirection == EDirectionType.East;
 
@@ -342,6 +348,16 @@ namespace _Scripts.Gameplay.Animate.Player{
             }
         }
 
+        private bool IsSawing()
+        {
+            AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
+
+            return baseLayerStateInfo.shortNameHash.Equals(_state_SawingForward_Hash) ||
+                baseLayerStateInfo.shortNameHash.Equals(_state_SawingBackward_Hash) ||
+                baseLayerStateInfo.shortNameHash.Equals(_state_SawBackFail_Hash) ||
+                baseLayerStateInfo.shortNameHash.Equals(_state_SawBackStuck_Hash);
+        }
+
         public bool PlayAnimSawForward(float playRate = 1.0f, float normalisedOffset = 0.0f)
         {
             CurrentAnimator.SetBool(_param_SawBackward_Hash, false);
@@ -369,9 +385,29 @@ namespace _Scripts.Gameplay.Animate.Player{
         public bool PlayAnimSawBackward(float playRate = 1.0f, float normalisedOffset = 0.0f)
         {
             CurrentAnimator.SetBool(_param_SawForward_Hash, false);
-            CurrentAnimator.SetBool(_param_SawBackward_Hash, true);
 
-            CurrentAnimator.CrossFade(_state_SawingForward_Hash, 0.0f, _baseAnimLayer_Index, normalisedOffset);
+            AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
+
+            CurrentAnimator.SetBool(_param_SawBackward_Hash, false);
+            CurrentAnimator.SetBool(_param_SawBack_Stuck, false);
+            CurrentAnimator.SetBool(_param_SawBack_Fail, false);
+
+
+
+            if (baseLayerStateInfo.normalizedTime >= 0.96f)
+            {
+                CurrentAnimator.SetBool(_param_SawBack_Stuck, true);
+            }
+            else if (baseLayerStateInfo.normalizedTime >= 0.901f)
+            {
+                CurrentAnimator.SetBool(_param_SawBack_Fail, true);
+            }
+            else
+            {
+                CurrentAnimator.SetBool(_param_SawBackward_Hash, true);
+            }
+
+            //CurrentAnimator.CrossFade(_state_SawingForward_Hash, 0.0f, _baseAnimLayer_Index, normalisedOffset);
             //CurrentAnimator.playbackTime = normalisedOffset;
             //CurrentAnimator.speed = playRate;
 
@@ -815,7 +851,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             float sawDirectionFactor = (_operatingDirection == EDirectionType.East ? -1.0f : 1.0f);
 
-            bool isSawing = baseLayerStateInfo.shortNameHash.Equals(_state_SawingForward_Hash) || baseLayerStateInfo.shortNameHash.Equals(_state_SawingBackward_Hash);
+            bool isSawing = IsSawing();
             bool isSawingForward = isSawing && _operatingDirection == EDirectionType.West;
             bool isSawingBackward = isSawing && _operatingDirection == EDirectionType.East;
 
