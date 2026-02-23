@@ -868,7 +868,13 @@ namespace _Scripts.Gameplay.Animate.Player{
                 }
                 else if (isSawingBackward)
                 {
-
+                    if (baseLayerStateInfo.shortNameHash.Equals(_state_SawBackStuck_Hash))
+                    {
+                        if (baseLayerStateInfo.normalizedTime >= 0.95f)
+                        {
+                            CurrentAnimator.SetBool(_param_SawBack_Stuck, false);
+                        }
+                    }
                 }
 
                 if (canSaw)
