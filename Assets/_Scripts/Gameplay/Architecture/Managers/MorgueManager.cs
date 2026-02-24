@@ -196,7 +196,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                         BodyMorgueActor oldBody = opTable.GetStorable<BodyMorgueActor>();
                         if (oldBody != null)
                         {
-                            Destroy(oldBody);
+                            opTable.TryEmpty();
+                            RemoveMorgueTickable(oldBody);
+                            Destroy(oldBody.gameObject);
                         }
                     }
 
@@ -209,16 +211,16 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                         AddMorgueTickable(newBody);
 
                         BodyMorgueActor bodyMorgueActor = (BodyMorgueActor)newBody;
-                        if (bodyMorgueActor != null)
+                        //if (bodyMorgueActor != null)
+                        //{
+                        //    bodyMorgueActor.StoreIntoStorage(opTable);
+                        //}
+                        //else
                         {
-                            bodyMorgueActor.StoreIntoStorage(opTable);
-                        }
-                        else
-                        {
-                            IStorable stoableBody = (IStorable)newBody;
-                            if (opTable.TryStore(stoableBody))
+                            IStorable storableBody = (IStorable)newBody;
+                            if (opTable.TryStore(storableBody))
                             {
-                                newBody.transform.SetParent(opTable.GetStorageSpace(stoableBody));
+                                newBody.transform.SetParent(opTable.GetStorageSpace(storableBody));
                                 newBody.transform.localPosition = Vector3.zero;
                                 newBody.transform.localRotation = Quaternion.identity;
                             }
@@ -238,6 +240,17 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
 
             _morgueTickables.Add(morgueTickable);
+            return true;
+        }
+
+        public bool RemoveMorgueTickable(IMorgueTickable morgueTickable)
+        {
+            if (!_morgueTickables.Contains(morgueTickable))
+            {
+                return false;
+            }
+
+            _morgueTickables.Remove(morgueTickable);
             return true;
         }
 

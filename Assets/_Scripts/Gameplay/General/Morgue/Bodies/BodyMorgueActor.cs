@@ -77,6 +77,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             get { return _endOperation_AnimName; }
         }
 
+        void OnDestroy()
+        {
+            MorgueManager.Instance?.RemoveMorgueTickable(this);
+        }
+
         public bool IsStored()
         {
             return _bodyStorable.IsStored();
