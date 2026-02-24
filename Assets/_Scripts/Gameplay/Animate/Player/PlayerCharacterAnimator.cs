@@ -361,6 +361,9 @@ namespace _Scripts.Gameplay.Animate.Player{
         public bool PlayAnimSawForward(float playRate = 1.0f, float normalisedOffset = 0.0f)
         {
             CurrentAnimator.SetBool(_param_SawBackward_Hash, false);
+            CurrentAnimator.SetBool(_param_SawBack_Stuck, false);
+            CurrentAnimator.SetBool(_param_SawBack_Fail, false);
+
             CurrentAnimator.SetBool(_param_SawForward_Hash, true);
 
             CurrentAnimator.CrossFade(_state_SawingForward_Hash, 0.0f, _baseAnimLayer_Index, normalisedOffset);
@@ -385,14 +388,11 @@ namespace _Scripts.Gameplay.Animate.Player{
         public bool PlayAnimSawBackward(float playRate = 1.0f, float normalisedOffset = 0.0f)
         {
             CurrentAnimator.SetBool(_param_SawForward_Hash, false);
-
-            AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
-
             CurrentAnimator.SetBool(_param_SawBackward_Hash, false);
             CurrentAnimator.SetBool(_param_SawBack_Stuck, false);
             CurrentAnimator.SetBool(_param_SawBack_Fail, false);
 
-
+            AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
 
             if (baseLayerStateInfo.normalizedTime >= 0.96f)
             {
