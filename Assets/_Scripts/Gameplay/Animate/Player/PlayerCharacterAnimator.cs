@@ -342,7 +342,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                     }
                 }
 
-                CurrentAnimator.speed = Mathf.MoveTowards(CurrentAnimator.speed, targetPlayRate, lerpSpeed * Time.deltaTime);
+                //CurrentAnimator.speed = Mathf.MoveTowards(CurrentAnimator.speed, targetPlayRate, lerpSpeed * Time.deltaTime);
 
                 //CurrentAnimator.speed = targetPlayRate;
             }
