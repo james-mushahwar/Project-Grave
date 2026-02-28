@@ -320,12 +320,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 bodyVariantType = (EMorgueBodyVariant)Random.Range(0, (int)EMorgueBodyVariant.COUNT - 1);
             }
-            PopulateMorgueBodyPart(body.HeadMorgueActor, true, bodyVariantType);
-            PopulateMorgueBodyPart(body.TorsoMorgueActor, true, bodyVariantType);
-            PopulateMorgueBodyPart(body.LArmMorgueActor, true, bodyVariantType);
-            PopulateMorgueBodyPart(body.RArmMorgueActor, true, bodyVariantType);
-            PopulateMorgueBodyPart(body.LLegMorgueActor, true, bodyVariantType);
-            PopulateMorgueBodyPart(body.RLegMorgueActor, true, bodyVariantType);
+            //PopulateMorgueBodyPart(body.HeadMorgueActor, true, bodyVariantType);
+            //PopulateMorgueBodyPart(body.TorsoMorgueActor, true, bodyVariantType);
+            //PopulateMorgueBodyPart(body.LArmMorgueActor, true, bodyVariantType);
+            //PopulateMorgueBodyPart(body.RArmMorgueActor, true, bodyVariantType);
+            //PopulateMorgueBodyPart(body.LLegMorgueActor, true, bodyVariantType);
+            //PopulateMorgueBodyPart(body.RLegMorgueActor, true, bodyVariantType);
         }
         public void PopulateMorgueBodyPart(BodyPartMorgueActor bodyPart, bool updateCollision = true, EMorgueBodyVariant variant = EMorgueBodyVariant.None)
         {
