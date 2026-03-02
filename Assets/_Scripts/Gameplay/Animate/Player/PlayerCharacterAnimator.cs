@@ -358,6 +358,23 @@ namespace _Scripts.Gameplay.Animate.Player{
                 baseLayerStateInfo.shortNameHash.Equals(_state_SawBackStuck_Hash);
         }
 
+        private bool IsSawingEffective(bool forwards = true)
+        {
+            AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
+            
+            if (forwards)
+            {
+                return baseLayerStateInfo.shortNameHash.Equals(_state_SawingForward_Hash) 
+                    && _operatingDirection == EDirectionType.West 
+                    && CurrentAnimator.GetBool(_param_SawForward_Hash)
+                    && (baseLayerStateInfo.normalizedTime < 0.901f);
+            }
+            else
+            {
+                return baseLayerStateInfo.shortNameHash.Equals(_state_SawingBackward_Hash);
+            }
+        }
+
         public bool PlayAnimSawForward(float playRate = 1.0f, float normalisedOffset = 0.0f)
         {
             CurrentAnimator.SetBool(_param_SawBackward_Hash, false);
@@ -850,6 +867,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             }
 
             float sawDirectionFactor = (_operatingDirection == EDirectionType.East ? -1.0f : 1.0f);
+            MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
 
             bool isSawing = IsSawing();
             bool isSawingForward = isSawing && _operatingDirection == EDirectionType.West;
@@ -881,32 +899,23 @@ namespace _Scripts.Gameplay.Animate.Player{
                 {
                     float sawingAmountDelta = 0.0f;
                     float toolSpeed = 1.0f;
-                    MorgueToolActor equippedTool = PlayerManager.Instance.CurrentPlayerController.EquippedOperatingTool;
                     if (equippedTool is ISpeedTool)
                     {
                         toolSpeed = (equippedTool as ISpeedTool).GetSpeedFactor(PlayerManager.Instance.CurrentPlayerController);
-                    }
-
-                    if (equippedTool is IMomentumTool)
-                    {
-                        IMomentumTool mTool = (equippedTool as IMomentumTool);
-                        tiltTarget = mTool.GetTiltTarget(_minigameMomentum);
-                        float tiltDelta = mTool.GetTiltDelta(_minigameMomentum) * Time.deltaTime;
-
-                        _handTilt = Mathf.MoveTowards(_handTilt, tiltTarget, tiltDelta);
-
-                        //displacementLayerWeight = 0.0f;
                     }
 
                     //progress operation
                     float deltaProceedStep = 0.0f;
                     if (equippedTool != null)
                     {
-                        float animSpeed = (baseLayerStateInfo.normalizedTime <= 0.95f ? 1.0f : 0.0f);
+                        float animSpeed = MinigameMomentum;// (baseLayerStateInfo.normalizedTime <= 0.95f ? 1.0f : 0.0f);
                         deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(animSpeed) * DebugManager.Instance.DebugSettings.OperationEffectivenessFactor;
                         //deltaProceedStep = equippedTool.ToolProfile.GetDeltaProgressStep(_minigameMomentum) * DebugManager.Instance.DebugSettings.OperationEffectivenessFactor;
 
-                       
+                        if (IsSawingEffective(true) == false)
+                        {
+                            deltaProceedStep = 0.0f;
+                        }
 
                         //if (_bloodAreaFXTimer > 0.0f)
                         //{
@@ -956,8 +965,40 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             }
 
-            
-            
+            if (equippedTool is IMomentumTool)
+            {
+                IMomentumTool mTool = (equippedTool as IMomentumTool);
+
+                float tiltAlpha = _minigameMomentum;
+
+                if (isSawingForward)
+                {
+                    if (currentOpState.GetInputHeld(EInputType.LTrigger) == false)
+                    {
+                        tiltAlpha = 0.0f;
+                    }
+                }
+                else if (isSawingBackward)
+                {
+                    if (baseLayerStateInfo.shortNameHash.Equals(_state_SawBackStuck_Hash) && baseLayerStateInfo.normalizedTime >= 0.5f)
+                    {
+                        tiltAlpha = 0.0f;
+                    }
+                }
+
+                tiltTarget = mTool.GetTiltTarget(tiltAlpha);
+
+                float tiltDelta = mTool.GetTiltDelta(_minigameMomentum) * Time.deltaTime;
+
+                _handTilt = Mathf.MoveTowards(_handTilt, tiltTarget, tiltDelta);
+
+                //displacementLayerWeight = 0.0f;
+            }
+            else
+            {
+                _handTilt = 0.0f;
+            }
+
 
             //CurrentAnimator.SetFloat(_param_sawingCutAmount_Hash, _sawingAmount);
 
@@ -975,6 +1016,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 inputHeld = currentOpState.GetInputHeld(EInputType.LTrigger);
             }
             GUI.Label(DebugManager.Instance.OnGUITextRect, "Input held = " + (inputHeld));
+            GUI.Label(DebugManager.Instance.OnGUITextRect, "Minigame momentum = " + MinigameMomentum);
             GUI.Label(DebugManager.Instance.OnGUITextRect, "Animator speed = " + CurrentAnimator.speed);
             GUI.Label(DebugManager.Instance.OnGUITextRect, "Saw direction = " + (_operatingDirection == EDirectionType.West ? "Forward" : "Backward"));
         }

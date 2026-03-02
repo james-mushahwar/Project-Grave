@@ -152,7 +152,7 @@ MonoBehaviour:
     _momentumTarget: 0.5
   _momentumTimingZoneIntervals: []
   _defaultToolTexture: {fileID: 0}
-  _maxProceedStep: 0.2
+  _maxProceedStep: 2
   _momentumZones:
   - _timingZone: 0.5
     _momentumSpeedFactor: 0.3
@@ -183,8 +183,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.001752425
-      value: 0.30168536
+      time: 0
+      value: 0.27063492
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -193,7 +193,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.5
-      value: 0.4018256
+      value: 0.32063493
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -202,7 +202,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 0.35
+      value: 0.32063493
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -216,7 +216,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.013582562
+      time: 0
       value: 0.47403142
       inSlope: 0
       outSlope: 0
