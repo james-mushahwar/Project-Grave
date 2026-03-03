@@ -358,7 +358,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 baseLayerStateInfo.shortNameHash.Equals(_state_SawBackStuck_Hash);
         }
 
-        private bool IsSawingEffective(bool forwards = true)
+        public bool IsSawingEffective(bool forwards = true)
         {
             AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
             
@@ -367,7 +367,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 return baseLayerStateInfo.shortNameHash.Equals(_state_SawingForward_Hash) 
                     && _operatingDirection == EDirectionType.West 
                     && CurrentAnimator.GetBool(_param_SawForward_Hash)
-                    && (baseLayerStateInfo.normalizedTime < 0.901f);
+                    && ((baseLayerStateInfo.normalizedTime < 0.901f) && baseLayerStateInfo.normalizedTime >= 0.45f);
             }
             else
             {
@@ -1019,6 +1019,11 @@ namespace _Scripts.Gameplay.Animate.Player{
             GUI.Label(DebugManager.Instance.OnGUITextRect, "Minigame momentum = " + MinigameMomentum);
             GUI.Label(DebugManager.Instance.OnGUITextRect, "Animator speed = " + CurrentAnimator.speed);
             GUI.Label(DebugManager.Instance.OnGUITextRect, "Saw direction = " + (_operatingDirection == EDirectionType.West ? "Forward" : "Backward"));
+            if (PlayerManager.Instance.CurrentPlayerController.ChosenOperationState != null)
+            {
+                GUI.Label(DebugManager.Instance.OnGUITextRect, "Operation Progress = " + PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.NormalisedProgress);
+
+            }
         }
 
         public void ManagedFixedTick()

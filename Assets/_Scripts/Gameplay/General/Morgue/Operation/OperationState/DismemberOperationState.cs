@@ -211,6 +211,16 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.OperationState{
         {
             return IsComplete() == false;
         }
+
+        public override bool IsComplete()
+        {
+            if (PlayerManager.Instance.CurrentPlayerController.ChosenOperationState == this)
+            {
+                return base.IsComplete() && PlayerManager.Instance.CurrentPlayerController.PlayerCharacterAnimator.IsSawingEffective();
+            }
+
+            return base.IsComplete();
+        }
     }
     
 }
