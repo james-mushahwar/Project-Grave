@@ -1,6 +1,8 @@
 ﻿using _Scripts.CautionaryTalesScripts;
+using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Org;
 using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -14,6 +16,9 @@ namespace _Scripts.Gameplay.General.Lights {
         [SerializeField] private FloatTweenerProfile _successBehaviour;
         [SerializeField] private FloatTweenerProfile _penaltyBehaviour;
         [SerializeField] private FloatTweenerProfile _perfectTimingAvailableBehaviour;
+
+        [SerializeField]
+        private Vector2 _randomLight_Delay = new Vector2(0.75f, 2.5f);
 
         //Tweeners
         private Tweener _intensityTweener = null;
@@ -80,6 +85,32 @@ namespace _Scripts.Gameplay.General.Lights {
             {
                 _candleLight.intensity = value;
             }).SetEase(easeType);
+        }
+
+        public void TryLightOn(bool delay = false)
+        {
+            if (!delay)
+            {
+                OnSuccessReaction();
+                EnableLight();
+            }
+            else
+            {
+                float randomDelay = Random.RandomRange(_randomLight_Delay.x, _randomLight_Delay.y);
+                StartCoroutine(LightOnDelay(randomDelay));
+            }
+        }
+
+        private IEnumerator LightOnDelay(float delay)
+        {
+            yield return TaskManager.Instance.WaitForSecondsPool.Get(delay);
+
+            EnableLight();
+        }
+
+        private void EnableLight()
+        {
+            _candleLight.enabled = true;
         }
 
         //public void TweenFloat(ref Tweener tweener, float startValue, float targetValue, float duration, Ease easeType)

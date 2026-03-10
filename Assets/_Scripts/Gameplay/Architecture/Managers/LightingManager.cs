@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using _Scripts.Gameplay.General.Lights;
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace _Scripts.Gameplay.Architecture.Managers {
     
@@ -39,11 +43,23 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 return _moon; 
             }
         }
+
+        [Header("Room lighting")]
+        private List<Candle> _roomCandles;
         #endregion
 
         public void ManagedPostInGameLoad()
         {
-            
+            _roomCandles = FindObjectsByType<Candle>(FindObjectsSortMode.None).ToList();
+        }
+
+        [ContextMenu("Start night time lighting")]
+        public void StartNightTime()
+        {
+            foreach (var candle in _roomCandles)
+            {
+                candle.TryLightOn(true);
+            }
         }
     }
     

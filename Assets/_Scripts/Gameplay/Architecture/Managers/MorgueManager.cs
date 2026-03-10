@@ -26,6 +26,15 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         Perfect = 4,
     }
 
+    public enum EDayStage : uint
+    {
+        Morning = 0,
+        Evening,
+        Night,
+        COUNT
+    }
+
+
     [Serializable]
     public struct FTimingValues
     {
@@ -76,6 +85,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public const uint MORGUE_TIMING_NULL = 0;
 
         private DayNightCycle _dayNightCycle;
+
+        private EDayStage _dayStage;
 
         private static string[] MORGUE_TIMING_PHRASES =
         {
@@ -452,9 +463,24 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public void InvokeDayNightTransition()
         {
             _dayNightCycle.PlayDayNightTimeline();
+            UpdateDayState();
         }
 
-        
+        private void UpdateDayState()
+        {
+            _dayStage = _dayStage + 1;
+
+            if (_dayStage == EDayStage.COUNT)
+            {
+                _dayStage = 0;
+            }
+
+            if (_dayStage == EDayStage.Night)
+            {
+                LightingManager.Instance.StartNightTime();
+
+            }
+        }
     }
     
 }
