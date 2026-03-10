@@ -115,6 +115,27 @@ namespace _Scripts.Gameplay.General.Morgue{
             {
                 vCam = _vCamera_RArmView.VirtualCamera;
             }
+            else if (bodyPartType == EMorgueBodyPart.LArm)
+            {
+                vCam = _vCamera_LArmView.VirtualCamera;
+            }
+            else if (bodyPartType == EMorgueBodyPart.RLeg)
+            {
+                vCam = _vCamera_RLegView.VirtualCamera;
+            }
+            else if (bodyPartType == EMorgueBodyPart.LLeg)
+            {
+                vCam = _vCamera_LLegView.VirtualCamera;
+            }
+            if (bodyPartType == EMorgueBodyPart.Head)
+            {
+                vCam = _vCamera_HeadView.VirtualCamera;
+            }
+            else if (bodyPartType == EMorgueBodyPart.Torso)
+            {
+                vCam = _vCamera_TorsoView.VirtualCamera;
+            }
+
 
             return vCam;
         }

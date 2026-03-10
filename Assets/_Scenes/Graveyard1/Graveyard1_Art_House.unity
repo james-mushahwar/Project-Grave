@@ -2662,6 +2662,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b08671d01a4cfe4b9b92967828e48fb, type: 3}
+--- !u!4 &804495946 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1379515560280890033, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5231150708274757542}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &804537026
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3522,6 +3528,12 @@ Transform:
   - {fileID: 1899475739}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1155338602 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5127812775603098554, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5231150708274757542}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1180195336
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6823,6 +6835,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!4 &2021355222 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4662543917698012709, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5231150708274757542}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2026902725
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6998,6 +7016,12 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!4 &2037591648 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3463440763736609927, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5231150708274757542}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2055167532
 GameObject:
   m_ObjectHideFlags: 0
@@ -7215,6 +7239,66 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: OperatingTableNEW
+      objectReference: {fileID: 0}
+    - target: {fileID: 6344798630109122006, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
+        type: 3}
+      propertyPath: _player_Operating_Head
+      value: 
+      objectReference: {fileID: 2021355222}
+    - target: {fileID: 6344798630109122006, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
+        type: 3}
+      propertyPath: _player_Operating_LArm
+      value: 
+      objectReference: {fileID: 2037591648}
+    - target: {fileID: 6344798630109122006, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
+        type: 3}
+      propertyPath: _player_Operating_LLeg
+      value: 
+      objectReference: {fileID: 804495946}
+    - target: {fileID: 6344798630109122006, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
+        type: 3}
+      propertyPath: _player_Operating_RLeg
+      value: 
+      objectReference: {fileID: 1155338602}
+    - target: {fileID: 6344798630109122006, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
+        type: 3}
+      propertyPath: _player_Operating_Torso
+      value: 
+      objectReference: {fileID: 2021355222}
+    - target: {fileID: 6344798630109122006, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
+        type: 3}
+      propertyPath: _vCamera_HeadView._camType
+      value: 102
+      objectReference: {fileID: 0}
+    - target: {fileID: 6344798630109122006, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
+        type: 3}
+      propertyPath: _vCamera_LArmView._camType
+      value: 105
+      objectReference: {fileID: 0}
+    - target: {fileID: 6344798630109122006, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
+        type: 3}
+      propertyPath: _vCamera_LLegView._camType
+      value: 106
+      objectReference: {fileID: 0}
+    - target: {fileID: 6344798630109122006, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
+        type: 3}
+      propertyPath: _vCamera_RArmView._camType
+      value: 103
+      objectReference: {fileID: 0}
+    - target: {fileID: 6344798630109122006, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
+        type: 3}
+      propertyPath: _vCamera_RLegView._camType
+      value: 104
+      objectReference: {fileID: 0}
+    - target: {fileID: 6344798630109122006, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
+        type: 3}
+      propertyPath: _vCamera_AboveView._camType
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6344798630109122006, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
+        type: 3}
+      propertyPath: _vCamera_TorsoView._camType
+      value: 101
       objectReference: {fileID: 0}
     - target: {fileID: 8170527687582522145, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
         type: 3}
