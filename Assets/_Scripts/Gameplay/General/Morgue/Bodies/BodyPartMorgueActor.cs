@@ -278,6 +278,8 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                             DialogueManager.Instance.TryPlayDialogue(EDialogueEvent.Day0_StoreBody_Prompt);
                         }
 
+                        BodyMorgueActor.StopOperation();
+
                         if (_impulseSource_OnDismemberComplete != null)
                         {
                             Vector3 velocity = new Vector3(Random.Range(-0.01f, 0.01f), Random.Range(-0.01f, 0.01f), 1.0f);

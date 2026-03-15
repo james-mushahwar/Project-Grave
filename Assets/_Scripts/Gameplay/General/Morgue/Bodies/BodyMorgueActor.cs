@@ -417,7 +417,30 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             if (currentOp != null)
             {
                 //_bodyAnimator.PlayAnimation(EBodyMorgueActorAnimation.Operating_Position_RArm, 1.0f , 0.0f, true);
-                _bodyAnimator.Set_Animation_OperationPositionRArm(true);
+                if (currentOp.BodyPartMorgueActor.BodyPartType == EMorgueBodyPart.Head)
+                {
+                    _bodyAnimator.Set_Animation_OperationPositionHead(true);
+                }
+
+                if (currentOp.BodyPartMorgueActor.BodyPartType == EMorgueBodyPart.RArm)
+                {
+                    _bodyAnimator.Set_Animation_OperationPositionRArm(true);
+                }
+
+                if (currentOp.BodyPartMorgueActor.BodyPartType == EMorgueBodyPart.LArm)
+                {
+                    _bodyAnimator.Set_Animation_OperationPositionLArm(true);
+                }
+
+                if (currentOp.BodyPartMorgueActor.BodyPartType == EMorgueBodyPart.RLeg)
+                {
+                    _bodyAnimator.Set_Animation_OperationPositionRLeg(true);
+                }
+
+                if (currentOp.BodyPartMorgueActor.BodyPartType == EMorgueBodyPart.LLeg)
+                {
+                    _bodyAnimator.Set_Animation_OperationPositionLLeg(true);
+                }
             }
         }
 
@@ -429,7 +452,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
         public void StopOperation()
         {
             //_bodyAnimator.PlayAnimation(_endOperation_AnimName, 1.0f, 0.0f, true);
-            _bodyAnimator.Set_Animation_OperationPositionRArm(false);
+            _bodyAnimator.Set_Animation_StopOperationPosition();
         }
 
         #region Jitter

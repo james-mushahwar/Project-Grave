@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c23afd60760264ba4d74668a265a4b, type: 3}
   m_Name: MasterProjectSettings
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Settings.MasterProjectSettings
-  _playFullGame: 1
+  _playFullGame: 0
   _debugSettings: {fileID: 11400000, guid: 7aa0e4d6622041c4ea38d3be87fd539c, type: 2}
