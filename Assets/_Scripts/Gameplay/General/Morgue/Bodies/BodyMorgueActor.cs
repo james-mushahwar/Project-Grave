@@ -110,7 +110,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                             {
                                 if (morgueStorage.IsHookStorage)
                                 {
-                                    MorgueManager.Instance.InvokeDayNightTransition();
+                                    ActionSequenceManager.Instance.OnStimulusReceived(EMorgueStimulus.Store_BodyPart);
                                 }
                             }
                         }

@@ -407,7 +407,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6008008818211138716
 Transform:
   m_ObjectHideFlags: 0
@@ -746,32 +746,32 @@ MonoBehaviour:
     _storageSpace: {fileID: 1294015152381272408}
   _morgueAnimTypes: 00000000
   _vCamera_AboveView:
-    _camType: 0
+    _camType: 100
     _virtualCamera: {fileID: 0}
   _vCamera_TorsoView:
-    _camType: 0
+    _camType: 101
     _virtualCamera: {fileID: 4035341561545497236}
   _vCamera_HeadView:
-    _camType: 0
+    _camType: 102
     _virtualCamera: {fileID: 1020456088915544074}
   _vCamera_RArmView:
-    _camType: 0
+    _camType: 103
     _virtualCamera: {fileID: 1427097535207608539}
   _vCamera_RLegView:
-    _camType: 0
+    _camType: 104
     _virtualCamera: {fileID: 4000707713770518296}
   _vCamera_LArmView:
-    _camType: 0
+    _camType: 105
     _virtualCamera: {fileID: 2467768945887141917}
   _vCamera_LLegView:
-    _camType: 0
+    _camType: 106
     _virtualCamera: {fileID: 8462176781286287583}
-  _player_Operating_Head: {fileID: 4047403808647005844}
-  _player_Operating_Torso: {fileID: 4047403808647005844}
+  _player_Operating_Head: {fileID: 4662543917698012709}
+  _player_Operating_Torso: {fileID: 4662543917698012709}
   _player_Operating_RArm: {fileID: 4047403808647005844}
-  _player_Operating_LArm: {fileID: 4047403808647005844}
-  _player_Operating_RLeg: {fileID: 4047403808647005844}
-  _player_Operating_LLeg: {fileID: 4047403808647005844}
+  _player_Operating_LArm: {fileID: 3463440763736609927}
+  _player_Operating_RLeg: {fileID: 5127812775603098554}
+  _player_Operating_LLeg: {fileID: 1379515560280890033}
   _operatingTools: []
   _runtimeID: {fileID: 353610343964603622}
   _opToolStorageSlots:

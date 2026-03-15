@@ -153,7 +153,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                             {
                                 if (morgueStorage.IsHookStorage)
                                 {
-                                    MorgueManager.Instance.InvokeDayNightTransition();
+                                    ActionSequenceManager.Instance.OnStimulusReceived(EMorgueStimulus.Store_BodyPart);
                                 }
                             }
                         }
@@ -271,7 +271,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
                         if (ActionSequenceManager.Instance.PreviousMajorActionSequence == EActionSequenceEvent.Day0_AssistantEnters)
                         {
-                            MorgueManager.Instance.InvokeDayNightTransition();
+                            ActionSequenceManager.Instance.OnStimulusReceived(EMorgueStimulus.Operation_Completed, null);
 
                             _bodyMorgueActor.SetBodPartJitter(_bodyPartType, EJitteryType.Standard);
 

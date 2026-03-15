@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using _Scripts.CautionaryTalesScripts;
 using _Scripts.Gameplay.General.Identification;
 using _Scripts.Org;
 using UnityEngine;
@@ -17,6 +18,12 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         Day0_AssistantEnters,
         Day0_AssistantExits,
         Day0_SawBodyPart0,
+        Day0_FinishWork,
+        Day0_GoToSleep,
+
+        //Day 0 - anytime 
+        Day0_OpenGate,
+        Day0_CloseGate,
 
         //DayLoop - can happen multiple times any day 
         DayAny_WakeUp = 10000,
@@ -33,6 +40,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
     public class ActionSequenceManager : GameManager<ActionSequenceManager>, IManager
     {
         private EActionSequenceEvent _previousMajorActionSequence = EActionSequenceEvent.None;
+        private int _actionSequenceEventCounter = 0;
         private List<EActionSequenceEvent> _majorActionSequenceHistory;
 
         private List<IActionSequence> _currentMajorActionSequences = new List<IActionSequence>();
@@ -43,11 +51,21 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         private Dictionary<EActionSequencePauseReason, IActionSequence> _actionSequencePauseDictionary = new Dictionary<EActionSequencePauseReason, IActionSequence>();
 
-        public bool MajorActionSequencesPlaying
+        public bool LockPlay
         {
             get
             {
-                return _currentMajorActionSequences.Count > 0;
+                if (_currentMajorActionSequences.Count > 0)
+                {
+                    foreach (var actionSequence in _currentMajorActionSequences)
+                    {
+                        if (actionSequence.ActionSequenceSettings.LockPlay)
+                        {
+                            return true;
+                        }
+                    }
+                }
+                return false;
             }
         }
 
@@ -74,6 +92,42 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         public void ManagedFixedTick()
         {
 
+        }
+
+        //Morgue stimulus and reactions
+        public void OnStimulusReceived(EMorgueStimulus stimulus, GameObject rootGO = null)
+        {
+            if (EMorgueStimulus.Operation_Completed == stimulus)
+            {
+                if (_previousMajorActionSequence == EActionSequenceEvent.Day0_AssistantEnters)
+                {
+                    _actionSequenceEventCounter++;
+                    if (_actionSequenceEventCounter % 3 == 0)
+                    {
+                        MorgueManager.Instance.InvokeDayNightTransition();
+                    }
+                }
+            }
+            else if (EMorgueStimulus.Store_BodyPart == stimulus)
+            {
+                if (_previousMajorActionSequence == EActionSequenceEvent.Day0_AssistantEnters)
+                {
+                    _actionSequenceEventCounter++;
+                    if (_actionSequenceEventCounter % 3 == 0)
+                    {
+                        MorgueManager.Instance.InvokeDayNightTransition();
+                    }
+                }
+            }
+        }
+
+        public void SetPreviousActionSequence(EActionSequenceEvent newEvent)
+        {
+            if (_currentMajorActionSequences.Count > 0)
+            {
+                Debug.LogWarning("Seeting the Action sequence event manually when currently there are more than 0");
+            }
+            _previousMajorActionSequence = newEvent;
         }
 
         private void Debug_EnterAssistant()
@@ -150,10 +204,14 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                     if (actionSeq.ActionSequenceSettings.IsCritical)
                     {
                         _previousMajorActionSequence = actionSeqEvent;
-                        _currentMajorActionSequences.Add(actionSeq);
 
                         GameStateManager.Instance.OnPlayCriticalActionSequence();
                     }
+
+                    _actionSequenceEventCounter = 0;
+
+                    _currentMajorActionSequences.Add(actionSeq);
+
                     return actionSeq.Play();
                 }
             }
@@ -218,6 +276,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
     public class ActionSequenceSettings
     {
         [SerializeField] private bool _isCritical;
+        [SerializeField] private bool _lockPlay = true;
         [SerializeField] private EActionSequenceType _actionSequenceType;
         [SerializeField] private EActionSequencePriority _actionSequencePriority;
         [SerializeField] private EActionSequenceEvent _actionSequenceEvent;
@@ -225,6 +284,11 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         public bool IsCritical
         {
             get => _isCritical;
+        }
+
+        public bool LockPlay
+        {
+            get => _lockPlay;
         }
 
         public EActionSequenceType ActionSequenceType

@@ -479,6 +479,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 LightingManager.Instance.StartNightTime();
 
+                if (ActionSequenceManager.Instance.PreviousMajorActionSequence <= EActionSequenceEvent.Day0_GoToSleep)
+                {
+                    ActionSequenceManager.Instance.SetPreviousActionSequence(EActionSequenceEvent.Day0_FinishWork);
+                }
             }
         }
     }

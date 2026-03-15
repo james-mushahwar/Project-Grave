@@ -37,6 +37,9 @@ namespace _Scripts.Org
         Operation_CancelInput,
 
         Operation_Completed = 10,
+
+        //Storage 
+        Store_BodyPart = 1000,
         COUNT
     }
     public interface IMorgueReactable

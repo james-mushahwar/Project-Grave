@@ -310,7 +310,7 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public bool CanPlayerCharacterMove()
         {
-            bool blockedByActionSequence = ActionSequenceManager.Instance.MajorActionSequencesPlaying;
+            bool blockedByActionSequence = ActionSequenceManager.Instance.LockPlay;
             return _characterController.enabled && Application.isPlaying && Application.isFocused && !blockedByActionSequence;
         }
 
