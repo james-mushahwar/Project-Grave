@@ -127,7 +127,16 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             {
                 Debug.LogWarning("Seeting the Action sequence event manually when currently there are more than 0");
             }
+            bool changed = _previousMajorActionSequence != newEvent;
             _previousMajorActionSequence = newEvent;
+
+            if (changed)
+            {
+                if (_previousMajorActionSequence == EActionSequenceEvent.Day0_FinishWork)
+                {
+                    TryPlayActionSequence(EActionSequenceEvent.Day0_TableExits);
+                }
+            }
         }
 
         private void Debug_EnterAssistant()
