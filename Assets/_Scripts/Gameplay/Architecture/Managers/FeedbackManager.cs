@@ -38,19 +38,61 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         Ultra
     }
 
+    //where on the controller is the feedback playing
+    public enum EFeedbackType
+    {
+        LowPass, //controller rumble
+        HighPass //trigger rumble
+    }
+
+    [Serializable]
+    public struct FFeedbackPattern
+    {
+        [SerializeField] private EFeedbackType _type; //where on the controller?
+        [SerializeField] private EFeedbackPattern _pattern;
+        [SerializeField] private EFeedbackPriority _priority;
+        [SerializeField] private bool _loop;
+        [SerializeField] private bool _canBeStopped;
+        [SerializeField] private AnimationCurve _patternCurve;
+        
+        private float _factor;
+        private float _elapsedTime;
+        private float _duration;
+
+        public EFeedbackType Type { get => _type; set => _type = value; }
+        public EFeedbackPattern Pattern { get => _pattern; set => _pattern = value; }
+        public EFeedbackPriority Priority { get => _priority; set => _priority = value; }
+        public bool Loop { get => _loop; set => _loop = value; }
+        public bool CanBeStopped { get => _canBeStopped; set => _canBeStopped = value; }
+        public AnimationCurve PatternCurve { get => _patternCurve; set => _patternCurve = value; }
+        
+        public float Factor { get => _factor; set => _factor = value; }
+        public float ElapsedTime { get => _elapsedTime; set => _elapsedTime = value; }
+        public float Duration { get => _duration; set => _duration = value; }
+
+        public void Clear()
+        {
+            _pattern = EFeedbackPattern.None;
+            _priority = EFeedbackPriority.Miniscule;    
+            _factor = 1.0f;
+            _duration = 0.0f;
+            _loop = false;
+            _canBeStopped = false;
+            _elapsedTime = 0.0f;
+        }
+    }
+
     public class FeedbackManager : GameManager<FeedbackManager>, IManager
     {
         #region General
         private Gamepad _gamepad;
-        private EFeedbackPattern _feedbackType;
-        private FeedbackPatternScriptableObject _feedbackPattern;
-        private Coroutine _stopGamepadFeedback;
-        private float _feedbackTimer;
-        private float _feedbackDuration;
 
-        private float _lowFrequencyFactor = 1.0f;
-        private float _highFrequencyFactor = 1.0f;
+        private FFeedbackPattern _controllerFeedbackPattern;
+        private FFeedbackPattern _triggerFeedbackPattern;
         #endregion
+
+        public ref FFeedbackPattern ControllerFeedbackPattern { get => ref _controllerFeedbackPattern; }
+        public ref FFeedbackPattern TriggerFeedbackPattern { get => ref _triggerFeedbackPattern; }
 
         [Header("UI feedback patterns")]
         //private FeedbackPatternScriptableObject _noneFeedbackPattern; // should do nothing
@@ -72,7 +114,6 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField]
         private FeedbackPatternScriptableObject _operationSawBreakFeedback;
 
-
         public void ManagedTick()
         {
             _gamepad = Gamepad.current;
@@ -82,47 +123,64 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return;
             }
 
-            TickFeedbackPattern();
+            float lowSpeed = TickFeedbackPattern(ref _controllerFeedbackPattern);
+            float highSpeed = TickFeedbackPattern(ref _triggerFeedbackPattern);
+
+            _gamepad.SetMotorSpeeds(lowSpeed, highSpeed);
 
         }
 
-        private void TickFeedbackPattern()
+        private ref FFeedbackPattern GetFeedbackPatternRef(EFeedbackType type)
         {
-            if (_feedbackType == EFeedbackPattern.None || _feedbackPattern == null)
+            switch (type)
             {
-                return;
+                case EFeedbackType.LowPass:
+                    return ref _controllerFeedbackPattern;
+                case EFeedbackType.HighPass:
+                    return ref _triggerFeedbackPattern;
+                default:
+                    throw new ArgumentException("Invalid feedback type: " + type);
+            }
+        }   
+
+        private float TickFeedbackPattern(ref FFeedbackPattern pattern)
+        {
+            float strength = 0.0f;
+
+            if (pattern.Pattern == EFeedbackPattern.None)
+            {
+                return 0.0f;
             }
 
-            if (_feedbackTimer >= _feedbackDuration && !_feedbackPattern._loop)
+            if (pattern.ElapsedTime >= pattern.Duration && !pattern.Loop)
             {
-                SetNoneFeedbackPattern();
-                return;
+                SetNoneFeedbackPattern(ref pattern);
+                return 0.0f;
             }
             else
             {
-                float lowFreq = _feedbackPattern._lowFrequencyPattern.Evaluate(_feedbackTimer) * _lowFrequencyFactor;
-                float highFreq = _feedbackPattern._highFrequencyPattern.Evaluate(_feedbackTimer) * _highFrequencyFactor;
+                if (pattern.PatternCurve != null)
+                {
+                    strength = pattern.PatternCurve.Evaluate(pattern.ElapsedTime) * pattern.Factor;
+                }
 
-                SetFrequencyFactor(1.0f, 1.0f); //reset on tick
-
-                _gamepad.SetMotorSpeeds(lowFreq, highFreq);
+                //SetFrequencyFactor(1.0f, 1.0f); //reset on tick
             }
 
-            _feedbackTimer += Time.unscaledDeltaTime;
-            if (_feedbackPattern._loop && _feedbackTimer >= _feedbackDuration)
+            pattern.ElapsedTime += Time.unscaledDeltaTime;
+            if (pattern.Loop && pattern.ElapsedTime >= pattern.Duration)
             {
-                _feedbackTimer = 0;
+                pattern.ElapsedTime = 0;
             }
+
+            return strength;
         }
 
-        private void SetNoneFeedbackPattern()
+        private void SetNoneFeedbackPattern(ref FFeedbackPattern pattern)
         {
-            _feedbackPattern = null;
-            _feedbackType = EFeedbackPattern.None;
-            _feedbackTimer = 0.0f;
-            _feedbackDuration = 0.0f;
-            SetFrequencyFactor(1.0f, 1.0f);
-            _gamepad.SetMotorSpeeds(0.0f, 0.0f);
+            pattern.Clear();
+
+            //SetFrequencyFactor(1.0f, 1.0f);
         }
 
         public void TryFeedbackPattern()
@@ -146,40 +204,45 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return;
             }
 
-            if (!IsFeedbackValid(pattern))
-            {
-                //Debug.LogWarning("Feedback pattern: " + pattern + " does not exist");
-
-                return;
-            }
-
             FeedbackPatternScriptableObject newFeedback = GetFeedbackPattern(pattern);
 
-            _feedbackPattern = newFeedback;
-            _feedbackType = pattern;
-            _feedbackTimer = 0.0f;
-            float lowFreqLength = _feedbackPattern._lowFrequencyPattern.length > 0 ? _feedbackPattern._lowFrequencyPattern.keys[_feedbackPattern._lowFrequencyPattern.length - 1].time : 0.0f;
-            float highFreqLength = _feedbackPattern._highFrequencyPattern.length > 0 ? _feedbackPattern._highFrequencyPattern.keys[_feedbackPattern._highFrequencyPattern.length - 1].time : 0.0f;
-            _feedbackDuration = Mathf.Max(lowFreqLength, highFreqLength);
+            foreach (var fPattern in newFeedback.FeedbackPatterns)
+            {
+                ref FFeedbackPattern relevantFPattern = ref GetFeedbackPatternRef(fPattern.Type);
 
-            _gamepad.SetMotorSpeeds(0.0f, 0.0f);
+                if (!IsFeedbackValid(ref relevantFPattern, fPattern))
+                {
+                    continue;
+                }
+
+                relevantFPattern.Type = fPattern.Type;
+                relevantFPattern.Pattern = fPattern.Pattern;
+                relevantFPattern.Priority = fPattern.Priority;
+                relevantFPattern.Loop = fPattern.Loop;
+                relevantFPattern.CanBeStopped = fPattern.CanBeStopped;
+                relevantFPattern.PatternCurve = fPattern.PatternCurve;
+                relevantFPattern.Factor = 1.0f;
+                relevantFPattern.Duration = fPattern.PatternCurve.keys[fPattern.PatternCurve.keys.Length - 1].time;
+                relevantFPattern.ElapsedTime = 0.0f;
+            }
+
+            //_gamepad.SetMotorSpeeds(0.0f, 0.0f);
             //_stopGamepadFeedback = StartCoroutine(StopRumbleFeedback(duration, _gamepad));
         }
 
-        private bool IsFeedbackValid(EFeedbackPattern pattern)
+        private bool IsFeedbackValid(ref FFeedbackPattern fPattern, FFeedbackPattern newFeedback)
         {
-            bool validPattern = (pattern != EFeedbackPattern.None && pattern != _feedbackType);
+            bool validPattern = (newFeedback.Pattern != EFeedbackPattern.None && newFeedback.Pattern != fPattern.Pattern);
             if (!validPattern)
             {
-                if (pattern == EFeedbackPattern.None)
+                if (newFeedback.Pattern == EFeedbackPattern.None)
                 {
-                    SetNoneFeedbackPattern();
+                    SetNoneFeedbackPattern(ref fPattern);
                 }
                 return false;
             }
 
-            FeedbackPatternScriptableObject newFeedback = GetFeedbackPattern(pattern);
-            bool canOverwite = _feedbackPattern == null ? true : (_feedbackPattern._canBeStopped && (newFeedback._priority >= _feedbackPattern._priority));
+            bool canOverwite = fPattern.Pattern == EFeedbackPattern.None ? true : (fPattern.CanBeStopped && (newFeedback.Priority >= fPattern.Priority));
             return (validPattern && canOverwite);   
         }
 
@@ -211,19 +274,37 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return;
             }
 
-            bool stopPattern = false;
+            FeedbackPatternScriptableObject selectedFeedback = GetFeedbackPattern(pattern);
 
+
+
+            //controller rumble
+            {
+                ref FFeedbackPattern fPattern = ref ControllerFeedbackPattern;
+                TryStopPattern(pattern, bOverride, ref fPattern);
+            }
+
+            //trigger rumble
+            {
+                ref FFeedbackPattern fPattern = ref TriggerFeedbackPattern;
+                TryStopPattern(pattern, bOverride, ref fPattern);
+            }
+        }
+
+        private void TryStopPattern(EFeedbackPattern pattern, bool bOverride, ref FFeedbackPattern fPattern)
+        {
+            bool stopPattern = false;
             if (pattern == EFeedbackPattern.None)
             {
                 // stop anything playing that can be stopped
-                if (_feedbackType != EFeedbackPattern.None && (_feedbackPattern._canBeStopped || bOverride))
+                if (fPattern.Pattern != EFeedbackPattern.None && (fPattern.CanBeStopped || bOverride))
                 {
                     stopPattern = true;
                 }
             }
             else
             {
-                if (_feedbackType == pattern && (_feedbackPattern._canBeStopped || bOverride))
+                if (fPattern.Pattern == pattern && (fPattern.CanBeStopped || bOverride))
                 {
                     stopPattern = true;
                 }
@@ -231,7 +312,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             if (stopPattern)
             {
-                SetNoneFeedbackPattern();
+                SetNoneFeedbackPattern(ref fPattern);
             }
         }
 
@@ -239,12 +320,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             if (low >= 0.0f)
             {
-                _lowFrequencyFactor = low;
+                _controllerFeedbackPattern.Factor = low;
             }
 
             if (high >= 0.0f)
             {
-                _highFrequencyFactor = high;
+                _triggerFeedbackPattern.Factor = high;
             }
         }
 
@@ -263,7 +344,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             //_noneFeedbackPattern = new FeedbackPatternScriptableObject();
             //_noneFeedbackPattern._canBeStopped = true;
-            _feedbackPattern = null;
+            _controllerFeedbackPattern = new FFeedbackPattern();
+            _controllerFeedbackPattern.Clear();
+            _triggerFeedbackPattern = new FFeedbackPattern();
+            _triggerFeedbackPattern.Clear();
         }
 
         public void ManagedPostInGameLoad()

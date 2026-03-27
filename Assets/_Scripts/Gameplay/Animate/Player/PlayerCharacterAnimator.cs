@@ -414,6 +414,7 @@ namespace _Scripts.Gameplay.Animate.Player{
             if (baseLayerStateInfo.normalizedTime >= 0.96f)
             {
                 CurrentAnimator.SetBool(_param_SawBack_Stuck, true);
+                FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawJammed);
             }
             else if (baseLayerStateInfo.normalizedTime >= 0.901f)
             {

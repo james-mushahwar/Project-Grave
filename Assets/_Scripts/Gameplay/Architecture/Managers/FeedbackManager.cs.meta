@@ -3,7 +3,15 @@ guid: e239529ad5cc06e4d97c47d1094c90d4
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _uiTouchFeedback: {instanceID: 0}
+  - _playerHeartbeatLowFeedback: {fileID: 11400000, guid: d113f28e4a5e64c49968d6df746654cd,
+      type: 2}
+  - _playerHeartbeatUpperFeedback: {instanceID: 0}
+  - _operationValidInputFeedback: {instanceID: 0}
+  - _operationSawSmoothFeedback: {instanceID: 0}
+  - _operationSawJammedFeedback: {instanceID: 0}
+  - _operationSawBreakFeedback: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
