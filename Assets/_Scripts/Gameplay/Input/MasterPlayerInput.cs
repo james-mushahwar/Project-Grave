@@ -1291,6 +1291,17 @@ public partial class @MasterPlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""96fa7917-3b6f-4b06-9930-f1d942d54f90"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Debug_SpawnBody"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""0f16157e-5cbf-4e31-b80a-20663a90fcc1"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",

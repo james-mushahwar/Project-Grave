@@ -395,7 +395,7 @@ MonoBehaviour:
     _operationEndTransform: {fileID: 6490622837241121953}
     _operationStartOffsetTransform: {fileID: 3975206359074329785}
     _bodyPartMorgueActor: {fileID: 6231979375749560421}
-    _duration: 1
+    _duration: 5
     _runtimeID: {fileID: 6276072081754572019}
     _beginOperation_BodyAnimName: sawing_flesh_seperate
     _opMinigame: {fileID: 11400000, guid: 7ec7c396c72bab741bab926a533f5021, type: 2}
@@ -739,7 +739,7 @@ MonoBehaviour:
     _operationEndTransform: {fileID: 2999434902286815296}
     _operationStartOffsetTransform: {fileID: 242609598264325177}
     _bodyPartMorgueActor: {fileID: 7730087332597658665}
-    _duration: 1
+    _duration: 5
     _runtimeID: {fileID: 6579919657244826510}
     _beginOperation_BodyAnimName: 
     _opMinigame: {fileID: 11400000, guid: 7ec7c396c72bab741bab926a533f5021, type: 2}
@@ -17491,7 +17491,7 @@ MonoBehaviour:
     _operationEndTransform: {fileID: 5140023865173600832}
     _operationStartOffsetTransform: {fileID: 3449838088414850287}
     _bodyPartMorgueActor: {fileID: 5777598182147969873}
-    _duration: 1
+    _duration: 5
     _runtimeID: {fileID: 736253990942161014}
     _beginOperation_BodyAnimName: 
     _opMinigame: {fileID: 11400000, guid: 7ec7c396c72bab741bab926a533f5021, type: 2}
@@ -17518,7 +17518,7 @@ MonoBehaviour:
     _operationEndTransform: {fileID: 2963479559938509645}
     _operationStartOffsetTransform: {fileID: 8000174413140666179}
     _bodyPartMorgueActor: {fileID: 5777598182147969873}
-    _duration: 1
+    _duration: 5
     _runtimeID: {fileID: 736253990942161014}
     _beginOperation_BodyAnimName: 
     _opMinigame: {fileID: 11400000, guid: 0a3d6100eb87b08448fa891f77b312cf, type: 2}
@@ -23280,10 +23280,10 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c8ac4abbc00d5a54889bf2c71aa7ad44, type: 2}
-  - {fileID: 2100000, guid: c8ac4abbc00d5a54889bf2c71aa7ad44, type: 2}
-  - {fileID: 2100000, guid: c8ac4abbc00d5a54889bf2c71aa7ad44, type: 2}
-  - {fileID: 2100000, guid: c8ac4abbc00d5a54889bf2c71aa7ad44, type: 2}
+  - {fileID: 2100000, guid: 7e32353748583cc4eaa0d225ba82ad10, type: 2}
+  - {fileID: 2100000, guid: 7e32353748583cc4eaa0d225ba82ad10, type: 2}
+  - {fileID: 2100000, guid: 7e32353748583cc4eaa0d225ba82ad10, type: 2}
+  - {fileID: 2100000, guid: 7e32353748583cc4eaa0d225ba82ad10, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -39372,7 +39372,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c8ac4abbc00d5a54889bf2c71aa7ad44, type: 2}
+  - {fileID: 2100000, guid: 7e32353748583cc4eaa0d225ba82ad10, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -49674,7 +49674,7 @@ MonoBehaviour:
     _operationEndTransform: {fileID: 523337001973994066}
     _operationStartOffsetTransform: {fileID: 320253730273306235}
     _bodyPartMorgueActor: {fileID: 5347335135139902078}
-    _duration: 1
+    _duration: 5
     _runtimeID: {fileID: 4374838436403665624}
     _beginOperation_BodyAnimName: 
     _opMinigame: {fileID: 11400000, guid: 7ec7c396c72bab741bab926a533f5021, type: 2}

@@ -12,6 +12,7 @@ using _Scripts.Gameplay.General.Morgue;
 using UnityEditor;
 using DG.Tweening;
 using _Scripts.Gameplay.General.Morgue.Bodies;
+using Random = UnityEngine.Random;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -72,6 +73,18 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return _mainCamera;
             }
         }
+
+        [Header("Noise settings")]
+        [SerializeField]
+        private NoiseSettings _noise_PlayerHeadBob;
+
+        [Header("Camera impulses")]
+        [SerializeField]
+        private CinemachineImpulseSource _impulseSource_Operation_Success;
+        [SerializeField]
+        private CinemachineImpulseSource _impulseSource_Operation_FailLong;
+        [SerializeField]
+        private CinemachineImpulseSource _impulseSource_Operation_FailShort;
 
         private CinemachineBrain _cmBrain;
         public CinemachineBrain CmBrain
@@ -256,7 +269,23 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     activate = ActivateVirtualCamera(id, vCamType);
                 }
 
+
+                //Noise settings
+                NoiseSettings activeNoise = new NoiseSettings();
+                if (CmBrain.ActiveVirtualCamera.Equals(GetVirtualCamera(PlayerManager.Instance.CurrentPlayerController.RuntimeID, EVirtualCameraType.FirstPersonView_Normal)))
+                {
+                    if (ActionSequenceManager.Instance.LockPlay == false)
+                    {
+                        activeNoise = _noise_PlayerHeadBob;
+                    }
+                }
+
+                if (activeNoise != null)
+                {
+                }
             }
+
+
         }
         // late update tick for playing game 
         public virtual void ManagedLateTick()
@@ -387,6 +416,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public void OnSuccessfulInput()
         {
+            _impulseSource_Operation_Success.GenerateImpulse();
+            //old?
             KillActiveTween(ref _targetZOffsetTweener);
             float value = _onSuccessInputFOVBehaviour.IsValueAdditive ? _onSuccessInputFOVBehaviour.Value + _defaultFOV : _onSuccessInputFOVBehaviour.Value;
 
@@ -394,8 +425,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _targetZOffsetTweener.OnComplete(() => MainCamera.fieldOfView = _defaultFOV);
         }
 
-        public void OnPenaltyInput()
+        public void OnPenaltyInput(bool critical = true)
         {
+            Vector3 velocity = new Vector3(Random.Range(-0.01f, 0.01f), Random.Range(-0.01f, 0.01f), 0.0f);
+            CinemachineImpulseSource impulseSource = critical ? _impulseSource_Operation_FailLong : _impulseSource_Operation_FailShort;
+            impulseSource.GenerateImpulseWithVelocity(velocity);
+            //old?
             KillActiveTween(ref _targetZOffsetTweener);
             float value = _onPenaltyInputFOVBehaviour.IsValueAdditive ? _onPenaltyInputFOVBehaviour.Value + _defaultFOV : _onPenaltyInputFOVBehaviour.Value;
 

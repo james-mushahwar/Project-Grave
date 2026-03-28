@@ -411,18 +411,22 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
 
-            if (baseLayerStateInfo.normalizedTime >= 0.96f)
+            if (baseLayerStateInfo.normalizedTime >= 0.95f)
             {
                 CurrentAnimator.SetBool(_param_SawBack_Stuck, true);
-                FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawJammed);
+                //FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawJammed_Long);
+                //CameraManager.Instance.OnPenaltyInput();
             }
-            else if (baseLayerStateInfo.normalizedTime >= 0.901f)
+            else if (baseLayerStateInfo.normalizedTime >= 0.875f)
             {
                 CurrentAnimator.SetBool(_param_SawBack_Fail, true);
+                //FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawJammed_Short);
+                //CameraManager.Instance.OnPenaltyInput();
             }
             else
             {
                 CurrentAnimator.SetBool(_param_SawBackward_Hash, true);
+                //CameraManager.Instance.OnSuccessfulInput();
             }
 
             //CurrentAnimator.CrossFade(_state_SawingForward_Hash, 0.0f, _baseAnimLayer_Index, normalisedOffset);
@@ -759,6 +763,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
 
+            //previous state checks
             //pickup tool
             if (_previousBaseLayerStateHash.Equals(_state_PickupEmptyToSaw_Hash))
             {
@@ -770,6 +775,23 @@ namespace _Scripts.Gameplay.Animate.Player{
                     }
                 }
             }
+
+            //new state check
+            if (_currentBaseLayerStateHash.Equals(_state_SawBackStuck_Hash))
+            {
+                FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawJammed_Long);
+                CameraManager.Instance.OnPenaltyInput();
+            }
+            else if (_currentBaseLayerStateHash.Equals(_state_SawBackFail_Hash))
+            {
+                FeedbackManager.Instance.TryFeedbackPattern(EFeedbackPattern.Operation_SawJammed_Short);
+                CameraManager.Instance.OnPenaltyInput(false);
+            }
+            else if (_currentBaseLayerStateHash.Equals(_state_SawingBackward_Hash))
+            {
+                CameraManager.Instance.OnSuccessfulInput();
+            }
+
         }
 
         private void TickAnimState()

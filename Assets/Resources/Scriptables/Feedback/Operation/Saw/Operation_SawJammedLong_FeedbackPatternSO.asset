@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89c5945cdaed0a64d85c7ee6b6c5afa7, type: 3}
+  m_Name: Operation_SawJammedLong_FeedbackPatternSO
+  m_EditorClassIdentifier: Assembly-CSharp:_Scripts.Gameplay.Architecture.Managers:FFeedbackPattern
+  _feedbackPatterns:
+  - _type: 1
+    _pattern: 10
+    _priority: 2
+    _loop: 0
+    _canBeStopped: 1
+    _patternCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: -0.001303012
+        value: 0.024775803
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.37936348
+        value: 1.7252562
+        inSlope: 6.4911966
+        outSlope: 6.4911966
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.1007108
+        outWeight: 0.08627911
+      - serializedVersion: 3
+        time: 0.8046195
+        value: -0.9845336
+        inSlope: 0.7726275
+        outSlope: 0.7726275
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.927964
+        value: 1.7185837
+        inSlope: 0.43558776
+        outSlope: 0.43558776
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 1
+        outWeight: 1
+      - serializedVersion: 3
+        time: 1.205057
+        value: 1.6122893
+        inSlope: -3.9462535
+        outSlope: -3.9462535
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1.5022545
+        value: -0.61933726
+        inSlope: -7.5089016
+        outSlope: -7.5089016
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4

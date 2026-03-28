@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89c5945cdaed0a64d85c7ee6b6c5afa7, type: 3}
-  m_Name: Operation_SawJammed_FeedbackPatternSO
+  m_Name: Operation_SawJammedShort_FeedbackPatternSO
   m_EditorClassIdentifier: Assembly-CSharp:_Scripts.Gameplay.Architecture.Managers:FFeedbackPattern
   _feedbackPatterns:
-  - _type: 0
+  - _type: 1
     _pattern: 10
     _priority: 2
     _loop: 0
@@ -22,23 +22,32 @@ MonoBehaviour:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 1
+        time: -0.001303012
+        value: 0.024775803
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 1
-        value: 1
+        time: 0.37936348
+        value: 1.7252562
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+        inWeight: 0.1007108
+        outWeight: 0.08627911
+      - serializedVersion: 3
+        time: 0.5652015
+        value: 1.7507217
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.25041366
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4

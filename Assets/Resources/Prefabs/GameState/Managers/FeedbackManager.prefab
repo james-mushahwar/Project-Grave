@@ -53,7 +53,9 @@ MonoBehaviour:
     type: 2}
   _operationSawSmoothFeedback: {fileID: 11400000, guid: 7fd47f9071be64e41a7c45fc23badbe6,
     type: 2}
-  _operationSawJammedFeedback: {fileID: 11400000, guid: af2ad3fb36dafdd41b09a5d0fe27122e,
+  _operationSawJammedLongFeedback: {fileID: 11400000, guid: af2ad3fb36dafdd41b09a5d0fe27122e,
+    type: 2}
+  _operationSawJammedShortFeedback: {fileID: 11400000, guid: ba0989ba7ddad8c418a1d239ede73d70,
     type: 2}
   _operationSawBreakFeedback: {fileID: 11400000, guid: 7fa464f26534f5b49be47978b463c3d2,
     type: 2}

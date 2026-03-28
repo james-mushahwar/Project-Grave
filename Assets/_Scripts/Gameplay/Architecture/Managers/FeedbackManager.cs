@@ -24,7 +24,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         Heartbeat_Low_Upper,
         //Game - operation
         Operation_SawSmooth,
-        Operation_SawJammed,
+        Operation_SawJammed_Long,
+        Operation_SawJammed_Short,
         Operation_SawBreak,
         Operation_SawFriction,
     }
@@ -110,7 +111,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField]
         private FeedbackPatternScriptableObject _operationSawSmoothFeedback;
         [SerializeField]
-        private FeedbackPatternScriptableObject _operationSawJammedFeedback;
+        private FeedbackPatternScriptableObject _operationSawJammedLongFeedback;
+        [SerializeField]
+        private FeedbackPatternScriptableObject _operationSawJammedShortFeedback;
         [SerializeField]
         private FeedbackPatternScriptableObject _operationSawBreakFeedback;
 
@@ -256,8 +259,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     return _playerHeartbeatUpperFeedback;
                 case EFeedbackPattern.Operation_SawSmooth:
                     return _operationSawSmoothFeedback;
-                case EFeedbackPattern.Operation_SawJammed:
-                    return _operationSawJammedFeedback;
+                case EFeedbackPattern.Operation_SawJammed_Long:
+                    return _operationSawJammedLongFeedback;
+                case EFeedbackPattern.Operation_SawJammed_Short:
+                    return _operationSawJammedShortFeedback;
                 case EFeedbackPattern.Operation_SawBreak:
                     return _operationSawBreakFeedback;
                 default:
