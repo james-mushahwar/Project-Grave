@@ -1429,6 +1429,10 @@ namespace _Scripts.Gameplay.Player.Controller{
             bool isOperating = ChosenOperationState != null;
             return isOperating && ChosenOperationState.OpMinigame.CheckOperationState(EOperationMinigameState.BuildingMomentum) ? ChosenOperationState.OpMinigame.GetMomentumChecks() : -1;
         }
+
+        public void TriggerDrowsy()
+        {
+        }
     }
 }
 

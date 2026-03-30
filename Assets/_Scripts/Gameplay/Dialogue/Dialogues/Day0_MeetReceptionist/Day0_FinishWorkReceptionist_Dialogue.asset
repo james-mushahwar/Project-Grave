@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91d3671a02747445ba57d8117b1fe1a4, type: 3}
+  m_Name: Day0_FinishWorkReceptionist_Dialogue
+  m_EditorClassIdentifier: 
+  _dialogueType: 0
+  _dialogueEvent: 0
+  _phrases:
+  - _text: Bravo, I say, you really made a great start
+    _receiveInput: 0
+    _isSkipable: 0
+    _isAuto: 1
+    _instantText: 0
+    _textSpeed: 50
+    _fasterTextSpeed: 16
+    _startOfPhraseWait: 0.25
+    _endOfPhraseWait: 1
+    _closeTextBox: 0
+    _playAnimAtEnd: 0
+    _characterAnimation:
+      _character: 2
+      _animationType: 1
+      _loop: 0
+  - _text: Only someone like you could do what you did, without any heart.
+    _receiveInput: 0
+    _isSkipable: 0
+    _isAuto: 1
+    _instantText: 0
+    _textSpeed: 50
+    _fasterTextSpeed: 16
+    _startOfPhraseWait: 0.1
+    _endOfPhraseWait: 1
+    _closeTextBox: 0
+    _playAnimAtEnd: 0
+    _characterAnimation:
+      _character: 2
+      _animationType: 1
+      _loop: 0
+  - _text: Here's your pay, a meager amount
+    _receiveInput: 0
+    _isSkipable: 0
+    _isAuto: 1
+    _instantText: 0
+    _textSpeed: 50
+    _fasterTextSpeed: 16
+    _startOfPhraseWait: 0.1
+    _endOfPhraseWait: 1
+    _closeTextBox: 0
+    _playAnimAtEnd: 0
+    _characterAnimation:
+      _character: 2
+      _animationType: 1
+      _loop: 0
+  - _text: 'And I''ll take a slice, for I am the Count '
+    _receiveInput: 0
+    _isSkipable: 0
+    _isAuto: 1
+    _instantText: 0
+    _textSpeed: 50
+    _fasterTextSpeed: 16
+    _startOfPhraseWait: 0.1
+    _endOfPhraseWait: 1.5
+    _closeTextBox: 0
+    _playAnimAtEnd: 0
+    _characterAnimation:
+      _character: 2
+      _animationType: 1
+      _loop: 0
+  - _text: With toil, your life sentence will be repayed
+    _receiveInput: 0
+    _isSkipable: 0
+    _isAuto: 1
+    _instantText: 0
+    _textSpeed: 50
+    _fasterTextSpeed: 16
+    _startOfPhraseWait: 0.1
+    _endOfPhraseWait: 1
+    _closeTextBox: 0
+    _playAnimAtEnd: 0
+    _characterAnimation:
+      _character: 2
+      _animationType: 1
+      _loop: 0
+  - _text: 'Your lifetime of suffering will forever be replayed  '
+    _receiveInput: 0
+    _isSkipable: 0
+    _isAuto: 1
+    _instantText: 0
+    _textSpeed: 50
+    _fasterTextSpeed: 16
+    _startOfPhraseWait: 0.1
+    _endOfPhraseWait: 1
+    _closeTextBox: 0
+    _playAnimAtEnd: 0
+    _characterAnimation:
+      _character: 2
+      _animationType: 1
+      _loop: 0
+  - _text: So you ought to sleep, to be sharp and bright.
+    _receiveInput: 0
+    _isSkipable: 0
+    _isAuto: 1
+    _instantText: 0
+    _textSpeed: 50
+    _fasterTextSpeed: 16
+    _startOfPhraseWait: 0.1
+    _endOfPhraseWait: 1
+    _closeTextBox: 0
+    _playAnimAtEnd: 0
+    _characterAnimation:
+      _character: 2
+      _animationType: 1
+      _loop: 0
+  - _text: So I wish you a very... unpleasant night!
+    _receiveInput: 0
+    _isSkipable: 0
+    _isAuto: 1
+    _instantText: 0
+    _textSpeed: 50
+    _fasterTextSpeed: 16
+    _startOfPhraseWait: 0.1
+    _endOfPhraseWait: 1.5
+    _closeTextBox: 1
+    _playAnimAtEnd: 0
+    _characterAnimation:
+      _character: 2
+      _animationType: 1
+      _loop: 0

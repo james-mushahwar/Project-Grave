@@ -138,6 +138,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             if (InputManager.Instance != null)
             {
                 InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
+                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_OpenGate();
             }
 
             _morgueTickables = FindObjectsOfType<MonoBehaviour>(true).OfType<IMorgueTickable>().ToList();
@@ -181,6 +182,20 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             return MORGUE_TIMING_PHRASES[index];
         }
 
+        bool closed = true;
+
+        public void Debug_OpenGate()
+        {
+            if (closed)
+            {
+                ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_OpenGate);
+            }
+            else
+            {
+                ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_CloseGate);
+            }
+            closed = !closed;
+        }
         //Animation and spawning
         public void Debug_SpawnMorgueActor()
         {
@@ -479,9 +494,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 LightingManager.Instance.StartNightTime();
 
+
                 if (ActionSequenceManager.Instance.PreviousMajorActionSequence <= EActionSequenceEvent.Day0_GoToSleep)
                 {
                     ActionSequenceManager.Instance.SetPreviousActionSequence(EActionSequenceEvent.Day0_FinishWork);
+                    //ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_OpenGate);
                 }
             }
         }

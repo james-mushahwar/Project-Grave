@@ -7,9 +7,18 @@ namespace _Scripts.Gameplay.ActionSequence {
     public class CollisionTriggerActionSequence : MonoBehaviour
     {
         [SerializeField] private EActionSequenceEvent _onPlayerEnter_ActionSequenceEvent;
+        [SerializeField] private EActionSequenceEvent _previousActionSequenceEventCondition;
         
         void OnCollisionEnter(Collision collision)
         {
+            if (_previousActionSequenceEventCondition != EActionSequenceEvent.None)
+            {
+                if (_previousActionSequenceEventCondition != ActionSequenceManager.Instance.PreviousMajorActionSequence)
+                {
+                    return;
+                }
+            }
+
             PlayerController pc = collision.gameObject.GetComponent<PlayerController>();
             if (pc)
             {
@@ -19,6 +28,14 @@ namespace _Scripts.Gameplay.ActionSequence {
 
         void OnTriggerEnter(Collider c)
         {
+            if (_previousActionSequenceEventCondition != EActionSequenceEvent.None)
+            {
+                if (_previousActionSequenceEventCondition != ActionSequenceManager.Instance.PreviousMajorActionSequence)
+                {
+                    return;
+                }
+            }
+
             PlayerController pc = c.gameObject.GetComponent<PlayerController>();
             if (pc)
             {

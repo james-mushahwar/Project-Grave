@@ -207,6 +207,7 @@ namespace _Scripts.Gameplay.ActionSequence {
             AnimationManager.Instance.AnimateCharacter(anim);
         }
 
+        
         //Asistant
         public void Assistant_EnterWithBody_Event()
         {
@@ -234,6 +235,11 @@ namespace _Scripts.Gameplay.ActionSequence {
         public void DIalogue_SawBodyPrompt_Event()
         {
             DialogueManager.Instance.TryPlayDialogue(EDialogueEvent.Day0_SawBody_Prompt);
+        }
+
+        public void Player_Drowsy_Event()
+        {
+            PlayerManager.Instance.CurrentPlayerController.TriggerDrowsy();
         }
 
         //Jitter

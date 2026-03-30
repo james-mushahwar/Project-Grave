@@ -19,10 +19,11 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         Day0_AssistantExits,
         Day0_SawBodyPart0,
         Day0_FinishWork,
+        Day0_FinishWork_Receptionist,
         Day0_GoToSleep,
 
         //Day 0 - anytime 
-        Day0_OpenGate,
+        Day0_OpenGate = 1000,
         Day0_CloseGate,
 
         //DayLoop - can happen multiple times any day 
@@ -191,6 +192,10 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             {
                 canPlay = _previousMajorActionSequence == EActionSequenceEvent.Day0_MeetReceptionist;
             }
+            else if (seqEvent == EActionSequenceEvent.Day0_FinishWork_Receptionist)
+            {
+                canPlay = _previousMajorActionSequence == EActionSequenceEvent.Day0_FinishWork;
+            }
 
             return canPlay && GameStateManager.Instance.IsPlayingFullGame;
         }
@@ -248,7 +253,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             {
                 if (actionSeq != null)
                 {
-                    _actionSequencePauseDictionary[pauseReason] = null;
+                    _actionSequencePauseDictionary.Remove(pauseReason);
                     return actionSeq.Play();
                 }
             }
