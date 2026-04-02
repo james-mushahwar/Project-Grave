@@ -10,6 +10,8 @@ namespace _Scripts.Gameplay.Architecture.Misc {
         [SerializeField]
         private float _targetValue;
         [SerializeField]
+        private float _fromValue = -1.0f;
+        [SerializeField]
         private float _inDuration;
         [SerializeField]
         private Ease _inEase;
@@ -24,6 +26,7 @@ namespace _Scripts.Gameplay.Architecture.Misc {
         private bool _settings_IsValueAdditive;
 
         public float TargetValue { get => _targetValue; set => _targetValue = value; }
+        public float FromValue { get => _fromValue; set => _fromValue = value; }
         public float InDuration { get => _inDuration; set => _inDuration = value; }
         public Ease InEase { get => _inEase; set => _inEase = value; }
         public float AtTargetDelay { get => _atTargetDelay; set => _atTargetDelay = value; }

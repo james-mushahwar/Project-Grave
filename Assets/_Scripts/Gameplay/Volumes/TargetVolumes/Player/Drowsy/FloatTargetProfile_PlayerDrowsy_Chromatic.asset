@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 465a2dda97a25c54a95f3ec5db7225dd, type: 3}
+  m_Name: FloatTargetProfile_PlayerDrowsy_Chromatic
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Architecture.Misc.FloatTargetProfile
+  _targetValue: 1
+  _fromValue: 0
+  _inDuration: 5
+  _inEase: 1
+  _atTargetDelay: 0
+  _outDuration: 3
+  _outEase: 1
+  _settings_IsValueAdditive: 1

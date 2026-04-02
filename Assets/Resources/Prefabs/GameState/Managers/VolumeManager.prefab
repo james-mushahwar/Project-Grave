@@ -54,3 +54,5 @@ MonoBehaviour:
     type: 2}
   _operationLosingMomentum_VolumeTarget: {fileID: 11400000, guid: 6a7b7579abd9ad84e8d95d51999e4aae,
     type: 2}
+  _playerDrowsyEffect_VolumeTarget: {fileID: 11400000, guid: d74a1c8a047b5284fb06ee07f5bc7757,
+    type: 2}

@@ -1432,6 +1432,7 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void TriggerDrowsy()
         {
+            VolumeManager.Instance.SetPlayerDrowsy(true);
         }
     }
 }

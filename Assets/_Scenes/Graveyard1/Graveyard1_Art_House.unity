@@ -2595,7 +2595,7 @@ GameObject:
   - component: {fileID: 617592586}
   m_Layer: 0
   m_Name: Global Volume_Mid_Day
-  m_TagString: Untagged
+  m_TagString: DayNightVolume
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3000,7 +3000,7 @@ GameObject:
   - component: {fileID: 864104877}
   m_Layer: 0
   m_Name: Global Volume_Evening
-  m_TagString: Untagged
+  m_TagString: DayNightVolume
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3990,7 +3990,7 @@ GameObject:
   - component: {fileID: 1198659809}
   m_Layer: 0
   m_Name: Global Volume_Night
-  m_TagString: Untagged
+  m_TagString: DayNightVolume
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

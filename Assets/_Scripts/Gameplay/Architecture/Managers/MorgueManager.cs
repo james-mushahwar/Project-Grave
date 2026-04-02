@@ -138,6 +138,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             if (InputManager.Instance != null)
             {
                 InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
+                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerDrowsy();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_OpenGate();
             }
 
@@ -150,6 +151,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _dayNightCycle = FindObjectOfType<DayNightCycle>();
             //Debug_SpawnMorgueActor();
         }
+
+        private void Debug_PlayerDrowsy()
+        {
+            PlayerManager.Instance.CurrentPlayerController.TriggerDrowsy();
+        }
+
         // save states are restored
         public virtual void ManagedRestoreSave() { }
         // after save states are restored

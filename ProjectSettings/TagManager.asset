@@ -23,6 +23,7 @@ TagManager:
   - UI_Speech
   - Tool_Starter
   - Storage_Hook
+  - DayNightVolume
   layers:
   - Default
   - TransparentFX

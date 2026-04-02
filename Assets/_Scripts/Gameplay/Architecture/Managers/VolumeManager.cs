@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using _Scripts.Gameplay.Architecture.Misc;
+using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 using _Scripts.Org;
 using DG.Tweening;
 using UnityEngine;
@@ -10,6 +11,23 @@ using UnityEngine.Rendering.Universal;
 
 namespace _Scripts.Gameplay.Architecture.Managers
 {
+    public enum EVolumeEffect
+    {
+        None = 0,
+        PlayerDrowsy,
+        COUNT
+    }
+
+    public enum EVolumeEffectPriority
+    {
+        Minimal = 0,
+        Low = 1,
+        Medium = 2,
+        High = 3,
+        Ultra = 4,
+        Cutscene = 5,
+    }
+
     [Serializable]
     public class VolumeProfileTarget
     {
@@ -36,34 +54,74 @@ namespace _Scripts.Gameplay.Architecture.Managers
         public float AtTargetDelay { get => _profile.AtTargetDelay; }
         public float OutDuration { get => _profile.OutDuration; }
         public Ease OutEase { get => _profile.OutEase; }
+        public float FromValue { get => _profile.FromValue; }
     }
 
 
     public class VolumeManager : GameManager<VolumeManager>, IManager
     {
-        private Volume _globalVolume;
-        private float _globalVolumeWeight;
+        //private Volume _globalVolume;
+        private List<Volume> _volumes_DayNight = new List<Volume>();
 
-        [Header("Bloom")]
-        private Bloom _globalVolumeBloom;
-        private float _bloomDefaultIntensity;
+        private Volume CurrentDayNightVolume
+        {
+            get
+            {
+                float highestWeight = -1.0f;
+                Volume chosenVolume = null;
+                foreach (Volume volume in _volumes_DayNight)
+                {
+                    if (volume.isActiveAndEnabled && highestWeight < volume.weight)
+                    {
+                        highestWeight = volume.weight;
+                        chosenVolume = volume;
+                    }
+                }
 
-        [Header("Vignette")]
-        private Vignette _globalVolumeVignette;
-        private Color _vignetteColour;
-        private Vector2 _vignetteCenter;
-        private float _vignetteDefaultIntensity;
-        private float _vignetteSmoothness;
-        private bool _vignetteRounded;
+                return chosenVolume;
+            }
+        }
 
-        [Header("Film grain")]
-        private FilmGrain _globalVolumeFilmGrain;
-        private FilmGrainLookup _filmGrainDefaultType;
-        private float _filmGrainDefaultIntensity;
+        private Dictionary<Volume, VolumeEffect> _profileVolumeEffects = new Dictionary<Volume, VolumeEffect>();
 
-        [Header("Chromatic Aberration")] 
-        private ChromaticAberration _globalVolumeChromaticAberration;
-        private float _chromaticAberrationDefaultIntensity;
+        private Dictionary<EVolumeEffect, VolumeProfileTargetScriptableObject> _activeVolumeEffects = new Dictionary<EVolumeEffect, VolumeProfileTargetScriptableObject>();
+
+        private class VolumeEffect
+        {
+            public float _volumeWeight;
+
+            [Header("Bloom")]
+            public Bloom _volumeBloom;
+            public float _bloomDefaultIntensity;
+
+            [Header("Vignette")]
+            public Vignette _volumeVignette;
+            public Color _vignetteColour;
+            public Vector2 _vignetteCenter;
+            public float _vignetteDefaultIntensity;
+            public float _vignetteSmoothness;
+            public bool _vignetteRounded;
+
+            [Header("Film grain")]
+            public FilmGrain _volumeFilmGrain;
+            public FilmGrainLookup _filmGrainDefaultType;
+            public float _filmGrainDefaultIntensity;
+
+            [Header("Chromatic Aberration")]
+            public ChromaticAberration _volumeChromaticAberration;
+            public float _chromaticAberrationDefaultIntensity;
+
+            #region General
+            //Tweeners
+            public Tweener _bloomIntensityTweener = null;
+            public Tweener _vignetteIntensityTweener = null;
+            public Tweener _chromaticAberrationIntensityTweener = null;
+
+            public EVolumeEffect _assignedVolumeEffect = EVolumeEffect.None;
+            #endregion
+        }
+
+
 
         [Header("Operation")]
         [SerializeField]
@@ -77,49 +135,74 @@ namespace _Scripts.Gameplay.Architecture.Managers
         [SerializeField]
         private VolumeProfileTargetScriptableObject _operationLosingMomentum_VolumeTarget;
 
-        #region General
-        //Tweeners
-        private Tweener _bloomIntensityTweener = null;
-        private Tweener _vignetteIntensityTweener = null;
-        private Tweener _chromaticAberrationIntensityTweener = null;
-        #endregion
+        [Header("Player effects")]
+        [SerializeField]
+        private VolumeProfileTargetScriptableObject _playerDrowsyEffect_VolumeTarget;
+
+        [Header("Runtime Effects")]
+        private bool _playerDrowsy;
 
         public void ManagedPostInGameLoad()
         {
             GameObject globalVolumeGO = GameObject.FindGameObjectWithTag("GlobalVolume");
-            if (globalVolumeGO != null)
+
+            GameObject[] dayNightVolumeGOs = GameObject.FindGameObjectsWithTag("DayNightVolume");
+            foreach(GameObject volumeGO in dayNightVolumeGOs)
             {
-                _globalVolume = globalVolumeGO.GetComponent<Volume>() ;
+                Volume volume = volumeGO.GetComponent<Volume>();
+                if (volume != null)
+                {
+                    _volumes_DayNight.Add(volume);
+                }
             }
 
-            if (_globalVolume != null)
+            if (globalVolumeGO != null)
             {
-                _globalVolumeWeight = _globalVolume.weight;
+                //_globalVolume = globalVolumeGO.GetComponent<Volume>() ;
+            }
 
-                if (_globalVolume.profile.TryGet<Bloom>(out _globalVolumeBloom))
+            foreach(Volume volume in _volumes_DayNight)
+            {
+                if (volume != null)
                 {
-                    _bloomDefaultIntensity = _globalVolumeBloom.intensity.value;
+                    VolumeEffect vEffect = new VolumeEffect();
+                    
+                    vEffect._volumeWeight = volume.weight;
+
+                    if (volume.profile.TryGet<Bloom>(out vEffect._volumeBloom))
+                    {
+                        vEffect._bloomDefaultIntensity = vEffect._volumeBloom.intensity.value;
+                    }
+
+                    if (volume.profile.TryGet<FilmGrain>(out vEffect._volumeFilmGrain))
+                    {
+                        vEffect._filmGrainDefaultType = vEffect._volumeFilmGrain.type.value;
+                        vEffect._filmGrainDefaultIntensity = vEffect._volumeFilmGrain.intensity.value;
+                    }
+
+                    if (volume.profile.TryGet<Vignette>(out vEffect._volumeVignette))
+                    {
+                        vEffect._vignetteColour = vEffect._volumeVignette.color.value;
+                        vEffect._vignetteCenter = vEffect._volumeVignette.center.value;
+                        vEffect._vignetteDefaultIntensity = vEffect._volumeVignette.intensity.value;
+                        vEffect._vignetteSmoothness = vEffect._volumeVignette.smoothness.value;
+                        vEffect._vignetteRounded = vEffect._volumeVignette.rounded.value;
+                    }
+
+                    if (volume.profile.TryGet<ChromaticAberration>(out vEffect._volumeChromaticAberration))
+                    {
+                        vEffect._chromaticAberrationDefaultIntensity = vEffect._volumeChromaticAberration.intensity.value;
+                    }
+                    
+                    _profileVolumeEffects.Add(volume, vEffect);
+
                 }
 
-                if (_globalVolume.profile.TryGet<FilmGrain>(out _globalVolumeFilmGrain))
-                {
-                    _filmGrainDefaultType = _globalVolumeFilmGrain.type.value;
-                    _filmGrainDefaultIntensity = _globalVolumeFilmGrain.intensity.value;
-                }
-
-                if (_globalVolume.profile.TryGet<Vignette>(out _globalVolumeVignette))
-                {
-                    _vignetteColour = _globalVolumeVignette.color.value;
-                    _vignetteCenter = _globalVolumeVignette.center.value;
-                    _vignetteDefaultIntensity = _globalVolumeVignette.intensity.value;
-                    _vignetteSmoothness = _globalVolumeVignette.smoothness.value;
-                    _vignetteRounded = _globalVolumeVignette.rounded.value;
-                }
-
-                if (_globalVolume.profile.TryGet<ChromaticAberration>(out _globalVolumeChromaticAberration))
-                {
-                    _chromaticAberrationDefaultIntensity = _globalVolumeChromaticAberration.intensity.value;
-                }
+            }   
+            
+            for (int i = (int)(EVolumeEffect.None + 1); i < (int)EVolumeEffect.COUNT; i++)
+            {
+                _activeVolumeEffects.Add((EVolumeEffect)i, null);
             }
         }
 
@@ -167,7 +250,7 @@ namespace _Scripts.Gameplay.Architecture.Managers
             //    TweenFloat(ref _bloomIntensityTweener, _bloomDefaultIntensity, value, _successfulOperationInput.Duration, _globalVolumeBloom.intensity, _successfulOperationInput.Ease);
             //    _bloomIntensityTweener.OnComplete(() => TweenFloat(ref _bloomIntensityTweener, _globalVolumeBloom.intensity.value, _bloomDefaultIntensity, 0.075f, _globalVolumeBloom.intensity, Ease.OutExpo));
             //}
-            //EvaluateVolumeProfile(_successfulOperationInput);
+            EvaluateVolumeProfile(_successfulOperationInput);
         }
         public void OnOperationPenaltyInput()
         {
@@ -208,10 +291,55 @@ namespace _Scripts.Gameplay.Architecture.Managers
 
         #endregion
 
-        private void EvaluateVolumeProfile(VolumeProfileTargetScriptableObject newProfileSO)
+        private void GetVolumeEffect(Volume volume, ref VolumeEffect vEffect)
         {
-            Debug.Log("Trynig new volume profile " + newProfileSO);
-            if (newProfileSO == null) { return; }
+            if (_profileVolumeEffects.TryGetValue(volume, out VolumeEffect ve))
+            {
+                vEffect = _profileVolumeEffects[volume];
+            }
+        }
+
+        void OnGUI()
+        {
+            OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
+            bool inputHeld = false;
+
+            if (currentOpState != null)
+            {
+                inputHeld = currentOpState.GetInputHeld(EInputType.LTrigger);
+            }
+            
+            if (CurrentDayNightVolume)
+            {
+                GUI.Label(DebugManager.Instance.OnGUITextRect, "Active DayNight Volume is = " + CurrentDayNightVolume.profile.name);
+
+                Bloom bloom;
+                if (CurrentDayNightVolume.profile.TryGet<Bloom>(out bloom))
+                {
+                    GUI.Label(DebugManager.Instance.OnGUITextRect, "Bloom is = " + bloom.intensity);
+                }
+
+
+                Vignette vignette;
+                if (CurrentDayNightVolume.profile.TryGet<Vignette>(out vignette))
+                {
+
+                    GUI.Label(DebugManager.Instance.OnGUITextRect, "Intensity is = " + vignette.intensity);
+
+                }
+
+                ChromaticAberration ca;
+                if (CurrentDayNightVolume.profile.TryGet<ChromaticAberration>(out ca))
+                {
+                    GUI.Label(DebugManager.Instance.OnGUITextRect, "Chromatic abberation is = " + ca.intensity);
+                }
+            }
+        }
+
+        private bool EvaluateVolumeProfile(VolumeProfileTargetScriptableObject newProfileSO)
+        {
+            Debug.Log("Trying new volume profile " + newProfileSO);
+            if (newProfileSO == null) { return false; }
 
             if (newProfileSO.ClearAllTweens)
             {
@@ -220,124 +348,102 @@ namespace _Scripts.Gameplay.Architecture.Managers
 
             foreach (VolumeProfileTarget profile in newProfileSO.VolumeProfiles)
             {
-                float defaultValue = 0.0f;
+                float fromValue = 0.0f;
                 VolumeParameter<float> volumeParam = null;
                 Tweener tweener = null;
-                GetTweener(profile.Override, ref tweener, ref defaultValue, ref volumeParam);
+                GetTweener(profile.Override, ref tweener, ref fromValue, ref volumeParam);
 
                 if (tweener != null)
                 {
                     KillActiveTween(ref tweener);
                 }
 
-                float value = profile.IsValueAdditive ? profile.TargetValue + defaultValue : profile.TargetValue;
-                TweenFloat(ref tweener, defaultValue, value, profile.InDuration, volumeParam, profile.InEase);
-                tweener.OnComplete(() => TweenFloat(ref tweener, volumeParam.value, defaultValue, profile.OutDuration, volumeParam, profile.OutEase));
+                if (profile.FromValue != -1.0f)
+                {
+                    fromValue = profile.FromValue;
+                }
+
+                float value = profile.IsValueAdditive ? profile.TargetValue + fromValue : profile.TargetValue;
+                TweenFloat(ref tweener, fromValue, value, profile.InDuration, volumeParam, profile.InEase);
+                tweener.OnComplete(() => TweenFloat(ref tweener, volumeParam.value, fromValue, profile.OutDuration, volumeParam, profile.OutEase));
                 
             }
-            
+
+            return true;
         }
 
         private void GetTweener(EVolumeOverride tweenType, ref Tweener tweenerRef, ref float floatDefaultRef, ref VolumeParameter<float> volumeParamRef)
         {
-            if (tweenType == EVolumeOverride.Bloom)
+            VolumeEffect vEffect = null;
+            GetVolumeEffect(CurrentDayNightVolume, ref vEffect);
+
+            if (vEffect != null)
             {
-                if (_globalVolumeBloom)
+                if (tweenType == EVolumeOverride.Bloom)
                 {
-                    tweenerRef = _bloomIntensityTweener;
-                    floatDefaultRef = _bloomDefaultIntensity;
-                    volumeParamRef = _globalVolumeBloom.intensity;
+                    {
+                        CurrentDayNightVolume.profile.TryGet<Bloom>(out Bloom bloom);
+                        if (bloom)
+                        {
+                            bloom.active = true;
+                        }
+                        tweenerRef = vEffect._bloomIntensityTweener;
+                        floatDefaultRef = vEffect._bloomDefaultIntensity;
+                        volumeParamRef = vEffect._volumeBloom.intensity;
+                    }
+                }
+                else if (tweenType == EVolumeOverride.ChromaticAbberation)
+                { 
+                    {
+                        CurrentDayNightVolume.profile.TryGet<ChromaticAberration>(out ChromaticAberration ca);
+                        if (ca)
+                        {
+                            ca.active = true;
+                        }
+                        tweenerRef = vEffect._chromaticAberrationIntensityTweener;
+                        floatDefaultRef = vEffect._chromaticAberrationDefaultIntensity;
+                        volumeParamRef = vEffect._volumeChromaticAberration.intensity;
+                    }
+                }
+                else if (tweenType == EVolumeOverride.Vignette)
+                {
+                    {
+                        CurrentDayNightVolume.profile.TryGet<Vignette>(out Vignette vig);
+                        if (vig)
+                        {
+                            vig.active = true;
+                        }
+                        tweenerRef = vEffect._vignetteIntensityTweener;
+                        floatDefaultRef = vEffect._vignetteDefaultIntensity;
+                        volumeParamRef = vEffect._volumeVignette.intensity;
+                    }
                 }
             }
-            else if (tweenType == EVolumeOverride.ChromaticAbberation)
-            {
-                if (_globalVolumeChromaticAberration)
-                {
-                    tweenerRef = _chromaticAberrationIntensityTweener;
-                    floatDefaultRef = _chromaticAberrationDefaultIntensity;
-                    volumeParamRef = _globalVolumeChromaticAberration.intensity;
-                }
-            }
-            else if (tweenType == EVolumeOverride.Vignette)
-            {
-                if (_globalVolumeVignette)
-                {
-                    tweenerRef = _vignetteIntensityTweener;
-                    floatDefaultRef = _vignetteDefaultIntensity;
-                    volumeParamRef = _globalVolumeVignette.intensity;
-                }
-            }
+
         }
 
         private void KillAllTweens()
         {
-            KillActiveTween(ref _bloomIntensityTweener);
-            KillActiveTween(ref _chromaticAberrationIntensityTweener);
-            KillActiveTween(ref _vignetteIntensityTweener);
-        }
-
-        #region General Effects
-        public void OnPlayerTakeDamage()
-        {
-            if (_globalVolumeChromaticAberration != null)
+            foreach (VolumeEffect vEffect in _profileVolumeEffects.Values)
             {
-                //Chromatic aberration
-                KillActiveTween(ref _chromaticAberrationIntensityTweener);
-                //TweenFloat(ref _chromaticAberrationIntensityTweener, _chromaticAberrationIntensity, _chromaticAberrationPlayerDamage, _chromaticAberrationPlayerDamageDuration, _globalVolumeChromaticAberration.intensity, _chromaticAberrationPlayerDamagedEase);
-                _chromaticAberrationIntensityTweener.OnComplete(() => _globalVolumeChromaticAberration.intensity.value = _chromaticAberrationDefaultIntensity);
-            }
+                KillActiveTween(ref vEffect._bloomIntensityTweener);
+                KillActiveTween(ref vEffect._chromaticAberrationIntensityTweener);
+                KillActiveTween(ref vEffect._vignetteIntensityTweener);
 
-            if (_globalVolumeVignette != null)
-            {
-                //vignette
-                KillActiveTween(ref _vignetteIntensityTweener);
-                //TweenFloat(ref _vignetteIntensityTweener, _vignetteIntensity, _vignetteIntensityPlayerDamage, _vignetteIntensityPlayerDamageDuration, _globalVolumeVignette.intensity, _vignetteIntensityPlayerDamageEase);
-                _vignetteIntensityTweener.OnComplete(() => _globalVolumeVignette.intensity.value = _vignetteDefaultIntensity);
+                vEffect._assignedVolumeEffect = EVolumeEffect.None;
             }
-        }
-
-        public void OnPlayerKilled()
-        {
-            if (_globalVolumeChromaticAberration != null)
-            {
-                //chromatic aberration
-                KillActiveTween(ref _chromaticAberrationIntensityTweener);
-                //TweenFloat(ref _chromaticAberrationIntensityTweener, _chromaticAberrationIntensity, _chromaticAberrationPlayerKilled, _chromaticAberrationPlayerKilledDuration, _globalVolumeChromaticAberration.intensity, _chromaticAberrationPlayerKilledEase);
-            }
-
-            if (_globalVolumeVignette != null)
-            {
-                //vignette
-                KillActiveTween(ref _vignetteIntensityTweener);
-                //TweenFloat(ref _vignetteIntensityTweener, _vignetteIntensity, _vignetteIntensityPlayerKilled, _vignetteIntensityPlayerKilledDuration, _globalVolumeVignette.intensity, _vignetteIntensityPlayerKilledEase);
-            }
-        }
-
-        public void OnPlayerReset()
-        {
-            if (_globalVolumeBloom != null)
-            {
-                //bloom
-                KillActiveTween(ref _bloomIntensityTweener);
-                _globalVolumeBloom.intensity.value = _bloomDefaultIntensity;
-            }
-
-            if (_globalVolumeChromaticAberration != null)
-            {
-                // chromatic aberration
-                KillActiveTween(ref _chromaticAberrationIntensityTweener);
-                _globalVolumeChromaticAberration.intensity.value = _chromaticAberrationDefaultIntensity;
-            }
-
-            if (_globalVolumeVignette != null)
-            {
-                // vignette
-                KillActiveTween(ref _vignetteIntensityTweener);
-                _globalVolumeVignette.intensity.value = _vignetteDefaultIntensity;
-            }
-
             
         }
+
+        #region Player Effects
+        public void SetPlayerDrowsy(bool set)
+        {
+            _playerDrowsy = true;
+        }
+        #endregion
+
+        #region GeneralEffects
+
         #endregion
 
         private void KillActiveTween(ref Tweener tweener)
@@ -361,6 +467,7 @@ namespace _Scripts.Gameplay.Architecture.Managers
             tweener = DOVirtual.Float(from, to, duration, value =>
             {
                 param.value = value;
+                Debug.Log("Tween value is " + param.value);
             }).SetEase(easeType);
         }
 
@@ -381,10 +488,72 @@ namespace _Scripts.Gameplay.Architecture.Managers
 
         public void ManagedTick() 
         {
-            if (_globalVolume == null)
+            EvaluateActiveVolumeEffects();
+
+            if (_playerDrowsy)
             {
-                //ManagedPostInGameLoad();
+                if (IsVolumeEffectActive(EVolumeEffect.PlayerDrowsy) == false)
+                {
+                    Debug.Log("Play Drowsy effect");
+
+                    if (EvaluateVolumeProfile(_playerDrowsyEffect_VolumeTarget))
+                    {
+                        _activeVolumeEffects.TryAdd(EVolumeEffect.PlayerDrowsy, _playerDrowsyEffect_VolumeTarget);
+                    }
+                }
             }
+        }
+
+        private void EvaluateActiveVolumeEffects()
+        {
+            foreach (var pair in _activeVolumeEffects)
+            {
+                EVolumeEffect key = pair.Key;
+                VolumeProfileTargetScriptableObject value = pair.Value;
+
+                if (value != null)
+                {
+                    bool stillActive = false;
+
+                    foreach (VolumeProfileTarget profile in value.VolumeProfiles)
+                    {
+                        float fromValue = 0.0f;
+                        VolumeParameter<float> volumeParam = null;
+                        Tweener tweener = null;
+                        GetTweener(profile.Override, ref tweener, ref fromValue, ref volumeParam);
+
+                        if (tweener != null)
+                        {
+                            stillActive = tweener.IsActive();
+                        }
+
+
+                        if (stillActive)
+                        {
+                            break;
+                        }
+                    }
+
+                    if (!stillActive)
+                    {
+                        Debug.Log("Remove VE: " + pair.Key);
+                        _activeVolumeEffects[pair.Key] = null;
+                    }
+                }
+            }
+        }
+
+        public bool IsVolumeEffectActive(EVolumeEffect ve)
+        {
+            if (_activeVolumeEffects.ContainsKey(ve))
+            {
+                if (_activeVolumeEffects[ve] != null)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
     
