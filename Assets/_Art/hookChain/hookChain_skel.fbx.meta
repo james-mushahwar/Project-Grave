@@ -9,6 +9,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: openPBR_shader1
     second: {fileID: 2100000, guid: dd4cb0b21c675724991053a96eb07f91, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pasted__openPBR_shader2
+    second: {fileID: 2100000, guid: 0e2ef9ae988459743940398734d250c9, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -69,7 +74,7 @@ ModelImporter:
       takeName: Take 001
       internalID: -998496362607748373
       firstFrame: 500
-      lastFrame: 895
+      lastFrame: 712
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
