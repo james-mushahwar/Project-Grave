@@ -2024,7 +2024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.ActionSequence.CollisionTriggerActionSequence
   _onPlayerEnter_ActionSequenceEvent: 1001
-  _previousActionSequenceEventCondition: 106
+  _previousActionSequenceEventCondition: 107
 --- !u!114 &538041614
 MonoBehaviour:
   m_ObjectHideFlags: 0

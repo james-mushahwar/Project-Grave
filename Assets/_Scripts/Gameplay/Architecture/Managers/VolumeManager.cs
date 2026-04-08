@@ -88,9 +88,11 @@ namespace _Scripts.Gameplay.Architecture.Managers
             public float _volumeWeight;
             [Header("Bloom")]
             public Bloom _volumeBloom;
+            public bool _volumeBloom_enabled;
             public float _bloomDefaultIntensity;
             [Header("Vignette")]
             public Vignette _volumeVignette;
+            public bool _volumeVignette_enabled;
             public Color _vignetteColour;
             public Vector2 _vignetteCenter;
             public float _vignetteDefaultIntensity;
@@ -98,10 +100,12 @@ namespace _Scripts.Gameplay.Architecture.Managers
             public bool _vignetteRounded;
             [Header("Film grain")]
             public FilmGrain _volumeFilmGrain;
+            public bool _volumeFilmGrain_enabled;
             public FilmGrainLookup _filmGrainDefaultType;
             public float _filmGrainDefaultIntensity;
             [Header("Chromatic Aberration")]
             public ChromaticAberration _volumeChromaticAberration;
+            public bool _volChromaticAberration_enabled;
             public float _chromaticAberrationDefaultIntensity;
             #region General
 
@@ -155,15 +159,18 @@ namespace _Scripts.Gameplay.Architecture.Managers
                     vEffect._volumeWeight = volume.weight;
                     if (volume.profile.TryGet<Bloom>(out vEffect._volumeBloom))
                     {
+                        vEffect._volumeBloom_enabled = vEffect._volumeBloom.active;
                         vEffect._bloomDefaultIntensity = vEffect._volumeBloom.intensity.value;
                     }
                     if (volume.profile.TryGet<FilmGrain>(out vEffect._volumeFilmGrain))
                     {
+                        vEffect._volumeFilmGrain_enabled = vEffect._volumeFilmGrain.active;
                         vEffect._filmGrainDefaultType = vEffect._volumeFilmGrain.type.value;
                         vEffect._filmGrainDefaultIntensity = vEffect._volumeFilmGrain.intensity.value;
                     }
                     if (volume.profile.TryGet<Vignette>(out vEffect._volumeVignette))
                     {
+                        vEffect._volumeVignette_enabled = vEffect._volumeVignette.active;
                         vEffect._vignetteColour = vEffect._volumeVignette.color.value;
                         vEffect._vignetteCenter = vEffect._volumeVignette.center.value;
                         vEffect._vignetteDefaultIntensity = vEffect._volumeVignette.intensity.value;
@@ -172,6 +179,7 @@ namespace _Scripts.Gameplay.Architecture.Managers
                     }
                     if (volume.profile.TryGet<ChromaticAberration>(out vEffect._volumeChromaticAberration))
                     {
+                        vEffect._volChromaticAberration_enabled = vEffect._volumeChromaticAberration.active;
                         vEffect._chromaticAberrationDefaultIntensity = vEffect._volumeChromaticAberration.intensity.value;
                     }
 
@@ -330,6 +338,9 @@ namespace _Scripts.Gameplay.Architecture.Managers
                 {
                     KillActiveTween(ref tweener);
                 }
+
+                SetVolumeEffect(profile.Override, true);
+
                 if (profile.FromValue != -1.0f)
                 {
                     fromValue = profile.FromValue;
@@ -378,21 +389,18 @@ namespace _Scripts.Gameplay.Architecture.Managers
             {
                 case EVolumeOverride.Bloom:
                     CurrentDayNightVolume.profile.TryGet<Bloom>(out Bloom bloom);
-                    if (bloom != null) bloom.active = true;
                     floatDefaultRef = vEffect._bloomDefaultIntensity;
                     volumeParamRef = vEffect._volumeBloom.intensity;
                     return vEffect._bloomIntensityTweenerRef.Value;
 
                 case EVolumeOverride.ChromaticAbberation:
                     CurrentDayNightVolume.profile.TryGet<ChromaticAberration>(out ChromaticAberration ca);
-                    if (ca != null) ca.active = true;
                     floatDefaultRef = vEffect._chromaticAberrationDefaultIntensity;
                     volumeParamRef = vEffect._volumeChromaticAberration.intensity;
                     return vEffect._chromaticAberrationIntensityTweenerRef.Value;
 
                 case EVolumeOverride.Vignette:
                     CurrentDayNightVolume.profile.TryGet<Vignette>(out Vignette vig);
-                    if (vig != null) vig.active = true;
                     floatDefaultRef = vEffect._vignetteDefaultIntensity;
                     volumeParamRef = vEffect._volumeVignette.intensity;
                     return vEffect._vignetteIntensityTweenerRef.Value;
@@ -400,6 +408,50 @@ namespace _Scripts.Gameplay.Architecture.Managers
                 default:
                     return null;
             }
+        }
+
+        private bool SetVolumeEffect(EVolumeOverride volumeOverride, bool set)
+        {
+            VolumeEffect vEffect = null;
+            GetVolumeEffect(CurrentDayNightVolume, ref vEffect);
+
+            if (vEffect == null)
+                return false;
+
+            switch (volumeOverride)
+            {
+                case EVolumeOverride.Bloom:
+                    CurrentDayNightVolume.profile.TryGet<Bloom>(out Bloom bloom);
+                    if (bloom != null)
+                    {
+                        bloom.active = set;
+                        return true;
+                    }
+                    break;
+
+                case EVolumeOverride.ChromaticAbberation:
+                    CurrentDayNightVolume.profile.TryGet<ChromaticAberration>(out ChromaticAberration ca);
+                    if (ca != null)
+                    {
+                        ca.active = set;
+                        return true;
+                    }
+                    break;
+
+                case EVolumeOverride.Vignette:
+                    CurrentDayNightVolume.profile.TryGet<Vignette>(out Vignette vignette);
+                    if (vignette != null)
+                    {
+                        vignette.active = set;
+                        return true;
+                    }
+                    break;
+
+                default:
+                    return false;
+            }
+
+            return false;
         }
 
         private bool SetTweener(EVolumeOverride tweenType, Tweener tweenerRef, VolumeEffect vEffectRef)
@@ -512,7 +564,7 @@ namespace _Scripts.Gameplay.Architecture.Managers
                         float fromValue = 0.0f;
                         VolumeParameter<float> volumeParam = null;
                         Tweener tweener = GetTweener(profile.Override, out fromValue, out volumeParam);
-                        ;
+                        
                         if (tweener != null)
                         {
                             stillActive = tweener.IsActive();
@@ -545,25 +597,43 @@ namespace _Scripts.Gameplay.Architecture.Managers
                     continue;
                 }
 
-                KillActiveTween(ref vEffect._bloomIntensityTweenerRef.Value);
-                KillActiveTween(ref vEffect._chromaticAberrationIntensityTweenerRef.Value);
-                KillActiveTween(ref vEffect._vignetteIntensityTweenerRef.Value);
+                //KillActiveTween(ref vEffect._bloomIntensityTweenerRef.Value);
+                //KillActiveTween(ref vEffect._chromaticAberrationIntensityTweenerRef.Value);
+                //KillActiveTween(ref vEffect._vignetteIntensityTweenerRef.Value);
 
                 if (vEffect._volumeBloom != null)
                 {
+                    if (vEffect._bloomIntensityTweenerRef.Value != null)
+                    {
+                        vEffect._bloomIntensityTweenerRef.Value.Kill();
+                        vEffect._bloomIntensityTweenerRef.Value = null;
+                    }
                     vEffect._volumeBloom.intensity.value = vEffect._bloomDefaultIntensity;
+                    vEffect._volumeBloom.active = vEffect._volumeBloom_enabled;
                 }
                 if (vEffect._volumeChromaticAberration != null)
                 {
+                    if (vEffect._chromaticAberrationIntensityTweenerRef.Value != null)
+                    {
+                        vEffect._chromaticAberrationIntensityTweenerRef.Value.Kill();
+                        vEffect._chromaticAberrationIntensityTweenerRef.Value = null;
+                    }
                     vEffect._volumeChromaticAberration.intensity.value = vEffect._chromaticAberrationDefaultIntensity;
+                    vEffect._volumeChromaticAberration.active = vEffect._volChromaticAberration_enabled;
                 }
                 if (vEffect._volumeVignette != null)
                 {
+                    if (vEffect._vignetteIntensityTweenerRef.Value != null)
+                    {
+                        vEffect._vignetteIntensityTweenerRef.Value.Kill();
+                        vEffect._vignetteIntensityTweenerRef.Value = null;
+                    }
                     vEffect._volumeVignette.color.value = vEffect._vignetteColour;
                     vEffect._volumeVignette.center.value = vEffect._vignetteCenter;
                     vEffect._volumeVignette.intensity.value = vEffect._vignetteDefaultIntensity;
                     vEffect._volumeVignette.smoothness.value = vEffect._vignetteSmoothness;
                     vEffect._volumeVignette.rounded.value = vEffect._vignetteRounded;
+                    vEffect._volumeVignette.active = vEffect._volumeVignette_enabled;
                 }
 
                 vEffect._assignedVolumeEffect = EVolumeEffect.None;
