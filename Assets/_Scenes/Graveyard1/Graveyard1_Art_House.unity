@@ -4352,8 +4352,8 @@ MonoBehaviour:
         - m_Target: {fileID: 1203060373}
           m_TargetAssemblyTypeName: _Scripts.Gameplay.ActionSequence.TimelineActionSequence,
             Assembly-CSharp
-          m_MethodName: Dialogue_StartSequenceable_Event
-          m_Mode: 6
+          m_MethodName: Player_Drowsy_Event
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
