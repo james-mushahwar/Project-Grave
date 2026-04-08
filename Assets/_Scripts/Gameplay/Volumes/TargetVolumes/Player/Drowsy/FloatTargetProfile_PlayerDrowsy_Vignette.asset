@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 465a2dda97a25c54a95f3ec5db7225dd, type: 3}
-  m_Name: FloatTargetProfile_PlayerDrowsy_Chromatic
+  m_Name: FloatTargetProfile_PlayerDrowsy_Vignette
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Architecture.Misc.FloatTargetProfile
   _targetValue: 1
-  _fromValue: 0.8
+  _fromValue: -1
   _inDuration: 3
-  _inEase: 20
+  _inEase: 1
   _atTargetDelay: 0
   _outDuration: 3
   _outEase: 4
-  _settings_IsValueAdditive: 0
+  _settings_IsValueAdditive: 1

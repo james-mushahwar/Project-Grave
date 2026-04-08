@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78e73502e6036ec4999c8a77b68245c7, type: 3}
   m_Name: VolumeProfileTarget_PlayerDrowsy
   m_EditorClassIdentifier: 
+  _volumeEffect: 1
+  _volumeEffectPriority: 2
   _volumeProfiles:
   - _override: 2
     _profile: {fileID: 11400000, guid: bdc93747644c2ed43be35ec60bdbdd55, type: 2}
+  - _override: 3
+    _profile: {fileID: 11400000, guid: 90928439fad69be4eaab82f51c7b7cf9, type: 2}
   _settings_ClearAllTweens: 0
