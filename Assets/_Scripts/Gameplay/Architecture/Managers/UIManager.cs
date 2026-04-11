@@ -160,6 +160,16 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             throw new NotImplementedException();
         }
+
+        internal void ShowLoadingScreen(bool v)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal IEnumerator EndOfDayScreen()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

@@ -9,13 +9,13 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
 
     public class DayNightCycle : MonoBehaviour, IManaged
     {
-        public bool CanTick 
-        { 
+        public bool CanTick
+        {
             get
             {
                 return gameObject.activeSelf && this.isActiveAndEnabled;
             }
-            set => throw new System.NotImplementedException(); 
+            set => throw new System.NotImplementedException();
         }
 
         public event Action _onDayStart;
@@ -23,11 +23,16 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
 
         public float dayDuration = 600f; // 10 minutes in seconds
         private float timeOfDay = 0f; // Normalized time (0 to 1 for a full day)
+
+
+
         [SerializeField]
         private float _timeElapseFactor = 1.0f; // multiplier for time passing
 
         [SerializeField]
-        private PlayableDirector _dayNightTimeline;
+        private PlayableDirector _dayNightTimelineForward;
+        [SerializeField]
+        private PlayableDirector _dayNightTimelineBackward;
         [SerializeField]
         private float _dayNightTransitionSpeed = 1.0f;
 
@@ -46,6 +51,9 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
             }
         }
 
+        //get the next 
+
+
         public Tuple<int, int> Time_24Hr
         {
             get
@@ -55,6 +63,11 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
                 return Tuple.Create(hours, minutes);
             }
         }
+
+        public EDayTimeline TargetTimeline { get => MorgueManager.Instance.TargetTimeline; set => MorgueManager.Instance.TargetTimeline = value; }
+        public EDayTimeline CurrentTimeline { get => MorgueManager.Instance.CurrentTimeline; }
+
+        private PlayableDirector _currentPlayingTimeline;
 
         public void ManagedTick()
         {
@@ -91,15 +104,41 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
             Moon.color = new Color(0.8f, 0.8f, 1f); // Cool moonlight
         }
 
-        public void PlayDayNightTimeline()
+        public void PlayDayNightTimeline(EDayTimeline timeline = EDayTimeline.None, bool forward = true)
         {
-            _dayNightTimeline.Play();
-            _dayNightTimeline.playableGraph.GetRootPlayable(0).SetSpeed(_dayNightTransitionSpeed);
+            if (timeline == EDayTimeline.None)
+            {
+                timeline = MorgueManager.Instance.NextCellestialTimeline;
+            }
+
+            if (TargetTimeline == timeline || CurrentTimeline == timeline)
+            {
+                return;
+            }
+
+            TargetTimeline = timeline;
+
+            PlayableDirector timelineToPlay = forward ? _dayNightTimelineForward : _dayNightTimelineBackward;
+
+            timelineToPlay.Play();
+            timelineToPlay.playableGraph.GetRootPlayable(0).SetSpeed(_dayNightTransitionSpeed);
+
+            _currentPlayingTimeline = timelineToPlay;
         }
 
         public void PauseDayNightTimeline()
         {
-            _dayNightTimeline.playableGraph.GetRootPlayable(0).SetSpeed(0.0f);
+            _currentPlayingTimeline.playableGraph.GetRootPlayable(0).SetSpeed(0.0f);
+        }
+
+        public void OnTimelineEventTriggered(EDayTimeline timelineEvent)
+        {
+            if (timelineEvent != TargetTimeline)
+            {
+                return;
+            }
+
+            PauseDayNightTimeline();
         }
 
         public void Enable()

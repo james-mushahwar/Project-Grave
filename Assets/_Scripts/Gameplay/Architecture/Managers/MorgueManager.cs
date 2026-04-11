@@ -14,6 +14,7 @@ using System;
 using Random = UnityEngine.Random;
 using _Scripts.Gameplay.Settings;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
+using UnityEngine.Playables;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -34,6 +35,26 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         COUNT
     }
 
+    public enum  EDayTimeline : uint 
+    {
+        None,
+        Morning_Start,
+        Morning_WakeUp,
+        Morning_StartWork,
+        Midday_Start,
+        Evening_Start,
+        Evening_EndWork,
+        Night_Start,
+        Night_SunDown,
+        Night_LightsOut,
+    }
+
+    public struct FTimelineChange
+    {
+        public bool _isTimeTravelForwards;
+        public int _hoursDifference;
+        public int _minutesDifference;
+    }
 
     [Serializable]
     public struct FTimingValues
@@ -87,6 +108,59 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private DayNightCycle _dayNightCycle;
 
         private EDayStage _dayStage;
+        //how many days the player has played, to be saved
+        private int _dayCount;
+        public int DayCount { get => _dayCount; }
+
+        private int _currentHour;
+        private int _currentMinute;
+
+        private EDayTimeline _targetTimeline;
+        private EDayTimeline _currentTimeline;
+
+
+        public EDayTimeline NextCellestialTimeline
+        {
+            get
+            {
+                if (_currentTimeline >= EDayTimeline.Morning_Start && _currentTimeline < EDayTimeline.Midday_Start)
+                {
+                    return EDayTimeline.Midday_Start;
+                }
+                else if (_currentTimeline >= EDayTimeline.Midday_Start && _currentTimeline < EDayTimeline.Evening_Start)
+                {
+                    return EDayTimeline.Evening_Start;
+                }
+                else if (_currentTimeline >= EDayTimeline.Evening_Start && _currentTimeline < EDayTimeline.Night_Start)
+                {
+                    return EDayTimeline.Night_Start;
+                }
+                else if (_currentTimeline >= EDayTimeline.Night_Start)
+                {
+                    return EDayTimeline.Morning_Start;
+                }
+                else
+                {
+                    throw new Exception("Current timeline is not within expected range for celestial timelines.");
+                }
+            }
+        }
+
+        public EDayTimeline TargetTimeline { get => _targetTimeline; set => _targetTimeline = value; }
+        public EDayTimeline CurrentTimeline { get => _currentTimeline; set => _currentTimeline = value; }
+
+        private Dictionary<EDayTimeline, Tuple<int, int>> _timeMilestones = new Dictionary<EDayTimeline, Tuple<int, int>>()
+        {
+            { EDayTimeline.Morning_Start, new Tuple<int, int>(6, 0) },
+            { EDayTimeline.Morning_WakeUp, new Tuple<int, int>(8, 0) },
+            { EDayTimeline.Morning_StartWork, new Tuple<int, int>(9, 0) },
+            { EDayTimeline.Midday_Start, new Tuple<int, int>(12, 0) },
+            { EDayTimeline.Evening_Start, new Tuple<int, int>(17, 0) },
+            { EDayTimeline.Evening_EndWork, new Tuple<int, int>(18, 0) },
+            { EDayTimeline.Night_Start, new Tuple<int, int>(21, 0) },
+            { EDayTimeline.Night_SunDown, new Tuple<int, int>(22, 0) },
+            { EDayTimeline.Night_LightsOut, new Tuple<int, int>(23, 0) },
+        };
 
         private static string[] MORGUE_TIMING_PHRASES =
         {
@@ -149,12 +223,99 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
 
             _dayNightCycle = FindObjectOfType<DayNightCycle>();
+
+            _currentTimeline = EDayTimeline.Morning_WakeUp;
             //Debug_SpawnMorgueActor();
         }
 
         private void Debug_PlayerDrowsy()
         {
             PlayerManager.Instance.CurrentPlayerController.TriggerDrowsy();
+        }
+
+        private IEnumerator Debug_PlayerSleep()
+        {
+            // make camera fade to black
+            UIManager.Instance.ShowLoadingScreen(true);
+
+            // show the day info updates
+            yield return UIManager.Instance.EndOfDayScreen();
+
+            // calculate timeline change for waking up the next day
+            FTimelineChange timelineDiff = CalculateTimelineChange(EDayTimeline.Morning_WakeUp);
+            // move timeline ahead that amount instantly
+            yield return MoveTimeline(timelineDiff);
+
+            // set next day, reset day time, increment day loops
+            // what stays the same?: table position, stored items
+            // what progresses?: time of day, infection, decay, 
+
+            // camera fade from black
+            UIManager.Instance.ShowLoadingScreen(false);
+
+        }
+
+        private IEnumerator MoveTimeline(FTimelineChange timelineDiff)
+        {
+            
+        }
+
+        private FTimelineChange CalculateTimelineChange(EDayTimeline timeline, int dayIncrement = 0)
+        {
+            int nextHour = _timeMilestones[timeline].Item1;
+            int nextMinute = _timeMilestones[timeline].Item2;
+
+            int hoursDifference = 0;
+            int minutesDifference = 0;
+
+            bool isTimeTravelForwards = true;
+            // calculate new day
+            if (dayIncrement > 0)
+            {
+                isTimeTravelForwards = true;
+                minutesDifference = (60 - _currentMinute) + nextMinute;
+                if (minutesDifference == 60)
+                {
+                    minutesDifference = 0;
+                }
+                hoursDifference = (24 - _currentHour) + nextHour + (minutesDifference > 0 ? -1 : 0);
+            }
+            else if (dayIncrement < 0)
+            {
+                isTimeTravelForwards = false;
+                minutesDifference = -(_currentMinute - nextMinute);
+                hoursDifference = -(_currentHour + (24 - nextHour));
+            }
+            else
+            {
+                // same day, calculate if forwards or back
+                int currentTime = _currentHour * 100 + _currentMinute;
+                int nextTime = _currentHour * 100 + _currentMinute;
+
+                if (nextTime > currentTime)
+                {
+                    isTimeTravelForwards = true;
+                    minutesDifference = (60 - _currentMinute) + nextMinute;
+                    if (minutesDifference == 60)
+                    {
+                        minutesDifference = 0;
+                    }
+                    hoursDifference = (24 - _currentHour) + nextHour + (minutesDifference > 0 ? -1 : 0);
+                }
+                else
+                {
+                    isTimeTravelForwards = false;
+                    minutesDifference = -(_currentMinute - nextMinute);
+                    hoursDifference = -(_currentHour + (24 - nextHour));
+                }
+            }
+
+            FTimelineChange timelineChange = new FTimelineChange();
+            timelineChange._isTimeTravelForwards = isTimeTravelForwards;
+            timelineChange._hoursDifference = hoursDifference;
+            timelineChange._minutesDifference = minutesDifference;
+
+            return timelineChange;
         }
 
         // save states are restored
@@ -482,9 +643,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
 
         //DayNight cycle
-        public void InvokeDayNightTransition()
+        public void InvokeDayNightTransition(EDayTimeline timeline = EDayTimeline.None)
         {
-            _dayNightCycle.PlayDayNightTimeline();
+            _dayNightCycle.PlayDayNightTimeline(timeline);
             UpdateDayState();
         }
 
