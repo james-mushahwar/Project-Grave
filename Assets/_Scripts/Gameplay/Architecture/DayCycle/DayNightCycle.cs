@@ -139,6 +139,7 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
             }
 
             PauseDayNightTimeline();
+            TargetTimeline = EDayTimeline.None;
         }
 
         public void Enable()

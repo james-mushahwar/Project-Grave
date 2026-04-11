@@ -257,7 +257,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         private IEnumerator MoveTimeline(FTimelineChange timelineDiff)
         {
-            
+            //_dayNightCycle.PlayDayNightTimeline(time)
+            yield return null;
         }
 
         private FTimelineChange CalculateTimelineChange(EDayTimeline timeline, int dayIncrement = 0)
