@@ -487,9 +487,13 @@ namespace _Scripts.Gameplay.Architecture.Managers
 
         }
         #region Player Effects
-        public void SetPlayerDrowsy(bool set)
+        public void TogglePlayerDrowsy()
         {
             _playerDrowsy = !_playerDrowsy;
+        }
+        public void SetPlayerDrowsy(bool set)
+        {
+            _playerDrowsy = set;
         }
         #endregion
         #region GeneralEffects

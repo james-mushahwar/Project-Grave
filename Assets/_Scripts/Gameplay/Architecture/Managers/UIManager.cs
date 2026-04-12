@@ -23,6 +23,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private GameObject _gameplayNormalViewGroup;
         [SerializeField]
         private GameObject _gameplayOperationViewGroup;
+        [SerializeField]
+        private GameObject _gameplayLoadingScreen;
 
         [SerializeField] private UIReticle _uiReticle;
         [SerializeField] private UIOperation _uiOperation;
@@ -161,14 +163,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             throw new NotImplementedException();
         }
 
-        internal void ShowLoadingScreen(bool v)
+        internal void ShowLoadingScreen(bool show)
         {
-            throw new NotImplementedException();
+            _gameplayLoadingScreen.SetActive(show);
         }
 
         internal IEnumerator EndOfDayScreen()
         {
-            throw new NotImplementedException();
+            yield return TaskManager.Instance.WaitForSecondsPool.Get(2.0f);
         }
     }
 

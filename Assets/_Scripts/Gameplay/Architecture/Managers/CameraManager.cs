@@ -264,7 +264,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 {
                     activate = ActivateVirtualCamera(vCam);
                 }
-                else if (ActionSequenceManager.Instance.LockPlay == false)
+                else if (ActionSequenceManager.Instance.LockPlay == false )
                 {
                     activate = ActivateVirtualCamera(id, vCamType);
                 }

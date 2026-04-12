@@ -118,16 +118,21 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private EDayTimeline _targetTimeline;
         private EDayTimeline _currentTimeline;
 
+        private Coroutine _playerSleepCoroutine;
+
+        public bool IsCriticalCoroutinePlaying
+        {
+            get
+            {
+                return _playerSleepCoroutine != null;
+            }
+        }
 
         public EDayTimeline NextCellestialTimeline
         {
             get
             {
-                if (_currentTimeline >= EDayTimeline.Morning_Start && _currentTimeline < EDayTimeline.Midday_Start)
-                {
-                    return EDayTimeline.Midday_Start;
-                }
-                else if (_currentTimeline >= EDayTimeline.Midday_Start && _currentTimeline < EDayTimeline.Evening_Start)
+                if (_currentTimeline >= EDayTimeline.Morning_Start && _currentTimeline < EDayTimeline.Evening_Start)
                 {
                     return EDayTimeline.Evening_Start;
                 }
@@ -143,6 +148,28 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 {
                     throw new Exception("Current timeline is not within expected range for celestial timelines.");
                 }
+
+
+                //if (_currentTimeline >= EDayTimeline.Morning_Start && _currentTimeline < EDayTimeline.Midday_Start)
+                //{
+                //    return EDayTimeline.Midday_Start;
+                //}
+                //else if (_currentTimeline >= EDayTimeline.Midday_Start && _currentTimeline < EDayTimeline.Evening_Start)
+                //{
+                //    return EDayTimeline.Evening_Start;
+                //}
+                //else if (_currentTimeline >= EDayTimeline.Evening_Start && _currentTimeline < EDayTimeline.Night_Start)
+                //{
+                //    return EDayTimeline.Night_Start;
+                //}
+                //else if (_currentTimeline >= EDayTimeline.Night_Start)
+                //{
+                //    return EDayTimeline.Morning_Start;
+                //}
+                //else
+                //{
+                //    throw new Exception("Current timeline is not within expected range for celestial timelines.");
+                //}
             }
         }
 
@@ -211,8 +238,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             if (InputManager.Instance != null)
             {
-                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
+                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerDrowsy();
+                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerSleep();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_OpenGate();
             }
 
@@ -233,8 +261,21 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             PlayerManager.Instance.CurrentPlayerController.TriggerDrowsy();
         }
 
-        private IEnumerator Debug_PlayerSleep()
+        private void Debug_PlayerSleep()
         {
+            if (_playerSleepCoroutine == null)
+            {
+                _playerSleepCoroutine = StartCoroutine(PlayerSleep());
+            }
+        }
+
+        private IEnumerator PlayerSleep()
+        {
+            //disable player effects
+            VolumeManager.Instance.SetPlayerDrowsy(false);
+
+            InvokeDayNightTransition(EDayTimeline.Morning_Start);
+
             // make camera fade to black
             UIManager.Instance.ShowLoadingScreen(true);
 
@@ -253,6 +294,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             // camera fade from black
             UIManager.Instance.ShowLoadingScreen(false);
 
+            _playerSleepCoroutine = null;
         }
 
         private IEnumerator MoveTimeline(FTimelineChange timelineDiff)

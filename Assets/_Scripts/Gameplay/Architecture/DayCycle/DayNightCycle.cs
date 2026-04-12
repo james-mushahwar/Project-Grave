@@ -65,7 +65,7 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
         }
 
         public EDayTimeline TargetTimeline { get => MorgueManager.Instance.TargetTimeline; set => MorgueManager.Instance.TargetTimeline = value; }
-        public EDayTimeline CurrentTimeline { get => MorgueManager.Instance.CurrentTimeline; }
+        public EDayTimeline CurrentTimeline { get => MorgueManager.Instance.CurrentTimeline; set => MorgueManager.Instance.CurrentTimeline = value; }
 
         private PlayableDirector _currentPlayingTimeline;
 
@@ -131,6 +131,23 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
             _currentPlayingTimeline.playableGraph.GetRootPlayable(0).SetSpeed(0.0f);
         }
 
+        public void OnMorningStartTriggered()
+        {
+            OnTimelineEventTriggered(EDayTimeline.Morning_Start);
+        }
+        public void OnMiddayStartTriggered()
+        {
+            OnTimelineEventTriggered(EDayTimeline.Midday_Start);
+        }
+        public void OnEveningStartTriggered()
+        {
+            OnTimelineEventTriggered(EDayTimeline.Evening_Start);
+        }
+        public void OnNightStartTriggered()
+        {
+            OnTimelineEventTriggered(EDayTimeline.Night_Start);
+        }
+
         public void OnTimelineEventTriggered(EDayTimeline timelineEvent)
         {
             if (timelineEvent != TargetTimeline)
@@ -138,8 +155,10 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
                 return;
             }
 
-            PauseDayNightTimeline();
+            CurrentTimeline = TargetTimeline;
             TargetTimeline = EDayTimeline.None;
+
+            PauseDayNightTimeline();
         }
 
         public void Enable()

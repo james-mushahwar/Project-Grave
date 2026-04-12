@@ -1243,7 +1243,7 @@ PlayableDirector:
   - key: {fileID: -7216469846442113655, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
     value: {fileID: 1198659809}
   - key: {fileID: 4136876388438806833, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
-    value: {fileID: 1625429007}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!1 &286331752
@@ -6226,7 +6226,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1625429006}
   - component: {fileID: 1625429008}
-  - component: {fileID: 1625429007}
   m_Layer: 0
   m_Name: Timeline_timeOfDayTimeline
   m_TagString: Untagged
@@ -6251,37 +6250,6 @@ Transform:
   - {fileID: 282590862}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1625429007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1625429004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalReceiver
-  m_Events:
-    m_Signals:
-    - {fileID: 11400000, guid: 14543a46660ab624cba11aee35c20e4c, type: 2}
-    m_Events:
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1625429008}
-          m_TargetAssemblyTypeName: _Scripts.Gameplay.Architecture.DayCycle.DayNightCycle,
-            Assembly-CSharp
-          m_MethodName: PauseDayNightTimeline
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &1625429008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8425,6 +8393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2093503033}
   - component: {fileID: 2093503034}
+  - component: {fileID: 2093503035}
   m_Layer: 0
   m_Name: Timeline_timeOfDay_Forward
   m_TagString: Untagged
@@ -8458,9 +8427,9 @@ PlayableDirector:
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
   m_InitialState: 0
-  m_WrapMode: 0
+  m_WrapMode: 1
   m_DirectorUpdateMode: 1
-  m_InitialTime: 0
+  m_InitialTime: 0.10000000149011612
   m_SceneBindings:
   - key: {fileID: 3170274384268684512, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
     value: {fileID: 1577848561}
@@ -8471,9 +8440,72 @@ PlayableDirector:
   - key: {fileID: -7216469846442113655, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
     value: {fileID: 1198659809}
   - key: {fileID: 4136876388438806833, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
-    value: {fileID: 1625429007}
+    value: {fileID: 2093503035}
   m_ExposedReferences:
     m_References: []
+--- !u!114 &2093503035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093503032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalReceiver
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: f10061f32b12a9b4a9b9fc8aee811c74, type: 2}
+    - {fileID: 11400000, guid: 3a096a9fe3b96b9499423cb82e8449d6, type: 2}
+    - {fileID: 11400000, guid: 1336f4b8903698842aa1026d138cf4e5, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1625429008}
+          m_TargetAssemblyTypeName: _Scripts.Gameplay.Architecture.DayCycle.DayNightCycle,
+            Assembly-CSharp
+          m_MethodName: OnMorningStartTriggered
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1625429008}
+          m_TargetAssemblyTypeName: _Scripts.Gameplay.Architecture.DayCycle.DayNightCycle,
+            Assembly-CSharp
+          m_MethodName: OnEveningStartTriggered
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1625429008}
+          m_TargetAssemblyTypeName: _Scripts.Gameplay.Architecture.DayCycle.DayNightCycle,
+            Assembly-CSharp
+          m_MethodName: OnNightStartTriggered
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &2140967883
 GameObject:
   m_ObjectHideFlags: 0
