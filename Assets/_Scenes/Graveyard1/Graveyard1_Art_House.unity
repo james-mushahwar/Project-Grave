@@ -5605,6 +5605,78 @@ Transform:
   - {fileID: 5231150708274757543}
   m_Father: {fileID: 321029226}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1508282376
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1508282379}
+  - component: {fileID: 1508282378}
+  - component: {fileID: 1508282377}
+  m_Layer: 0
+  m_Name: Global Volume_Morning
+  m_TagString: DayNightVolume
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!95 &1508282377
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508282376}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1508282378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508282376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 0
+  sharedProfile: {fileID: 11400000, guid: 506b560fbe7ba604a9e38142b05e2da6, type: 2}
+--- !u!4 &1508282379
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508282376}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 30.087704, y: 17.034988, z: 42.762386}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1524458650
 GameObject:
   m_ObjectHideFlags: 0
@@ -8441,6 +8513,8 @@ PlayableDirector:
     value: {fileID: 1198659809}
   - key: {fileID: 4136876388438806833, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
     value: {fileID: 2093503035}
+  - key: {fileID: -2451647637799597258, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
+    value: {fileID: 1508282377}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &2093503035
@@ -9128,6 +9202,7 @@ SceneRoots:
   - {fileID: 286331755}
   - {fileID: 617592585}
   - {fileID: 864104879}
+  - {fileID: 1508282379}
   - {fileID: 1198659811}
   - {fileID: 232233619}
   - {fileID: 1977208533}
