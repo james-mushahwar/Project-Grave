@@ -1203,7 +1203,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &282590862
 Transform:
   m_ObjectHideFlags: 0
@@ -1226,7 +1226,7 @@ PlayableDirector:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 282590861}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
   m_InitialState: 0
@@ -1243,6 +1243,8 @@ PlayableDirector:
   - key: {fileID: -7216469846442113655, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
     value: {fileID: 1198659809}
   - key: {fileID: 4136876388438806833, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
+    value: {fileID: 2093503035}
+  - key: {fileID: -2451647637799597258, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
     value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
@@ -1459,7 +1461,6 @@ GameObject:
   - component: {fileID: 421379939}
   - component: {fileID: 421379938}
   - component: {fileID: 421379937}
-  - component: {fileID: 421379936}
   m_Layer: 0
   m_Name: EnterAssistantOverlapDetect
   m_TagString: Untagged
@@ -1467,23 +1468,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &421379936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 421379932}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42985724cbfe94d50a69592d59c62786, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Scripts._Game.Sequencer.SequenceableGroup
-  _acceptInput: 0
-  _isSimultaneousGroup: 0
-  _sequenceables:
-  - {fileID: 896320432}
-  _onFinished_TryPauseReason: 0
 --- !u!54 &421379937
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1545,7 +1529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.ActionSequence.CollisionTriggerActionSequence
   _onPlayerEnter_ActionSequenceEvent: 103
-  _previousActionSequenceEventCondition: 0
+  _previousActionSequenceEventCondition: 102
 --- !u!114 &421379941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1571,8 +1555,7 @@ Transform:
   m_LocalPosition: {x: 36.298, y: 0.368, z: 55.642}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 896320434}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &453977405 stripped
@@ -1997,7 +1980,6 @@ GameObject:
   - component: {fileID: 538041613}
   - component: {fileID: 538041612}
   - component: {fileID: 538041611}
-  - component: {fileID: 538041610}
   m_Layer: 0
   m_Name: FinishDay_CloseGateOverlapDetect
   m_TagString: Untagged
@@ -2005,23 +1987,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &538041610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 538041609}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42985724cbfe94d50a69592d59c62786, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Scripts._Game.Sequencer.SequenceableGroup
-  _acceptInput: 0
-  _isSimultaneousGroup: 0
-  _sequenceables:
-  - {fileID: 1962455226}
-  _onFinished_TryPauseReason: 0
 --- !u!54 &538041611
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2109,8 +2074,7 @@ Transform:
   m_LocalPosition: {x: 36.467, y: 0.368, z: 55.642}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1962455228}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &539788280
@@ -3079,68 +3043,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b14163f065b80294582de650a652350d, type: 3}
---- !u!1 &896320431
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 896320434}
-  - component: {fileID: 896320433}
-  - component: {fileID: 896320432}
-  m_Layer: 0
-  m_Name: Sequenceable_ReceptionistSpeech
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &896320432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 896320431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0ebec7d6423343dcb6c86ad893e69f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Scripts._Game.Sequencer.Dialogue.TextSequenceable
-  _acceptInput: 1
-  _scriptableDialogue: {fileID: 11400000, guid: c668a027f791a2d48b63a343fd4a97d9,
-    type: 2}
-  _dialogueType: 0
---- !u!114 &896320433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 896320431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c326a8f33ea0544a80821936d6e98be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.General.Identification.RuntimeID
-  _defaultID: 8da4d930-7dcd-4064-9c9e-30c7403213d6
---- !u!4 &896320434
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 896320431}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 421379943}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &919625570
 GameObject:
   m_ObjectHideFlags: 3
@@ -4525,6 +4427,136 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c00bd1405f0f43844858fb5bef21eea1, type: 3}
+--- !u!1 &1210984983
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1210984989}
+  - component: {fileID: 1210984988}
+  - component: {fileID: 1210984987}
+  - component: {fileID: 1210984986}
+  - component: {fileID: 1210984985}
+  - component: {fileID: 1210984990}
+  m_Layer: 0
+  m_Name: Day0_GoToSleepOverlapDetect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!54 &1210984985
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210984983}
+  serializedVersion: 5
+  m_Mass: 0.0000001
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &1210984986
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210984983}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 502
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 2.0999985}
+  m_Center: {x: 0, y: 0, z: 0.049999237}
+--- !u!114 &1210984987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210984983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b5237f1934d00346b2e8d34d655f722, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.ActionSequence.CollisionTriggerActionSequence
+  _onPlayerEnter_ActionSequenceEvent: 108
+  _previousActionSequenceEventCondition: 107
+--- !u!114 &1210984988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210984983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c326a8f33ea0544a80821936d6e98be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.General.Identification.RuntimeID
+  _defaultID: 05ae3074-99c3-461b-9142-bb9ba2770761
+--- !u!4 &1210984989
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210984983}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 28.524, y: 0.368, z: 53.16}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1210984990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210984983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de41b1611d512f148851fe04d9fcbe31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.ActionSequence.RoutineActionSequence
+  _actionSequenceSettings:
+    _isCritical: 1
+    _lockPlay: 1
+    _actionSequenceType: 0
+    _actionSequencePriority: 0
+    _actionSequenceEvent: 108
+  _runtimeId: {fileID: 1210984988}
 --- !u!1001 &1212146101
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7715,68 +7747,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1899475738}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1962455225
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1962455228}
-  - component: {fileID: 1962455227}
-  - component: {fileID: 1962455226}
-  m_Layer: 0
-  m_Name: Sequenceable_ReceptionistSpeech
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1962455226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1962455225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0ebec7d6423343dcb6c86ad893e69f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Scripts._Game.Sequencer.Dialogue.TextSequenceable
-  _acceptInput: 1
-  _scriptableDialogue: {fileID: 11400000, guid: 2bfaad06b61c0164f83aa3bf3274ad96,
-    type: 2}
-  _dialogueType: 0
---- !u!114 &1962455227
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1962455225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c326a8f33ea0544a80821936d6e98be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.General.Identification.RuntimeID
-  _defaultID: 35d80e9a-58b0-4a03-9946-cba83d89d3bf
---- !u!4 &1962455228
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1962455225}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 538041615}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1968208301 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5985149224494393119, guid: 6a4e6c73d4ad84b4a967da09adb79b7c,
@@ -8501,7 +8471,7 @@ PlayableDirector:
   m_InitialState: 0
   m_WrapMode: 1
   m_DirectorUpdateMode: 1
-  m_InitialTime: 0.10000000149011612
+  m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: 3170274384268684512, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
     value: {fileID: 1577848561}
@@ -8515,6 +8485,8 @@ PlayableDirector:
     value: {fileID: 2093503035}
   - key: {fileID: -2451647637799597258, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
     value: {fileID: 1508282377}
+  - key: {fileID: -1170687957045868337, guid: 8744d0b471e23ff4dbccaf88b3535a1c, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &2093503035
@@ -8534,6 +8506,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: f10061f32b12a9b4a9b9fc8aee811c74, type: 2}
     - {fileID: 11400000, guid: 3a096a9fe3b96b9499423cb82e8449d6, type: 2}
     - {fileID: 11400000, guid: 1336f4b8903698842aa1026d138cf4e5, type: 2}
+    - {fileID: 11400000, guid: d65f718d37f59dc428c1063145a3958f, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -8571,6 +8544,21 @@ MonoBehaviour:
           m_TargetAssemblyTypeName: _Scripts.Gameplay.Architecture.DayCycle.DayNightCycle,
             Assembly-CSharp
           m_MethodName: OnNightStartTriggered
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1625429008}
+          m_TargetAssemblyTypeName: _Scripts.Gameplay.Architecture.DayCycle.DayNightCycle,
+            Assembly-CSharp
+          m_MethodName: OnMiddayStartTriggered
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -9235,6 +9223,7 @@ SceneRoots:
   - {fileID: 1203060376}
   - {fileID: 2153517}
   - {fileID: 421379943}
+  - {fileID: 1210984989}
   - {fileID: 538041615}
   - {fileID: 1625429006}
   - {fileID: 1401573707}

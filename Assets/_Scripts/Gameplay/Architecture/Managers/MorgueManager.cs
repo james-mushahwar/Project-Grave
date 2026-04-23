@@ -132,7 +132,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             get
             {
-                if (_currentTimeline >= EDayTimeline.Morning_Start && _currentTimeline < EDayTimeline.Evening_Start)
+                if (_currentTimeline >= EDayTimeline.Morning_Start && _currentTimeline < EDayTimeline.Midday_Start)
+                {
+                    return EDayTimeline.Midday_Start;
+                }
+                else if (_currentTimeline >= EDayTimeline.Midday_Start && _currentTimeline < EDayTimeline.Evening_Start)
                 {
                     return EDayTimeline.Evening_Start;
                 }
@@ -238,9 +242,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             if (InputManager.Instance != null)
             {
-                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
+                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerDrowsy();
-                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerSleep();
+                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerSleep();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_OpenGate();
             }
 
@@ -253,6 +257,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _dayNightCycle = FindObjectOfType<DayNightCycle>();
 
             _currentTimeline = EDayTimeline.Morning_WakeUp;
+
+            ActionSequenceManager.Instance.TryAssignEventRoutine(EActionSequenceEvent.Day0_GoToSleep, PlayerSleep());
             //Debug_SpawnMorgueActor();
         }
 
@@ -263,13 +269,15 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         private void Debug_PlayerSleep()
         {
-            if (_playerSleepCoroutine == null)
-            {
-                _playerSleepCoroutine = StartCoroutine(PlayerSleep());
-            }
+            //if (_playerSleepCoroutine == null)
+            //{
+            //    _playerSleepCoroutine = StartCoroutine(PlayerSleep());
+            //}
+
+            ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_GoToSleep);
         }
 
-        private IEnumerator PlayerSleep()
+        public IEnumerator PlayerSleep()
         {
             //disable player effects
             VolumeManager.Instance.SetPlayerDrowsy(false);
@@ -295,6 +303,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             UIManager.Instance.ShowLoadingScreen(false);
 
             _playerSleepCoroutine = null;
+            _dayCount++;
+            
         }
 
         private IEnumerator MoveTimeline(FTimelineChange timelineDiff)

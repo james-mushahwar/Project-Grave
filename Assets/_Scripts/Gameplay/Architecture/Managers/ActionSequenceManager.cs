@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using _Scripts.CautionaryTalesScripts;
 using _Scripts.Gameplay.General.Identification;
@@ -49,6 +50,8 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         private Dictionary<RuntimeID, IActionSequence> _runtimeActionSequences = new Dictionary<RuntimeID, IActionSequence>();
 
         private Dictionary<EActionSequenceEvent, IActionSequence> _eventActionSequences = new Dictionary<EActionSequenceEvent, IActionSequence>();
+
+        private Dictionary<EActionSequenceEvent, IEnumerator> _routineActionSequences = new Dictionary<EActionSequenceEvent, IEnumerator>();
 
         private Dictionary<EActionSequencePauseReason, IActionSequence> _actionSequencePauseDictionary = new Dictionary<EActionSequencePauseReason, IActionSequence>();
 
@@ -160,6 +163,26 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 Debug.LogError("Duplicate attempt to Register " + (actionSeq as MonoBehaviour).name);
             }
         }
+        public void TryAssignEventRoutine(EActionSequenceEvent seqEvent, IEnumerator routine)
+        {
+            if (_routineActionSequences.ContainsKey(seqEvent) == false)
+            {
+                _routineActionSequences.Add(seqEvent, routine);
+            }
+            else
+            {
+                Debug.LogError("Duplicate attempt to Register routine" + (routine as MonoBehaviour).name);
+            }
+        }
+        public IEnumerator TryGetRoutine(EActionSequenceEvent actionSequenceEvent)
+        {
+            if (_routineActionSequences.TryGetValue(actionSequenceEvent, out var routine) == false)
+            {
+                Debug.LogError("No routine found for " + actionSequenceEvent);
+                return null;
+            }
+            return routine;
+        }
 
         public void TryUnregisterActionSequence(IActionSequence actionSeq)
         {
@@ -175,6 +198,11 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             {
                 Debug.LogError("Duplicate attempt to Unregister " + (actionSeq as MonoBehaviour).name);
             }
+        }
+
+        public bool IsPlayingActionSequence(IActionSequence actionSeq)
+        {
+            return _currentMajorActionSequences.Contains(actionSeq);
         }
 
         public bool CanPlayActionSequence(EActionSequenceEvent seqEvent, IActionSequence actionSeq)
@@ -199,10 +227,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
             return canPlay && GameStateManager.Instance.IsPlayingFullGame;
         }
-        public bool TryPlayActionSequence(IActionSequence actionSeq)
-        {
-            return false;
-        }
+
         public bool TryPlayActionSequence(EActionSequenceEvent actionSeqEvent)
         {
             if (!GameStateManager.Instance.IsPlayingFullGame)
