@@ -282,7 +282,7 @@ namespace _Scripts.Gameplay.Architecture.Managers
                 inputHeld = currentOpState.GetInputHeld(EInputType.LTrigger);
             }
 
-            if (CurrentDayNightVolume)
+            if (false && CurrentDayNightVolume)
             {
                 GUI.Label(DebugManager.Instance.OnGUITextRect, "Active DayNight Volume is = " + CurrentDayNightVolume.profile.name);
                 Bloom bloom;

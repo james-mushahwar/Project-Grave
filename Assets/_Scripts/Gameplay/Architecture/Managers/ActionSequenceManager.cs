@@ -106,7 +106,11 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 if (_previousMajorActionSequence == EActionSequenceEvent.Day0_AssistantEnters)
                 {
                     _actionSequenceEventCounter++;
-                    if (_actionSequenceEventCounter % 3 == 0)
+                    if (_actionSequenceEventCounter == 1)
+                    {
+                        MorgueManager.Instance.LowerHooksOnChain();
+                    }
+                    else if (_actionSequenceEventCounter % 3 == 0)
                     {
                         MorgueManager.Instance.InvokeDayNightTransition();
                     }

@@ -15,6 +15,7 @@ using Random = UnityEngine.Random;
 using _Scripts.Gameplay.Settings;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 using UnityEngine.Playables;
+using _Scripts.Gameplay.General.Morgue.Storage;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -210,6 +211,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private GameObject _houseChuteRoot;
         private List<MorgueActor> _pendingHouseMorgueActors = new List<MorgueActor>();
 
+        private GameObject _hooksOnChain;
+        private GroupMorgueStorage _hooksStorage;
+
         private List<IMorgueTickable> _morgueTickables = new List<IMorgueTickable>();
 
         // as gamestate is being generated
@@ -243,6 +247,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             if (InputManager.Instance != null)
             {
                 InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
+                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => LowerHooksOnChain();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerDrowsy();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerSleep();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_OpenGate();
@@ -260,6 +265,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             ActionSequenceManager.Instance.TryAssignEventRoutine(EActionSequenceEvent.Day0_GoToSleep, PlayerSleep());
             //Debug_SpawnMorgueActor();
+
+            _hooksOnChain = GameObject.FindGameObjectWithTag("Storage_HooksOnChain");
+            _hooksStorage = _hooksOnChain.GetComponent<GroupMorgueStorage>();
         }
 
         private void Debug_PlayerDrowsy()
@@ -722,6 +730,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     //ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_OpenGate);
                 }
             }
+        }
+
+        public void LowerHooksOnChain()
+        {
+            _hooksStorage.OnAvailable();
         }
     }
     

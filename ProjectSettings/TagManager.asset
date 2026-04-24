@@ -24,6 +24,7 @@ TagManager:
   - Tool_Starter
   - Storage_Hook
   - DayNightVolume
+  - Storage_HooksOnChain
   layers:
   - Default
   - TransparentFX
