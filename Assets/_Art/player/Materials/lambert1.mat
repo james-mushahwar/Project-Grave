@@ -39,11 +39,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 6343773cecb2f1d44a7fdcedf7c8cd13, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Base_Texture:
-        m_Texture: {fileID: 2800000, guid: 27ac4d418f8c1f741b076e8d203aa642, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6343773cecb2f1d44a7fdcedf7c8cd13, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -59,6 +59,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DisplacementNoiseTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -79,15 +83,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 6343773cecb2f1d44a7fdcedf7c8cd13, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mesh_Normal_Map:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 49dee67718967c2419c54cd32ccb1518, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetalSmoothness:
-        m_Texture: {fileID: 2800000, guid: 3280b9171e51a3241b9660f6e1e0294c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2c2ed23a7d041d747955ce2ed3a85914, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -134,6 +138,8 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
+    - _DebugVertexColours: 0
+    - _Debug_Displacement_Noise: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -142,6 +148,7 @@ Material:
     - _Frame: 3
     - _GlossMapScale: 1
     - _Glossiness: 0
+    - _GlossinessSource: 0
     - _GlossyReflections: 1
     - _Infection_1_Falloff_Shape: 2
     - _Infection_1_SourceFalloff_Size: 1
@@ -162,17 +169,21 @@ Material:
     - _Intensity: 0
     - _Metallic: 0
     - _Mode: 0
-    - _Normal_Noise_Blend_Weight: 0.077
+    - _Normal_Noise_Blend_Weight: 0.07
     - _Normal_Noise_Scale: 1
-    - _Normal_Texture_Strength: 1
+    - _Normal_Texture_Strength: 0.58
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _ScaleDisplacementByUV: 0
     - _Setup: 0
+    - _Shininess: 0
     - _Smoothness: 0
+    - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
+    - _SpecSource: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
@@ -181,7 +192,9 @@ Material:
     - _TimeMultiplier: 0.5
     - _TriPlanarPower: 10
     - _UVSec: 0
-    - _WPO_Displacement: 0.018
+    - _UseDisplacementNoiseTexture: 0
+    - _Use_Vertex_Colours_As_Position: 0
+    - _WPO_Displacement: 0.0058
     - _WorkflowMode: 1
     - _World_Scale: 10
     - _XRMotionVectorsPass: 1
