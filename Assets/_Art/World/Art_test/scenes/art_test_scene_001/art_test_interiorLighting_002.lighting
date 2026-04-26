@@ -7,7 +7,7 @@ LightingSettings:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: art_test_interiorLighting_002
-  serializedVersion: 9
+  serializedVersion: 10
   m_EnableBakedLightmaps: 1
   m_EnableRealtimeLightmaps: 0
   m_RealtimeEnvironmentLighting: 1
@@ -22,10 +22,16 @@ LightingSettings:
   m_BakeResolution: 40
   m_Padding: 2
   m_LightmapCompression: 3
+  m_LightmapPackingMode: 1
+  m_LightmapPackingMethod: 0
+  m_XAtlasPackingAttempts: 16384
+  m_XAtlasBruteForce: 0
+  m_XAtlasBlockAlign: 0
+  m_XAtlasRepackUnderutilizedLightmaps: 1
   m_AO: 1
-  m_AOMaxDistance: 1
-  m_CompAOExponent: 1
-  m_CompAOExponentDirect: 1
+  m_AOMaxDistance: 0.5
+  m_CompAOExponent: 0.5
+  m_CompAOExponentDirect: 10
   m_ExtractAO: 0
   m_MixedBakeMode: 0
   m_LightmapsBakeMode: 1
@@ -43,7 +49,7 @@ LightingSettings:
   m_PVRSampleCount: 512
   m_PVREnvironmentSampleCount: 512
   m_PVREnvironmentReferencePointCount: 2048
-  m_LightProbeSampleCountMultiplier: 4
+  m_LightProbeSampleCountMultiplier: 5
   m_PVRBounces: 10
   m_PVRMinBounces: 1
   m_PVREnvironmentImportanceSampling: 1
