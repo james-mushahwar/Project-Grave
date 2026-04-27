@@ -122,11 +122,11 @@ MonoBehaviour:
   _jitterBehaviour: {fileID: 2645095139902547745}
   _updateJitter: 0
   _animation: {fileID: 0}
-  _animator: {fileID: 0}
-  _animController: {fileID: 0}
+  _animator: {fileID: 1387343310800292717}
+  _animController: {fileID: 9100000, guid: 6433aeba846919943948f07ce37ae088, type: 2}
   _pd: {fileID: 0}
   _onUnavailableAnimElapsed: 0
-  _onAvailableAnimElapsed: 8.5
+  _onAvailableAnimElapsed: 8
 --- !u!114 &2645095139902547745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,17 +204,17 @@ PrefabInstance:
     - target: {fileID: 5136671443237269840, guid: 7faddb83decd3b146b7be682e0276049,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5136671443237269840, guid: 7faddb83decd3b146b7be682e0276049,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5136671443237269840, guid: 7faddb83decd3b146b7be682e0276049,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5136671443237269840, guid: 7faddb83decd3b146b7be682e0276049,
         type: 3}

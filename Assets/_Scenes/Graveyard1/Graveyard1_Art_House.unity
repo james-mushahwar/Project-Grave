@@ -7238,21 +7238,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 525650318786043157, guid: c58421270a3473d43908959829d7ba5b,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 525650318786043157, guid: c58421270a3473d43908959829d7ba5b,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 525650318786043157, guid: c58421270a3473d43908959829d7ba5b,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 799086705212888430, guid: c58421270a3473d43908959829d7ba5b,
         type: 3}
       propertyPath: _pd
@@ -7261,7 +7246,7 @@ PrefabInstance:
     - target: {fileID: 799086705212888430, guid: c58421270a3473d43908959829d7ba5b,
         type: 3}
       propertyPath: _onAvailableAnimElapsed
-      value: 4.78
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 3756303777644632529, guid: c58421270a3473d43908959829d7ba5b,
         type: 3}
@@ -9042,7 +9027,7 @@ PlayableDirector:
   m_InitialState: 0
   m_WrapMode: 1
   m_DirectorUpdateMode: 1
-  m_InitialTime: 0
+  m_InitialTime: 1.0099999904632568
   m_SceneBindings:
   - key: {fileID: 3170274384268684512, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
     value: {fileID: 1577848561}
@@ -9057,6 +9042,8 @@ PlayableDirector:
   - key: {fileID: -2451647637799597258, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
     value: {fileID: 1508282377}
   - key: {fileID: -1170687957045868337, guid: 8744d0b471e23ff4dbccaf88b3535a1c, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -3768494239804156149, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
     value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
@@ -9179,6 +9166,10 @@ PlayableDirector:
     value: {fileID: 5387909858534635873}
   - key: {fileID: -7678966534057611503, guid: 9a3cae076e9ed324aa988064ec938138, type: 2}
     value: {fileID: 1437867530}
+  - key: {fileID: -8615397125656699309, guid: 9a3cae076e9ed324aa988064ec938138, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -8946922579225460408, guid: 9a3cae076e9ed324aa988064ec938138, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &2140967885

@@ -31,6 +31,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
     public enum EDayStage : uint
     {
         Morning = 0,
+        Afternoon,
         Evening,
         Night,
         COUNT
@@ -108,7 +109,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         private DayNightCycle _dayNightCycle;
 
-        private EDayStage _dayStage;
+        private EDayStage _dayStage = EDayStage.Afternoon;
         //how many days the player has played, to be saved
         private int _dayCount;
         public int DayCount { get => _dayCount; }
@@ -240,14 +241,15 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 {
                     MorgueActor actor = Instantiate<MorgueActor>(_morgueActor, _houseChuteRoot.transform, false);
                     actor.transform.localPosition = Vector3.left * (i * 2.0f);
+                    actor.gameObject.SetActive(false);
                     _pendingHouseMorgueActors.Add(actor);
                 }
             }
 
             if (InputManager.Instance != null)
             {
-                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
-                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => LowerHooksOnChain();
+                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
+                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => LowerHooksOnChain();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerDrowsy();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerSleep();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_OpenGate();
@@ -517,6 +519,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             if (actorCount > 0)
             {
                 MorgueActor actor = _pendingHouseMorgueActors[actorCount - 1];
+                actor.gameObject.SetActive(true);
                 _pendingHouseMorgueActors.RemoveAt(actorCount - 1);
                 if (actor != null)
                 {

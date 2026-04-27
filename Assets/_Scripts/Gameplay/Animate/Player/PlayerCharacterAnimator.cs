@@ -1038,15 +1038,15 @@ namespace _Scripts.Gameplay.Animate.Player{
             {
                 inputHeld = currentOpState.GetInputHeld(EInputType.LTrigger);
             }
-            GUI.Label(DebugManager.Instance.OnGUITextRect, "Input held = " + (inputHeld));
-            GUI.Label(DebugManager.Instance.OnGUITextRect, "Minigame momentum = " + MinigameMomentum);
-            GUI.Label(DebugManager.Instance.OnGUITextRect, "Animator speed = " + CurrentAnimator.speed);
-            GUI.Label(DebugManager.Instance.OnGUITextRect, "Saw direction = " + (_operatingDirection == EDirectionType.West ? "Forward" : "Backward"));
-            if (PlayerManager.Instance.CurrentPlayerController.ChosenOperationState != null)
-            {
-                GUI.Label(DebugManager.Instance.OnGUITextRect, "Operation Progress = " + PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.NormalisedProgress);
+            //GUI.Label(DebugManager.Instance.OnGUITextRect, "Input held = " + (inputHeld));
+            //GUI.Label(DebugManager.Instance.OnGUITextRect, "Minigame momentum = " + MinigameMomentum);
+            //GUI.Label(DebugManager.Instance.OnGUITextRect, "Animator speed = " + CurrentAnimator.speed);
+            //GUI.Label(DebugManager.Instance.OnGUITextRect, "Saw direction = " + (_operatingDirection == EDirectionType.West ? "Forward" : "Backward"));
+            //if (PlayerManager.Instance.CurrentPlayerController.ChosenOperationState != null)
+            //{
+            //    GUI.Label(DebugManager.Instance.OnGUITextRect, "Operation Progress = " + PlayerManager.Instance.CurrentPlayerController.ChosenOperationState.NormalisedProgress);
 
-            }
+            //}
         }
 
         public void ManagedFixedTick()
