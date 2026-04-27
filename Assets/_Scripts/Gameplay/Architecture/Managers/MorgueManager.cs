@@ -248,8 +248,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             if (InputManager.Instance != null)
             {
-                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
-                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => LowerHooksOnChain();
+                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
+                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => LowerHooksOnChain();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerDrowsy();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerSleep();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_OpenGate();
