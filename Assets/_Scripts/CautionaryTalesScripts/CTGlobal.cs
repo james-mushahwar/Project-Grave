@@ -141,4 +141,12 @@ namespace _Scripts.CautionaryTalesScripts{
         #endregion
     }
 
+    public class BoolReference
+    {
+        public bool Value;
+
+        // Optional: Add a constructor for easy setup
+        public BoolReference(bool startValue = false) => Value = startValue;
+    }
+
 }

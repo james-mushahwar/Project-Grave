@@ -1,4 +1,5 @@
-﻿using _Scripts.Gameplay.Animate.JitterAnimation;
+﻿using _Scripts.Gameplay.Animate;
+using _Scripts.Gameplay.Animate.JitterAnimation;
 using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Gameplay.Player.Controller;
@@ -18,15 +19,10 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
 
         [SerializeField] protected JitterBehaviour _jitterBehaviour;
 
+        [SerializeField] protected MorgueActorAnimator _morgueActorAnimator;
+
         [SerializeField] protected bool _updateJitter;
 
-        [SerializeField] private Animation _animation;
-        [SerializeField] private Animator _animator;
-        [SerializeField] private AnimatorController _animController;
-
-        [SerializeField] private PlayableDirector _pd;
-        [SerializeField] private float _onUnavailableAnimElapsed; 
-        [SerializeField] private float _onAvailableAnimElapsed; 
         // is object in position to accept storage e.g. Is the hook on the chain down?
         private bool _isAvailableToStore = false;
 
@@ -63,8 +59,7 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
         {
             //start down state
             //OnAvailable();
-            _pd.Play();
-            _pd.playableGraph.GetRootPlayable(0).SetSpeed(0.0f);
+            
         }
 
         public override void Tick()
@@ -104,26 +99,18 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
 
         private void TickAnimation()
         {
-            bool isAnimating = _pd.playableGraph.IsPlaying();
-            if (_isAvailableToStore)
+            
+        }
+
+        public void ToggleAvailability()
+        {
+            if (_isAvailableToStore == true)
             {
-                if (isAnimating)
-                {
-                    if (_pd.playableGraph.GetRootPlayable(0).GetTime() >= _onAvailableAnimElapsed)
-                    {
-                        _pd.Pause();
-                    }
-                }
+                OnUnavailable();
             }
             else
             {
-                if (isAnimating)
-                {
-                    if (_pd.playableGraph.GetRootPlayable(0).GetTime() <= _onUnavailableAnimElapsed)
-                    {
-                        _pd.Pause();
-                    }
-                }
+                OnAvailable();
             }
         }
 
@@ -131,16 +118,14 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
         {
             _isAvailableToStore = true;
 
-            _pd.Play();
-            _pd.playableGraph.GetRootPlayable(0).SetSpeed(1.0f);
+            _morgueActorAnimator?.PlayAnimation(EMorgueAnimType.Available);
         }
 
         private void OnUnavailable()
         {
             _isAvailableToStore = false;
 
-            _pd.Play();
-            _pd.playableGraph.GetRootPlayable(0).SetSpeed(-1.0f);
+            _morgueActorAnimator?.PlayAnimation(EMorgueAnimType.Unavailable);
 
             //cash in/ cause day night evoke?
 

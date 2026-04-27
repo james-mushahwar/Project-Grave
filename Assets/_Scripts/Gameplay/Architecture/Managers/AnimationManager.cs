@@ -21,7 +21,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
     public enum EMorgueAnimType
     {
         None = -1,
+        //MorgueActors
         ChuteEnter = 0,
+        //storage
+        Available,
+        Unavailable,
         COUNT
     }
 

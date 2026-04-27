@@ -8,6 +8,7 @@ using _Scripts.Gameplay.Audio;
 [CustomPropertyDrawer(typeof(ObjectColorDictionary))]
 [CustomPropertyDrawer(typeof(StringColorArrayDictionary))]
 [CustomPropertyDrawer(typeof(MorgueAnimTypeAnimationDictionary))]
+[CustomPropertyDrawer(typeof(MorgueAnimTypeNameDictionary))]
 [CustomPropertyDrawer(typeof(VirtualCameraTypeDictionary))]
 [CustomPropertyDrawer(typeof(RuntimeIDVirtualCameraDictionary))]
 [CustomPropertyDrawer(typeof(HumanMorgueBodyVariantDictionary))]

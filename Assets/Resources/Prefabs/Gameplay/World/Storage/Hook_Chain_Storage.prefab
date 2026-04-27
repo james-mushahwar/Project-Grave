@@ -120,13 +120,8 @@ MonoBehaviour:
     _storableTypeFilter: 64000000
     _storageSpace: {fileID: 6130296243568066681}
   _jitterBehaviour: {fileID: 2645095139902547745}
+  _morgueActorAnimator: {fileID: 6455302268768552986}
   _updateJitter: 0
-  _animation: {fileID: 0}
-  _animator: {fileID: 1387343310800292717}
-  _animController: {fileID: 9100000, guid: 6433aeba846919943948f07ce37ae088, type: 2}
-  _pd: {fileID: 0}
-  _onUnavailableAnimElapsed: 0
-  _onAvailableAnimElapsed: 8
 --- !u!114 &2645095139902547745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,6 +291,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1387343310800292717}
+    - targetCorrespondingSourceObject: {fileID: 5477168635346463722, guid: 7faddb83decd3b146b7be682e0276049,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6455302268768552986}
   m_SourcePrefab: {fileID: 100100000, guid: 7faddb83decd3b146b7be682e0276049, type: 3}
 --- !u!4 &525650318786043157 stripped
 Transform:
@@ -331,6 +330,24 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6455302268768552986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864880805315364783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ce3a9715f4fb748b6c52c8f5047219, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Animate.MorgueActorAnimator
+  _animator: {fileID: 1387343310800292717}
+  _morgueAnimTypeNameDictionary:
+    m_keys: 0100000002000000
+    m_values:
+    - lowerChain
+    - raisedChain
 --- !u!4 &6108721482476931387 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1496578858840302974, guid: 7faddb83decd3b146b7be682e0276049,

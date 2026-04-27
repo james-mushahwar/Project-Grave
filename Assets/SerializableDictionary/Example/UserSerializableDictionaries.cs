@@ -8,6 +8,7 @@ using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.Audio;
 using _Scripts.Gameplay.VFX;
+using JetBrains.Annotations;
 
 [Serializable]
 public class StringStringDictionary : SerializableDictionary<string, string> {}
@@ -34,6 +35,12 @@ public class QuaternionMyClassDictionary : SerializableDictionary<Quaternion, My
 //Project Grave Dictionaries 
 [Serializable]
 public class MorgueAnimTypeAnimationDictionary : SerializableDictionary<EMorgueAnimType, Animation> {}
+[Serializable]
+public class MorgueAnimTypeNameDictionary : SerializableDictionary<EMorgueAnimType, string> {}
+
+// Optional: Attribute to make Hash field read-only in inspector
+public class ReadOnlyAttribute : PropertyAttribute { }
+
 
 [Serializable]
 public class VirtualCameraTypeDictionary : SerializableDictionary<EVirtualCameraType, CinemachineVirtualCamera> { }

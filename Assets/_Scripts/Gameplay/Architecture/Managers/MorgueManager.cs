@@ -250,11 +250,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             if (InputManager.Instance != null)
             {
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
-                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => LowerHooksOnChain();
+                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => LowerHooksOnChain();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerDrowsy();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerSleep();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_OpenGate();
-                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => InvokeDayNightTransition();
+                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => InvokeDayNightTransition();
             }
 
             _morgueTickables = FindObjectsOfType<MonoBehaviour>(true).OfType<IMorgueTickable>().ToList();
@@ -732,7 +732,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public void LowerHooksOnChain()
         {
-            _hooksStorage.OnAvailable();
+            _hooksStorage.ToggleAvailability();
         }
     }
     
