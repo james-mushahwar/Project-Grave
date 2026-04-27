@@ -49,6 +49,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         Night_Start,
         Night_SunDown,
         Night_LightsOut,
+        COUNT
     }
 
     public struct FTimelineChange
@@ -109,7 +110,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         private DayNightCycle _dayNightCycle;
 
-        private EDayStage _dayStage = EDayStage.Afternoon;
+        //private EDayStage _dayStage = EDayStage.Afternoon;
         //how many days the player has played, to be saved
         private int _dayCount;
         public int DayCount { get => _dayCount; }
@@ -248,11 +249,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             if (InputManager.Instance != null)
             {
-                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
+                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => LowerHooksOnChain();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerDrowsy();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerSleep();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_OpenGate();
+                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => InvokeDayNightTransition();
             }
 
             _morgueTickables = FindObjectsOfType<MonoBehaviour>(true).OfType<IMorgueTickable>().ToList();
@@ -263,7 +265,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             _dayNightCycle = FindObjectOfType<DayNightCycle>();
 
-            _currentTimeline = EDayTimeline.Morning_WakeUp;
+            _currentTimeline = EDayTimeline.Midday_Start;
 
             ActionSequenceManager.Instance.TryAssignEventRoutine(EActionSequenceEvent.Day0_GoToSleep, PlayerSleep());
             //Debug_SpawnMorgueActor();
@@ -715,14 +717,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         private void UpdateDayState()
         {
-            _dayStage = _dayStage + 1;
-
-            if (_dayStage == EDayStage.COUNT)
-            {
-                _dayStage = 0;
-            }
-
-            if (_dayStage == EDayStage.Night)
+            if (_currentTimeline == EDayTimeline.Night_Start)
             {
                 LightingManager.Instance.StartNightTime();
 
