@@ -45,7 +45,7 @@ ModelImporter:
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 10
-      lastFrame: 405
+      lastFrame: 120
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -131,8 +131,8 @@ ModelImporter:
       name: lower_idle
       takeName: Take 001
       internalID: 6641085478485924818
-      firstFrame: 711
-      lastFrame: 712
+      firstFrame: 120
+      lastFrame: 125
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
