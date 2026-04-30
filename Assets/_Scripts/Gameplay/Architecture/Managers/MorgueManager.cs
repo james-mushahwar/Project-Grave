@@ -319,6 +319,15 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             
         }
 
+        public EDayTimeline GetDayTimeline()
+        {
+            if (TargetTimeline == EDayTimeline.None)
+            {
+                return CurrentTimeline;
+            }
+            return TargetTimeline;
+        }
+
         private IEnumerator MoveTimeline(FTimelineChange timelineDiff)
         {
             //_dayNightCycle.PlayDayNightTimeline(time)

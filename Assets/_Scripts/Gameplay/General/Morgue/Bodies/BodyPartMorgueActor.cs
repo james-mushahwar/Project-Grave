@@ -260,6 +260,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                 if (OperationState != null && OperationState.IsComplete())
                 {
                     IConnectable disconnectedPart = TryDisconnect(null);
+                    BodyMorgueActor bodyDetached = BodyMorgueActor;
                     if (disconnectedPart != null)
                     {
                         if (_floatTarget_OnDisconnectBodyPart)
@@ -269,16 +270,7 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
                         AudioManager.Instance.TryPlayAudioSourceAtLocation(EAudioType.SFX_OperationCompleteReaction_01, PlayerManager.Instance.CurrentPlayerController.transform.position);
 
-                        if (ActionSequenceManager.Instance.PreviousMajorActionSequence == EActionSequenceEvent.Day0_AssistantEnters)
-                        {
-                            ActionSequenceManager.Instance.OnStimulusReceived(EMorgueStimulus.Operation_Completed, null);
-
-                            _bodyMorgueActor.SetBodPartJitter(_bodyPartType, EJitteryType.Standard);
-
-                            DialogueManager.Instance.TryPlayDialogue(EDialogueEvent.Day0_StoreBody_Prompt);
-                        }
-
-                        BodyMorgueActor.StopOperation();
+                        bodyDetached.StopOperation();
 
                         if (_impulseSource_OnDismemberComplete != null)
                         {
@@ -289,6 +281,18 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
                         OnDisconnect(null);
 
                         SetToRagdoll(true);
+
+                        if (ActionSequenceManager.Instance.PreviousMajorActionSequence == EActionSequenceEvent.Day0_AssistantEnters)
+                        {
+                            ActionSequenceManager.Instance.OnStimulusReceived(EMorgueStimulus.Operation_Completed, null);
+
+                            bodyDetached.SetBodPartJitter(_bodyPartType, EJitteryType.Standard);
+
+                            if (bodyDetached.GetIsFullyAmputated())
+                            {
+                                ActionSequenceManager.Instance.OnStimulusReceived(EMorgueStimulus.Body_FullAmputation);
+                            }
+                        }
 
                         PlayerManager.Instance.CurrentPlayerController.EndOperatingState();
                     }

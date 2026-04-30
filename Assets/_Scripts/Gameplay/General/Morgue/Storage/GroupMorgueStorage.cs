@@ -128,8 +128,7 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
             _morgueActorAnimator?.PlayAnimation(EMorgueAnimType.Unavailable);
 
             //cash in/ cause day night evoke?
-
-            MorgueManager.Instance.InvokeDayNightTransition();
+            ActionSequenceManager.Instance.OnStimulusReceived(EMorgueStimulus.Store_HooksComplete);
 
         }
 

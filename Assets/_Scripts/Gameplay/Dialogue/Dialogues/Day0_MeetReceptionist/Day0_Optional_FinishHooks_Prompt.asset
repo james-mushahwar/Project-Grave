@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91d3671a02747445ba57d8117b1fe1a4, type: 3}
-  m_Name: Day0_StoreBody_Prompt
+  m_Name: Day0_Optional_FinishHooks_Prompt
   m_EditorClassIdentifier: 
   _dialogueType: 0
-  _dialogueEvent: 3
+  _dialogueEvent: 7
   _phrases:
-  - _text: 'Here comes a surprise from the skies. Look, stick this limb on a rusty
-      hook '
+  - _text: So many parts to choose from, oh what glee! Stick them on this hook, we
+      just need three.
     _receiveInput: 0
     _isSkipable: 0
     _isAuto: 1

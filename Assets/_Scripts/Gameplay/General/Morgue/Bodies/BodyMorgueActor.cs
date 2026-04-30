@@ -218,6 +218,15 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             }
         }
 
+        public bool GetIsFullyAmputated()
+        {
+                return _headMorgueActor.BodyMorgueActor == null && 
+                _lArmMorgueActor.BodyMorgueActor == null && 
+                _rArmMorgueActor.BodyMorgueActor == null && 
+                _lLegMorgueActor.BodyMorgueActor == null && 
+                _rLegMorgueActor.BodyMorgueActor == null;
+        }
+
         public bool IsInteractable(IInteractor interactor = null)
         {
             bool interact = false;

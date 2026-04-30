@@ -25,6 +25,9 @@ namespace _Scripts._Game.Dialogue{
         Day0_StoreBody_Prompt,
         Day0_ReturnToReceptionist_Prompt,
         Day0_Exposition_Speech,
+        Day0_Optional_FinishSawingBodyParts_Prompt,
+        Day0_Optional_FinishStoringBodyParts_Prompt,
+        COUNT
     }
 
     [Serializable]

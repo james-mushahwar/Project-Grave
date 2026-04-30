@@ -38,8 +38,12 @@ namespace _Scripts.Org
 
         Operation_Completed = 10,
 
+        //Body
+        Body_FullAmputation = 200,
+
         //Storage 
         Store_BodyPart = 1000,
+        Store_HooksComplete,
         COUNT
     }
     public interface IMorgueReactable
