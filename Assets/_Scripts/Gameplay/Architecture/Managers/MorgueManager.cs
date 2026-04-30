@@ -717,10 +717,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         private void UpdateDayState()
         {
-            if (_currentTimeline == EDayTimeline.Night_Start)
+            if (_targetTimeline == EDayTimeline.Night_Start || (_targetTimeline == EDayTimeline.None && _currentTimeline == EDayTimeline.Night_Start))
             {
                 LightingManager.Instance.StartNightTime();
-
 
                 if (ActionSequenceManager.Instance.PreviousMajorActionSequence <= EActionSequenceEvent.Day0_GoToSleep)
                 {

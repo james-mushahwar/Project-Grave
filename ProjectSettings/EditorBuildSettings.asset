@@ -6,11 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_Scenes/Graveyard1/Graveyard1_Player.unity
+    guid: 29e35200d08b8634ba2a715a526869f6
+  - enabled: 1
     path: Assets/_Scenes/Graveyard1/Graveyard1_Art_Grounds.unity
     guid: 502bfedfe37dd4b40b8e13ddf5e139fd
   - enabled: 1
     path: Assets/_Scenes/Graveyard1/Graveyard1_Art_House.unity
     guid: e1ee5ed6e46335f428ef33932d7ea182
+  - enabled: 1
+    path: Assets/_Scenes/Graveyard1/Graveyard_Lighting.unity
+    guid: ccf0023445748474e919f8ed29e04f85
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: d236cd297ea7600469eae2bc08a352d8,
       type: 2}

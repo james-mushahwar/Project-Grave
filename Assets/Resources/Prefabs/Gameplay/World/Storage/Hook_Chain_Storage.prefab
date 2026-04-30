@@ -71,12 +71,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3756303777644632529}
-  - component: {fileID: 799086705212888430}
   - component: {fileID: 2645095139902547745}
-  - component: {fileID: 7050206466695801409}
   m_Layer: 7
   m_Name: Hook_Chain_Storage
-  m_TagString: Storage_HooksOnChain
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,31 +95,6 @@ Transform:
   - {fileID: 525650318786043157}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &799086705212888430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6051624175692247109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01e5774f24ea6b14ebb2d6b41937b5de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.General.Morgue.Storage.GroupMorgueStorage
-  _storageSlots:
-  - _storableSize: 20
-    _storableTypeFilter: 64000000
-    _storageSpace: {fileID: 5553971981990051}
-  - _storableSize: 20
-    _storableTypeFilter: 64000000
-    _storageSpace: {fileID: 7655274063053486820}
-  - _storableSize: 20
-    _storableTypeFilter: 64000000
-    _storageSpace: {fileID: 6130296243568066681}
-  _jitterBehaviour: {fileID: 2645095139902547745}
-  _morgueActorAnimator: {fileID: 6455302268768552986}
-  _updateJitter: 0
 --- !u!114 &2645095139902547745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,27 +109,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Animate.JitterAnimation.JitterBehaviour
   _jitterRenderer: []
   _defaultJitter: 0
---- !u!65 &7050206466695801409
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6051624175692247109}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.55, y: 1.14, z: 0.52}
-  m_Center: {x: 0.02, y: -2.35, z: -0.05}
 --- !u!1 &7283503502848711689
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,6 +148,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3756303777644632529}
     m_Modifications:
+    - target: {fileID: 427842064144792833, guid: 7faddb83decd3b146b7be682e0276049,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 427842064144792833, guid: 7faddb83decd3b146b7be682e0276049,
+        type: 3}
+      propertyPath: m_TagString
+      value: Storage_HooksOnChain
+      objectReference: {fileID: 0}
     - target: {fileID: 5136671443237269840, guid: 7faddb83decd3b146b7be682e0276049,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -295,6 +257,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6455302268768552986}
+    - targetCorrespondingSourceObject: {fileID: 427842064144792833, guid: 7faddb83decd3b146b7be682e0276049,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4464704114849674723}
+    - targetCorrespondingSourceObject: {fileID: 427842064144792833, guid: 7faddb83decd3b146b7be682e0276049,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4017439391651611339}
   m_SourcePrefab: {fileID: 100100000, guid: 7faddb83decd3b146b7be682e0276049, type: 3}
 --- !u!4 &525650318786043157 stripped
 Transform:
@@ -348,6 +318,58 @@ MonoBehaviour:
     m_values:
     - lowerChain
     - raisedChain
+--- !u!1 &5040200126015803716 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 427842064144792833, guid: 7faddb83decd3b146b7be682e0276049,
+    type: 3}
+  m_PrefabInstance: {fileID: 4612358199354125381}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4464704114849674723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5040200126015803716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e5774f24ea6b14ebb2d6b41937b5de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.General.Morgue.Storage.GroupMorgueStorage
+  _storageSlots:
+  - _storableSize: 20
+    _storableTypeFilter: 64000000
+    _storageSpace: {fileID: 5553971981990051}
+  - _storableSize: 20
+    _storableTypeFilter: 64000000
+    _storageSpace: {fileID: 7655274063053486820}
+  - _storableSize: 20
+    _storableTypeFilter: 64000000
+    _storageSpace: {fileID: 6130296243568066681}
+  _jitterBehaviour: {fileID: 2645095139902547745}
+  _morgueActorAnimator: {fileID: 6455302268768552986}
+  _updateJitter: 0
+--- !u!65 &4017439391651611339
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5040200126015803716}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.08, y: 1.87, z: 1.08}
+  m_Center: {x: -0.02, y: -0.82, z: -0.07}
 --- !u!4 &6108721482476931387 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1496578858840302974, guid: 7faddb83decd3b146b7be682e0276049,

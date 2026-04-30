@@ -1,7 +1,6 @@
 ﻿using _Scripts.CautionaryTalesScripts;
 using _Scripts.Gameplay.Architecture.Managers;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.Animate {

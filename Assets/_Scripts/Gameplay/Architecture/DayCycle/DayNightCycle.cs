@@ -116,6 +116,8 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
                 return;
             }
 
+            Debug.Log("DayNightTimeline: Moving to => " + timeline.ToString());
+
             TargetTimeline = timeline;
 
             PlayableDirector timelineToPlay = forward ? _dayNightTimelineForward : _dayNightTimelineBackward;
