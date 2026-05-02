@@ -5,7 +5,6 @@ using System.Data;
 using _Scripts._Game.General;
 using _Scripts.Gameplay.Architecture.Managers;
 using TMPro;
-using UnityEditor.EventSystems;
 using UnityEngine;
 
 namespace _Scripts._Game.UI.Dialogue{

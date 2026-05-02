@@ -1,5 +1,4 @@
 ﻿using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
-using System.Collections;
 using System.Collections.Generic;
 using _Scripts.Gameplay.Animate.Player;
 using _Scripts.Gameplay.General.Morgue.Bodies;
@@ -9,7 +8,6 @@ using _Scripts.Gameplay.General.Morgue.Operation.OperationSite;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools;
 using _Scripts.Gameplay.General.Morgue.Operation.Indicator;
 using _Scripts.Gameplay.General.Morgue;
-using UnityEditor.EditorTools;
 using _Scripts.Gameplay.Animate.JitterAnimation;
 
 namespace _Scripts.Gameplay.Architecture.Managers{

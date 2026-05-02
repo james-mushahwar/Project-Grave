@@ -6,9 +6,6 @@ using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
-using MoreMountains.Tools;
-using UnityEditor;
-using UnityEditor.XR;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

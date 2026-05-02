@@ -37,6 +37,7 @@ namespace _Scripts.Gameplay.General.Identification{
             _defaultID = Guid.NewGuid().ToString();
         }
 
+#if UNITY_EDITOR
         public void GenerateId(RuntimeIDCustomInspector invoker)
         {
             if (invoker == null)
@@ -46,6 +47,7 @@ namespace _Scripts.Gameplay.General.Identification{
 
             GenerateDefaultId();
         }
+#endif
 
         public void GenerateRuntimeId()
         {

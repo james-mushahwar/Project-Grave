@@ -7,8 +7,6 @@ using _Scripts.Org;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Autodesk.Fbx;
-using UnityEditor.Animations;
 using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
