@@ -50,6 +50,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         COUNT
     }
 
+    public enum  EDayTimeTransition : uint
+    {
+        Timelapse_Normal = 0,
+        Timelapse_Fast,
+
+        Instant,
+    }
+
     public struct FTimelineChange
     {
         public bool _isTimeTravelForwards;
@@ -110,7 +118,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         //private EDayStage _dayStage = EDayStage.Afternoon;
         //how many days the player has played, to be saved
-        private int _dayCount;
+        private int _dayCount = 1;
         public int DayCount { get => _dayCount; }
 
         private int _currentHour;
@@ -248,9 +256,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             if (InputManager.Instance != null)
             {
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
-                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => LowerHooksOnChain();
+                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => LowerHooksOnChain();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerDrowsy();
-                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerSleep();
+                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerSleep();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_OpenGate();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => InvokeDayNightTransition();
             }
@@ -266,6 +274,18 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _currentTimeline = EDayTimeline.Midday_Start;
 
             ActionSequenceManager.Instance.TryAssignEventRoutine(EActionSequenceEvent.Day0_GoToSleep, PlayerSleep());
+
+            if (GameStateManager.Instance.IsPlayingFullGame)
+            {
+                if (GameStateManager.Instance.IsSkippingToDayLoop)
+                {
+                    ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_GoToSleep);
+                }
+                else
+                {
+                    ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.DayAny_WakeUp);
+                }
+            }
             //Debug_SpawnMorgueActor();
 
             _hooksOnChain = GameObject.FindGameObjectWithTag("Storage_HooksOnChain");
@@ -292,7 +312,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             //disable player effects
             VolumeManager.Instance.SetPlayerDrowsy(false);
 
-            InvokeDayNightTransition(EDayTimeline.Morning_Start);
+            InvokeDayNightTransition(EDayTimeline.Morning_Start, EDayTimeTransition.Instant);
 
             // make camera fade to black
             UIManager.Instance.ShowLoadingScreen(true);
@@ -716,9 +736,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
 
         //DayNight cycle
-        public void InvokeDayNightTransition(EDayTimeline timeline = EDayTimeline.None)
+        public void InvokeDayNightTransition(EDayTimeline timeline = EDayTimeline.None, EDayTimeTransition transition = EDayTimeTransition.Timelapse_Normal)
         {
-            _dayNightCycle.PlayDayNightTimeline(timeline);
+            _dayNightCycle.PlayDayNightTimeline(timeline, true, transition);
             UpdateDayState();
         }
 

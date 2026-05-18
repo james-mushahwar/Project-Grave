@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: MasterProjectSettings
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Settings.MasterProjectSettings
   _playFullGame: 1
+  _skipToDayLoop: 1
   _debugSettings: {fileID: 11400000, guid: 7aa0e4d6622041c4ea38d3be87fd539c, type: 2}

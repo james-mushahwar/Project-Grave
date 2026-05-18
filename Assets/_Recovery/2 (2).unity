@@ -5711,12 +5711,6 @@ PlayableDirector:
     value: {fileID: 1153865696}
   - key: {fileID: -6616693681758569183, guid: ff66c1818b1eb2d46b3b63282276e5c6, type: 2}
     value: {fileID: 1007662657}
-  - key: {fileID: 4721557539597725388, guid: ff66c1818b1eb2d46b3b63282276e5c6, type: 2}
-    value: {fileID: 0}
-  - key: {fileID: -7212843375753275489, guid: ff66c1818b1eb2d46b3b63282276e5c6, type: 2}
-    value: {fileID: 0}
-  - key: {fileID: -8348813647700604288, guid: ff66c1818b1eb2d46b3b63282276e5c6, type: 2}
-    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &1359258311
@@ -7051,7 +7045,6 @@ MonoBehaviour:
   _dayNightTimelineForward: {fileID: 2093503034}
   _dayNightTimelineBackward: {fileID: 0}
   _dayNightTransitionSpeed: 0.25
-  _instantDayNightTransitionSpeed: 2
 --- !u!1 &1634074409
 GameObject:
   m_ObjectHideFlags: 0
@@ -7564,7 +7557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedBakingSet: {fileID: 11400000, guid: 62c05c507612a7d4fa36dd33b9f94a7f,
     type: 2}
-  sceneGUID: e1ee5ed6e46335f428ef33932d7ea182
+  sceneGUID: aa3ce5e5d0435d9498350da2354b68e8
   obsoleteAsset: {fileID: 0}
   obsoleteCellSharedDataAsset: {fileID: 0}
   obsoleteCellSupportDataAsset: {fileID: 0}

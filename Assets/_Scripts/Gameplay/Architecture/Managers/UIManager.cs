@@ -11,6 +11,7 @@ using System;
 using _Scripts.Gameplay.UI;
 using TMPro;
 using _Scripts.Gameplay.UI.Currency;
+using _Scripts.Gameplay.UI.DayLoadingScreen;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
     
@@ -29,6 +30,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField] private UIReticle _uiReticle;
         [SerializeField] private UIOperation _uiOperation;
         [SerializeField] private UICurrency _uiCurrency;
+        [SerializeField] private UIDayLoadingScreen _uiDayLoadingScreen;
 
         [SerializeField] private Sprite _opDismemberTypeIcon;
         [SerializeField] private Sprite _opAttachmentTypeIcon;
@@ -100,6 +102,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public virtual void ManagedLateTick()
         {
             _uiReticle.ManagedLateTick();
+            _uiDayLoadingScreen.ManagedLateTick();
         }
 
         public virtual void ManagedFixedTick()
@@ -170,7 +173,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         internal IEnumerator EndOfDayScreen()
         {
-            yield return TaskManager.Instance.WaitForSecondsPool.Get(2.0f);
+            yield return TaskManager.Instance.WaitForSecondsPool.Get(3.0f);
         }
     }
 

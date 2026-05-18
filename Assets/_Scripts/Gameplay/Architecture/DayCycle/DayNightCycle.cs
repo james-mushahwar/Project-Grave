@@ -35,6 +35,8 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
         private PlayableDirector _dayNightTimelineBackward;
         [SerializeField]
         private float _dayNightTransitionSpeed = 1.0f;
+        [SerializeField]
+        private float _instantDayNightTransitionSpeed = 50.0f;
 
         private Light Sun
         {
@@ -104,7 +106,7 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
             Moon.color = new Color(0.8f, 0.8f, 1f); // Cool moonlight
         }
 
-        public void PlayDayNightTimeline(EDayTimeline timeline = EDayTimeline.None, bool forward = true)
+        public void PlayDayNightTimeline(EDayTimeline timeline = EDayTimeline.None, bool forward = true, EDayTimeTransition transition = default)
         {
             if (timeline == EDayTimeline.None)
             {
@@ -123,7 +125,7 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
             PlayableDirector timelineToPlay = forward ? _dayNightTimelineForward : _dayNightTimelineBackward;
 
             timelineToPlay.Play();
-            timelineToPlay.playableGraph.GetRootPlayable(0).SetSpeed(_dayNightTransitionSpeed);
+            timelineToPlay.playableGraph.GetRootPlayable(0).SetSpeed(transition == EDayTimeTransition.Instant ? _instantDayNightTransitionSpeed : _dayNightTransitionSpeed);
 
             _currentPlayingTimeline = timelineToPlay;
         }

@@ -57,6 +57,13 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return _masterProjectSettings.PlayFullGame;
             }
         }
+        public bool IsSkippingToDayLoop
+        {
+            get
+            {
+                return _masterProjectSettings.SkipToDayLoop;
+            }
+        }
 
         private List<IManager> _managers = new List<IManager>();
 

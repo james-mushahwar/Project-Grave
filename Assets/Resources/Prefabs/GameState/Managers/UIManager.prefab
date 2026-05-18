@@ -2155,6 +2155,7 @@ GameObject:
   - component: {fileID: 6783577912378831507}
   - component: {fileID: 6881301416568762553}
   - component: {fileID: 4675637476577883588}
+  - component: {fileID: 156875524835427401}
   m_Layer: 0
   m_Name: GameplayLoadingScreen
   m_TagString: Untagged
@@ -2220,6 +2221,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &156875524835427401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2391101937134768745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883cb679a044c3e42b46ee5862a8a5b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.UI.DayLoadingScreen.UIDayLoadingScreen
+  _dayText: {fileID: 8315517729616796941}
 --- !u!1 &2399054253661993960
 GameObject:
   m_ObjectHideFlags: 0
@@ -3055,7 +3069,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Day 2
+  m_text: 'Day None
 
 '
   m_isRightToLeft: 0
@@ -4093,6 +4107,7 @@ MonoBehaviour:
   _uiReticle: {fileID: 1631493889962428489}
   _uiOperation: {fileID: 1464208397628846442}
   _uiCurrency: {fileID: 6351827831151520982}
+  _uiDayLoadingScreen: {fileID: 156875524835427401}
   _opDismemberTypeIcon: {fileID: 21300000, guid: d1cde640c36ffeb4ea43ec35fd37c4ea,
     type: 3}
   _opAttachmentTypeIcon: {fileID: 21300000, guid: c3bc8045ccf4123478b5a6b5176bff7d,
