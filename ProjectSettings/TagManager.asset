@@ -25,6 +25,8 @@ TagManager:
   - Storage_Hook
   - DayNightVolume
   - Storage_HooksOnChain
+  - Contract_Office
+  - Contract_Portable
   layers:
   - Default
   - TransparentFX

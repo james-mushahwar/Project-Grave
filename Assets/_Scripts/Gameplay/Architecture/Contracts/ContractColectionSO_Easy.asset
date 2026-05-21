@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632f29ca7310e9f4e857c962f3146160, type: 3}
+  m_Name: ContractColectionSO_Easy
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Architecture.Contracts.ScriptableContractsCollection
+  _premadeContracts:
+  - _contractType: 1
+    _requirements:
+      _bodyPart: 00000000010000000200000004000000
+    _reward:
+      _timeCurrency: 1
+  - _contractType: 1
+    _requirements:
+      _bodyPart: 00000000010000000400000003000000
+    _reward:
+      _timeCurrency: 1
+  - _contractType: 1
+    _requirements:
+      _bodyPart: 000000000200000001000000
+    _reward:
+      _timeCurrency: 2
+  - _contractType: 1
+    _requirements:
+      _bodyPart: 0000000002000000
+    _reward:
+      _timeCurrency: 3
+  - _contractType: 1
+    _requirements:
+      _bodyPart: 
+    _reward:
+      _timeCurrency: 5
+  - _contractType: 2
+    _requirements:
+      _bodyPart: 0400000003000000
+    _reward:
+      _timeCurrency: 2
+  - _contractType: 1
+    _requirements:
+      _bodyPart: 020000000100000000000000
+    _reward:
+      _timeCurrency: 4
+  - _contractType: 2
+    _requirements:
+      _bodyPart: 020000000400000003000000
+    _reward:
+      _timeCurrency: 3
+  - _contractType: 2
+    _requirements:
+      _bodyPart: 000000000000000000000000
+    _reward:
+      _timeCurrency: 5

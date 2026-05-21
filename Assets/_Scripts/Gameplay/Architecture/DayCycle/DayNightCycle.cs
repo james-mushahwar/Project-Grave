@@ -25,7 +25,7 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
         private float timeOfDay = 0f; // Normalized time (0 to 1 for a full day)
 
 
-
+        
         [SerializeField]
         private float _timeElapseFactor = 1.0f; // multiplier for time passing
 

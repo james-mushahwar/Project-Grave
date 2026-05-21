@@ -162,7 +162,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         {
             if (_currentMajorActionSequences.Count > 0)
             {
-                Debug.LogWarning("Seeting the Action sequence event manually when currently there are more than 0");
+                Debug.LogWarning("Setting the Action sequence event manually when currently there are more than 0");
             }
             bool changed = _previousMajorActionSequence != newEvent;
             _previousMajorActionSequence = newEvent;

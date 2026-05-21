@@ -44,6 +44,9 @@ namespace _Scripts.Org
         //Storage 
         Store_BodyPart = 1000,
         Store_HooksComplete,
+
+        //DayEvents
+        DayEvent_StartDay,
         COUNT
     }
     public interface IMorgueReactable

@@ -137,7 +137,7 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
 
             if (interactor == null)
             {
-                return false;
+                return IsStored() == false;
             }
             if (pc != null)
             {
@@ -152,10 +152,13 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
 
         public virtual bool OnInteract(IInteractor interactor = null)
         {
-            if (ActionSequenceManager.Instance.CanPlayActionSequence(EActionSequenceEvent.Day0_PickupSaw, null))
+            if (MorgueManager.Instance.IsTutorialDay)
             {
-                ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_PickupSaw);
-                return false;
+                if (ActionSequenceManager.Instance.CanPlayActionSequence(EActionSequenceEvent.Day0_PickupSaw, null))
+                {
+                    ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_PickupSaw);
+                    return false;
+                }
             }
 
             PlayerController pc = interactor as PlayerController;
@@ -178,13 +181,26 @@ namespace _Scripts.Gameplay.General.Morgue.Operation.Tools{
                     bool stored = nextStorage.TryStore(this);
                     if (stored)
                     {
-                        pc.EquippedOperatingTool = this;
+                        //pc.EquippedOperatingTool = this;
                     }
                 }
 
             }
 
             return true;
+        }
+
+        public override void OnReaction(EMorgueStimulus stimulus)
+        {
+            if (stimulus == EMorgueStimulus.DayEvent_StartDay)
+            {
+                if ((this is OperationDismemberMorgueTool) && !MorgueManager.Instance.IsTutorialDay)
+                {
+                    //OnInteract(PlayerManager.Instance.CurrentPlayerController);
+                    PlayerManager.Instance.CurrentPlayerController.Event_TryEquipTool(this);
+                    PlayerManager.Instance.CurrentPlayerController.Event_TryUnequipTool();
+                }
+            }
         }
 
         public virtual bool Animate()

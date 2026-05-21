@@ -86,3 +86,5 @@ MonoBehaviour:
     type: 3}
   _sequencerManagerPrefab: {fileID: 4114128558173646553, guid: 799c0ca0b265a0042887496c580a23fc,
     type: 3}
+  contractsManagerPrefab: {fileID: 3740760823449166110, guid: ea4ba848567faba4f9d69516a90c3faa,
+    type: 3}

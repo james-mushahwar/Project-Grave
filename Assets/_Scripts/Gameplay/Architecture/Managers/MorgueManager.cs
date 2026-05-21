@@ -118,8 +118,15 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         //private EDayStage _dayStage = EDayStage.Afternoon;
         //how many days the player has played, to be saved
-        private int _dayCount = 1;
+        private int _dayCount = 0;
         public int DayCount { get => _dayCount; }
+        public bool IsTutorialDay
+        {
+            get
+            {
+                return DayCount == 0;
+            }
+        }
 
         private int _currentHour;
         private int _currentMinute;
@@ -314,6 +321,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             InvokeDayNightTransition(EDayTimeline.Morning_Start, EDayTimeTransition.Instant);
 
+            _dayCount++;
             // make camera fade to black
             UIManager.Instance.ShowLoadingScreen(true);
 
@@ -333,8 +341,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             UIManager.Instance.ShowLoadingScreen(false);
 
             _playerSleepCoroutine = null;
-            _dayCount++;
-            
+
+            ContractsManager.Instance.GenerateContracts();
+            OnStimulusReceived(EMorgueStimulus.DayEvent_StartDay);
         }
 
         public EDayTimeline GetDayTimeline()
@@ -717,6 +726,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 List<IMorgueReactable> morgueReactables = CTGlobal.FindAllObjectsOfType<IMorgueReactable>(rootGO);
                 foreach(IMorgueReactable reactable in morgueReactables)
+                {
+                    reactable.OnReaction(stimulus);
+                }
+            }
+            else
+            {
+                List<IMorgueReactable> morgueReactables = GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<IMorgueReactable>().ToList();
+                foreach (IMorgueReactable reactable in morgueReactables)
                 {
                     reactable.OnReaction(stimulus);
                 }

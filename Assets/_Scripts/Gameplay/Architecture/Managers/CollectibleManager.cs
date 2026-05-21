@@ -12,7 +12,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         private List<BaseCollectible> _upgradesSpawned; // in the world, in the storage i.e. accessible to player
 
-        private int _currency = 10;
+        private int _timeCurrency = 10;
 
         [SerializeField]
         private List<UpgradeScriptableObject> _upgrades;
@@ -23,7 +23,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         public int Currency
         {
-            get { return _currency; }
+            get { return _timeCurrency; }
         }
 
         public virtual void ManagedPreInGameLoad()
@@ -55,9 +55,9 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         public void AddCurrency(int amount) // can be + or -
         {
-            _currency += amount;
+            _timeCurrency += amount;
 
-            Debug.Log("Currency is now " + _currency);
+            Debug.Log("Currency is now " + _timeCurrency);
         }
 
         public bool CanObtainUpgrade(BaseCollectible collectible)
@@ -67,7 +67,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 return false;
             }
 
-            bool canAfford = collectible.UpgradeSO.CurrencyCost <= _currency;
+            bool canAfford = collectible.UpgradeSO.CurrencyCost <= _timeCurrency;
 
             return canAfford && !IsUpgradeUnlocked(collectible);
         }
@@ -96,7 +96,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 return false;
             }
 
-            if (_currency - upgrade.CurrencyCost < 0)
+            if (_timeCurrency - upgrade.CurrencyCost < 0)
             {
                 Debug.Log("Not enough currency");
                 return false;
