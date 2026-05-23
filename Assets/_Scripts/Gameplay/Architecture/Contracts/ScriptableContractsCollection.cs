@@ -1,5 +1,4 @@
 ﻿using _Scripts.Gameplay.Architecture.Managers;
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,8 +31,8 @@ namespace _Scripts.Gameplay.Architecture.Contracts {
             }
 
             List<MorgueContract> contracts = GetContracts(difficulty);
-            Random.InitState((int)difficulty);
-            return new MorgueContract(contracts[Random.Range(0, contracts.Count + 1)]);
+            int randomIndex = Random.Range(0, contracts.Count + 1);
+            return new MorgueContract(contracts[randomIndex]);
         }
 
         private List<MorgueContract> GetContracts(EContractDifficulty difficulty)

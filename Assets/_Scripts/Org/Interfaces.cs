@@ -356,6 +356,13 @@ namespace _Scripts.Org
     }
     #endregion
 
+    #region Submission
+    public interface ISubmission
+    {
+        public bool OnSubmitted(MorgueContract contract);
+    }
+    #endregion
+
     public interface IConnectable
     {
         public bool IsConnected();

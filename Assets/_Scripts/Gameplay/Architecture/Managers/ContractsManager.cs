@@ -1,4 +1,5 @@
 ﻿using _Scripts.Gameplay.Architecture.Contracts;
+using _Scripts.Gameplay.General.Morgue;
 using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Org;
 using NUnit.Framework;
@@ -49,6 +50,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         //runtime
         private bool _active; // is this selected by the player or is it just in the pool of available contracts
         private FContractRequirement _submitted; //progress
+        public FContractRequirement Submitted { get { return _submitted; } }
 
         public MorgueContract()
         {
@@ -56,7 +58,9 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             _contractType = EContractType.None;
             _active = false;
             _requirements = new FContractRequirement();
+            _requirements._bodyPart = new List<EMorgueBodyPart>();
             _submitted = new FContractRequirement();
+            _submitted._bodyPart = new List<EMorgueBodyPart>();
             _reward = new FContractReward();
         }
 
@@ -98,6 +102,25 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         public int MaxContractsOnDisplay
         {
             get => _officeContractDisplays.Count;
+        }
+
+        public MorgueContract PlayerChosenContract
+        {
+            get
+            {
+                if (_availableContracts == null || _availableContracts.Count == 0)
+                {
+                    return null;
+                }
+
+                if (_officeContractDisplays == null || _officeContractDisplays.Count == 0)
+                {
+                    return null;
+                }
+
+                return _officeContractDisplays[0].Contract;
+            }
+
         }
 
         private List<ContractActor> _officeContractDisplays;
@@ -180,6 +203,8 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                     int dayCount = MorgueManager.Instance.DayCount - 1;
                     int index = i;
 
+                    UnityEngine.Random.InitState(i);
+
                     EContractDifficulty difficulty = _contractDifficulty[dayCount][index];
 
                     MorgueContract newContract =  _contractCollection.GetMorgueContract(difficulty);
@@ -210,6 +235,37 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         public void NextContractHighlighted()
         {
 
+        }
+
+        public bool OnSubmission(ISubmission submissionObj)
+        {
+            if (submissionObj == null)
+            {
+                return false;
+            }
+
+            bool correctSubmission = submissionObj.OnSubmitted(PlayerChosenContract);
+            if (!correctSubmission)
+            {
+                Debug.Log("Incorrect submission");
+
+                return false;
+            }
+
+            Debug.Log("Correct submission");
+            return true;
+        }
+
+        public void Echo_ContractRequirements()
+        {
+            if (PlayerChosenContract != null)
+            {
+                foreach (EMorgueBodyPart bodyPartType in PlayerChosenContract.Requirements._bodyPart)
+                {
+                    Debug.Log("Required: " + bodyPartType.ToString());
+
+                }
+            }
         }
     }
     

@@ -19,6 +19,11 @@ namespace _Scripts.Gameplay.Architecture.Contracts {
         [SerializeField]
         private MorgueContract _morgueContract;
 
+        public MorgueContract Contract
+        {
+            get => _morgueContract;
+        }
+
         public bool _canTick = false;
         public bool CanTick { get => _canTick; set => _canTick = value; }
 
@@ -35,7 +40,7 @@ namespace _Scripts.Gameplay.Architecture.Contracts {
             gameObject.SetActive(true);
             CanTick = true;
             _timeCurrencyTMP.enabled = true;
-            _contractRequirements_Sprite.enabled = true;
+            _contractRequirements_Sprite.enabled = false;
         }
 
         public void Setup() 

@@ -211,7 +211,10 @@ namespace _Scripts.Gameplay.ActionSequence {
         //Asistant
         public void Assistant_EnterWithBody_Event()
         {
-            MorgueManager.Instance.Debug_SpawnMorgueActor();
+            if (MorgueManager.Instance.SpawnBodyCororutine == null)
+            {
+                MorgueManager.Instance.Debug_SpawnMorgueActor();
+            }
         }
 
         //Dialogue events

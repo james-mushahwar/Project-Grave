@@ -229,6 +229,16 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private GameObject _hooksOnChain;
         private GroupMorgueStorage _hooksStorage;
 
+        private Coroutine _spawnBodyCoroutine;
+
+        public Coroutine SpawnBodyCororutine
+        {
+            get
+            {
+                return _spawnBodyCoroutine;
+            }
+        }
+
         private List<IMorgueTickable> _morgueTickables = new List<IMorgueTickable>();
 
         // as gamestate is being generated
@@ -262,10 +272,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             if (InputManager.Instance != null)
             {
-                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_SpawnMorgueActor();
+                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => SpawnBodySequenceCommand();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => LowerHooksOnChain();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerDrowsy();
-                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerSleep();
+                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerSleep();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_OpenGate();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => InvokeDayNightTransition();
             }
@@ -344,6 +354,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             ContractsManager.Instance.GenerateContracts();
             OnStimulusReceived(EMorgueStimulus.DayEvent_StartDay);
+
+            ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_OpenGate);
         }
 
         public EDayTimeline GetDayTimeline()
@@ -465,6 +477,55 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
             closed = !closed;
         }
+
+        public void SpawnBodySequenceCommand()
+        {
+            if (_spawnBodyCoroutine == null)
+            {
+                _spawnBodyCoroutine = StartCoroutine(SpawnBodySequence());
+            }
+        }
+
+        public IEnumerator SpawnBodySequence()
+        {
+            if (GameStateManager.Instance.IsPlayingFullGame)
+            {
+                bool tableShouldExitFirst = true;// OperationManager.Instance.BodyOnTable != null;
+                if (tableShouldExitFirst)
+                {
+                    ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_TableExits);
+
+                    while (ActionSequenceManager.Instance.IsPlayingActionSequence(EActionSequenceEvent.Day0_TableExits))
+                    {
+                        yield return null;
+                    }
+                }
+                yield return TaskManager.Instance.WaitForSecondsPool.Get(1.0f);
+            }
+
+            //submit body - contract check
+            ContractsManager.Instance.OnSubmission(OperationManager.Instance.OperatingTable);
+            //spawn new body
+            Debug_SpawnMorgueActor();
+
+            if (GameStateManager.Instance.IsPlayingFullGame)
+            {
+                //table enter
+                ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_AssistantEnters);
+
+                while (ActionSequenceManager.Instance.IsPlayingActionSequence(EActionSequenceEvent.Day0_AssistantEnters))
+                {
+                    yield return null;
+                }
+
+                Debug.Log("Body spawn finished");
+
+                ContractsManager.Instance.Echo_ContractRequirements();
+            }
+
+            _spawnBodyCoroutine = null;
+        }
+
         //Animation and spawning
         public void Debug_SpawnMorgueActor()
         {
@@ -476,27 +537,51 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return;
             }
 
-            if (GameStateManager.Instance.IsPlayingFullGame)
+            bool playingFullGame = GameStateManager.Instance.IsPlayingFullGame;
+            //if (playingFullGame)
+            //{
+            //    MorgueActor actorSpawned = TrySpawnHouseChuteMorgueActor();
+            //}
+            
+            OperatingTable opTable = OperationManager.Instance.OperatingTable;
+            if (opTable)
             {
-                MorgueActor actorSpawned = TrySpawnHouseChuteMorgueActor();
-            }
-            else
-            {
-                
-                OperatingTable opTable = OperationManager.Instance.OperatingTable;
-                if (opTable)
+                if (opTable.GetStorable<BodyMorgueActor>() != null)
                 {
-                    if (opTable.GetStorable<BodyMorgueActor>() != null)
+                    BodyMorgueActor oldBody = opTable.GetStorable<BodyMorgueActor>();
+                    if (oldBody != null)
                     {
-                        BodyMorgueActor oldBody = opTable.GetStorable<BodyMorgueActor>();
-                        if (oldBody != null)
+                        if (playingFullGame)
                         {
-                            opTable.TryEmpty();
+                            _pendingHouseMorgueActors.Add(oldBody);
+                            int index = _pendingHouseMorgueActors.IndexOf(oldBody);
+                            if (oldBody.IsStored())
+                            {
+                                IStorage storage = oldBody.Stored;
+                                if (storage != null) 
+                                {
+                                    storage.TryRemove(oldBody);
+                                    oldBody.RemoveFromStorage(null);
+                                }
+                            }
+                            oldBody.transform.SetParent(_houseChuteRoot.transform);
+                            oldBody.transform.localPosition = Vector3.left * (index * 2.0f);
+                            oldBody.gameObject.SetActive(false);
+                        }
+                        else
+                        {
                             RemoveMorgueTickable(oldBody);
                             Destroy(oldBody.gameObject);
                         }
                     }
+                }
 
+                if (playingFullGame)
+                {
+                    MorgueActor actorSpawned = TrySpawnHouseChuteMorgueActor();
+                }
+                else
+                {
                     MorgueActor newBody = Instantiate<MorgueActor>(_morgueActor, this.transform, true);
 
                     if (newBody != null)
@@ -519,9 +604,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                                 newBody.transform.localPosition = Vector3.zero;
                                 newBody.transform.localRotation = Quaternion.identity;
                             }
-                            
-                        }
                         
+                        }
+                    
                     }
                 }
             }
@@ -556,9 +641,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             if (actorCount > 0)
             {
-                MorgueActor actor = _pendingHouseMorgueActors[actorCount - 1];
+                MorgueActor actor = _pendingHouseMorgueActors[0];
                 actor.gameObject.SetActive(true);
-                _pendingHouseMorgueActors.RemoveAt(actorCount - 1);
+                _pendingHouseMorgueActors.RemoveAt(0);
                 if (actor != null)
                 {
                     actor.EnterHouseThroughChute();

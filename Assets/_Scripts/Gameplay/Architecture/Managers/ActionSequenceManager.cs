@@ -238,9 +238,28 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             return _currentMajorActionSequences.Contains(actionSeq);
         }
 
+        public bool IsPlayingActionSequence(EActionSequenceEvent actionSequenceEvent)
+        {
+            if (!GameStateManager.Instance.IsPlayingFullGame)
+            {
+                return false;
+            }
+
+            IActionSequence actionSeq = null;
+            if (_eventActionSequences.TryGetValue(actionSequenceEvent, out actionSeq))
+            {
+                return IsPlayingActionSequence(actionSeq);
+            }
+
+            return false;
+        }
+
         public bool CanPlayActionSequence(EActionSequenceEvent seqEvent, IActionSequence actionSeq)
         {
             bool canPlay = true;
+
+            bool isTutorialDay = MorgueManager.Instance.IsTutorialDay;
+
             if (seqEvent == EActionSequenceEvent.Day0_PickupSaw)
             {
                 canPlay = _previousMajorActionSequence == EActionSequenceEvent.DayAny_WakeUp;
@@ -251,7 +270,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             }
             else if (seqEvent == EActionSequenceEvent.Day0_AssistantEnters)
             {
-                canPlay = _previousMajorActionSequence == EActionSequenceEvent.Day0_MeetReceptionist;
+                canPlay = _previousMajorActionSequence == EActionSequenceEvent.Day0_MeetReceptionist || (!isTutorialDay);
             }
             else if (seqEvent == EActionSequenceEvent.Day0_FinishWork_Receptionist)
             {

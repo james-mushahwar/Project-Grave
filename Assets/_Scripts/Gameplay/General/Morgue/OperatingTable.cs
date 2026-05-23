@@ -12,7 +12,7 @@ using _Scripts.Gameplay.General.Identification;
 
 namespace _Scripts.Gameplay.General.Morgue{
 
-    public class OperatingTable : MonoBehaviour, IMorgueTickable, IStorage, IIdentifiable
+    public class OperatingTable : MonoBehaviour, IMorgueTickable, IStorage, IIdentifiable, ISubmission
     {
         [SerializeField] private FStorageSlot _tableStorageSlot;
 
@@ -351,6 +351,62 @@ namespace _Scripts.Gameplay.General.Morgue{
         public T GetStorable<T>() where T : class, IStorable
         {
             return _tableStorageSlot.Storable as T;
+        }
+
+        public bool OnSubmitted(MorgueContract contract)
+        {
+            bool complete = false;
+
+            //populate submitted
+            if (contract == null)
+            {
+                return false;
+            }
+            
+            contract.Submitted._bodyPart.Clear();
+            BodyMorgueActor body = GetBody();
+            if (body)
+            {
+                if (body.HeadMorgueActor.BodyMorgueActor == body)
+                {
+                    contract.Submitted._bodyPart.Add(EMorgueBodyPart.Head);
+                }
+
+                if (body.LArmMorgueActor.BodyMorgueActor == body)
+                {
+                    contract.Submitted._bodyPart.Add(EMorgueBodyPart.LArm);
+                }
+
+                if (body.RArmMorgueActor.BodyMorgueActor == body)
+                {
+                    contract.Submitted._bodyPart.Add(EMorgueBodyPart.RArm);
+                }
+
+                if (body.LLegMorgueActor.BodyMorgueActor == body)
+                {
+                    contract.Submitted._bodyPart.Add(EMorgueBodyPart.LLeg);
+                }
+
+                if (body.RArmMorgueActor.BodyMorgueActor == body)
+                {
+                    contract.Submitted._bodyPart.Add(EMorgueBodyPart.RLeg);
+                }
+            }
+
+            if (contract.Submitted._bodyPart.Count != contract.Requirements._bodyPart.Count)
+            {
+                return false;
+            }
+
+            foreach(EMorgueBodyPart bodyPartType in contract.Submitted._bodyPart)
+            {
+                if (contract.Requirements._bodyPart.Contains(bodyPartType) == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
     
