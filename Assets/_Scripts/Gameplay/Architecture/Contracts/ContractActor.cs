@@ -67,7 +67,9 @@ namespace _Scripts.Gameplay.Architecture.Contracts {
 
                 if (_descriptionTMP)
                 {
-                    string result = string.Join('\n', _morgueContract.Requirements._bodyPart.Select(s => s.ToString()));
+                    string result = string.Join('\n', _morgueContract.ContractType);
+                    result += "\n\n";
+                    result += string.Join('\n', _morgueContract.Requirements._bodyPart.Select(s => s.ToString()));
 
                     _descriptionTMP.text = result;
                 }

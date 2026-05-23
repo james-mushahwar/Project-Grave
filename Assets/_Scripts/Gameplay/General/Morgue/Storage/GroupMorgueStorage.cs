@@ -89,7 +89,7 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
 
             TickAnimation();
 
-            if (_isAvailableToStore)
+            if (_isAvailableToStore && _morgueActorAnimator.IsPlayingAnimation(EMorgueAnimType.None))
             {
                 //make sure in position
                 if (IsFull())
@@ -287,7 +287,7 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
             }
 
             //only body submissions
-            if (contract.ContractType != EContractType.Body)
+            if (contract.ContractType != EContractType.Parts)
             {
                 return false;
             }

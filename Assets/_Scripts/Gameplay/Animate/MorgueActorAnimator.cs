@@ -22,6 +22,13 @@ namespace _Scripts.Gameplay.Animate {
         private readonly Dictionary<EMorgueAnimType, BoolReference> _animationBools = new Dictionary<EMorgueAnimType, BoolReference>();
 
         private EMorgueAnimType _currentAnimPlaying = EMorgueAnimType.None;
+        public EMorgueAnimType CurrentAnimPlaying
+        {
+            get
+            {
+                return _currentAnimPlaying;
+            }
+        }
 
         private void Awake()
         {
@@ -78,6 +85,16 @@ namespace _Scripts.Gameplay.Animate {
             {
                 Debug.LogError($"Animation type {animType} is not defined in the dictionary!");
             }
+        }
+
+        public bool IsPlayingAnimation(EMorgueAnimType animType)
+        {
+            if (_animationHashes.TryGetValue(animType, out int animHash))
+            {
+                return _animator.GetCurrentAnimatorStateInfo(0).shortNameHash.Equals(animHash);
+
+            }
+            return false;
         }
 
     }
