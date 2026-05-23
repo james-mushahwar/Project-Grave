@@ -89,6 +89,11 @@ namespace _Scripts.Gameplay.Architecture.Contracts {
             Disable();
         }
 
+        public void RemoveContract()
+        {
+            _morgueContract = null;
+        }
+
         public void OnContractCompleted()
         {
             throw new System.NotImplementedException();

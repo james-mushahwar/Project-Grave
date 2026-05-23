@@ -11,7 +11,7 @@ using static SerializableDictionary;
 
 namespace _Scripts.Gameplay.General.Morgue.Storage {
     
-    public class GroupMorgueStorage : MorgueActor, IStorage, IInteractable
+    public class GroupMorgueStorage : MorgueActor, IStorage, IInteractable, ISubmission
     {
         [SerializeField] protected List<FStorageSlot> _storageSlots;
 
@@ -23,6 +23,11 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
 
         // is object in position to accept storage e.g. Is the hook on the chain down?
         private bool _isAvailableToStore = false;
+
+        public bool IsAvailableToStore
+        {
+            get { return _isAvailableToStore; }
+        }
 
 
         public IStorage NextAvailableStorage
@@ -90,6 +95,8 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
                 if (IsFull())
                 {
                     Debug.Log("Cash in");
+                    ContractsManager.Instance.OnSubmission(this);
+
                     OnUnavailable();
                 }
             }
@@ -267,6 +274,51 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
             }
 
             return interact;
+        }
+
+        public bool OnSubmitted(MorgueContract contract)
+        {
+            bool complete = false;
+
+            //populate submitted
+            if (contract == null)
+            {
+                return false;
+            }
+
+            //only body submissions
+            if (contract.ContractType != EContractType.Body)
+            {
+                return false;
+            }
+
+            contract.Submitted._bodyPart.Clear();
+            
+            List<BodyPartMorgueActor> bodyPartsStored = new List<BodyPartMorgueActor>();
+
+            bodyPartsStored = (from slot in _storageSlots
+                               where slot.Storable is BodyPartMorgueActor
+                               select slot.Storable as BodyPartMorgueActor).ToList();
+
+            foreach(BodyPartMorgueActor bodyPart in bodyPartsStored)
+            {
+                contract.Submitted._bodyPart.Add(bodyPart.BodyPartType);
+            }
+
+            if (contract.Submitted._bodyPart.Count != contract.Requirements._bodyPart.Count)
+            {
+                return false;
+            }
+
+            foreach (EMorgueBodyPart bodyPartType in contract.Submitted._bodyPart)
+            {
+                if (contract.Requirements._bodyPart.Contains(bodyPartType) == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
     

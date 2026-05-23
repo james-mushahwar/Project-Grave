@@ -102,60 +102,63 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         //Morgue stimulus and reactions
         public void OnStimulusReceived(EMorgueStimulus stimulus, GameObject rootGO = null)
         {
-            if (EMorgueStimulus.Operation_Completed == stimulus)
+            if (MorgueManager.Instance.IsTutorialDay)
             {
-                if (_previousMajorActionSequence == EActionSequenceEvent.Day0_AssistantEnters)
+                if (EMorgueStimulus.Operation_Completed == stimulus)
                 {
-                    _actionSequenceEventCounter++;
-                    if (_actionSequenceEventCounter == 1)
-                    {
-                        DialogueManager.Instance.TryPlayDialogue(EDialogueEvent.Day0_StoreBody_Prompt);
-                        MorgueManager.Instance.LowerHooksOnChain();
 
-                        //MorgueManager.Instance.InvokeDayNightTransition();
-                    }
-                    else if (_actionSequenceEventCounter % 3 == 0)
+                    if (_previousMajorActionSequence == EActionSequenceEvent.Day0_AssistantEnters)
                     {
-                        
+                        _actionSequenceEventCounter++;
+                        if (_actionSequenceEventCounter == 1)
+                        {
+                            DialogueManager.Instance.TryPlayDialogue(EDialogueEvent.Day0_StoreBody_Prompt);
+                            MorgueManager.Instance.LowerHooksOnChain();
+
+                            //MorgueManager.Instance.InvokeDayNightTransition();
+                        }
+                        else if (_actionSequenceEventCounter % 3 == 0)
+                        {
+
+                        }
+                    }
+                }
+                else if (EMorgueStimulus.Store_BodyPart == stimulus)
+                {
+                    if (_previousMajorActionSequence == EActionSequenceEvent.Day0_AssistantEnters)
+                    {
+                        _actionSequenceEventCounter++;
+                        if (_actionSequenceEventCounter % 3 == 0)
+                        {
+                            //MorgueManager.Instance.InvokeDayNightTransition();
+                        }
+                    }
+                }
+                else if (EMorgueStimulus.Body_FullAmputation == stimulus)
+                {
+                    if (_previousMajorActionSequence == EActionSequenceEvent.Day0_AssistantEnters)
+                    {
+                        MorgueManager.Instance.InvokeDayNightTransition();
+
+                        if (MorgueManager.Instance.GetDayTimeline() == EDayTimeline.Evening_Start)
+                        {
+                            DialogueManager.Instance.TryPlayDialogue(EDialogueEvent.Day0_Optional_FinishStoringBodyParts_Prompt);
+                        }
+                    }
+                }
+                else if (EMorgueStimulus.Store_HooksComplete == stimulus)
+                {
+                    if (_previousMajorActionSequence == EActionSequenceEvent.Day0_AssistantEnters)
+                    {
+                        MorgueManager.Instance.InvokeDayNightTransition();
+
+                        if (MorgueManager.Instance.GetDayTimeline() == EDayTimeline.Evening_Start)
+                        {
+                            DialogueManager.Instance.TryPlayDialogue(EDialogueEvent.Day0_Optional_FinishSawingBodyParts_Prompt);
+                        }
                     }
                 }
             }
-            else if (EMorgueStimulus.Store_BodyPart == stimulus)
-            {
-                if (_previousMajorActionSequence == EActionSequenceEvent.Day0_AssistantEnters)
-                {
-                    _actionSequenceEventCounter++;
-                    if (_actionSequenceEventCounter % 3 == 0)
-                    {
-                        //MorgueManager.Instance.InvokeDayNightTransition();
-                    }
-                }
-            }
-            else if (EMorgueStimulus.Body_FullAmputation == stimulus)
-            {
-                if (_previousMajorActionSequence == EActionSequenceEvent.Day0_AssistantEnters)
-                {
-                    MorgueManager.Instance.InvokeDayNightTransition();
-
-                    if (MorgueManager.Instance.GetDayTimeline() == EDayTimeline.Evening_Start)
-                    {
-                        DialogueManager.Instance.TryPlayDialogue(EDialogueEvent.Day0_Optional_FinishStoringBodyParts_Prompt);
-                    }
-                }
-            }
-            else if (EMorgueStimulus.Store_HooksComplete == stimulus)
-            {
-                if (_previousMajorActionSequence == EActionSequenceEvent.Day0_AssistantEnters)
-                {
-                    MorgueManager.Instance.InvokeDayNightTransition();
-
-                    if (MorgueManager.Instance.GetDayTimeline() == EDayTimeline.Evening_Start)
-                    {
-                        DialogueManager.Instance.TryPlayDialogue(EDialogueEvent.Day0_Optional_FinishSawingBodyParts_Prompt);
-                    }
-                }
-            }
-
         }
 
         public void SetPreviousActionSequence(EActionSequenceEvent newEvent)

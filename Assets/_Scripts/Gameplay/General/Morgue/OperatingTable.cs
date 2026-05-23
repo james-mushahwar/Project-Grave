@@ -362,6 +362,12 @@ namespace _Scripts.Gameplay.General.Morgue{
             {
                 return false;
             }
+
+            //only body submissions
+            if (contract.ContractType != EContractType.Body)
+            {
+                return false;
+            }
             
             contract.Submitted._bodyPart.Clear();
             BodyMorgueActor body = GetBody();
@@ -387,7 +393,7 @@ namespace _Scripts.Gameplay.General.Morgue{
                     contract.Submitted._bodyPart.Add(EMorgueBodyPart.LLeg);
                 }
 
-                if (body.RArmMorgueActor.BodyMorgueActor == body)
+                if (body.RLegMorgueActor.BodyMorgueActor == body)
                 {
                     contract.Submitted._bodyPart.Add(EMorgueBodyPart.RLeg);
                 }

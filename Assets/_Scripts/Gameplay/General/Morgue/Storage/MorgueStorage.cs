@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace _Scripts.Gameplay.General.Morgue.Storage{
     
-    public class MorgueStorage : MorgueActor, IStorage, IInteractable
+    public class MorgueStorage : MorgueActor, IStorage, IInteractable, ISubmission
     {
         [SerializeField] protected FStorageSlot _singleSlot;
 
@@ -155,6 +155,47 @@ namespace _Scripts.Gameplay.General.Morgue.Storage{
             }
 
             return interact;
+        }
+
+        public bool OnSubmitted(MorgueContract contract)
+        {
+            bool complete = false;
+
+            //populate submitted
+            if (contract == null)
+            {
+                return false;
+            }
+
+            //only body submissions
+            if (contract.ContractType != EContractType.Body)
+            {
+                return false;
+            }
+
+            contract.Submitted._bodyPart.Clear();
+
+            BodyPartMorgueActor bodyPart = StorageSlot.Storable as BodyPartMorgueActor;
+
+            if (bodyPart != null)
+            {
+                contract.Submitted._bodyPart.Add(bodyPart.BodyPartType);
+            }
+
+            if (contract.Submitted._bodyPart.Count != contract.Requirements._bodyPart.Count)
+            {
+                return false;
+            }
+
+            foreach (EMorgueBodyPart bodyPartType in contract.Submitted._bodyPart)
+            {
+                if (contract.Requirements._bodyPart.Contains(bodyPartType) == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
     

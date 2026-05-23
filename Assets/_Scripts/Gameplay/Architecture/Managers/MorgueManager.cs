@@ -495,16 +495,27 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 {
                     ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_TableExits);
 
+                    //raise hook
+                    if (_hooksStorage.IsAvailableToStore == true)
+                    {
+                        _hooksStorage.ToggleAvailability();
+                    }
+
                     while (ActionSequenceManager.Instance.IsPlayingActionSequence(EActionSequenceEvent.Day0_TableExits))
                     {
                         yield return null;
                     }
                 }
+
                 yield return TaskManager.Instance.WaitForSecondsPool.Get(1.0f);
             }
 
             //submit body - contract check
-            ContractsManager.Instance.OnSubmission(OperationManager.Instance.OperatingTable);
+            bool completedContract = ContractsManager.Instance.OnSubmission(OperationManager.Instance.OperatingTable);
+            if (completedContract)
+            {
+                ContractsManager.Instance.CompleteContract();
+            }
             //spawn new body
             Debug_SpawnMorgueActor();
 
@@ -516,6 +527,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 while (ActionSequenceManager.Instance.IsPlayingActionSequence(EActionSequenceEvent.Day0_AssistantEnters))
                 {
                     yield return null;
+                }
+
+                //lower hook
+                if (_hooksStorage.IsAvailableToStore == false)
+                {
+                    LowerHooksOnChain();
                 }
 
                 Debug.Log("Body spawn finished");

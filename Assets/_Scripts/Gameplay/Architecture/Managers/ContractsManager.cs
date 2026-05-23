@@ -37,6 +37,8 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         private string _uid;
         [SerializeField]
         private EContractType _contractType;
+
+        public EContractType ContractType { get { return _contractType; } }
         //requirements
         [SerializeField]
         private FContractRequirement _requirements;
@@ -49,6 +51,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         //runtime
         private bool _active; // is this selected by the player or is it just in the pool of available contracts
+        private bool _completed;
         private FContractRequirement _submitted; //progress
         public FContractRequirement Submitted { get { return _submitted; } }
 
@@ -73,6 +76,15 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             _submitted = other._submitted;
             _reward = other._reward;
         }
+
+        public bool IsCompleted()
+        {
+            return _completed;
+        }
+        public void CompleteContract()
+        {
+            _completed = true;
+        }
     }
 
     public interface IContractDisplay
@@ -93,7 +105,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
     public class ContractsManager : GameManager<ContractsManager>, IManager
     {
-        private List<MorgueContract> _availableContracts;
+        private Stack<MorgueContract> _availableContracts;
         [SerializeField]
         private ScriptableContractsCollection _contractCollection;
 
@@ -142,7 +154,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         public void ManagedPostInGameLoad()
         {
-            _availableContracts = new List<MorgueContract>();
+            _availableContracts = new Stack<MorgueContract>();
             _officeContractDisplays = new List<ContractActor>();
 
             for (int i = 0; i < _contractDifficulty.Length; i++)
@@ -211,30 +223,50 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
                     if (newContract != null)
                     {
-                        _availableContracts.Add(newContract);
+                        _availableContracts.Push(newContract);
                     }
                 }
             }
 
-            for(int i = 0; i < _officeContractDisplays.Count; i++) 
+            RefreshContracts();
+        }
+
+        public void RefreshContracts()
+        {
+            for (int i = 0; i < _officeContractDisplays.Count; i++)
             {
                 ContractActor display = _officeContractDisplays[i];
-                if (display != null)
+                if (display != null && _officeContractDisplays[i].Contract == null)
                 {
-                    MorgueContract contract = _availableContracts[i];
+                    _availableContracts.TryPop(out MorgueContract contract);
 
                     if (contract != null)
                     {
-                        display.DisplayContract(contract);
+                        display.DisplayContract(contract);   
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No more contracts left today :D");
                     }
                 }
-                
             }
         }
 
         public void NextContractHighlighted()
         {
 
+        }
+
+        public ContractActor GetContractActor(MorgueContract contract)
+        {
+            if (contract == null)
+            {
+                return null;
+            }
+
+            ContractActor contractActor = _officeContractDisplays.First(x => x.Contract == contract);
+
+            return contractActor;
         }
 
         public bool OnSubmission(ISubmission submissionObj)
@@ -254,6 +286,24 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
             Debug.Log("Correct submission");
             return true;
+        }
+
+        public void CompleteContract()
+        {
+            if (PlayerChosenContract != null)
+            {
+                PlayerChosenContract.CompleteContract();
+                //replace old contract
+                ContractActor contractActor = GetContractActor(PlayerChosenContract);
+
+                if (contractActor != null)
+                {
+                    contractActor.RemoveContract();
+                }
+            }
+
+            //target next contract
+            RefreshContracts();
         }
 
         public void Echo_ContractRequirements()
