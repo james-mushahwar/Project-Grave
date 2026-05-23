@@ -516,6 +516,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 ContractsManager.Instance.CompleteContract();
             }
+            else
+            {
+                completedContract = ContractsManager.Instance.OnSubmission(_hooksStorage);
+                if (completedContract)
+                {
+                    ContractsManager.Instance.CompleteContract();
+                }
+            }
             //spawn new body
             Debug_SpawnMorgueActor();
 

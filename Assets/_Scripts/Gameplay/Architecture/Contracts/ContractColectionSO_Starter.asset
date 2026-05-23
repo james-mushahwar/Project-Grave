@@ -38,6 +38,21 @@ MonoBehaviour:
       _bodyPart: 02000000010000000400000003000000
     _reward:
       _timeCurrency: 5
+  - _contractType: 2
+    _requirements:
+      _bodyPart: 03000000
+    _reward:
+      _timeCurrency: 1
+  - _contractType: 2
+    _requirements:
+      _bodyPart: 0300000000000000
+    _reward:
+      _timeCurrency: 2
+  - _contractType: 2
+    _requirements:
+      _bodyPart: 030000000000000002000000
+    _reward:
+      _timeCurrency: 3
   _premadeContracts_Medium:
   - _contractType: 1
     _requirements:

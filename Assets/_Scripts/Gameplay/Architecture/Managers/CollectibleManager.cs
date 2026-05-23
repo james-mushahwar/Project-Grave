@@ -12,7 +12,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         private List<BaseCollectible> _upgradesSpawned; // in the world, in the storage i.e. accessible to player
 
-        private int _timeCurrency = 10;
+        private int _timeCurrency = 0;
 
         [SerializeField]
         private List<UpgradeScriptableObject> _upgrades;
@@ -53,11 +53,16 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         }
 
-        public void AddCurrency(int amount) // can be + or -
+        public void AddCurrency(int amount, bool show = true) // can be + or -
         {
             _timeCurrency += amount;
 
             Debug.Log("Currency is now " + _timeCurrency);
+
+            if (show)
+            {
+                UIManager.Instance.OnCurrencyChanged(amount);
+            }
         }
 
         public bool CanObtainUpgrade(BaseCollectible collectible)

@@ -68,7 +68,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // before world (level, area, zone) starts loading
         public virtual void ManagedPreInGameLoad() { }
         // after world (level, area, zone) finished loading
-        public virtual void ManagedPostInGameLoad() { }
+        public virtual void ManagedPostInGameLoad() 
+        {
+            _uiCurrency.Enable();
+        }
         // save states are restored
         public virtual void ManagedRestoreSave() { }
         // after save states are restored
@@ -174,6 +177,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         internal IEnumerator EndOfDayScreen()
         {
             yield return TaskManager.Instance.WaitForSecondsPool.Get(3.0f);
+        }
+
+        //UICurrency
+        public void OnCurrencyChanged(int amount)
+        {
+            _uiCurrency.CurrencyChanged(amount);
         }
     }
 

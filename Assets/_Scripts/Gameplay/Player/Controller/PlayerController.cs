@@ -437,6 +437,8 @@ namespace _Scripts.Gameplay.Player.Controller{
         }
         public void OnInventory(InputAction.CallbackContext context)
         {
+            ContractsManager.Instance.ShowPortableContract();
+
             return;
             bool openCoat = _playerControllerState == EPlayerControllerState.Normal;
 

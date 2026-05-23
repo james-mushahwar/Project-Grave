@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 using static _Scripts.Gameplay.Architecture.Contracts.ScriptableContractsCollection;
 
 namespace _Scripts.Gameplay.Architecture.Managers {
@@ -105,7 +106,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
     public class ContractsManager : GameManager<ContractsManager>, IManager
     {
-        private Stack<MorgueContract> _availableContracts;
+        private Stack<MorgueContract> _reserveContracts;
         [SerializeField]
         private ScriptableContractsCollection _contractCollection;
 
@@ -120,23 +121,21 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         {
             get
             {
-                if (_availableContracts == null || _availableContracts.Count == 0)
-                {
-                    return null;
-                }
-
                 if (_officeContractDisplays == null || _officeContractDisplays.Count == 0)
                 {
                     return null;
                 }
 
-                return _officeContractDisplays[0].Contract;
+                MorgueContract contract = _officeContractDisplays.First(x => x.Contract != null).Contract;
+                return contract;
             }
 
         }
 
         private List<ContractActor> _officeContractDisplays;
         private ContractActor _portableContractDisplay;
+
+        private Coroutine _showPortableContractSequence;
         private EContractDifficulty[][] _contractDifficulty = new EContractDifficulty[5][];
 
         //Settings
@@ -154,7 +153,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         public void ManagedPostInGameLoad()
         {
-            _availableContracts = new Stack<MorgueContract>();
+            _reserveContracts = new Stack<MorgueContract>();
             _officeContractDisplays = new List<ContractActor>();
 
             for (int i = 0; i < _contractDifficulty.Length; i++)
@@ -206,11 +205,42 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             }
         }
 
+        public void ShowPortableContract()
+        {
+            if (MorgueManager.Instance.IsTutorialDay)
+            {
+                return;
+            }
+
+            if (PlayerChosenContract == null)
+            {
+                Debug.LogWarning("No contract to show right now :O");
+            }
+
+            if (_showPortableContractSequence == null)
+            {
+                _showPortableContractSequence = StartCoroutine(ShowPortableContractSequence());
+            }
+        }
+
+        private System.Collections.IEnumerator ShowPortableContractSequence()
+        {
+            _portableContractDisplay.Enable();
+            _portableContractDisplay.DisplayContract(PlayerChosenContract);
+
+            yield return TaskManager.Instance.WaitForSecondsPool.Get(5.0f);
+
+            _portableContractDisplay.Disable();
+            _showPortableContractSequence = null;
+
+            yield return null;
+        }
+
         public void GenerateContracts()
         {
             if (_usePremadeContracts)
             {
-                for (int i = _availableContracts.Count; i < _maxContractsToday; i++)
+                for (int i = _reserveContracts.Count; i < _maxContractsToday; i++)
                 {
                     int dayCount = MorgueManager.Instance.DayCount - 1;
                     int index = i;
@@ -223,7 +253,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
                     if (newContract != null)
                     {
-                        _availableContracts.Push(newContract);
+                        _reserveContracts.Push(newContract);
                     }
                 }
             }
@@ -238,7 +268,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 ContractActor display = _officeContractDisplays[i];
                 if (display != null && _officeContractDisplays[i].Contract == null)
                 {
-                    _availableContracts.TryPop(out MorgueContract contract);
+                    _reserveContracts.TryPop(out MorgueContract contract);
 
                     if (contract != null)
                     {
@@ -279,12 +309,12 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             bool correctSubmission = submissionObj.OnSubmitted(PlayerChosenContract);
             if (!correctSubmission)
             {
-                Debug.Log("Incorrect submission");
+                Debug.Log("Incorrect submission for " + submissionObj.ToString());
 
                 return false;
             }
 
-            Debug.Log("Correct submission");
+            Debug.Log("Correct submission for " + submissionObj.ToString());
             return true;
         }
 
@@ -293,6 +323,10 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             if (PlayerChosenContract != null)
             {
                 PlayerChosenContract.CompleteContract();
+
+                // pay/reward player
+                CollectibleManager.Instance.AddCurrency(PlayerChosenContract._reward._timeCurrency);
+
                 //replace old contract
                 ContractActor contractActor = GetContractActor(PlayerChosenContract);
 
@@ -310,6 +344,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         {
             if (PlayerChosenContract != null)
             {
+                Debug.Log("Contract type: " + PlayerChosenContract.ContractType);
                 foreach (EMorgueBodyPart bodyPartType in PlayerChosenContract.Requirements._bodyPart)
                 {
                     Debug.Log("Required: " + bodyPartType.ToString());
