@@ -26,6 +26,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         //storage
         Available,
         Unavailable,
+        AvailableIdle,
+        UnavailableIdle,
         COUNT
     }
 
