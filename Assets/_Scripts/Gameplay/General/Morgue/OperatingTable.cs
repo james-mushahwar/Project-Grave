@@ -414,6 +414,10 @@ namespace _Scripts.Gameplay.General.Morgue{
 
             return true;
         }
+
+        public void ClearSubmission()
+        {
+        }
     }
     
 }

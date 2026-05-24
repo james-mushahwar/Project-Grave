@@ -197,6 +197,20 @@ namespace _Scripts.Gameplay.General.Morgue.Storage{
 
             return true;
         }
+
+        public void ClearSubmission()
+        {
+            List<IStorable> emptied = TryEmpty();
+            foreach (IStorable storable in emptied)
+            {
+                GameObject storableGO = (storable.GetStorableParent() as MonoBehaviour).gameObject;
+
+                if (storableGO != null)
+                {
+                    Destroy(storableGO);
+                }
+            }
+        }
     }
     
 }

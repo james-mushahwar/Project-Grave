@@ -261,7 +261,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             {
                 _houseChuteRoot = GameObject.FindGameObjectWithTag("Transform_ChuteRoot");
 
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     MorgueActor actor = Instantiate<MorgueActor>(_morgueActor, _houseChuteRoot.transform, false);
                     actor.transform.localPosition = Vector3.left * (i * 2.0f);
@@ -467,6 +467,17 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public void Debug_OpenGate()
         {
+
+            /*AudioListener[] listeners = GameObject.FindObjectsByType<AudioListener>(FindObjectsSortMode.None);
+
+            Debug.Log($"<color=orange>Found {listeners.Length} Audio Listeners in the scene:</color>");
+
+            foreach (AudioListener listener in listeners)
+            {
+                // Log the name and the path of the GameObject hosting it
+                Debug.Log($"Audio Listener found on GameObject: <b>{listener.name}</b>", listener.gameObject);
+            }*/
+
             if (closed)
             {
                 ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_OpenGate);
@@ -514,14 +525,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             bool completedContract = ContractsManager.Instance.OnSubmission(OperationManager.Instance.OperatingTable);
             if (completedContract)
             {
-                ContractsManager.Instance.CompleteContract();
             }
             else
             {
                 completedContract = ContractsManager.Instance.OnSubmission(_hooksStorage);
                 if (completedContract)
                 {
-                    ContractsManager.Instance.CompleteContract();
                 }
             }
             //spawn new body

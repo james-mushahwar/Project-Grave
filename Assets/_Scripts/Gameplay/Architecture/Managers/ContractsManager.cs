@@ -245,7 +245,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                     int dayCount = MorgueManager.Instance.DayCount - 1;
                     int index = i;
 
-                    UnityEngine.Random.InitState(i);
+                    UnityEngine.Random.InitState(i * MorgueManager.Instance.DayCount);
 
                     EContractDifficulty difficulty = _contractDifficulty[dayCount][index];
 
@@ -315,6 +315,8 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             }
 
             Debug.Log("Correct submission for " + submissionObj.ToString());
+            submissionObj.ClearSubmission();
+            CompleteContract();
             return true;
         }
 

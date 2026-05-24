@@ -4,6 +4,8 @@ using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
+using MoreMountains.Feedbacks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -23,7 +25,7 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
 
         // is object in position to accept storage e.g. Is the hook on the chain down?
         private bool _isAvailableToStore = false;
-
+        private bool _storageChanged;
         public bool IsAvailableToStore
         {
             get { return _isAvailableToStore; }
@@ -89,17 +91,42 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
 
             TickAnimation();
 
-            if (_isAvailableToStore && _morgueActorAnimator.IsPlayingAnimation(EMorgueAnimType.None))
+            UpdateStorage();
+        }
+
+        private void UpdateStorage()
+        {
+            if (_storageChanged)
             {
-                //make sure in position
+                if (_isAvailableToStore)
+                {
+                    _storageChanged = false; 
+                    //make sure in position
+                    if (IsFull())
+                    {
+                        OnUnavailable();
+                    }
+                } 
+            }
+
+            if (_isAvailableToStore == false && _morgueActorAnimator.IsPlayingAnimation(EMorgueAnimType.UnavailableIdle))
+            {
                 if (IsFull())
                 {
                     Debug.Log("Cash in");
-                    ContractsManager.Instance.OnSubmission(this);
+                    bool clear = ContractsManager.Instance.OnSubmission(this);
 
-                    OnUnavailable();
+                    if (!clear)
+                    {
+                        OnAvailable();
+                    }
                 }
             }
+        }
+
+        private bool IsAvailableAnimating()
+        {
+            return _morgueActorAnimator.IsPlayingAnimation(EMorgueAnimType.Available) || _morgueActorAnimator.IsPlayingAnimation(EMorgueAnimType.AvailableIdle);
         }
 
         private void TickAnimation()
@@ -177,6 +204,11 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
                 emptied.Concat(emptyList);
             }
 
+            if (emptyList.Count > 0) 
+            {
+                _storageChanged = true;
+            }
+
             return emptied;
         }
 
@@ -209,6 +241,11 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
                 }
             }
 
+            if (found != null)
+            {
+                _storageChanged = true;
+            }
+
             return found;
         }
 
@@ -218,7 +255,13 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
             {
                 return false;
             }
-            return NextAvailableStorage.TryStore(storable);
+            bool stored = NextAvailableStorage.TryStore(storable);
+
+            if (stored)
+            {
+                _storageChanged = true;
+            }
+            return stored;
         }
 
         public T GetStorable<T>() where T : class, IStorable
@@ -319,6 +362,20 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
             }
 
             return true;
+        }
+
+        public void ClearSubmission()
+        {
+            List<IStorable> emptied = TryEmpty();
+            foreach (IStorable storable in emptied)
+            {
+                GameObject storableGO = (storable.GetStorableParent() as MonoBehaviour).gameObject;
+
+                if (storableGO != null)
+                {
+                    Destroy(storableGO);
+                }
+            }
         }
     }
     

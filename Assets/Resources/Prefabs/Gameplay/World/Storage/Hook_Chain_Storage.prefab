@@ -314,10 +314,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Animate.MorgueActorAnimator
   _animator: {fileID: 1387343310800292717}
   _morgueAnimTypeNameDictionary:
-    m_keys: 0100000002000000
+    m_keys: 01000000020000000300000004000000
     m_values:
     - lowerChain
     - raisedChain
+    - lower_idle
+    - raised_idle
 --- !u!1 &5040200126015803716 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 427842064144792833, guid: 7faddb83decd3b146b7be682e0276049,

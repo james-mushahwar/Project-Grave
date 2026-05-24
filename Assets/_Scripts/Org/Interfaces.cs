@@ -360,6 +360,7 @@ namespace _Scripts.Org
     public interface ISubmission
     {
         public bool OnSubmitted(MorgueContract contract);
+        public void ClearSubmission();
     }
     #endregion
 
