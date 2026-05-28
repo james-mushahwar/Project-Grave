@@ -7,114 +7,40 @@ using System.Linq;
 
 namespace _Scripts.Gameplay.Architecture.Contracts {
 
-    public class ContractActor : MonoBehaviour, IContractDisplay, IManaged
+    public abstract class ContractActor : MonoBehaviour, IContractDisplay, IManaged
     {
-        [SerializeField]
-        private TextMeshPro _timeCurrencyTMP;
-        [SerializeField]
-        private TextMeshPro _descriptionTMP;
-        [SerializeField]
-        private Image _contractRequirements_Sprite;
+        public bool CanTick { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
-        [SerializeField]
         private MorgueContract _morgueContract;
 
         public MorgueContract Contract
         {
             get => _morgueContract;
+            protected set => _morgueContract = value;
         }
 
-        public bool _canTick = false;
-        public bool CanTick { get => _canTick; set => _canTick = value; }
+        public abstract void Disable();
 
-        public void Disable()
-        {
-            gameObject.SetActive(false);
-            CanTick = false;
-            _timeCurrencyTMP.enabled = false;
-            _contractRequirements_Sprite.enabled = false;
-        }
 
-        public void Enable()
-        {
-            gameObject.SetActive(true);
-            CanTick = true;
-            _timeCurrencyTMP.enabled = true;
-            _contractRequirements_Sprite.enabled = false;
-        }
+        public abstract void DisplayContract(MorgueContract contract);
 
-        public void Setup() 
-        {
-            HideContract();
-        }
-        public void ManagedTick() 
-        {
-            if (CanTick == false)
-            {
-                return;
-            }
+        public abstract void Enable();
 
-            int timeCurrency = 0;
+        public abstract void Setup();
 
-            if (_morgueContract != null)
-            {
-                timeCurrency = _morgueContract._reward._timeCurrency;
+        public abstract void ManagedTick();
 
-                if (_timeCurrencyTMP)
-                {
-                    _timeCurrencyTMP.text = timeCurrency.ToString();
-                }
+        public abstract void HideContract();
 
-                if (_descriptionTMP)
-                {
-                    string result = string.Join('\n', _morgueContract.ContractType);
-                    result += "\n\n";
-                    result += string.Join('\n', _morgueContract.Requirements._bodyPart.Select(s => s.ToString()));
+        public abstract void RemoveContract();
 
-                    _descriptionTMP.text = result;
-                }
-            }
+        public abstract void OnContractCompleted();
 
-        }
-        public void ManagedFixedTick() { }
-        public void ManagedLateTick() { }
+        public abstract void OnContractFailed();
 
-        public void DisplayContract(MorgueContract contract)
-        {
-            _morgueContract = contract;
-            Enable();
-        }
+        public abstract void OnContractSelected();
 
-        public void HideContract()
-        {
-            _morgueContract = null;
-            Disable();
-        }
-
-        public void RemoveContract()
-        {
-            _morgueContract = null;
-        }
-
-        public void OnContractCompleted()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void OnContractFailed()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void OnContractSelected()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void OnContractUnselected()
-        {
-            throw new System.NotImplementedException();
-        }
+        public abstract void OnContractUnselected();
     }
 
 }

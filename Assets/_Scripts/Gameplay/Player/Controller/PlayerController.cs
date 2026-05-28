@@ -39,6 +39,8 @@ namespace _Scripts.Gameplay.Player.Controller{
         Operating = 100,
 
         OpenCoat = 200,
+
+        Contracts = 300,
     }
 
     public enum EOperationType
@@ -76,6 +78,9 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         private float _operatingHorz;
         private float _operatingVert;
+
+        private bool _inputLeftDirection;
+        private bool _inputRightDirection;
 
         private EPlayerControllerState _playerControllerState = EPlayerControllerState.NONE;
         public EPlayerControllerState PlayerControllerState
@@ -447,6 +452,56 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             _playerStorage.ToggleCoatStorage(openCoat);
         }
+
+        #region Contract select mode
+        public void OnContracts_NavigateLR(InputAction.CallbackContext context)
+        {
+            bool inTransition = CameraManager.Instance.IsCameraInTransition();
+            if (inTransition)
+            {
+                return;
+            }
+
+            Vector2 leftStickInput = context.ReadValue<Vector2>();
+            _inputLeftDirection = leftStickInput.x < -0.1f;
+            _inputRightDirection = leftStickInput.x > 0.1f;
+
+            if (_inputLeftDirection)
+            {
+                Debug.Log("Go left");
+                ContractsManager.Instance.SelectNextContract(false);
+            }
+            else if ( _inputRightDirection) 
+            {
+                Debug.Log("Go right");
+                ContractsManager.Instance.SelectNextContract(true);
+
+            }
+        }
+
+        public void OnContracts_Select(InputAction.CallbackContext context)
+        {
+            bool inTransition = CameraManager.Instance.IsCameraInTransition();
+            if (inTransition)
+            {
+                return;
+            }
+            ContractsManager.Instance.ChooseContract();
+        }
+
+        private void OnContracts_Back(InputAction.CallbackContext context)
+        {
+            bool inTransition = CameraManager.Instance.IsCameraInTransition();
+            if (inTransition)
+            {
+                return;
+            }
+
+            //leave camera view
+            //leave input control mode
+            RequestPlayerControllerState(EPlayerControllerState.Normal);
+        }
+        #endregion
 
         #region Operating
 
@@ -1336,6 +1391,13 @@ namespace _Scripts.Gameplay.Player.Controller{
                         mpi.Game.Inventory.performed += OnInventory;
                         mpi.Game.Back.started += OnInventory;
                         break;
+                    case EPlayerControllerState.Contracts:
+                        cursorLock = CursorLockMode.Confined;
+
+                        mpi.Game.Movement.performed += OnContracts_NavigateLR;
+                        mpi.Game.Select.started += OnContracts_Select;
+                        mpi.Game.Back.started += OnContracts_Back;
+                        break;
                     default:
                         break;
                 }
@@ -1408,6 +1470,12 @@ namespace _Scripts.Gameplay.Player.Controller{
                     case EPlayerControllerState.OpenCoat:
                         mpi.Game.Inventory.performed -= OnInventory;
                         mpi.Game.Back.started -= OnInventory;
+                        break;
+
+                    case EPlayerControllerState.Contracts:
+                        mpi.Game.Movement.performed -= OnContracts_NavigateLR;
+                        mpi.Game.Select.started -= OnContracts_Select;
+                        mpi.Game.Back.started -= OnContracts_Back;
                         break;
 
                     default:

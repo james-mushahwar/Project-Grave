@@ -2,11 +2,13 @@
 using _Scripts.Gameplay.General.Morgue;
 using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Org;
+using MoreMountains.FeedbacksForThirdParty;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using static _Scripts.Gameplay.Architecture.Contracts.ScriptableContractsCollection;
 
@@ -50,11 +52,25 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         [SerializeField]
         public FContractReward _reward;
 
+        [SerializeField]
+        private Texture2D _contractPicture;
+
         //runtime
         private bool _active; // is this selected by the player or is it just in the pool of available contracts
         private bool _completed;
         private FContractRequirement _submitted; //progress
         public FContractRequirement Submitted { get { return _submitted; } }
+        public bool Active
+        {
+            get { return _active; }
+        }
+
+        public string UID
+        {
+            get { return _uid; }
+        }
+
+        public Texture2D ContractPicture { get { return _contractPicture; } }
 
         public MorgueContract()
         {
@@ -76,6 +92,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             _requirements = other._requirements;
             _submitted = other._submitted;
             _reward = other._reward;
+            _contractPicture = other._contractPicture;
         }
 
         public bool IsCompleted()
@@ -85,6 +102,10 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         public void CompleteContract()
         {
             _completed = true;
+        }
+        public void ActivateContract(bool set)
+        {
+            _active = set;
         }
     }
 
@@ -106,32 +127,82 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
     public class ContractsManager : GameManager<ContractsManager>, IManager
     {
-        private Stack<MorgueContract> _reserveContracts;
+        private Stack<MorgueContract> _reserveContracts; // this is the amount of contracts per day e.g. 8
+        private List<MorgueContract> _selectableContracts; // this is the list added from the reserves that stores what contracts are available to scroll through and select
         [SerializeField]
         private ScriptableContractsCollection _contractCollection;
 
-        private int _maxContractsToday = 5;
-        private int _maxContractsCapacity;
-        public int MaxContractsOnDisplay
+        private int _maxReserveContracts = 5;
+        private int _maxSelectableContracts = 3; // e.g. only 3 pages at any given time to show up to 3 contracts maximum
+        public int MaxSelectableContracts
         {
-            get => _officeContractDisplays.Count;
+            get => _maxSelectableContracts;
+        }
+        public int SelectableContractsCount
+        {
+            get
+            {
+                return _selectableContracts.Count;
+            }
+        }
+
+        private int _playerHighlightedContractIndex = 0;
+        public int PlayerHighlightedContractIndex
+        {
+            get => _playerHighlightedContractIndex;
         }
 
         public MorgueContract PlayerChosenContract
         {
             get
             {
-                if (_officeContractDisplays == null || _officeContractDisplays.Count == 0)
+                MorgueContract contract = _selectableContracts[_playerHighlightedContractIndex];
+
+                if (contract == null)
                 {
                     return null;
                 }
 
-                MorgueContract contract = _officeContractDisplays.First(x => x.Contract != null).Contract;
+                if (contract.Active == false)
+                {
+                    return null;
+                }
+
                 return contract;
             }
+            //get
+            //{
+            //    if (_officeContractDisplays == null || _officeContractDisplays.Count == 0)
+            //    {
+            //        return null;
+            //    }
 
+            //    MorgueContract contract = _officeContractDisplays.First(x => x.Contract != null).Contract;
+            //    return contract;
+            //}
+        }
+        public ContractActor PlayerChosenContractDisplay
+        {
+            get
+            {
+                if (PlayerChosenContract != null)
+                {
+                    return _officeContractDisplays[_playerHighlightedContractIndex];
+                }
+
+                return null;
+            }
         }
 
+        private ContractBook _contractBook;
+
+        public ContractBook ContractBook
+        {
+            get
+            {
+                return _contractBook;
+            }
+        }
         private List<ContractActor> _officeContractDisplays;
         private ContractActor _portableContractDisplay;
 
@@ -154,6 +225,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         public void ManagedPostInGameLoad()
         {
             _reserveContracts = new Stack<MorgueContract>();
+            _selectableContracts = new List<MorgueContract>();
             _officeContractDisplays = new List<ContractActor>();
 
             for (int i = 0; i < _contractDifficulty.Length; i++)
@@ -184,6 +256,12 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 {
                     _portableContractDisplay = contractDisplay;
                 }
+            }
+
+            _contractBook = FindAnyObjectByType<ContractBook>();
+            if (_contractBook)
+            {
+                _contractBook.Disable();
             }
 
             //if (GameStateManager.Instance.IsPlayingFullGame && _officeContractDisplays.Count > 0)
@@ -240,7 +318,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         {
             if (_usePremadeContracts)
             {
-                for (int i = _reserveContracts.Count; i < _maxContractsToday; i++)
+                for (int i = _reserveContracts.Count; i < _maxReserveContracts; i++)
                 {
                     int dayCount = MorgueManager.Instance.DayCount - 1;
                     int index = i;
@@ -256,6 +334,16 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                         _reserveContracts.Push(newContract);
                     }
                 }
+
+                while (_selectableContracts.Count < _maxSelectableContracts && _reserveContracts.Count > 0)
+                {
+                    _reserveContracts.TryPop(out MorgueContract contract);
+
+                    if (contract != null)
+                    {
+                        _selectableContracts.Add(contract);
+                    }
+                }
             }
 
             RefreshContracts();
@@ -263,20 +351,31 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         public void RefreshContracts()
         {
-            for (int i = 0; i < _officeContractDisplays.Count; i++)
+            _contractBook.Enable();
+            int displayCount = _officeContractDisplays.Count;
+            int startingIndex = _playerHighlightedContractIndex / displayCount;
+
+            for (int i = 0; i < displayCount; i++)
             {
                 ContractActor display = _officeContractDisplays[i];
-                if (display != null && _officeContractDisplays[i].Contract == null)
-                {
-                    _reserveContracts.TryPop(out MorgueContract contract);
 
-                    if (contract != null)
+                MorgueContract indexedContract = null;
+                int index = (startingIndex * displayCount) + i;
+                if (index < _selectableContracts.Count)
+                {
+                    indexedContract = _selectableContracts[index];
+                }
+
+                if (display != null)
+                {
+                    if (indexedContract != null)
                     {
-                        display.DisplayContract(contract);   
+                        display.DisplayContract(indexedContract);   
                     }
                     else
                     {
-                        Debug.LogWarning("No more contracts left today :D");
+                        display.DisplayContract(null);
+                        Debug.LogWarning("No more contracts left for " + display.name);
                     }
                 }
             }
@@ -329,13 +428,15 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 // pay/reward player
                 CollectibleManager.Instance.AddCurrency(PlayerChosenContract._reward._timeCurrency);
 
-                //replace old contract
-                ContractActor contractActor = GetContractActor(PlayerChosenContract);
+                //remove old contract
+                _selectableContracts.Remove(PlayerChosenContract);
+                _playerHighlightedContractIndex = 0;
+                //ContractActor contractActor = GetContractActor(PlayerChosenContract);
 
-                if (contractActor != null)
-                {
-                    contractActor.RemoveContract();
-                }
+                //if (contractActor != null)
+                //{
+                //    contractActor.RemoveContract();
+                //}
             }
 
             //target next contract
@@ -353,6 +454,59 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
                 }
             }
+        }
+
+        public void ChooseContract()
+        {
+            if (_playerHighlightedContractIndex == -1)
+            {
+                _playerHighlightedContractIndex = 0;
+            }
+
+            if (_playerHighlightedContractIndex >= 0 && _playerHighlightedContractIndex < _selectableContracts.Count)
+            {
+                MorgueContract contract = _selectableContracts[_playerHighlightedContractIndex];
+
+                if (contract != null)
+                {
+                    if (contract.Active == false)
+                    {
+                        contract.ActivateContract(true);
+                        RefreshContracts();
+                        Echo_ContractRequirements();
+                    }
+                }
+            }
+        }
+
+        public void SelectNextContract(bool goRight)
+        {
+            int attempts = 0;
+            int increment = goRight ? 1 : -1;            
+
+            _playerHighlightedContractIndex += increment;
+
+            if (_playerHighlightedContractIndex < 0)
+            {
+                _playerHighlightedContractIndex = _selectableContracts.Count - 1;
+
+            }
+            else if (_playerHighlightedContractIndex >= _selectableContracts.Count)
+            {
+                _playerHighlightedContractIndex = 0;
+            }
+
+            Debug.Log("Chosen contract display is: " + _playerHighlightedContractIndex);
+                //ContractActor contractActor = _selectableContracts[_playerHighlightedContractIndex];
+                //if (contractActor != null)
+                //{
+                //    if (contractActor.Contract != null)
+                //    {
+                //        break;
+                //    }
+                //}
+            RefreshContracts();
+            Echo_ContractRequirements();
         }
     }
     

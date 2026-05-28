@@ -12,6 +12,7 @@ using _Scripts.Gameplay.UI;
 using TMPro;
 using _Scripts.Gameplay.UI.Currency;
 using _Scripts.Gameplay.UI.DayLoadingScreen;
+using _Scripts.Gameplay.UI.Contract;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
     
@@ -30,6 +31,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField] private UIReticle _uiReticle;
         [SerializeField] private UIOperation _uiOperation;
         [SerializeField] private UICurrency _uiCurrency;
+        [SerializeField] private UIContractGroup _uiContractGroup;
         [SerializeField] private UIDayLoadingScreen _uiDayLoadingScreen;
 
         [SerializeField] private Sprite _opDismemberTypeIcon;
@@ -71,6 +73,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public virtual void ManagedPostInGameLoad() 
         {
             _uiCurrency.Enable();
+            _uiContractGroup.Setup();
+            _uiContractGroup.Disable();
         }
         // save states are restored
         public virtual void ManagedRestoreSave() { }
@@ -87,6 +91,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             _uiReticle.ManagedTick();
             _uiCurrency.ManagedTick();
+            _uiContractGroup.ManagedTick();
 
             PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
 
@@ -183,6 +188,19 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public void OnCurrencyChanged(int amount)
         {
             _uiCurrency.CurrencyChanged(amount);
+        }
+
+        //Contracts
+        public void ToggleContractsView(bool show)
+        {
+            if (show)
+            {
+                _uiContractGroup.Enable();
+            }
+            else
+            {
+                _uiContractGroup.Disable();
+            }
         }
     }
 
