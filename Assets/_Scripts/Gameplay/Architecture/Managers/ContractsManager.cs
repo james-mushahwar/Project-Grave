@@ -244,7 +244,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             _contractDifficulty[3] = _contractDifficulty[0];
             _contractDifficulty[4] = _contractDifficulty[0];
 
-            List<ContractActor> contractDisplays = FindObjectsByType<ContractActor>(FindObjectsSortMode.InstanceID).ToList();
+            List<ContractActor> contractDisplays = FindObjectsByType<ContractActor>(FindObjectsSortMode.None).ToList();
             foreach (var contractDisplay in contractDisplays)
             {
                 contractDisplay.Setup();

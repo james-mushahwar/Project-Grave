@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Architecture.Contracts.PageContractActor
   _targetRenderer: {fileID: 1799429310491871681}
-  _materialIndex: 3
+  _materialIndex: 4
   _timeCurrencyTMP: {fileID: 1391069861674281715}
   _pageMissingTexture: {fileID: 2800000, guid: e68d60206d8d88248b104f26702f0d24, type: 3}
   _canTick: 0
@@ -963,7 +963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Architecture.Contracts.PageContractActor
   _targetRenderer: {fileID: 1799429310491871681}
-  _materialIndex: 4
+  _materialIndex: 3
   _timeCurrencyTMP: {fileID: 2446286489710773371}
   _pageMissingTexture: {fileID: 2800000, guid: e68d60206d8d88248b104f26702f0d24, type: 3}
   _canTick: 0
