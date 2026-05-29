@@ -364,17 +364,20 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 CinemachineVirtualCamera vCam = null;
                 bool found = _runtimeIdVirtualCameraDictionary[runtimeID.RuntimeId].TryGetValue(cameraType, out vCam);
 
-                if (found && vCam != null && (CmBrain.ActiveVirtualCamera != null && !CmBrain.ActiveVirtualCamera.Equals(vCam)))
+                if (found && vCam != null)
                 {
-                    if (CmBrain.ActiveVirtualCamera.VirtualCameraGameObject != null)
+                    if ((CmBrain.ActiveVirtualCamera != null && !CmBrain.ActiveVirtualCamera.Equals(vCam)) && CmBrain.ActiveVirtualCamera.VirtualCameraGameObject != null)
                     {
                         CmBrain.ActiveVirtualCamera.VirtualCameraGameObject.SetActive(false);
                     }
 
-                    vCam.gameObject.SetActive(true);
-                    _cameraTransitionBuffer = true;
-                    activated = true;
-                    _currentVCamType = cameraType;
+                    if (CmBrain.ActiveVirtualCamera == null || (CmBrain.ActiveVirtualCamera != null && !CmBrain.ActiveVirtualCamera.Equals(vCam)))
+                    {
+                        vCam.gameObject.SetActive(true);
+                        _cameraTransitionBuffer = true;
+                        activated = true;
+                        _currentVCamType = cameraType;
+                    }
                 }
             }
 
