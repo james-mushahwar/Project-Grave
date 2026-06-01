@@ -49,6 +49,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DisplacementNoiseTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -133,6 +137,8 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
+    - _DebugVertexColours: 0
+    - _Debug_Displacement_Noise: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -160,17 +166,18 @@ Material:
     - _Infection_Use: 0
     - _Infection_Value_1: 0
     - _Infection_Value_2: 0
-    - _Intensity: 0.165
+    - _Intensity: 1
     - _Metallic: 0
     - _Mode: 0
-    - _Normal_Noise_Blend_Weight: 0.077
+    - _Normal_Noise_Blend_Weight: 0
     - _Normal_Noise_Scale: 50
-    - _Normal_Texture_Strength: 1.011
+    - _Normal_Texture_Strength: 1.774
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _ScaleDisplacementByUV: 0
     - _Setup: 0
     - _Smoothness: 0.4472136
     - _SmoothnessTextureChannel: 0
@@ -179,12 +186,14 @@ Material:
     - _SrcBlendAlpha: 1
     - _Steps: 10
     - _Surface: 0
-    - _TimeMultiplier: 0.05
+    - _TimeMultiplier: 0.1
     - _TriPlanarPower: 10
     - _UVSec: 0
-    - _WPO_Displacement: 0.015
+    - _UseDisplacementNoiseTexture: 0
+    - _Use_Vertex_Colours_As_Position: 0
+    - _WPO_Displacement: 0.005
     - _WorkflowMode: 1
-    - _World_Scale: 5
+    - _World_Scale: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
