@@ -1256,7 +1256,7 @@ namespace _Scripts.Gameplay.Player.Controller{
             //}
         }
 
-        public void EndOperatingState()
+        public void EndOperatingState(bool leaveOpEntirely = false)
         {
             //if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.FirstPersonView_Normal))
             //{
@@ -1289,7 +1289,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                 AnimationManager.Instance.EndOperationState(_bodyPartMorgueActor);
             }
             
-            if (leaveOpTable)
+            if (leaveOpTable || leaveOpEntirely)
             {
                 if (_operatingTable != null)
                 {

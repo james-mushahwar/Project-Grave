@@ -474,6 +474,13 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                         contract.ActivateContract(true);
                         RefreshContracts();
                         Echo_ContractRequirements();
+
+                        if (MorgueManager.Instance.WorkTimeActive == false)
+                        {
+                            MorgueManager.Instance.StartWorkingDay();
+                        }
+
+                        MorgueManager.Instance.SpawnBodySequenceCommand();
                     }
                 }
             }
