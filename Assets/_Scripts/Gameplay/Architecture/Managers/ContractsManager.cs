@@ -471,6 +471,12 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 {
                     if (contract.Active == false)
                     {
+                        MorgueContract beforeContract = PlayerChosenContract;
+                        if (beforeContract != null)
+                        {
+                            contract.ActivateContract(false);
+                        }
+
                         contract.ActivateContract(true);
                         RefreshContracts();
                         Echo_ContractRequirements();

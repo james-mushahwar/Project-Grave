@@ -524,7 +524,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 bool tableShouldExitFirst = true;// OperationManager.Instance.BodyOnTable != null;
                 if (tableShouldExitFirst)
                 {
-                    PlayerManager.Instance.CurrentPlayerController.EndOperatingState(true);
+                    if (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState == Player.Controller.EPlayerControllerState.Operating)
+                    {
+                        PlayerManager.Instance.CurrentPlayerController.EndOperatingState(true);
+                    }
 
                     ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_TableExits);
 
