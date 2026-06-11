@@ -495,6 +495,11 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         private void OnContracts_Back(InputAction.CallbackContext context)
         {
+            LeaveContractView();
+        }
+
+        public void LeaveContractView()
+        {
             bool inTransition = CameraManager.Instance.IsCameraInTransition();
             if (inTransition)
             {

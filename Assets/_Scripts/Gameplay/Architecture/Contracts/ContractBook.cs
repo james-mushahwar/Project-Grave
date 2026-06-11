@@ -26,17 +26,16 @@ public class ContractBook : MorgueActor, IInteractable
     // Cache the shader property ID for performance
     private static readonly int BaseMapPropertyId = Shader.PropertyToID("_BaseMap");
 
-    public bool CanTick { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public bool CanTick { get; set; }
 
     public void Enable()
     {
-        gameObject.SetActive(true);
+        CanTick = true;
     }
 
     public void Disable()
     {
-        gameObject.SetActive(false);
-
+        CanTick = false;
     }
 
     public override void EnterHouseThroughChute()
@@ -59,7 +58,17 @@ public class ContractBook : MorgueActor, IInteractable
 
     public override void Tick()
     {
-        
+        Debug.Log("Ticking book");
+        if (CanTick)
+        {
+            bool show = ContractsManager.Instance.PlayerChosenContract == null;
+            
+            gameObject.SetActive(show);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public bool IsInteractable(IInteractor interactor = null)

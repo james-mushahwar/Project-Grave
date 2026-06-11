@@ -1,6 +1,7 @@
 ﻿using _Scripts.Gameplay.Architecture.Contracts;
 using _Scripts.Gameplay.General.Morgue;
 using _Scripts.Gameplay.General.Morgue.Bodies;
+using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
 using MoreMountains.FeedbacksForThirdParty;
 using NUnit.Framework;
@@ -351,7 +352,10 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         public void RefreshContracts()
         {
-            _contractBook.Enable();
+            if (PlayerChosenContract == null)
+            {
+                _contractBook.Enable();
+            }
             int displayCount = _officeContractDisplays.Count;
             int startingIndex = _playerHighlightedContractIndex / displayCount;
 
@@ -480,6 +484,13 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                         contract.ActivateContract(true);
                         RefreshContracts();
                         Echo_ContractRequirements();
+
+                        if (PlayerManager.Instance.CurrentPlayerController != null)
+                        {
+                            //leave book, show chosen contract
+                            PlayerManager.Instance.CurrentPlayerController.LeaveContractView();
+                            ShowPortableContract();
+                        }
 
                         if (MorgueManager.Instance.WorkTimeActive == false)
                         {
