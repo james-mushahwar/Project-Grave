@@ -70,6 +70,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Emissive_Texture:
+        m_Texture: {fileID: 2800000, guid: 41b6c868e32f56a4bb8c08b39b778186, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _InfectionTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -107,6 +111,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_5f8c3964108c442892f8916ebc399193_Texture_1_Texture2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -177,7 +185,7 @@ Material:
     - _ReceiveShadows: 1
     - _ScaleDisplacementByUV: 0
     - _Setup: 0
-    - _Smoothness: 0.208
+    - _Smoothness: 0.274
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -197,6 +205,7 @@ Material:
     - _Base_Texture_Tint: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Emissive_Colour: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 1}
     - _Infection_1_Source_Point: {r: 0.23, g: 0.79, b: 0, a: 0}
     - _Infection_2_Source_Point: {r: 0, g: 0, b: 0, a: 0}
     - _Infection_3_Source_Point: {r: 0, g: 0, b: 0, a: 0}
