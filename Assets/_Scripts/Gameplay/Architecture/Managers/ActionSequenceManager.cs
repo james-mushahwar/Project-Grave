@@ -43,6 +43,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
     public class ActionSequenceManager : GameManager<ActionSequenceManager>, IManager
     {
         private EActionSequenceEvent _previousMajorActionSequence = EActionSequenceEvent.None;
+        private EActionSequenceEvent _previousAnyActionSequence = EActionSequenceEvent.None;
         private int _actionSequenceEventCounter = 0;
         private List<EActionSequenceEvent> _majorActionSequenceHistory;
 
@@ -301,6 +302,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
                         GameStateManager.Instance.OnPlayCriticalActionSequence();
                     }
+                    _previousAnyActionSequence = actionSeqEvent;
 
                     _actionSequenceEventCounter = 0;
 
@@ -352,6 +354,30 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 }
             }
 
+            if (actionSeqEvent == EActionSequenceEvent.Day0_TableExits)
+            {
+                OperationManager.Instance.OperatingTable.TableInRoom = false;
+            }
+            if (actionSeqEvent == EActionSequenceEvent.Day0_AssistantEnters)
+            {
+                OperationManager.Instance.OperatingTable.TableInRoom = true;
+            }
+        }
+
+        public bool CanPlayPostActionSequence(EActionSequenceEvent actionSequenceEvent)
+        {
+            bool canPlay = true;
+            if (_previousAnyActionSequence == EActionSequenceEvent.Day0_TableExits ||
+                _previousAnyActionSequence == EActionSequenceEvent.Day0_AssistantEnters ||
+                _previousAnyActionSequence == EActionSequenceEvent.Day0_AssistantExits)
+            {
+                if (actionSequenceEvent == EActionSequenceEvent.Day0_OpenGate || actionSequenceEvent == EActionSequenceEvent.Day0_CloseGate)
+                {
+                    canPlay = MorgueManager.Instance.IsTutorialDay;
+                }
+            }
+
+            return canPlay;
         }
 
         public bool IsActionSequencePausedForReason(EActionSequencePauseReason pauseReason)

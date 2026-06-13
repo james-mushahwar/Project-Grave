@@ -280,7 +280,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             if (InputManager.Instance != null)
             {
-                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => SpawnBodySequenceCommand();
+                //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => SpawnBodySequenceCommand();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => LowerHooksOnChain();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerDrowsy();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerSleep();
@@ -509,93 +509,137 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             closed = !closed;
         }
 
-        public void SpawnBodySequenceCommand(bool exitAndEnter = true)
+        public void SpawnBodySequenceCommand(bool exitAndEnter, bool isContractSubmission)
         {
             if (_spawnBodyCoroutine == null)
             {
-                _spawnBodyCoroutine = StartCoroutine(SpawnBodySequence(exitAndEnter));
+                bool tableInRoom = OperationManager.Instance.OperatingTable.TableInRoom;
+                if (exitAndEnter)
+                {
+                    if (tableInRoom)
+                    {
+                        _spawnBodyCoroutine = StartCoroutine(SpawnBodySequence(isContractSubmission));
+                    }
+                    else
+                    {
+                        _spawnBodyCoroutine = StartCoroutine(CallTable());
+                    }
+                }
+                else
+                {
+                    if (tableInRoom)
+                    {
+                        _spawnBodyCoroutine = StartCoroutine(SendTable(isContractSubmission));
+                    }
+                    else
+                    {
+                        _spawnBodyCoroutine = StartCoroutine(CallTable());
+                    }
+                }
             }
         }
 
-        public IEnumerator SpawnBodySequence(bool exitAndEnter)
+        //send table out the room
+        public IEnumerator SendTable(bool contractSubmission)
         {
             if (GameStateManager.Instance.IsPlayingFullGame)
             {
-                bool tableShouldExitFirst = true;// OperationManager.Instance.BodyOnTable != null;
-                if (tableShouldExitFirst)
+
+                if (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState == Player.Controller.EPlayerControllerState.Operating)
                 {
-                    if (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState == Player.Controller.EPlayerControllerState.Operating)
-                    {
-                        PlayerManager.Instance.CurrentPlayerController.EndOperatingState(true);
-                    }
-
-                    ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_TableExits);
-
-                    //raise hook
-                    if (_hooksStorage.IsAvailableToStore == true)
-                    {
-                        _hooksStorage.ToggleAvailability();
-                    }
-
-                    while (ActionSequenceManager.Instance.IsPlayingActionSequence(EActionSequenceEvent.Day0_TableExits))
-                    {
-                        yield return null;
-                    }
+                    PlayerManager.Instance.CurrentPlayerController.EndOperatingState(true);
                 }
+
+                ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_TableExits);
+
+                //raise hook
+                if (_hooksStorage.IsAvailableToStore == true)
+                {
+                    _hooksStorage.ToggleAvailability();
+                }
+
+                while (ActionSequenceManager.Instance.IsPlayingActionSequence(EActionSequenceEvent.Day0_TableExits))
+                {
+                    yield return null;
+                }
+                
+                if (contractSubmission)
+                {
+                    //submit body - contract check
+                    bool completedContract = ContractsManager.Instance.OnSubmission(OperationManager.Instance.OperatingTable);
+                    if (completedContract)
+                    {
+                    }
+                    else
+                    {
+                        completedContract = ContractsManager.Instance.OnSubmission(_hooksStorage);
+                        if (completedContract)
+                        {
+                        }
+                    }
+                    ContractsManager.Instance.ClearSelectedContract();
+                }
+
+                //OperationManager
 
                 yield return TaskManager.Instance.WaitForSecondsPool.Get(1.0f);
             }
 
-            if (exitAndEnter == false)
+            _spawnBodyCoroutine = null;
+        }
+
+        //bring table into the room
+        public IEnumerator CallTable()
+        {
+            //spawn new body
+            SpawnBodyOnTable();
+
+            if (GameStateManager.Instance.IsPlayingFullGame)
             {
-                _spawnBodyCoroutine = null;
+                //table enter
+                ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_AssistantEnters);
+
+                while (ActionSequenceManager.Instance.IsPlayingActionSequence(EActionSequenceEvent.Day0_AssistantEnters))
+                {
+                    yield return null;
+                }
+
+                //lower hook
+                if (_hooksStorage.IsAvailableToStore == false)
+                {
+                    LowerHooksOnChain();
+                }
+
+                Debug.Log("Body spawn finished");
+
+                ContractsManager.Instance.Echo_ContractRequirements();
+            }
+
+            _spawnBodyCoroutine = null;
+
+        }
+
+        public IEnumerator SpawnBodySequence(bool isContractSubmission)
+        {
+            _spawnBodyCoroutine = StartCoroutine(SendTable(isContractSubmission));
+
+            while (_spawnBodyCoroutine != null)
+            {
                 yield return null;
             }
-            else
+
+            _spawnBodyCoroutine = StartCoroutine(CallTable());
+
+            while (_spawnBodyCoroutine != null)
             {
-                //submit body - contract check
-                bool completedContract = ContractsManager.Instance.OnSubmission(OperationManager.Instance.OperatingTable);
-                if (completedContract)
-                {
-                }
-                else
-                {
-                    completedContract = ContractsManager.Instance.OnSubmission(_hooksStorage);
-                    if (completedContract)
-                    {
-                    }
-                }
-                //spawn new body
-                Debug_SpawnMorgueActor();
-
-                if (GameStateManager.Instance.IsPlayingFullGame)
-                {
-                    //table enter
-                    ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_AssistantEnters);
-
-                    while (ActionSequenceManager.Instance.IsPlayingActionSequence(EActionSequenceEvent.Day0_AssistantEnters))
-                    {
-                        yield return null;
-                    }
-
-                    //lower hook
-                    if (_hooksStorage.IsAvailableToStore == false)
-                    {
-                        LowerHooksOnChain();
-                    }
-
-                    Debug.Log("Body spawn finished");
-
-                    ContractsManager.Instance.Echo_ContractRequirements();
-                }
-
-                _spawnBodyCoroutine = null;
-
+                yield return null;
             }
+
+            _spawnBodyCoroutine = null;
         }
 
         //Animation and spawning
-        public void Debug_SpawnMorgueActor()
+        public void SpawnBodyOnTable()
         {
             OperationState currentOpState = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
             bool isOperating = currentOpState != null;
@@ -963,7 +1007,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public bool StopWorkingDay()
         {
             _workTimeActive = false;
-            SpawnBodySequenceCommand(false);
+            SpawnBodySequenceCommand(false, false);
             UIManager.Instance.OnStopWorkday();
             return true;
         }

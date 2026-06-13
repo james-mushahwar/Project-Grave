@@ -40,6 +40,16 @@ namespace _Scripts.Gameplay.General.Morgue{
                 return false;
             }
 
+            if (ContractsManager.Instance.PlayerChosenContract == null)
+            {
+                return false;
+            }
+
+            if (MorgueManager.Instance.SpawnBodyCororutine != null)
+            {
+                return false;
+            }
+
             //if (_operatingTable != null)
             //{
             //    if (_operatingTable.IsFull())
@@ -48,47 +58,32 @@ namespace _Scripts.Gameplay.General.Morgue{
             //    }
             //}
 
-            Animation anim = AnimationManager.Instance.GetMorgueAnimTypeAnimation(_triggerAnimType);
-            if (anim == null)
-            {
-                return false;
-            }
+            //Animation anim = AnimationManager.Instance.GetMorgueAnimTypeAnimation(_triggerAnimType);
+            //if (anim == null)
+            //{
+            //    return false;
+            //}
 
-            if (anim.isPlaying)
-            {
-                return false;
-            }
+            //if (anim.isPlaying)
+            //{
+            //    return false;
+            //}
 
             return true;
         }
 
         public bool OnInteract(IInteractor interactor = null)
         {
-            if (_operatingTable != null)
+            if (IsInteractable() == false)
             {
-                if (_operatingTable.IsFull())
-                {
-                    IStorable removed = _operatingTable.TryRemove(null);
-                    if (removed == null)
-                    {
-                        return false;
-                    }
-
-                    MonoBehaviour storableMono = removed.GetStorableParent() as MonoBehaviour;
-                    if (storableMono != null)
-                    {
-                        storableMono.gameObject.SetActive(false);
-                        storableMono.gameObject.transform.SetParent(null, true);
-                        storableMono.gameObject.transform.position = Vector3.zero;
-                    }
-                }
+                return false;
             }
 
             if (_pulleyAnimation != null)
             {
                 _pulleyAnimation.Play();
             }
-            MorgueManager.Instance.Debug_SpawnMorgueActor();
+            MorgueManager.Instance.SpawnBodySequenceCommand(false, true);
             return true;
         }
 

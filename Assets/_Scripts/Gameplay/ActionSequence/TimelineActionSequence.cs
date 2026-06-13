@@ -125,7 +125,10 @@ namespace _Scripts.Gameplay.ActionSequence {
 
             if (_onFinishedActionSequence != EActionSequenceEvent.None)
             {
-                Invoke("InvokeFinishedActionSequence", _onFinishedActionSequenceInvokeDelay);
+                if (ActionSequenceManager.Instance.CanPlayPostActionSequence(_onFinishedActionSequence))
+                {
+                    Invoke("InvokeFinishedActionSequence", _onFinishedActionSequenceInvokeDelay);
+                }
             }
         }
 
@@ -213,7 +216,7 @@ namespace _Scripts.Gameplay.ActionSequence {
         {
             if (MorgueManager.Instance.SpawnBodyCororutine == null)
             {
-                MorgueManager.Instance.Debug_SpawnMorgueActor();
+                MorgueManager.Instance.SpawnBodyOnTable();
             }
         }
 

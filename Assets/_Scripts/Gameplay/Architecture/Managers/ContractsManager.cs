@@ -7,6 +7,7 @@ using MoreMountains.FeedbacksForThirdParty;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -157,6 +158,11 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         {
             get
             {
+                if (_selectableContracts.Count == 0 || _playerHighlightedContractIndex == -1)
+                {
+                    return null;
+                }
+
                 MorgueContract contract = _selectableContracts[_playerHighlightedContractIndex];
 
                 if (contract == null)
@@ -413,7 +419,6 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             if (!correctSubmission)
             {
                 Debug.Log("Incorrect submission for " + submissionObj.ToString());
-
                 return false;
             }
 
@@ -478,7 +483,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                         MorgueContract beforeContract = PlayerChosenContract;
                         if (beforeContract != null)
                         {
-                            contract.ActivateContract(false);
+                            beforeContract.ActivateContract(false);
                         }
 
                         contract.ActivateContract(true);
@@ -497,7 +502,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                             MorgueManager.Instance.StartWorkingDay();
                         }
 
-                        MorgueManager.Instance.SpawnBodySequenceCommand();
+                        MorgueManager.Instance.SpawnBodySequenceCommand(true, false);
                     }
                 }
             }
@@ -531,6 +536,17 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 //}
             RefreshContracts();
             Echo_ContractRequirements();
+        }
+
+        public void ClearSelectedContract(MorgueContract specificContract = null)
+        {
+            MorgueContract beforeContract = specificContract != null ? specificContract : PlayerChosenContract;
+            if (beforeContract != null)
+            {
+                beforeContract.ActivateContract(false);
+            }
+            _playerHighlightedContractIndex = -1;
+            RefreshContracts();
         }
     }
     

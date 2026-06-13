@@ -73,7 +73,7 @@ public class ContractBook : MorgueActor, IInteractable
 
     public bool IsInteractable(IInteractor interactor = null)
     {
-        return gameObject.activeInHierarchy;
+        return gameObject.activeInHierarchy && ContractsManager.Instance.SelectableContractsCount > 0;
     }
 
     public bool OnInteract(IInteractor interactor = null)

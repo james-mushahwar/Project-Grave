@@ -34,6 +34,17 @@ namespace _Scripts.Gameplay.General.Morgue{
         [SerializeField] private Transform _player_Operating_RLeg;
         [SerializeField] private Transform _player_Operating_LLeg;
 
+        private bool _tableInRoom = true;
+
+        public bool TableInRoom
+        {
+            get
+            {
+                return _tableInRoom;
+            }
+            set => _tableInRoom = value;
+        }
+
         [SerializeField] private List<MorgueToolActor> _operatingTools = new List<MorgueToolActor>();
         public int OperatingToolsCount { get { return _operatingTools.Count; } }
 
@@ -417,6 +428,11 @@ namespace _Scripts.Gameplay.General.Morgue{
 
         public void ClearSubmission()
         {
+        }
+
+        public void SetTableInRoom(bool set)
+        {
+            _tableInRoom = set;
         }
     }
     
