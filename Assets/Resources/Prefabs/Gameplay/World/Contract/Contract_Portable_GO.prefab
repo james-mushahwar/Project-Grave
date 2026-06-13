@@ -28,7 +28,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 207763557092953112}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.126}
+  m_LocalPosition: {x: 0, y: 0, z: 0.176}
   m_LocalScale: {x: 0.48141724, y: 0.32236, z: 3.2109568}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.1797, y: 0.0289}
+  m_AnchoredPosition: {x: 0.161, y: 0.046}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4402298216879320464
@@ -314,9 +314,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7382104544265299128}
   - component: {fileID: 1293786889110046164}
-  - component: {fileID: 8901716466027526263}
-  - component: {fileID: 7114705575150861319}
   - component: {fileID: 638560308774692330}
+  - component: {fileID: 242357466987376100}
+  - component: {fileID: 2952735647761966685}
   m_Layer: 0
   m_Name: Contract_Portable_GO
   m_TagString: Contract_Portable
@@ -362,15 +362,24 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!33 &8901716466027526263
-MeshFilter:
+--- !u!114 &638560308774692330
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3850501089730995809}
-  m_Mesh: {fileID: -2376342664232985277, guid: f4b278b9837931b488eccb0798a812fb, type: 3}
---- !u!23 &7114705575150861319
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca72b0fb43a7c7340b350f3e95cc2fec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Architecture.Contracts.PageContractActor
+  _targetRenderer: {fileID: 242357466987376100}
+  _materialIndex: 1
+  _timeCurrencyTMP: {fileID: 3735877750399331075}
+  _pageMissingTexture: {fileID: 2800000, guid: 83247f4004c68e648b3143b05c601da4, type: 3}
+  _canTick: 0
+--- !u!23 &242357466987376100
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -395,10 +404,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 58332f5f6168dd54e8c09ff07f31b3c0, type: 2}
   - {fileID: 2100000, guid: 3a729e8bbc1209e449adda36fddddc15, type: 2}
-  - {fileID: 2100000, guid: 76eb45962f73bff48977df26685e9d7c, type: 2}
-  - {fileID: 2100000, guid: 0dcefb59e4548544f856443eded0c4f8, type: 2}
+  - {fileID: 2100000, guid: 9e8a67fbef3f158459f59dfc0a49165b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -422,23 +429,14 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &638560308774692330
-MonoBehaviour:
+--- !u!33 &2952735647761966685
+MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3850501089730995809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca72b0fb43a7c7340b350f3e95cc2fec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Architecture.Contracts.PageContractActor
-  _targetRenderer: {fileID: 7114705575150861319}
-  _materialIndex: 3
-  _timeCurrencyTMP: {fileID: 3735877750399331075}
-  _pageMissingTexture: {fileID: 2800000, guid: 83247f4004c68e648b3143b05c601da4, type: 3}
-  _canTick: 0
+  m_Mesh: {fileID: 6588402546860679207, guid: 750bac55fa6d53849b1b7e3dfb468267, type: 3}
 --- !u!1 &6114054519860057736
 GameObject:
   m_ObjectHideFlags: 0

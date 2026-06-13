@@ -4,6 +4,7 @@ using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.General.Morgue;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ContractBook : MorgueActor, IInteractable
@@ -11,14 +12,13 @@ public class ContractBook : MorgueActor, IInteractable
     [Header("Setup")]
     [SerializeField] private MeshRenderer targetRenderer;
 
-    [Header("Material Element Indices")]
-    [SerializeField] private int firstMaterialIndex = 0;
-    [SerializeField] private int secondMaterialIndex = 1;
+    [SerializeField]
+    private List<ContractActor> _contractPages;
 
-    [SerializeField]
-    private ContractActor _contractPageL;
-    [SerializeField]
-    private ContractActor _contractPageR;
+    public List<ContractActor> ContractPages
+    {
+        get { return _contractPages; }
+    }
 
     [SerializeField]
     private FVirtualCamera _contractCamera;

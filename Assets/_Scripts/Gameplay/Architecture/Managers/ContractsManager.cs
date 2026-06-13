@@ -254,13 +254,9 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             List<ContractActor> contractDisplays = FindObjectsByType<ContractActor>(FindObjectsSortMode.None).ToList();
             foreach (var contractDisplay in contractDisplays)
             {
-                contractDisplay.Setup();
-                if (contractDisplay.tag == "Contract_Office")
+                if (contractDisplay.tag == "Contract_Portable")
                 {
-                    _officeContractDisplays.Add(contractDisplay);
-                }
-                else if (contractDisplay.tag == "Contract_Portable")
-                {
+                    contractDisplay.Setup();
                     _portableContractDisplay = contractDisplay;
                 }
             }
@@ -268,6 +264,11 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             _contractBook = FindAnyObjectByType<ContractBook>();
             if (_contractBook)
             {
+                foreach(var page in _contractBook.ContractPages) 
+                {
+                    page.Setup();
+                    _officeContractDisplays.Add(page);
+                }
                 _contractBook.Disable();
             }
 
