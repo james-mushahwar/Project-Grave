@@ -45,6 +45,11 @@ namespace _Scripts.Gameplay.General.Morgue{
                 return false;
             }
 
+            if (OperationManager.Instance.OperatingTable.TableInRoom == false)
+            {
+                return false;
+            }
+
             if (MorgueManager.Instance.SpawnBodyCororutine != null)
             {
                 return false;
