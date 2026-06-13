@@ -62,11 +62,23 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Diff_Texture:
+        m_Texture: {fileID: 2800000, guid: 9f6849522f52f32459d3715cc0167e96, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DisplacementNoiseTexture:
-        m_Texture: {fileID: 2800000, guid: aebcb029a9f15944981d194b1a02a1ac, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Emissive_Texture:
+        m_Texture: {fileID: 2800000, guid: 41b6c868e32f56a4bb8c08b39b778186, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Height_Map:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -98,8 +110,16 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Metallic_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Noise_Texture:
-        m_Texture: {fileID: 2800000, guid: fc55c8af6f8df0c4c8143b592fc01603, type: 3}
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Norm_Texture:
+        m_Texture: {fileID: 2800000, guid: bf448ff228ce0954da475e30e2a79e6e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -107,6 +127,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_5f8c3964108c442892f8916ebc399193_Texture_1_Texture2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -163,21 +187,23 @@ Material:
     - _Infection_3_Source_Size: 0.1
     - _Infection_3_Use: 0
     - _Infection_3_Value: 0
-    - _Infection_Intensity: 1
+    - _Infection_Intensity: 0
     - _Infection_Use: 0
     - _Intensity: 0
     - _Metallic: 0
     - _Normal_Noise_Blend_Weight: 0.9
     - _Normal_Noise_Scale: 1
-    - _Normal_Texture_Strength: 1
+    - _Normal_Strength: 2
+    - _Normal_Texture_Strength: 2
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _Power: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _ScaleDisplacementByUV: 0
     - _Setup: 0
-    - _Smoothness: 0.208
+    - _Smoothness: 0.274
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -185,25 +211,35 @@ Material:
     - _Steps: 5
     - _Surface: 0
     - _TimeMultiplier: 0.1
+    - _TimeScale: 0
+    - _Time_Scale: 0
     - _UseDisplacementNoiseTexture: 0
     - _Use_Vertex_Colours_As_Position: 0
     - _WPO_Displacement: 0.0058
+    - _Wave_Speed: 0
+    - _Wave_Strength: 0
     - _WorkflowMode: 1
-    - _World_Scale: 1
+    - _World_Scale: 0.1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
+    - _mult: 1
+    - _waveSpeed: 0
+    - _waveStrength: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Base_Texture_Tint: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Emissive_Colour: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 1}
     - _Infection_1_Source_Point: {r: 0.23, g: 0.79, b: 0, a: 0}
     - _Infection_2_Source_Point: {r: 0, g: 0, b: 0, a: 0}
     - _Infection_3_Source_Point: {r: 0, g: 0, b: 0, a: 0}
     - _Main_Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _Scroll_Velocity: {r: 1, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _UVPanning: {r: 1, g: 1, b: 0, a: 0}
     - _UV_Base_Scale: {r: 1, g: 1, b: 0, a: 0}
     - _UV_Noise_Scale: {r: 1, g: 1, b: 0, a: 0}
+    - _scroll_velocity: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
