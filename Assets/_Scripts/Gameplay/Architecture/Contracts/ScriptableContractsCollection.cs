@@ -32,6 +32,7 @@ namespace _Scripts.Gameplay.Architecture.Contracts {
 
             List<MorgueContract> contracts = GetContracts(difficulty);
             int randomIndex = Random.Range(0, contracts.Count + 1);
+            Debug.Log("Chosen contract index is:" + randomIndex);
             return new MorgueContract(contracts[randomIndex]);
         }
 

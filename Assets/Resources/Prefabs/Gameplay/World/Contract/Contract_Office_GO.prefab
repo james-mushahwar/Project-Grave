@@ -392,7 +392,7 @@ GameObject:
   - component: {fileID: 5138407177640633404}
   - component: {fileID: 8399566620537054296}
   - component: {fileID: 1293786889110046164}
-  - component: {fileID: 6526608651723763923}
+  - component: {fileID: 4104478896724790345}
   m_Layer: 0
   m_Name: Contract_Office_GO
   m_TagString: Contract_Office
@@ -495,7 +495,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6526608651723763923
+--- !u!114 &4104478896724790345
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -504,19 +504,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3850501089730995809}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83626495867aa654599bb1663bacc7c1, type: 3}
+  m_Script: {fileID: 11500000, guid: 96d9d27c3e429964ca0ba443eda4bc2a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Architecture.Contracts.ContractActor
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.Architecture.Contracts.PortableContractActor
   _timeCurrencyTMP: {fileID: 3735877750399331075}
   _descriptionTMP: {fileID: 1873063799906724974}
   _contractRequirements_Sprite: {fileID: 3569325102346848974}
-  _morgueContract:
-    _contractType: 0
-    _requirements:
-      _bodyPart: 
-    _reward:
-      _timeCurrency: 0
-  _canTick: 1
+  _canTick: 0
 --- !u!1 &5998898810064361784
 GameObject:
   m_ObjectHideFlags: 0

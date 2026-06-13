@@ -17,91 +17,109 @@ MonoBehaviour:
     _requirements:
       _bodyPart: 00000000020000000100000004000000
     _reward:
-      _timeCurrency: 5
-  - _contractType: 1
-    _requirements:
-      _bodyPart: 00000000020000000100000003000000
-    _reward:
-      _timeCurrency: 5
-  - _contractType: 1
-    _requirements:
-      _bodyPart: 00000000020000000400000003000000
-    _reward:
-      _timeCurrency: 5
-  - _contractType: 1
-    _requirements:
-      _bodyPart: 00000000010000000400000003000000
-    _reward:
-      _timeCurrency: 5
+      _timeCurrency: 3
+    _contractPicture: {fileID: 2800000, guid: f8f14d5536faacd4eaf44e529b15fce5, type: 3}
   - _contractType: 1
     _requirements:
       _bodyPart: 02000000010000000400000003000000
     _reward:
-      _timeCurrency: 5
-  - _contractType: 2
+      _timeCurrency: 3
+    _contractPicture: {fileID: 2800000, guid: 9a5a03c30cdd7ac4abb417ce2549c3b3, type: 3}
+  - _contractType: 1
     _requirements:
-      _bodyPart: 03000000
-    _reward:
-      _timeCurrency: 1
-  - _contractType: 2
-    _requirements:
-      _bodyPart: 0300000000000000
-    _reward:
-      _timeCurrency: 2
-  - _contractType: 2
-    _requirements:
-      _bodyPart: 030000000000000002000000
+      _bodyPart: 00000000020000000100000003000000
     _reward:
       _timeCurrency: 3
+    _contractPicture: {fileID: 2800000, guid: ac2e80be93494bf49846d346ad2bce1a, type: 3}
+  - _contractType: 1
+    _requirements:
+      _bodyPart: 000000000200000003000000
+    _reward:
+      _timeCurrency: 5
+    _contractPicture: {fileID: 2800000, guid: 3fbe9ca55cc56a0429e2a4386fbf0453, type: 3}
+  - _contractType: 1
+    _requirements:
+      _bodyPart: 010000000200000004000000
+    _reward:
+      _timeCurrency: 5
+    _contractPicture: {fileID: 2800000, guid: aabd6788e4c2d714491c7025c74ab80a, type: 3}
+  - _contractType: 1
+    _requirements:
+      _bodyPart: 010000000300000004000000
+    _reward:
+      _timeCurrency: 5
+    _contractPicture: {fileID: 2800000, guid: 914abc4c8603a6448a15118a53302415, type: 3}
+  - _contractType: 1
+    _requirements:
+      _bodyPart: 000000000100000003000000
+    _reward:
+      _timeCurrency: 5
+    _contractPicture: {fileID: 2800000, guid: a7db2b1bd83af3446b28510b0c23851f, type: 3}
+  - _contractType: 1
+    _requirements:
+      _bodyPart: 000000000200000001000000
+    _reward:
+      _timeCurrency: 5
+    _contractPicture: {fileID: 2800000, guid: 47d328393d47f004ebec2b7f11d812a6, type: 3}
   _premadeContracts_Medium:
   - _contractType: 1
     _requirements:
       _bodyPart: 00000000020000000100000004000000
     _reward:
       _timeCurrency: 5
+    _contractPicture: {fileID: 0}
   - _contractType: 1
     _requirements:
       _bodyPart: 00000000020000000100000003000000
     _reward:
       _timeCurrency: 5
+    _contractPicture: {fileID: 0}
   - _contractType: 1
     _requirements:
       _bodyPart: 00000000020000000400000003000000
     _reward:
       _timeCurrency: 5
+    _contractPicture: {fileID: 0}
   - _contractType: 1
     _requirements:
       _bodyPart: 00000000010000000400000003000000
     _reward:
       _timeCurrency: 5
+    _contractPicture: {fileID: 0}
   - _contractType: 1
     _requirements:
       _bodyPart: 02000000010000000400000003000000
     _reward:
       _timeCurrency: 5
+    _contractPicture: {fileID: 0}
   _premadeContracts_Hard:
   - _contractType: 1
     _requirements:
       _bodyPart: 00000000020000000100000004000000
     _reward:
       _timeCurrency: 5
+    _contractPicture: {fileID: 0}
   - _contractType: 1
     _requirements:
       _bodyPart: 00000000020000000100000003000000
     _reward:
       _timeCurrency: 5
+    _contractPicture: {fileID: 0}
   - _contractType: 1
     _requirements:
       _bodyPart: 00000000020000000400000003000000
     _reward:
       _timeCurrency: 5
+    _contractPicture: {fileID: 0}
   - _contractType: 1
     _requirements:
       _bodyPart: 00000000010000000400000003000000
     _reward:
       _timeCurrency: 5
+    _contractPicture: {fileID: 0}
   - _contractType: 1
     _requirements:
       _bodyPart: 02000000010000000400000003000000
     _reward:
       _timeCurrency: 5
+    _contractPicture: {fileID: 0}

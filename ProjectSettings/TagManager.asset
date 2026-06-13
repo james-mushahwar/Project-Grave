@@ -27,6 +27,7 @@ TagManager:
   - Storage_HooksOnChain
   - Contract_Office
   - Contract_Portable
+  - UI_ContractMarker
   layers:
   - Default
   - TransparentFX

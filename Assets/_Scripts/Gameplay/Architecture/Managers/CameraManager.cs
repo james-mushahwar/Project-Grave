@@ -41,6 +41,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         //Free flow states 
         FreeFlow_Sawing = 300,
 
+        //Contracts
+        Contract_Book_Overview = 400,
         // Generic
         General_Default = 10000,
         General_Operation
@@ -196,6 +198,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                         AssignVirtualCameraType(PlayerManager.Instance.CurrentPlayerController.RuntimeID, PlayerManager.Instance.CurrentPlayerController.VCamFreeFlowSawing.CamType, PlayerManager.Instance.CurrentPlayerController.VCamFreeFlowSawing.VirtualCamera);
                     }
                 }
+
+                
             }
         }
         // save states are restored
@@ -252,7 +256,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                         id = OperationManager.Instance.CurrentOperationState.RuntimeID;
                     }
                 }
-                else
+                else if (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState == EPlayerControllerState.Contracts)
+                {
+                    vCamType = EVirtualCameraType.Contract_Book_Overview;
+                    id = ContractsManager.Instance.ContractBook.RuntimeID;
+                }
+                else 
                 {
                     vCamType = EVirtualCameraType.FirstPersonView_Normal;
                     id = PlayerManager.Instance.CurrentPlayerController.RuntimeID;
@@ -272,7 +281,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
                 //Noise settings
                 NoiseSettings activeNoise = new NoiseSettings();
-                if (CmBrain.ActiveVirtualCamera.Equals(GetVirtualCamera(PlayerManager.Instance.CurrentPlayerController.RuntimeID, EVirtualCameraType.FirstPersonView_Normal)))
+                if (CmBrain.ActiveVirtualCamera != null && CmBrain.ActiveVirtualCamera.Equals(GetVirtualCamera(PlayerManager.Instance.CurrentPlayerController.RuntimeID, EVirtualCameraType.FirstPersonView_Normal)))
                 {
                     if (ActionSequenceManager.Instance.LockPlay == false)
                     {
@@ -355,17 +364,20 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 CinemachineVirtualCamera vCam = null;
                 bool found = _runtimeIdVirtualCameraDictionary[runtimeID.RuntimeId].TryGetValue(cameraType, out vCam);
 
-                if (found && vCam != null && (!CmBrain.ActiveVirtualCamera.Equals(vCam)))
+                if (found && vCam != null)
                 {
-                    if (CmBrain.ActiveVirtualCamera.VirtualCameraGameObject != null)
+                    if ((CmBrain.ActiveVirtualCamera != null && !CmBrain.ActiveVirtualCamera.Equals(vCam)) && CmBrain.ActiveVirtualCamera.VirtualCameraGameObject != null)
                     {
                         CmBrain.ActiveVirtualCamera.VirtualCameraGameObject.SetActive(false);
                     }
 
-                    vCam.gameObject.SetActive(true);
-                    _cameraTransitionBuffer = true;
-                    activated = true;
-                    _currentVCamType = cameraType;
+                    if (CmBrain.ActiveVirtualCamera == null || (CmBrain.ActiveVirtualCamera != null && !CmBrain.ActiveVirtualCamera.Equals(vCam)))
+                    {
+                        vCam.gameObject.SetActive(true);
+                        _cameraTransitionBuffer = true;
+                        activated = true;
+                        _currentVCamType = cameraType;
+                    }
                 }
             }
 

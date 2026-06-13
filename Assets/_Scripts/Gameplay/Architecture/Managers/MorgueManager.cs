@@ -131,6 +131,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private int _currentHour;
         private int _currentMinute;
 
+        private bool _workTimeActive = false; // is work time active?
+        private float _workTimeRemaining;
+        [SerializeField]
+        private float _workDuration;
+
         private EDayTimeline _targetTimeline;
         private EDayTimeline _currentTimeline;
 
@@ -238,6 +243,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 return _spawnBodyCoroutine;
             }
         }
+
+        public bool WorkTimeActive { get => _workTimeActive; }
+        public float WorkTimeRemaining { get => _workTimeRemaining; }
 
         private List<IMorgueTickable> _morgueTickables = new List<IMorgueTickable>();
 
@@ -450,6 +458,18 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 #region DayNight Cycle
                 _dayNightCycle.ManagedTick();
                 #endregion
+
+                
+            }
+        }
+        public virtual void ManagedFixedTick()
+        {
+            if (GameStateManager.Instance.IsPlayingFullGame)
+            {
+                if (_workTimeActive)
+                {
+                    TickWorkTime();
+                }
             }
         }
         // before world (level, area, zone) starts unloading
@@ -489,21 +509,26 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             closed = !closed;
         }
 
-        public void SpawnBodySequenceCommand()
+        public void SpawnBodySequenceCommand(bool exitAndEnter = true)
         {
             if (_spawnBodyCoroutine == null)
             {
-                _spawnBodyCoroutine = StartCoroutine(SpawnBodySequence());
+                _spawnBodyCoroutine = StartCoroutine(SpawnBodySequence(exitAndEnter));
             }
         }
 
-        public IEnumerator SpawnBodySequence()
+        public IEnumerator SpawnBodySequence(bool exitAndEnter)
         {
             if (GameStateManager.Instance.IsPlayingFullGame)
             {
                 bool tableShouldExitFirst = true;// OperationManager.Instance.BodyOnTable != null;
                 if (tableShouldExitFirst)
                 {
+                    if (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState == Player.Controller.EPlayerControllerState.Operating)
+                    {
+                        PlayerManager.Instance.CurrentPlayerController.EndOperatingState(true);
+                    }
+
                     ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_TableExits);
 
                     //raise hook
@@ -521,43 +546,52 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 yield return TaskManager.Instance.WaitForSecondsPool.Get(1.0f);
             }
 
-            //submit body - contract check
-            bool completedContract = ContractsManager.Instance.OnSubmission(OperationManager.Instance.OperatingTable);
-            if (completedContract)
+            if (exitAndEnter == false)
             {
+                _spawnBodyCoroutine = null;
+                yield return null;
             }
             else
             {
-                completedContract = ContractsManager.Instance.OnSubmission(_hooksStorage);
+                //submit body - contract check
+                bool completedContract = ContractsManager.Instance.OnSubmission(OperationManager.Instance.OperatingTable);
                 if (completedContract)
                 {
                 }
-            }
-            //spawn new body
-            Debug_SpawnMorgueActor();
-
-            if (GameStateManager.Instance.IsPlayingFullGame)
-            {
-                //table enter
-                ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_AssistantEnters);
-
-                while (ActionSequenceManager.Instance.IsPlayingActionSequence(EActionSequenceEvent.Day0_AssistantEnters))
+                else
                 {
-                    yield return null;
+                    completedContract = ContractsManager.Instance.OnSubmission(_hooksStorage);
+                    if (completedContract)
+                    {
+                    }
+                }
+                //spawn new body
+                Debug_SpawnMorgueActor();
+
+                if (GameStateManager.Instance.IsPlayingFullGame)
+                {
+                    //table enter
+                    ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_AssistantEnters);
+
+                    while (ActionSequenceManager.Instance.IsPlayingActionSequence(EActionSequenceEvent.Day0_AssistantEnters))
+                    {
+                        yield return null;
+                    }
+
+                    //lower hook
+                    if (_hooksStorage.IsAvailableToStore == false)
+                    {
+                        LowerHooksOnChain();
+                    }
+
+                    Debug.Log("Body spawn finished");
+
+                    ContractsManager.Instance.Echo_ContractRequirements();
                 }
 
-                //lower hook
-                if (_hooksStorage.IsAvailableToStore == false)
-                {
-                    LowerHooksOnChain();
-                }
+                _spawnBodyCoroutine = null;
 
-                Debug.Log("Body spawn finished");
-
-                ContractsManager.Instance.Echo_ContractRequirements();
             }
-
-            _spawnBodyCoroutine = null;
         }
 
         //Animation and spawning
@@ -896,6 +930,44 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             _hooksStorage.ToggleAvailability();
         }
+
+        #region Workday
+        //start the timer.
+        public bool StartWorkingDay()
+        {
+            if (_workTimeActive)
+            {
+                return false;
+            }
+
+            _workTimeActive = true;
+            _workTimeRemaining = _workDuration;
+            UIManager.Instance.OnStartWorkday();
+            return true;
+        }
+
+        private void TickWorkTime()
+        {
+            if (_workTimeActive)
+            {
+                _workTimeRemaining -= Time.deltaTime;
+
+                if (_workTimeRemaining <= 0.0f)
+                {
+                    StopWorkingDay();
+                }
+            }
+            
+        }
+
+        public bool StopWorkingDay()
+        {
+            _workTimeActive = false;
+            SpawnBodySequenceCommand(false);
+            UIManager.Instance.OnStopWorkday();
+            return true;
+        }
+        #endregion
     }
-    
+
 }

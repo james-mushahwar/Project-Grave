@@ -39,6 +39,8 @@ namespace _Scripts.Gameplay.Player.Controller{
         Operating = 100,
 
         OpenCoat = 200,
+
+        Contracts = 300,
     }
 
     public enum EOperationType
@@ -76,6 +78,9 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         private float _operatingHorz;
         private float _operatingVert;
+
+        private bool _inputLeftDirection;
+        private bool _inputRightDirection;
 
         private EPlayerControllerState _playerControllerState = EPlayerControllerState.NONE;
         public EPlayerControllerState PlayerControllerState
@@ -366,11 +371,15 @@ namespace _Scripts.Gameplay.Player.Controller{
             float mouseX = mouseInput.x * mouseSensitivity * Time.deltaTime;
             float mouseY = mouseInput.y * mouseSensitivity * Time.deltaTime;
 
-            GameObject vCameraGameObject = CameraManager.Instance.CmBrain.ActiveVirtualCamera.VirtualCameraGameObject;
-            if (vCameraGameObject != null)
+            if (CameraManager.Instance.CmBrain.ActiveVirtualCamera != null)
             {
-                vCameraGameObject.transform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f); // Rotate the camera
+                GameObject vCameraGameObject = CameraManager.Instance.CmBrain.ActiveVirtualCamera.VirtualCameraGameObject;
+                if (vCameraGameObject != null)
+                {
+                    vCameraGameObject.transform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f); // Rotate the camera
+                }
             }
+            
 
             _xRotation -= mouseY;
             _xRotation = Mathf.Clamp(_xRotation, -90f, 90f); // Clamp the vertical rotation
@@ -447,6 +456,61 @@ namespace _Scripts.Gameplay.Player.Controller{
 
             _playerStorage.ToggleCoatStorage(openCoat);
         }
+
+        #region Contract select mode
+        public void OnContracts_NavigateLR(InputAction.CallbackContext context)
+        {
+            bool inTransition = CameraManager.Instance.IsCameraInTransition();
+            if (inTransition)
+            {
+                return;
+            }
+
+            Vector2 leftStickInput = context.ReadValue<Vector2>();
+            _inputLeftDirection = leftStickInput.x < -0.1f;
+            _inputRightDirection = leftStickInput.x > 0.1f;
+
+            if (_inputLeftDirection)
+            {
+                Debug.Log("Go left");
+                ContractsManager.Instance.SelectNextContract(false);
+            }
+            else if ( _inputRightDirection) 
+            {
+                Debug.Log("Go right");
+                ContractsManager.Instance.SelectNextContract(true);
+
+            }
+        }
+
+        public void OnContracts_Select(InputAction.CallbackContext context)
+        {
+            bool inTransition = CameraManager.Instance.IsCameraInTransition();
+            if (inTransition)
+            {
+                return;
+            }
+            ContractsManager.Instance.ChooseContract();
+        }
+
+        private void OnContracts_Back(InputAction.CallbackContext context)
+        {
+            LeaveContractView();
+        }
+
+        public void LeaveContractView()
+        {
+            bool inTransition = CameraManager.Instance.IsCameraInTransition();
+            if (inTransition)
+            {
+                return;
+            }
+
+            //leave camera view
+            //leave input control mode
+            RequestPlayerControllerState(EPlayerControllerState.Normal);
+        }
+        #endregion
 
         #region Operating
 
@@ -1197,7 +1261,7 @@ namespace _Scripts.Gameplay.Player.Controller{
             //}
         }
 
-        public void EndOperatingState()
+        public void EndOperatingState(bool leaveOpEntirely = false)
         {
             //if (CameraManager.Instance.ActivateVirtualCamera(EVirtualCameraType.FirstPersonView_Normal))
             //{
@@ -1230,7 +1294,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                 AnimationManager.Instance.EndOperationState(_bodyPartMorgueActor);
             }
             
-            if (leaveOpTable)
+            if (leaveOpTable || leaveOpEntirely)
             {
                 if (_operatingTable != null)
                 {
@@ -1336,6 +1400,13 @@ namespace _Scripts.Gameplay.Player.Controller{
                         mpi.Game.Inventory.performed += OnInventory;
                         mpi.Game.Back.started += OnInventory;
                         break;
+                    case EPlayerControllerState.Contracts:
+                        cursorLock = CursorLockMode.Confined;
+
+                        mpi.Game.Movement.performed += OnContracts_NavigateLR;
+                        mpi.Game.Select.started += OnContracts_Select;
+                        mpi.Game.Back.started += OnContracts_Back;
+                        break;
                     default:
                         break;
                 }
@@ -1408,6 +1479,12 @@ namespace _Scripts.Gameplay.Player.Controller{
                     case EPlayerControllerState.OpenCoat:
                         mpi.Game.Inventory.performed -= OnInventory;
                         mpi.Game.Back.started -= OnInventory;
+                        break;
+
+                    case EPlayerControllerState.Contracts:
+                        mpi.Game.Movement.performed -= OnContracts_NavigateLR;
+                        mpi.Game.Select.started -= OnContracts_Select;
+                        mpi.Game.Back.started -= OnContracts_Back;
                         break;
 
                     default:

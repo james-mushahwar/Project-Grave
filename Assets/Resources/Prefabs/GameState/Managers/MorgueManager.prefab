@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0299de6b28690b4abacbe2779c63a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _workDuration: 360
   _timingColours:
   - {r: 0.836478, g: 0.48567975, b: 0.29723898, a: 0}
   - {r: 0.7735849, g: 0.586768, b: 0.2067757, a: 0}

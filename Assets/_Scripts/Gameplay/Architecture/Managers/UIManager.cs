@@ -12,6 +12,8 @@ using _Scripts.Gameplay.UI;
 using TMPro;
 using _Scripts.Gameplay.UI.Currency;
 using _Scripts.Gameplay.UI.DayLoadingScreen;
+using _Scripts.Gameplay.UI.Contract;
+using _Scripts.Gameplay.UI.Timer;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
     
@@ -30,7 +32,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField] private UIReticle _uiReticle;
         [SerializeField] private UIOperation _uiOperation;
         [SerializeField] private UICurrency _uiCurrency;
+        [SerializeField] private UIContractGroup _uiContractGroup;
         [SerializeField] private UIDayLoadingScreen _uiDayLoadingScreen;
+        [SerializeField] private UITimer _uiTimer;
 
         [SerializeField] private Sprite _opDismemberTypeIcon;
         [SerializeField] private Sprite _opAttachmentTypeIcon;
@@ -71,6 +75,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public virtual void ManagedPostInGameLoad() 
         {
             _uiCurrency.Enable();
+            _uiContractGroup.Setup();
+            _uiContractGroup.Disable();
+            _uiTimer.Disable();
         }
         // save states are restored
         public virtual void ManagedRestoreSave() { }
@@ -87,6 +94,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             _uiReticle.ManagedTick();
             _uiCurrency.ManagedTick();
+            _uiContractGroup.ManagedTick();
+            _uiTimer.ManagedTick();
 
             PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
 
@@ -184,6 +193,31 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             _uiCurrency.CurrencyChanged(amount);
         }
+
+        //Contracts
+        public void ToggleContractsView(bool show)
+        {
+            if (show)
+            {
+                _uiContractGroup.Enable();
+            }
+            else
+            {
+                _uiContractGroup.Disable();
+            }
+        }
+
+        #region Workday
+        public void OnStartWorkday()
+        {
+            _uiTimer.Enable();
+        }
+
+        public void OnStopWorkday()
+        {
+            _uiTimer.Disable();
+        }
+        #endregion
     }
 
 }
