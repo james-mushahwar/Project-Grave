@@ -30,7 +30,7 @@ namespace _Scripts.Gameplay.Animate.Player{
         [SerializeField]
         private Animator _normalAnimator;
         [SerializeField]
-        private Animator _operatingAnimator;
+        private Animator _leftArmAnimator;
 
         public Animator CurrentAnimator { get { return _normalAnimator; } }
 
@@ -80,6 +80,10 @@ namespace _Scripts.Gameplay.Animate.Player{
         private int _param_SawBackward_Hash;
         private int _param_SawBack_Stuck;
         private int _param_SawBack_Fail;
+        #endregion
+
+        #region LeftArm
+        private int _param_ShowWatch_Hash;
         #endregion
         #endregion
 
@@ -272,12 +276,17 @@ namespace _Scripts.Gameplay.Animate.Player{
             _param_SawBack_Stuck            = Animator.StringToHash("Saw_Back_Stuck_Loop_anim");
             _param_SawBack_Fail             = Animator.StringToHash("Saw_Back_Fail_anim");
             _param_isSawing_Hash            = Animator.StringToHash("isSawing?");
+
+            //left arm
+            _param_ShowWatch_Hash           = Animator.StringToHash("ActivateWatch");
             //_param_sawingCutAmount_Hash     = Animator.StringToHash("sawing_cut_amount");
 
             //_sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_IK_version");
             //_sawingProgressStartLoopAnim_Hash = Animator.StringToHash("sawing_IK_version 2 big Saw");
             //_sawingProgressEndLoopAnim_Hash = Animator.StringToHash("sawing_progress_end");
             //_rigControlDefaultLocalPosition = _rigHandPositionTransform.localPosition;
+
+            _leftArmAnimator.SetBool(_param_ShowWatch_Hash, false);
 
             _heartbeatLowAudioHandler.Owner = this.gameObject;
             _heartbeatLowAudioHandler.IsActiveMethod = ContinueHeartbeatAudioHandle;
@@ -790,6 +799,24 @@ namespace _Scripts.Gameplay.Animate.Player{
                 CameraManager.Instance.OnSuccessfulInput();
             }
 
+            {
+                // left arm with stopwatch
+                bool showWatch = MorgueManager.Instance.WorkTimeActive;
+                if (showWatch)
+                {
+                    if (_leftArmAnimator.GetBool(_param_ShowWatch_Hash) == false)
+                    {
+                        _leftArmAnimator.SetBool(_param_ShowWatch_Hash, true);
+                    }
+                }
+                else
+                {
+                    if (_leftArmAnimator.GetBool(_param_ShowWatch_Hash) == true)
+                    {
+                        _leftArmAnimator.SetBool(_param_ShowWatch_Hash, false);
+                    }
+                }
+            }
         }
 
         private void TickAnimState()

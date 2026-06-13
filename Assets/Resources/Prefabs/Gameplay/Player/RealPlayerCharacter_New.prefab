@@ -2007,6 +2007,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1597779602180825288, guid: 4255157f30fae0542921f07811374a3e,
+        type: 3}
+      propertyPath: _leftArmAnimator
+      value: 
+      objectReference: {fileID: 5806588928012946954}
     - target: {fileID: 1692246249394569415, guid: 4255157f30fae0542921f07811374a3e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

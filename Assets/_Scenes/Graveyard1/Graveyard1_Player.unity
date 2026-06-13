@@ -256,7 +256,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 46
+  field of view: 60
   orthographic: 0
   orthographic size: 10
   m_Depth: 0
@@ -1268,7 +1268,7 @@ PrefabInstance:
     - target: {fileID: 7382104544265299128, guid: 4d7294f013c5f90418894bf07a89c433,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.3
+      value: 0.32
       objectReference: {fileID: 0}
     - target: {fileID: 7382104544265299128, guid: 4d7294f013c5f90418894bf07a89c433,
         type: 3}
@@ -1278,32 +1278,32 @@ PrefabInstance:
     - target: {fileID: 7382104544265299128, guid: 4d7294f013c5f90418894bf07a89c433,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.62
+      value: 0.65
       objectReference: {fileID: 0}
     - target: {fileID: 7382104544265299128, guid: 4d7294f013c5f90418894bf07a89c433,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.69931245
+      value: 0.7389819
       objectReference: {fileID: 0}
     - target: {fileID: 7382104544265299128, guid: 4d7294f013c5f90418894bf07a89c433,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.69931245
+      value: -0.657253
       objectReference: {fileID: 0}
     - target: {fileID: 7382104544265299128, guid: 4d7294f013c5f90418894bf07a89c433,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.104700185
+      value: 0.098403044
       objectReference: {fileID: 0}
     - target: {fileID: 7382104544265299128, guid: 4d7294f013c5f90418894bf07a89c433,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.104700185
+      value: 0.11063938
       objectReference: {fileID: 0}
     - target: {fileID: 7382104544265299128, guid: 4d7294f013c5f90418894bf07a89c433,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      value: -83.3
       objectReference: {fileID: 0}
     - target: {fileID: 7382104544265299128, guid: 4d7294f013c5f90418894bf07a89c433,
         type: 3}
@@ -1313,7 +1313,7 @@ PrefabInstance:
     - target: {fileID: 7382104544265299128, guid: 4d7294f013c5f90418894bf07a89c433,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -17.03
+      value: 17.03
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
