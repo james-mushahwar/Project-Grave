@@ -749,6 +749,25 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         private void UpdateAnimState()
         {
+            {
+                // left arm with stopwatch
+                bool showWatch = MorgueManager.Instance.WorkTimeActive;
+                if (showWatch)
+                {
+                    if (_leftArmAnimator.GetBool(_param_ShowWatch_Hash) == false)
+                    {
+                        _leftArmAnimator.SetBool(_param_ShowWatch_Hash, true);
+                    }
+                }
+                else
+                {
+                    if (_leftArmAnimator.GetBool(_param_ShowWatch_Hash) == true)
+                    {
+                        _leftArmAnimator.SetBool(_param_ShowWatch_Hash, false);
+                    }
+                }
+            }
+
             AnimatorStateInfo baseLayerStateInfo = CurrentAnimator.GetCurrentAnimatorStateInfo(_baseAnimLayer_Index);
 
             int nextState = baseLayerStateInfo.shortNameHash;
@@ -799,24 +818,7 @@ namespace _Scripts.Gameplay.Animate.Player{
                 CameraManager.Instance.OnSuccessfulInput();
             }
 
-            {
-                // left arm with stopwatch
-                bool showWatch = MorgueManager.Instance.WorkTimeActive;
-                if (showWatch)
-                {
-                    if (_leftArmAnimator.GetBool(_param_ShowWatch_Hash) == false)
-                    {
-                        _leftArmAnimator.SetBool(_param_ShowWatch_Hash, true);
-                    }
-                }
-                else
-                {
-                    if (_leftArmAnimator.GetBool(_param_ShowWatch_Hash) == true)
-                    {
-                        _leftArmAnimator.SetBool(_param_ShowWatch_Hash, false);
-                    }
-                }
-            }
+            
         }
 
         private void TickAnimState()

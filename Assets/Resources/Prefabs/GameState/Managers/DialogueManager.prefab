@@ -186,6 +186,68 @@ MonoBehaviour:
   _scriptableDialogue: {fileID: 11400000, guid: ebbff762fa5a95b49bc9fc3d3837d057,
     type: 2}
   _dialogueType: 0
+--- !u!1 &6982918434035550244
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 647215762015538903}
+  - component: {fileID: 5892983472734081355}
+  - component: {fileID: 3297515464736656705}
+  m_Layer: 0
+  m_Name: Day1_ChooseContract_Prompt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &647215762015538903
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6982918434035550244}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4665130600142401094}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5892983472734081355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6982918434035550244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c326a8f33ea0544a80821936d6e98be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Gameplay.General.Identification.RuntimeID
+  _defaultID: 528f49e7-c7a0-4c7e-ac90-399105beaea9
+--- !u!114 &3297515464736656705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6982918434035550244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ebec7d6423343dcb6c86ad893e69f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts._Game.Sequencer.Dialogue.TextSequenceable
+  _acceptInput: 0
+  _scriptableDialogue: {fileID: 11400000, guid: 968f407019fe4394e943f4b2e8170c4f,
+    type: 2}
+  _dialogueType: 0
 --- !u!1 &7022042366667776828
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,6 +281,7 @@ Transform:
   - {fileID: 4491870684234203366}
   - {fileID: 651778401322953626}
   - {fileID: 556309839851972127}
+  - {fileID: 647215762015538903}
   m_Father: {fileID: 126009939287480035}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7834731521196362002

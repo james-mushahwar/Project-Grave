@@ -27,6 +27,8 @@ namespace _Scripts._Game.Dialogue{
         Day0_Exposition_Speech,
         Day0_Optional_FinishSawingBodyParts_Prompt,
         Day0_Optional_FinishStoringBodyParts_Prompt,
+
+        Day1_ChooseContract_Prompt = 100,
         COUNT
     }
 

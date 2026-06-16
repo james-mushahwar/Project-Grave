@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91d3671a02747445ba57d8117b1fe1a4, type: 3}
+  m_Name: Day1_ChooseContract_Prompt
+  m_EditorClassIdentifier: 
+  _dialogueType: 0
+  _dialogueEvent: 100
+  _phrases:
+  - _text: 'Sign a contract and start your day. Finish them all to earn more pay.  '
+    _receiveInput: 0
+    _isSkipable: 0
+    _isAuto: 1
+    _instantText: 0
+    _textSpeed: 75
+    _fasterTextSpeed: 16
+    _startOfPhraseWait: 0.25
+    _endOfPhraseWait: 2
+    _closeTextBox: 1
+    _playAnimAtEnd: 0
+    _characterAnimation:
+      _character: 0
+      _animationType: 0
+      _loop: 0

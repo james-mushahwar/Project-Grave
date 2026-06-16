@@ -4,6 +4,7 @@ using _Scripts._Game.UI.Dialogue;
 using UnityEngine;
 using TMPro;
 using _Scripts._Game.Sequencer.Dialogue;
+using System;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
     
@@ -18,6 +19,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private Dictionary<EDialogueEvent, TextSequenceable> _dialoguesDictionary = new Dictionary<EDialogueEvent, TextSequenceable>();
 
         private Dictionary<EDialogueType, Task> _dialogueTasks = new Dictionary<EDialogueType, Task>();
+
+        private Dictionary<EDialogueEvent, bool> _dialoguePlayedDictionary = new Dictionary<EDialogueEvent, bool>();
 
         protected override void Awake()
         {
@@ -105,6 +108,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                         _dialoguesDictionary.TryAdd(seq.ScriptableDialogue.DialogueEvent, seq);
                     }
                 }
+            }
+
+            var values = Enum.GetValues(typeof(EDialogueEvent));
+            foreach (EDialogueEvent dialogueEvent in values)
+            {
+                _dialoguePlayedDictionary.TryAdd(dialogueEvent, false);
             }
         }
 
@@ -253,12 +262,32 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             _dialoguesDictionary.TryGetValue(dialogueEvent, out TextSequenceable ts);
 
+            if (CanPlayDialogue(dialogueEvent) == false)
+            {
+                return false;
+            }
+
             if (ts != null)
             {
+                _dialoguePlayedDictionary[dialogueEvent] = true;
                 ts.StartTask();
                 return true;
             }
             return false;
+        }
+
+        private bool CanPlayDialogue(EDialogueEvent dialogueEvent)
+        {
+            bool canPlay = true;
+
+            if (dialogueEvent == EDialogueEvent.Day1_ChooseContract_Prompt)
+            {
+                canPlay = MorgueManager.Instance.IsTutorialDay == false && 
+                    MorgueManager.Instance.DayCount == 1 && 
+                    _dialoguePlayedDictionary[dialogueEvent] == false;
+            }
+
+            return canPlay;
         }
 
         public void ManagedPreInGameLoad()
