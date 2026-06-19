@@ -1,9 +1,12 @@
 ﻿using _Scripts.Gameplay.ActionSequence;
 using _Scripts.Gameplay.Architecture.Managers;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 namespace _Scripts.Gameplay.Architecture.DayCycle {
 
@@ -31,10 +34,15 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
 
         [SerializeField]
         private PlayableDirector _dayNightTimelineForward;
+        private SignalTrack _forwardSignalTrack;
+        private Dictionary<EDayTimeline, double> _forwardTimelineTimeDict = new Dictionary<EDayTimeline, double>();
+
         [SerializeField]
         private PlayableDirector _dayNightTimelineBackward;
         [SerializeField]
-        private float _dayNightTransitionSpeed = 1.0f;
+        private float _dayNightTransitionSpeed_Normal = 1.0f;
+        [SerializeField]
+        private float _dayNightTransitionSpeed_Fast = 1.0f;
         [SerializeField]
         private float _instantDayNightTransitionSpeed = 50.0f;
 
@@ -67,9 +75,40 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
         }
 
         public EDayTimeline TargetTimeline { get => MorgueManager.Instance.TargetTimeline; set => MorgueManager.Instance.TargetTimeline = value; }
+        public EDayTimeTransition TimeTransition { get => MorgueManager.Instance.TimeTransition; set => MorgueManager.Instance.TimeTransition = value; }
         public EDayTimeline CurrentTimeline { get => MorgueManager.Instance.CurrentTimeline; set => MorgueManager.Instance.CurrentTimeline = value; }
 
         private PlayableDirector _currentPlayingTimeline;
+
+        public void Setup()
+        {
+            var timelineAsset = _dayNightTimelineForward.playableAsset as TimelineAsset;
+            
+            foreach(var track in timelineAsset.GetRootTracks())
+            {
+                if (track as SignalTrack)
+                {
+                    _forwardSignalTrack = track as SignalTrack;
+
+                    // Fetch all markers and sort them chronologically by time
+                    var sortedMarkers = _forwardSignalTrack.GetMarkers()
+                        .OrderBy(marker => marker.time)
+                        .ToList();
+
+                    Debug.Log("Marker 0 time: " + sortedMarkers[0].time);
+                    _forwardTimelineTimeDict.Add(EDayTimeline.Morning_Start, sortedMarkers[0].time);
+                    Debug.Log("Marker 1 time: " + sortedMarkers[1].time);
+                    _forwardTimelineTimeDict.Add(EDayTimeline.Midday_Start, sortedMarkers[1].time);
+                    Debug.Log("Marker 2 time: " + sortedMarkers[2].time);
+                    _forwardTimelineTimeDict.Add(EDayTimeline.Evening_Start, sortedMarkers[2].time);
+                    Debug.Log("Marker 3 time: " + sortedMarkers[3].time);
+                    _forwardTimelineTimeDict.Add(EDayTimeline.Night_Start, sortedMarkers[3].time);
+
+                    break;
+                }
+            }
+
+        }
 
         public void ManagedTick()
         {
@@ -121,11 +160,27 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
             Debug.Log("DayNightTimeline: Moving to => " + timeline.ToString());
 
             TargetTimeline = timeline;
+            TimeTransition = transition;
 
             PlayableDirector timelineToPlay = forward ? _dayNightTimelineForward : _dayNightTimelineBackward;
 
             timelineToPlay.Play();
-            timelineToPlay.playableGraph.GetRootPlayable(0).SetSpeed(transition == EDayTimeTransition.Instant ? _instantDayNightTransitionSpeed : _dayNightTransitionSpeed);
+
+            float speed = transition == EDayTimeTransition.Instant ? _instantDayNightTransitionSpeed : (transition == EDayTimeTransition.Timelapse_Normal ? _dayNightTransitionSpeed_Normal : _dayNightTransitionSpeed_Fast);
+
+            if (transition == EDayTimeTransition.Measured)
+            {
+                double fromTime = timelineToPlay.time;
+                _forwardTimelineTimeDict.TryGetValue(timeline, out double time);
+
+                double timeDiff = Math.Abs(time - fromTime);
+
+                float measuredSpeed = (float)(timeDiff / MorgueManager.Instance.WorkDuration);
+                speed = measuredSpeed;
+            }
+
+            Debug.Log("Moving DAY timeline at speed: " + speed);
+            timelineToPlay.playableGraph.GetRootPlayable(0).SetSpeed(speed);
 
             _currentPlayingTimeline = timelineToPlay;
         }
@@ -154,25 +209,34 @@ namespace _Scripts.Gameplay.Architecture.DayCycle {
 
         public void OnTimelineEventTriggered(EDayTimeline timelineEvent)
         {
+            CurrentTimeline = TargetTimeline;
+
             if (timelineEvent != TargetTimeline)
             {
                 return;
             }
 
-            CurrentTimeline = TargetTimeline;
             TargetTimeline = EDayTimeline.None;
+            TimeTransition = EDayTimeTransition.NONE;
 
             PauseDayNightTimeline();
         }
 
+        public void StopTargetTimeline()
+        {
+            PauseDayNightTimeline();
+
+            TargetTimeline = EDayTimeline.None;
+            TimeTransition = EDayTimeTransition.NONE;
+
+        }
+
         public void Enable()
         {
-            throw new System.NotImplementedException();
         }
 
         public void Disable()
         {
-            throw new System.NotImplementedException();
         }
     }
 }

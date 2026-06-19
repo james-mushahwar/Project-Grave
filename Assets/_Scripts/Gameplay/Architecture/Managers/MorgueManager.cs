@@ -52,10 +52,15 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
     public enum  EDayTimeTransition : uint
     {
+
         Timelapse_Normal = 0,
         Timelapse_Fast,
 
+        Measured, // should be a set amount of time between two timeline stages e.g. Work time duration to move from Morning to Night
+
         Instant,
+
+        NONE
     }
 
     public struct FTimelineChange
@@ -135,8 +140,13 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private float _workTimeRemaining;
         [SerializeField]
         private float _workDuration;
+        public float WorkDuration
+        {
+            get => _workDuration;
+        }
 
         private EDayTimeline _targetTimeline;
+        private EDayTimeTransition _timeTransition;
         private EDayTimeline _currentTimeline;
 
         private Coroutine _playerSleepCoroutine;
@@ -199,6 +209,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         }
 
         public EDayTimeline TargetTimeline { get => _targetTimeline; set => _targetTimeline = value; }
+        public EDayTimeTransition TimeTransition { get => _timeTransition; set => _timeTransition = value; }
         public EDayTimeline CurrentTimeline { get => _currentTimeline; set => _currentTimeline = value; }
 
         private Dictionary<EDayTimeline, Tuple<int, int>> _timeMilestones = new Dictionary<EDayTimeline, Tuple<int, int>>()
@@ -295,6 +306,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
 
             _dayNightCycle = FindObjectOfType<DayNightCycle>();
+            _dayNightCycle.Setup();
 
             _currentTimeline = EDayTimeline.Midday_Start;
 
@@ -958,14 +970,19 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         private void UpdateDayState()
         {
+            bool measuredTransition = _timeTransition == EDayTimeTransition.Measured;
+
             if (_targetTimeline == EDayTimeline.Night_Start || (_targetTimeline == EDayTimeline.None && _currentTimeline == EDayTimeline.Night_Start))
             {
-                LightingManager.Instance.StartNightTime();
-
-                if (ActionSequenceManager.Instance.PreviousMajorActionSequence <= EActionSequenceEvent.Day0_GoToSleep)
+                if (!measuredTransition)
                 {
-                    ActionSequenceManager.Instance.SetPreviousActionSequence(EActionSequenceEvent.Day0_FinishWork);
-                    //ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_OpenGate);
+                    LightingManager.Instance.StartNightTime();
+
+                    if (ActionSequenceManager.Instance.PreviousMajorActionSequence <= EActionSequenceEvent.Day0_GoToSleep)
+                    {
+                        ActionSequenceManager.Instance.SetPreviousActionSequence(EActionSequenceEvent.Day0_FinishWork);
+                        //ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_OpenGate);
+                    }
                 }
             }
         }
@@ -986,6 +1003,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             _workTimeActive = true;
             _workTimeRemaining = _workDuration;
+
+            _dayNightCycle.StopTargetTimeline();
+            InvokeDayNightTransition(EDayTimeline.Night_Start, EDayTimeTransition.Measured);
+
             UIManager.Instance.OnStartWorkday();
             return true;
         }
@@ -1009,6 +1030,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _workTimeActive = false;
             SpawnBodySequenceCommand(false, false);
             UIManager.Instance.OnStopWorkday();
+
+            _dayNightCycle.StopTargetTimeline();
+            InvokeDayNightTransition(EDayTimeline.Night_Start, EDayTimeTransition.Timelapse_Normal);
             return true;
         }
         #endregion
