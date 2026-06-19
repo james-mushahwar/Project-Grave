@@ -7253,7 +7253,8 @@ MonoBehaviour:
   _timeElapseFactor: 1
   _dayNightTimelineForward: {fileID: 2093503034}
   _dayNightTimelineBackward: {fileID: 0}
-  _dayNightTransitionSpeed: 0.25
+  _dayNightTransitionSpeed_Normal: 1
+  _dayNightTransitionSpeed_Fast: 1
   _instantDayNightTransitionSpeed: 2
 --- !u!1 &1634074409
 GameObject:
@@ -9527,7 +9528,7 @@ PlayableDirector:
   m_InitialState: 0
   m_WrapMode: 1
   m_DirectorUpdateMode: 1
-  m_InitialTime: 1.0099999904632568
+  m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: 3170274384268684512, guid: 4aa4555064d844f49aff558b7959594b, type: 2}
     value: {fileID: 1577848561}

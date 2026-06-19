@@ -58,7 +58,6 @@ public class ContractBook : MorgueActor, IInteractable
 
     public override void Tick()
     {
-        Debug.Log("Ticking book");
         if (CanTick)
         {
             bool show = ContractsManager.Instance.PlayerChosenContract == null;
