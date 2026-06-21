@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _Scripts.Gameplay.UI.DayLoadingScreen {
     
-    public class UIDayLoadingScreen : MonoBehaviour, IManaged
+    public class UIDayLoadingScreen : UIBase, IManaged
     {
         public bool CanTick { get; set; }
 
@@ -33,6 +33,26 @@ namespace _Scripts.Gameplay.UI.DayLoadingScreen {
                 _sb.Append(_currentDay);
                 _dayText.text = _sb.ToString();
             }
+        }
+
+        protected override void Pulse()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void StopPulse()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void Feedback()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void StopFeedback()
+        {
+            throw new System.NotImplementedException();
         }
     }
     

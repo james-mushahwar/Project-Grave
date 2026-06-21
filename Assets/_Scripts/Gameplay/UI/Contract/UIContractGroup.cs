@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace _Scripts.Gameplay.UI.Contract {
     
-    public class UIContractGroup : MonoBehaviour, IManaged
+    public class UIContractGroup : UIBase, IManaged
     {
         [SerializeField]
         private UIMarkerGroup _markerGroup;
@@ -105,7 +105,27 @@ namespace _Scripts.Gameplay.UI.Contract {
                     uIMarker.SetHighlight(false);
                 }
             }
-        }    
+        }
+
+        protected override void Pulse()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void StopPulse()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void Feedback()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void StopFeedback()
+        {
+            throw new System.NotImplementedException();
+        }
     }
     
 }

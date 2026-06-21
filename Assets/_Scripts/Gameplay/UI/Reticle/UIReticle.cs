@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace _Scripts.Gameplay.UI.Reticle{
     
-    public class UIReticle : MonoBehaviour, IManaged
+    public class UIReticle : UIBase, IManaged
     {
         [SerializeField] private Image _reticleDefaultImage;
         [SerializeField] private Image _reticleInteractImage;
@@ -79,6 +79,26 @@ namespace _Scripts.Gameplay.UI.Reticle{
                     }
                 }
             }
+        }
+
+        protected override void Pulse()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void StopPulse()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void Feedback()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void StopFeedback()
+        {
+            throw new System.NotImplementedException();
         }
     }
     

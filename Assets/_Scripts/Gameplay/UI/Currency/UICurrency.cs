@@ -1,4 +1,5 @@
 ﻿using _Scripts.Gameplay.Architecture.Managers;
+using DG.Tweening;
 using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace _Scripts.Gameplay.UI.Currency {
     
-    public class UICurrency : MonoBehaviour, IManaged
+    public class UICurrency : UIBase, IManaged
     {
         [SerializeField] private TextMeshProUGUI _totalTMP;
         [SerializeField] private TextMeshProUGUI _addedTotalTMP;
@@ -20,7 +21,8 @@ namespace _Scripts.Gameplay.UI.Currency {
 
         public void Disable()
         {
-            
+            StopFeedback();
+            StopPulse();
         }
 
         public void Enable()
@@ -77,6 +79,7 @@ namespace _Scripts.Gameplay.UI.Currency {
                 yield return TaskManager.Instance.WaitForSecondsPool.Get(delay);
 
                 _totalTMP.text = _displayedCurrencyTotal.ToString();
+                Feedback();
             }
 
             _addedTotalTMP.text = "";
@@ -86,6 +89,46 @@ namespace _Scripts.Gameplay.UI.Currency {
             _totalTMP.text = _displayedCurrencyTotal.ToString();
 
             _changeCurrencyTotal = null;
+        }
+
+
+        protected override void Pulse()
+        {
+            if (_animateTween == null)
+            {
+                gameObject.transform.localScale = _defaultScale;
+                _animateTween = gameObject.transform.DOScale(TargetPulseScale, _pulseDuration).SetEase(Ease.Linear).SetLoops(-1);
+            }
+        }
+
+        protected override void StopPulse()
+        {
+            if (_animateTween != null && _animateTween.IsActive())
+            {
+                _animateTween.Kill();
+            }
+            gameObject.transform.localScale = _defaultScale;
+            _animateTween = null;
+        }
+
+        protected override void Feedback()
+        {
+            if (_animateTween == null)
+            {
+                gameObject.transform.localScale = _defaultScale;
+                _animateTween = gameObject.transform.DOScale(TargetPulseScale, _pulseDuration).SetEase(Ease.Linear).OnComplete(
+                    StopFeedback);
+            }
+        }
+
+        protected override void StopFeedback()
+        {
+            if (_animateTween != null && _animateTween.IsActive())
+            {
+                _animateTween.Kill();
+            }
+            gameObject.transform.localScale = _defaultScale;
+            _animateTween = null;
         }
     }
     

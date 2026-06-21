@@ -213,6 +213,11 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         private List<ContractActor> _officeContractDisplays;
         private ContractActor _portableContractDisplay;
 
+        public ContractActor PortableContract
+        {
+            get { return _portableContractDisplay; }
+        }
+
         private Coroutine _showPortableContractSequence;
         private EContractDifficulty[][] _contractDifficulty = new EContractDifficulty[5][];
 
@@ -433,6 +438,8 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         {
             if (PlayerChosenContract != null)
             {
+                ShowPortableContract();
+
                 PlayerChosenContract.CompleteContract();
 
                 // pay/reward player

@@ -138,6 +138,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         private bool _workTimeActive = false; // is work time active?
         private float _workTimeRemaining;
+        private bool _workDoneForDay = false;
+        public bool WorkdDoneForDay
+        {
+            get
+            {
+                return _workDoneForDay;
+            }
+        }
         [SerializeField]
         private float _workDuration;
         public float WorkDuration
@@ -311,6 +319,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _currentTimeline = EDayTimeline.Midday_Start;
 
             ActionSequenceManager.Instance.TryAssignEventRoutine(EActionSequenceEvent.Day0_GoToSleep, PlayerSleep());
+            ActionSequenceManager.Instance.TryAssignEventRoutine(EActionSequenceEvent.DayAny_GoToSleep, PlayerSleep());
 
             if (GameStateManager.Instance.IsPlayingFullGame)
             {
@@ -352,6 +361,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             InvokeDayNightTransition(EDayTimeline.Morning_Start, EDayTimeTransition.Instant);
 
             _dayCount++;
+            _workDoneForDay = false;
             // make camera fade to black
             UIManager.Instance.ShowLoadingScreen(true);
 
@@ -1002,6 +1012,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
 
             _workTimeActive = true;
+            _workDoneForDay = false;
             _workTimeRemaining = _workDuration;
 
             _dayNightCycle.StopTargetTimeline();
@@ -1030,6 +1041,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _workTimeActive = false;
             SpawnBodySequenceCommand(false, false);
             UIManager.Instance.OnStopWorkday();
+            _workDoneForDay = true;
 
             _dayNightCycle.StopTargetTimeline();
             InvokeDayNightTransition(EDayTimeline.Night_Start, EDayTimeTransition.Timelapse_Normal);

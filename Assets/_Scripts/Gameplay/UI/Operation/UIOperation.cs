@@ -14,7 +14,7 @@ using UnityEngine.UI;
 
 namespace _Scripts.Gameplay.UI.Operation{
 
-    public class UIOperation : MonoBehaviour, IManaged
+    public class UIOperation : UIBase, IManaged
     {
         [SerializeField] private GameObject _operationStatesGroup;
         [SerializeField] private List<UIMarker> _statesMarkers;
@@ -139,6 +139,26 @@ namespace _Scripts.Gameplay.UI.Operation{
                 _operationDirectionIndicator.SetPosition(anchoredPosition);
                 _operationDirectionIndicator.SetScale(right);
             }
+        }
+
+        protected override void Pulse()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void StopPulse()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void Feedback()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void StopFeedback()
+        {
+            throw new System.NotImplementedException();
         }
     }
 

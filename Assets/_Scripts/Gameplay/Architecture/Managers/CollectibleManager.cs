@@ -61,6 +61,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
             if (show)
             {
+                UIManager.Instance.TryPlayParticleTrail(EUIClass.UICurrency, ContractsManager.Instance.PortableContract.gameObject);
                 UIManager.Instance.OnCurrencyChanged(amount);
             }
         }

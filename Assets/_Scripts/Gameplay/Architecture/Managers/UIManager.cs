@@ -17,6 +17,20 @@ using _Scripts.Gameplay.UI.Timer;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
     
+    public enum EUIClass : UInt16
+    {
+        NONE = 0,
+
+        UIReticle,
+        UIOperation,
+        UICurrency,
+        UIContractGroup,
+        UIDayLoadingScreen,
+        UITimer,
+
+        COUNT
+    }
+
     public class UIManager : GameManager<UIManager>, IManager
     {
         #region Gameplay UI
@@ -29,6 +43,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField]
         private GameObject _gameplayLoadingScreen;
 
+        private Dictionary<EUIClass, UIBase> _uiDictionary = new Dictionary<EUIClass, UIBase>();
+
         [SerializeField] private UIReticle _uiReticle;
         [SerializeField] private UIOperation _uiOperation;
         [SerializeField] private UICurrency _uiCurrency;
@@ -39,6 +55,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField] private Sprite _opDismemberTypeIcon;
         [SerializeField] private Sprite _opAttachmentTypeIcon;
         [SerializeField] private Sprite _opInspectTypeIcon;
+
+        [SerializeField] private UIParticleTrail _uiParticleTrail;
 
         private bool _showInteractReticle = false;
         public bool ShowInteractReticle
@@ -74,10 +92,20 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         // after world (level, area, zone) finished loading
         public virtual void ManagedPostInGameLoad() 
         {
+            _uiReticle.Setup();
+
+            _uiOperation.Setup();
+
+            _uiCurrency.Setup();
             _uiCurrency.Enable();
+
             _uiContractGroup.Setup();
             _uiContractGroup.Disable();
+
+            _uiTimer.Setup();
             _uiTimer.Disable();
+
+            _uiDictionary.TryAdd(EUIClass.UICurrency, _uiCurrency);
         }
         // save states are restored
         public virtual void ManagedRestoreSave() { }
@@ -216,6 +244,25 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public void OnStopWorkday()
         {
             _uiTimer.Disable();
+        }
+        #endregion
+
+        #region Trail
+        public void TryPlayParticleTrail(EUIClass endUI, GameObject startGO)
+        {
+            if (endUI <= EUIClass.NONE || endUI >= EUIClass.COUNT)
+            {
+                return;
+            }
+
+            UIParticleTrail trail = _uiParticleTrail;
+
+            _uiDictionary.TryGetValue(endUI, out UIBase endGO);
+
+            if(trail.PlayTrail(startGO, endGO.gameObject, endGO.OnParticleTrailFinished))
+            {
+                endGO.OnParticleTrailStarted?.Invoke();
+            }
         }
         #endregion
     }

@@ -30,6 +30,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         //DayLoop - can happen multiple times any day 
         DayAny_WakeUp = 10000,
+        DayAny_GoToSleep,
     }
 
     public enum EActionSequencePauseReason : uint
@@ -279,6 +280,13 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             else if (seqEvent == EActionSequenceEvent.Day0_FinishWork_Receptionist)
             {
                 canPlay = _previousMajorActionSequence == EActionSequenceEvent.Day0_FinishWork;
+            }
+            else if (isTutorialDay == false)
+            {
+                if (seqEvent == EActionSequenceEvent.DayAny_GoToSleep)
+                {
+                    canPlay = MorgueManager.Instance.WorkdDoneForDay;
+                }
             }
 
             return canPlay && GameStateManager.Instance.IsPlayingFullGame;

@@ -1,10 +1,11 @@
 ﻿using _Scripts.Gameplay.Architecture.Managers;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.UI.Timer {
     
-    public class UITimer : MonoBehaviour, IManaged
+    public class UITimer : UIBase, IManaged
     {
         [SerializeField] private TextMeshProUGUI _timerTMP;
 
@@ -20,6 +21,8 @@ namespace _Scripts.Gameplay.UI.Timer {
         {
             CanTick = true;
             gameObject.SetActive(true);
+
+            Feedback();
 
             UpdateTimer();
         }
@@ -38,6 +41,36 @@ namespace _Scripts.Gameplay.UI.Timer {
             }
             
             UpdateTimer();
+        }
+
+        protected override void Feedback()
+        {
+            if (_animateTween == null)
+            {
+                gameObject.transform.localScale = _defaultScale;
+                _animateTween = gameObject.transform.DOScale(TargetPulseScale, _feedbackDuration).SetEase(Ease.InElastic).OnComplete(
+                    StopFeedback);
+            }
+        }
+
+        protected override void Pulse()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void StopFeedback()
+        {
+            if (_animateTween != null && _animateTween.IsActive())
+            {
+                _animateTween.Kill();
+            }
+            gameObject.transform.localScale = _defaultScale;
+            _animateTween = null;
+        }
+
+        protected override void StopPulse()
+        {
+            throw new System.NotImplementedException();
         }
 
         private void UpdateTimer()
