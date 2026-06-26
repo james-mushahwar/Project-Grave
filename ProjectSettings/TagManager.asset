@@ -28,6 +28,7 @@ TagManager:
   - Contract_Office
   - Contract_Portable
   - UI_ContractMarker
+  - Contract_Hook
   layers:
   - Default
   - TransparentFX

@@ -10,6 +10,7 @@ namespace _Scripts.Gameplay.Architecture.Contracts {
     {
         [SerializeField] private MeshRenderer _targetRenderer;
         [SerializeField] private int _materialIndex;
+        [SerializeField] private int _materialTextureSlots = 1;
         /// <summary>
         /// Changes the base map texture of a specified material slot.
         /// </summary>
@@ -58,7 +59,19 @@ namespace _Scripts.Gameplay.Architecture.Contracts {
         public override void DisplayContract(MorgueContract contract)
         {
             Contract = contract;
-            ChangeBaseMap(Contract != null ? Contract.ContractPicture : _pageMissingTexture);
+
+            if (contract is BodyPartMorgueContract)
+            {
+                BodyPartMorgueContract bodyPartMorgueContract = contract as BodyPartMorgueContract;
+                for (int i = 0; i < bodyPartMorgueContract.ContractPictures.Count; i++)
+                {
+                    ChangeBaseMap(Contract != null ? bodyPartMorgueContract.ContractPictures[i] : _pageMissingTexture, i);
+                }
+            }
+            else
+            {
+                ChangeBaseMap(Contract != null ? Contract.ContractPicture : _pageMissingTexture, 0);
+            }
             int timeCurrency = 0;
 
             if (Contract != null)
@@ -104,7 +117,7 @@ namespace _Scripts.Gameplay.Architecture.Contracts {
         public override void OnContractUnselected()
         {
         }
-        public void ChangeBaseMap(Texture2D newTexture)
+        public void ChangeBaseMap(Texture2D newTexture, int materialOffset)
         {
             if (_targetRenderer == null)
             {
@@ -113,7 +126,12 @@ namespace _Scripts.Gameplay.Architecture.Contracts {
             }
 
             // Determine which element index to target
-            int targetIndex = _materialIndex;
+            int targetIndex = _materialIndex + materialOffset;
+
+            if (materialOffset >= _materialTextureSlots)
+            {
+                Debug.LogError("Index out of bounds for new contract texture in " + name);
+            }
 
             // Validate index boundaries
             if (targetIndex < 0 || targetIndex >= _targetRenderer.sharedMaterials.Length)
@@ -122,20 +140,32 @@ namespace _Scripts.Gameplay.Architecture.Contracts {
                 return;
             }
 
-            // Instantiate a property block to change the texture efficiently
-            MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+            //// Instantiate a property block to change the texture efficiently
+            //MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
 
-            // Get existing properties so we don't overwrite other vertex colors or settings
-            _targetRenderer.GetPropertyBlock(propertyBlock, targetIndex);
+            //// Get existing properties so we don't overwrite other vertex colors or settings
+            //_targetRenderer.GetPropertyBlock(propertyBlock, targetIndex);
 
-            // Set the new texture map
+            //// Set the new texture map
+            //if (newTexture != null)
+            //{
+            //    propertyBlock.SetTexture(_BaseMapPropertyId, newTexture);
+            //}
+
+            //// Apply the block specifically to our target material index
+            //_targetRenderer.SetPropertyBlock(propertyBlock, targetIndex);
+
+            // FIX: Retrieve the runtime instances array
+            Material[] runtimeMaterials = _targetRenderer.materials;
+
             if (newTexture != null)
             {
-                propertyBlock.SetTexture(_BaseMapPropertyId, newTexture);
+                // Apply the texture directly to the target instantiated material
+                runtimeMaterials[targetIndex].SetTexture(_BaseMapPropertyId, newTexture);
             }
 
-            // Apply the block specifically to our target material index
-            _targetRenderer.SetPropertyBlock(propertyBlock, targetIndex);
+            // CRITICAL: You must re-assign the array back to the renderer to apply changes
+            _targetRenderer.materials = runtimeMaterials;
         }
     }
     

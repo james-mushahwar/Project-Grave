@@ -74,6 +74,13 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         public Texture2D ContractPicture { get { return _contractPicture; } }
 
+        // Creates a copy of the base data
+        public virtual MorgueContract Clone()
+        {
+            var clone = (MorgueContract)this.MemberwiseClone(); // Shallow copies fields
+            return clone;
+        }
+
         public MorgueContract()
         {
             _uid = Guid.NewGuid().ToString();
@@ -111,6 +118,25 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         }
     }
 
+    [Serializable]
+    public class BodyPartMorgueContract : MorgueContract
+    {
+        [SerializeField]
+        private List<Texture2D> _contractPictures; //multiple textures
+
+        public List<Texture2D> ContractPictures
+        {
+            get { return _contractPictures; }
+        }
+
+        public override MorgueContract Clone()
+        {
+            var clone = (BodyPartMorgueContract)base.Clone();
+            // Deep copy reference types like lists so they don't share data
+            clone._contractPictures = new List<Texture2D>(this._contractPictures);
+            return clone;
+        }
+    }
     public interface IContractDisplay
     {
         public void DisplayContract(MorgueContract contract);
@@ -129,8 +155,9 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
     public class ContractsManager : GameManager<ContractsManager>, IManager
     {
-        private Stack<MorgueContract> _reserveContracts; // this is the amount of contracts per day e.g. 8
-        private List<MorgueContract> _selectableContracts; // this is the list added from the reserves that stores what contracts are available to scroll through and select
+        private Stack<MorgueContract> _reserveContracts = new Stack<MorgueContract>(); // this is the amount of contracts per day e.g. 8
+        private List<MorgueContract> _selectableContracts = new List<MorgueContract>(); // this is the list added from the reserves that stores what contracts are available to scroll through and select
+      
         [SerializeField]
         private ScriptableContractsCollection _contractCollection;
 
@@ -212,10 +239,16 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         }
         private List<ContractActor> _officeContractDisplays;
         private ContractActor _portableContractDisplay;
+        private ContractActor _hookContractDisplay;
 
         public ContractActor PortableContract
         {
             get { return _portableContractDisplay; }
+        }
+
+        public ContractActor HookContract
+        {
+            get { return _hookContractDisplay; }
         }
 
         private Coroutine _showPortableContractSequence;
@@ -263,6 +296,12 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 {
                     contractDisplay.Setup();
                     _portableContractDisplay = contractDisplay;
+                }
+
+                if (contractDisplay.tag == "Contract_Hook")
+                {
+                    contractDisplay.Setup();
+                    _hookContractDisplay = contractDisplay;
                 }
             }
 
@@ -327,20 +366,22 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             yield return null;
         }
 
-        public void GenerateContracts()
+        public void GenerateContracts(bool clearReservedContracts = true)
         {
             if (_usePremadeContracts)
             {
+                int dayCount = MorgueManager.Instance.DayCount - 1;
+
                 for (int i = _reserveContracts.Count; i < _maxReserveContracts; i++)
                 {
-                    int dayCount = MorgueManager.Instance.DayCount - 1;
                     int index = i;
 
                     UnityEngine.Random.InitState(i * MorgueManager.Instance.DayCount);
 
                     EContractDifficulty difficulty = _contractDifficulty[dayCount][index];
 
-                    MorgueContract newContract =  _contractCollection.GetMorgueContract(difficulty);
+                    //get full body contracts
+                    MorgueContract newContract = _contractCollection.GetMorgueContract<MorgueContract>(difficulty);
 
                     if (newContract != null)
                     {
@@ -355,6 +396,21 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                     if (contract != null)
                     {
                         _selectableContracts.Add(contract);
+                    }
+                }
+
+                // generate hook contract
+                if (_hookContractDisplay != null)
+                {
+                    if (_hookContractDisplay.Contract == null || _hookContractDisplay.Contract.IsCompleted())
+                    {
+                        // new hook contract
+                        UnityEngine.Random.InitState(MorgueManager.Instance.DayCount);
+
+                        EContractDifficulty difficulty = _contractDifficulty[dayCount][0];
+                        BodyPartMorgueContract newContract = _contractCollection.GetMorgueContract<BodyPartMorgueContract>(difficulty);
+
+                        _hookContractDisplay.DisplayContract(newContract);
                     }
                 }
             }
@@ -546,7 +602,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             Echo_ContractRequirements();
         }
 
-        public void ClearSelectedContract(MorgueContract specificContract = null)
+        public void ClearSelectedContract(MorgueContract specificContract = null, bool refreshContracts = true)
         {
             MorgueContract beforeContract = specificContract != null ? specificContract : PlayerChosenContract;
             if (beforeContract != null)
@@ -554,7 +610,11 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 beforeContract.ActivateContract(false);
             }
             _playerHighlightedContractIndex = -1;
-            RefreshContracts();
+
+            if (refreshContracts)
+            {
+                RefreshContracts();
+            }
         }
     }
     

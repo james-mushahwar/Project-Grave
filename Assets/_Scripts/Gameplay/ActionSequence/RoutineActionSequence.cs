@@ -64,12 +64,18 @@ namespace _Scripts.Gameplay.ActionSequence
         {
             OnStarted();
 
-            // Replace 'ExecuteSequenceLogic' with your actual gameplay IEnumerator
-            IEnumerator enumerator = ActionSequenceManager.Instance.TryGetRoutine(_actionSequenceSettings.ActionSequenceEvent);
-            if (enumerator != null)
+            // 1. Get the factory function from the manager
+            System.Func<IEnumerator> routine = ActionSequenceManager.Instance.TryGetRoutine(_actionSequenceSettings.ActionSequenceEvent);
+
+            if (routine != null)
             {
-                yield return StartCoroutine(enumerator);
+                // 2. Invoke the factory () to spin up a completely fresh IEnumerator instance
+                IEnumerator freshEnumerator = routine();
+
+                // 3. Safely yield it (no .Reset() needed!)
+                yield return StartCoroutine(freshEnumerator);
             }
+
             OnCompleted();
         }
 

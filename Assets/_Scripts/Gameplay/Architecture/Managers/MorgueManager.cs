@@ -318,8 +318,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             _currentTimeline = EDayTimeline.Midday_Start;
 
-            ActionSequenceManager.Instance.TryAssignEventRoutine(EActionSequenceEvent.Day0_GoToSleep, PlayerSleep());
-            ActionSequenceManager.Instance.TryAssignEventRoutine(EActionSequenceEvent.DayAny_GoToSleep, PlayerSleep());
+            ActionSequenceManager.Instance.TryAssignEventRoutine(EActionSequenceEvent.Day0_GoToSleep, PlayerSleep);
+            ActionSequenceManager.Instance.TryAssignEventRoutine(EActionSequenceEvent.DayAny_GoToSleep, PlayerSleep);
 
             if (GameStateManager.Instance.IsPlayingFullGame)
             {
@@ -357,6 +357,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             //disable player effects
             VolumeManager.Instance.SetPlayerDrowsy(false);
+
+            ContractsManager.Instance.ClearSelectedContract(null, false);
 
             InvokeDayNightTransition(EDayTimeline.Morning_Start, EDayTimeTransition.Instant);
 
@@ -574,11 +576,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
                 ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_TableExits);
 
-                //raise hook
-                if (_hooksStorage.IsAvailableToStore == true)
-                {
-                    _hooksStorage.ToggleAvailability();
-                }
+                ////raise hook
+                //if (_hooksStorage.IsAvailableToStore == true)
+                //{
+                //    _hooksStorage.ToggleAvailability();
+                //}
 
                 while (ActionSequenceManager.Instance.IsPlayingActionSequence(EActionSequenceEvent.Day0_TableExits))
                 {
@@ -594,10 +596,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     }
                     else
                     {
-                        completedContract = ContractsManager.Instance.OnSubmission(_hooksStorage);
-                        if (completedContract)
-                        {
-                        }
+                        //completedContract = ContractsManager.Instance.OnSubmission(_hooksStorage);
+                        //if (completedContract)
+                        //{
+                        //}
                     }
                     ContractsManager.Instance.ClearSelectedContract();
                 }
@@ -626,11 +628,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     yield return null;
                 }
 
-                //lower hook
-                if (_hooksStorage.IsAvailableToStore == false)
-                {
-                    LowerHooksOnChain();
-                }
+                ////lower hook
+                //if (_hooksStorage.IsAvailableToStore == false)
+                //{
+                //    LowerHooksOnChain();
+                //}
 
                 Debug.Log("Body spawn finished");
 
@@ -988,10 +990,13 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 {
                     LightingManager.Instance.StartNightTime();
 
-                    if (ActionSequenceManager.Instance.PreviousMajorActionSequence <= EActionSequenceEvent.Day0_GoToSleep)
+                    if (IsTutorialDay)
                     {
-                        ActionSequenceManager.Instance.SetPreviousActionSequence(EActionSequenceEvent.Day0_FinishWork);
-                        //ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_OpenGate);
+                        if (ActionSequenceManager.Instance.PreviousMajorActionSequence <= EActionSequenceEvent.Day0_GoToSleep)
+                        {
+                            ActionSequenceManager.Instance.SetPreviousActionSequence(EActionSequenceEvent.Day0_FinishWork);
+                            //ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_OpenGate);
+                        }
                     }
                 }
             }
@@ -1014,6 +1019,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _workTimeActive = true;
             _workDoneForDay = false;
             _workTimeRemaining = _workDuration;
+
+            //lower hook
+            if (_hooksStorage.IsAvailableToStore == false)
+            {
+                LowerHooksOnChain();
+            }
 
             _dayNightCycle.StopTargetTimeline();
             InvokeDayNightTransition(EDayTimeline.Night_Start, EDayTimeTransition.Measured);
@@ -1039,7 +1050,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public bool StopWorkingDay()
         {
             _workTimeActive = false;
-            SpawnBodySequenceCommand(false, false);
+            if (OperationManager.Instance.OperatingTable.TableInRoom)
+            {
+                SpawnBodySequenceCommand(false, false);
+            }
             UIManager.Instance.OnStopWorkday();
             _workDoneForDay = true;
 

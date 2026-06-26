@@ -123,3 +123,24 @@ MonoBehaviour:
     _reward:
       _timeCurrency: 5
     _contractPicture: {fileID: 0}
+  _premadeBodyPartContracts_Easy:
+  - _contractType: 2
+    _requirements:
+      _bodyPart: 00000000
+    _reward:
+      _timeCurrency: 0
+    _contractPicture: {fileID: 0}
+    _contractPictures:
+    - {fileID: 2800000, guid: 91be638e872cb0b4a876cb5d38f625fe, type: 3}
+  - _contractType: 2
+    _requirements:
+      _bodyPart: 000000000100000002000000
+    _reward:
+      _timeCurrency: 0
+    _contractPicture: {fileID: 0}
+    _contractPictures:
+    - {fileID: 2800000, guid: 91be638e872cb0b4a876cb5d38f625fe, type: 3}
+    - {fileID: 2800000, guid: 1859e6cfbe1358e46aaecdc55335f33f, type: 3}
+    - {fileID: 2800000, guid: eed077fcea5fa16428e03fff1f5baeda, type: 3}
+  _premadeBodyPartContracts_Medium: []
+  _premadeBodyPartContracts_Hard: []

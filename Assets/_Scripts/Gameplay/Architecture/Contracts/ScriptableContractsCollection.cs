@@ -1,5 +1,6 @@
 ﻿using _Scripts.Gameplay.Architecture.Managers;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace _Scripts.Gameplay.Architecture.Contracts {
@@ -23,35 +24,59 @@ namespace _Scripts.Gameplay.Architecture.Contracts {
         [SerializeField]
         private List<MorgueContract> _premadeContracts_Hard;
 
-        public MorgueContract GetMorgueContract(EContractDifficulty difficulty = EContractDifficulty.None)
+        [SerializeField]
+        private List<BodyPartMorgueContract> _premadeBodyPartContracts_Easy;
+        [SerializeField]
+        private List<BodyPartMorgueContract> _premadeBodyPartContracts_Medium;
+        [SerializeField]
+        private List<BodyPartMorgueContract> _premadeBodyPartContracts_Hard;
+
+        public T GetMorgueContract<T>(EContractDifficulty difficulty = EContractDifficulty.None) where T : MorgueContract, new()
         {
+            T checkType = default(T);
             if (difficulty == EContractDifficulty.None)
             {
                 return null;
             }
 
-            List<MorgueContract> contracts = GetContracts(difficulty);
+            List<T> contracts = GetContracts<T>(difficulty);
             int randomIndex = Random.Range(0, contracts.Count + 1);
             Debug.Log("Chosen contract index is:" + randomIndex);
-            return new MorgueContract(contracts[randomIndex]);
+
+            T contract = (contracts[randomIndex]);
+
+            T newContract = (T)contract.Clone();
+
+            return newContract;
         }
 
-        private List<MorgueContract> GetContracts(EContractDifficulty difficulty)
+        private List<T> GetContracts<T>(EContractDifficulty difficulty) where T : MorgueContract
         {
-            if (difficulty == EContractDifficulty.Easy)
-            {
-                return _premadeContracts_Easy;
-            }
-            else if (difficulty == EContractDifficulty.Medium)
-            {
-                return _premadeContracts_Medium;
-            }
-            else if (difficulty == EContractDifficulty.Hard)
-            {
-                return _premadeContracts_Hard;
-            }
+            // Fix 1: Check the type using typeof(T) instead of a null variable
+            bool isBodyPart = typeof(T) == typeof(BodyPartMorgueContract);
 
-            return null;
+            // Fix 2: Cast the elements of the list, not the list wrapper itself
+            switch (difficulty)
+            {
+                case EContractDifficulty.Easy:
+                    return isBodyPart
+                        ? _premadeBodyPartContracts_Easy.Cast<T>().ToList()
+                        : _premadeContracts_Easy.Cast<T>().ToList();
+
+                case EContractDifficulty.Medium:
+                    return isBodyPart
+                        ? _premadeBodyPartContracts_Medium.Cast<T>().ToList()
+                        : _premadeContracts_Medium.Cast<T>().ToList();
+
+                case EContractDifficulty.Hard:
+                    return isBodyPart
+                        ? _premadeBodyPartContracts_Hard.Cast<T>().ToList()
+                        : _premadeContracts_Hard.Cast<T>().ToList();
+
+                default:
+                    // Return an empty list instead of null to prevent NullReferenceExceptions later
+                    return new List<T>();
+            }
         }
 
     }

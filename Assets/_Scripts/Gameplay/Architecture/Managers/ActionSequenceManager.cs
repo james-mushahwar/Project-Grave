@@ -54,7 +54,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         private Dictionary<EActionSequenceEvent, IActionSequence> _eventActionSequences = new Dictionary<EActionSequenceEvent, IActionSequence>();
 
-        private Dictionary<EActionSequenceEvent, IEnumerator> _routineActionSequences = new Dictionary<EActionSequenceEvent, IEnumerator>();
+        private Dictionary<EActionSequenceEvent, System.Func<IEnumerator>> _routineActionSequences = new Dictionary<EActionSequenceEvent, System.Func<IEnumerator>>();
 
         private Dictionary<EActionSequencePauseReason, IActionSequence> _actionSequencePauseDictionary = new Dictionary<EActionSequencePauseReason, IActionSequence>();
 
@@ -201,18 +201,18 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 Debug.LogError("Duplicate attempt to Register " + (actionSeq as MonoBehaviour).name);
             }
         }
-        public void TryAssignEventRoutine(EActionSequenceEvent seqEvent, IEnumerator routine)
+        public void TryAssignEventRoutine(EActionSequenceEvent seqEvent, System.Func<IEnumerator> routineFunc)
         {
             if (_routineActionSequences.ContainsKey(seqEvent) == false)
             {
-                _routineActionSequences.Add(seqEvent, routine);
+                _routineActionSequences.Add(seqEvent, routineFunc);
             }
             else
             {
-                Debug.LogError("Duplicate attempt to Register routine" + (routine as MonoBehaviour).name);
+                Debug.LogError("Duplicate attempt to Register routine" + (routineFunc).Target);
             }
         }
-        public IEnumerator TryGetRoutine(EActionSequenceEvent actionSequenceEvent)
+        public System.Func<IEnumerator> TryGetRoutine(EActionSequenceEvent actionSequenceEvent)
         {
             if (_routineActionSequences.TryGetValue(actionSequenceEvent, out var routine) == false)
             {
