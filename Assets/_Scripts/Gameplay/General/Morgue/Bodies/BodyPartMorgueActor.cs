@@ -474,6 +474,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public virtual void OnDisconnect(IConnectable parent)
         {
+            if (BodyMorgueActor != null)
+            {
+                BodyMorgueActor.DetachBodyPart(this);
+            }
+
             _bodyMorgueActor = null;
 
             transform.SetParent(null);

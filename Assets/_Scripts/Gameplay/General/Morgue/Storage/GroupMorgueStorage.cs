@@ -115,7 +115,6 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
                 {
                     Debug.Log("Cash in");
                     bool clear = ContractsManager.Instance.OnSubmission(this);
-
                     if (!clear)
                     {
                         OnAvailable();
@@ -201,7 +200,10 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
             foreach (FStorageSlot slot in _storageSlots)
             {
                 emptyList = slot.TryEmpty();
-                emptied.Concat(emptyList);
+                foreach(IStorable storable in emptyList)
+                {
+                    emptied.Add(storable);
+                }
             }
 
             if (emptyList.Count > 0) 
@@ -373,6 +375,20 @@ namespace _Scripts.Gameplay.General.Morgue.Storage {
 
                 if (storableGO != null)
                 {
+                    foreach(Transform child in storableGO.transform)
+                    {
+                        IMorgueTickable tickable = child.GetComponent<IMorgueTickable>();
+                        if (tickable != null)
+                        {
+                            MorgueManager.Instance.RemoveMorgueTickable(tickable);
+                        }
+                        Destroy(child.gameObject);
+                    }
+                    IMorgueTickable morgueTickable = storableGO.GetComponent<IMorgueTickable>();
+                    if (morgueTickable != null)
+                    {
+                        MorgueManager.Instance.RemoveMorgueTickable(morgueTickable);
+                    }
                     Destroy(storableGO);
                 }
             }

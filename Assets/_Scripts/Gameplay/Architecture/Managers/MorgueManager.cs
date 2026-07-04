@@ -267,6 +267,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         public float WorkTimeRemaining { get => _workTimeRemaining; }
 
         private List<IMorgueTickable> _morgueTickables = new List<IMorgueTickable>();
+        private List<IMorgueTickable> _morgueTickablesToBeRemoved = new List<IMorgueTickable>();
+
 
         // as gamestate is being generated
         public virtual void ManagedPreInitialiseGameState() { }

@@ -190,12 +190,23 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             _lLegPlaceholderGO.SetActive(GetBodyPartByTag("Human_LLeg") == null);
             _rLegPlaceholderGO.SetActive(GetBodyPartByTag("Human_RLeg") == null);
 
-            _headSkinnedMesh.gameObject.SetActive(_headMorgueActor.IsConnected());
-            _lArmSkinnedMesh.gameObject.SetActive(_lArmMorgueActor.IsConnected());
-            _rArmSkinnedMesh.gameObject.SetActive(_rArmMorgueActor.IsConnected());
-            _lLegSkinnedMesh.gameObject.SetActive(_lLegMorgueActor.IsConnected());
-            _rLegSkinnedMesh.gameObject.SetActive(_rLegMorgueActor.IsConnected());
-            _torsoSkinnedMesh.gameObject.SetActive(_torsoMorgueActor.IsConnected());
+            bool showBodyPart = _headMorgueActor && _headMorgueActor.IsConnected();
+            _headSkinnedMesh.gameObject.SetActive(showBodyPart);
+
+            showBodyPart = _lArmMorgueActor && _lArmMorgueActor.IsConnected();
+            _lArmSkinnedMesh.gameObject.SetActive(showBodyPart);
+            
+            showBodyPart = _rArmMorgueActor && _rArmMorgueActor.IsConnected();
+            _rArmSkinnedMesh.gameObject.SetActive(showBodyPart);
+
+            showBodyPart = _lLegMorgueActor && _lLegMorgueActor.IsConnected();
+            _lLegSkinnedMesh.gameObject.SetActive(showBodyPart);
+
+            showBodyPart = _rLegMorgueActor && _rLegMorgueActor.IsConnected();
+            _rLegSkinnedMesh.gameObject.SetActive(showBodyPart);
+
+            showBodyPart = _torsoMorgueActor && _torsoMorgueActor.IsConnected();
+            _torsoSkinnedMesh.gameObject.SetActive(showBodyPart);
 
             OperationState currentOp = PlayerManager.Instance.CurrentPlayerController.ChosenOperationState;
 
@@ -220,11 +231,11 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
 
         public bool GetIsFullyAmputated()
         {
-                return _headMorgueActor.BodyMorgueActor == null && 
-                _lArmMorgueActor.BodyMorgueActor == null && 
-                _rArmMorgueActor.BodyMorgueActor == null && 
-                _lLegMorgueActor.BodyMorgueActor == null && 
-                _rLegMorgueActor.BodyMorgueActor == null;
+                return (_headMorgueActor == null || _headMorgueActor.BodyMorgueActor == null) && 
+                (_lArmMorgueActor == null || _lArmMorgueActor.BodyMorgueActor == null) && 
+                (_rArmMorgueActor == null || _rArmMorgueActor.BodyMorgueActor == null) && 
+                (_lLegMorgueActor == null || _lLegMorgueActor.BodyMorgueActor == null) && 
+                (_rLegMorgueActor == null || _rLegMorgueActor.BodyMorgueActor == null);
         }
 
         public bool IsInteractable(IInteractor interactor = null)
@@ -341,6 +352,44 @@ namespace _Scripts.Gameplay.General.Morgue.Bodies{
             bodyPart.DismemberOperationState?.ResetOperationState();
 
             RefreshBones(bodyPart.SkinnedMeshRenderer);
+
+            return true;
+        }
+
+        public bool DetachBodyPart(BodyPartMorgueActor bodyPart)
+        {
+            if (bodyPart == null)
+            {
+                return false;
+            }
+
+            switch (bodyPart.BodyPartType)
+            {
+                case EMorgueBodyPart.Head:
+                    _headSkinnedMesh.gameObject.SetActive(false);
+                    _headMorgueActor = null;
+                    break;
+                case EMorgueBodyPart.LArm:
+                    _lArmSkinnedMesh.gameObject.SetActive(false);
+                    _lArmMorgueActor = null;
+                    break;
+                case EMorgueBodyPart.RArm:
+                    _rArmSkinnedMesh.gameObject.SetActive(false);
+                    _rArmMorgueActor =  null;
+                    break;
+                case EMorgueBodyPart.LLeg:
+                    _lLegSkinnedMesh.gameObject.SetActive(false);
+                    _lLegMorgueActor = null;
+                    break;
+                case EMorgueBodyPart.RLeg:
+                    _rLegSkinnedMesh.gameObject.SetActive(false);
+                    _rLegMorgueActor = null;
+                    break;
+                default:
+                    _torsoSkinnedMesh.gameObject.SetActive(false);
+                    _torsoMorgueActor = null;
+                    break;
+            }
 
             return true;
         }

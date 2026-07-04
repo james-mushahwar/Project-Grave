@@ -128,7 +128,7 @@ MonoBehaviour:
     _requirements:
       _bodyPart: 00000000
     _reward:
-      _timeCurrency: 0
+      _timeCurrency: 1
     _contractPicture: {fileID: 0}
     _contractPictures:
     - {fileID: 2800000, guid: 91be638e872cb0b4a876cb5d38f625fe, type: 3}
@@ -136,7 +136,7 @@ MonoBehaviour:
     _requirements:
       _bodyPart: 000000000100000002000000
     _reward:
-      _timeCurrency: 0
+      _timeCurrency: 5
     _contractPicture: {fileID: 0}
     _contractPictures:
     - {fileID: 2800000, guid: 91be638e872cb0b4a876cb5d38f625fe, type: 3}

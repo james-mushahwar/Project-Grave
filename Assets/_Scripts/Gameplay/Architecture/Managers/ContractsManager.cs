@@ -1,6 +1,7 @@
 ﻿using _Scripts.Gameplay.Architecture.Contracts;
 using _Scripts.Gameplay.General.Morgue;
 using _Scripts.Gameplay.General.Morgue.Bodies;
+using _Scripts.Gameplay.General.Morgue.Storage;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
 using MoreMountains.FeedbacksForThirdParty;
@@ -246,10 +247,17 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             get { return _portableContractDisplay; }
         }
 
-        public ContractActor HookContract
+        public MorgueContract HookContract
+        {
+            get
+            {
+                return _hookContractDisplay.Contract;
+            }
+        }
+        public ContractActor HookContractDisplay
         {
             get { return _hookContractDisplay; }
-        }
+        } 
 
         private Coroutine _showPortableContractSequence;
         private EContractDifficulty[][] _contractDifficulty = new EContractDifficulty[5][];
@@ -477,7 +485,9 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 return false;
             }
 
-            bool correctSubmission = submissionObj.OnSubmitted(PlayerChosenContract);
+            bool hookSubmission = submissionObj is GroupMorgueStorage;
+
+            bool correctSubmission = submissionObj.OnSubmitted(hookSubmission ? HookContract : PlayerChosenContract);
             if (!correctSubmission)
             {
                 Debug.Log("Incorrect submission for " + submissionObj.ToString());
@@ -486,30 +496,39 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
             Debug.Log("Correct submission for " + submissionObj.ToString());
             submissionObj.ClearSubmission();
-            CompleteContract();
+            CompleteContract(hookSubmission);
             return true;
         }
 
-        public void CompleteContract()
+        public void CompleteContract(bool hookContract)
         {
-            if (PlayerChosenContract != null)
+            if (hookContract)
             {
-                ShowPortableContract();
+                HookContract.CompleteContract();
 
-                PlayerChosenContract.CompleteContract();
+                CollectibleManager.Instance.AddCurrency(HookContract._reward._timeCurrency);
+            }
+            else
+            {
+                if (PlayerChosenContract != null)
+                {
+                    ShowPortableContract();
 
-                // pay/reward player
-                CollectibleManager.Instance.AddCurrency(PlayerChosenContract._reward._timeCurrency);
+                    PlayerChosenContract.CompleteContract();
 
-                //remove old contract
-                _selectableContracts.Remove(PlayerChosenContract);
-                _playerHighlightedContractIndex = 0;
-                //ContractActor contractActor = GetContractActor(PlayerChosenContract);
+                    // pay/reward player
+                    CollectibleManager.Instance.AddCurrency(PlayerChosenContract._reward._timeCurrency);
 
-                //if (contractActor != null)
-                //{
-                //    contractActor.RemoveContract();
-                //}
+                    //remove old contract
+                    _selectableContracts.Remove(PlayerChosenContract);
+                    _playerHighlightedContractIndex = 0;
+                    //ContractActor contractActor = GetContractActor(PlayerChosenContract);
+
+                    //if (contractActor != null)
+                    //{
+                    //    contractActor.RemoveContract();
+                    //}
+                }
             }
 
             //target next contract
