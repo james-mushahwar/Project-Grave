@@ -14,6 +14,7 @@ using _Scripts.Gameplay.Audio;
 [CustomPropertyDrawer(typeof(HumanMorgueBodyVariantDictionary))]
 [CustomPropertyDrawer(typeof(AudioCueDictionary))]
 [CustomPropertyDrawer(typeof(ParticleGroupDictionary))]
+[CustomPropertyDrawer(typeof(RigIKTypeDictionary))]
 public class AnySerializableDictionaryPropertyDrawer : SerializableDictionaryPropertyDrawer {}
 
 [CustomPropertyDrawer(typeof(ColorArrayStorage))]

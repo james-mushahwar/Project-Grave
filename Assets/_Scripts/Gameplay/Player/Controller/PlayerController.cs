@@ -410,7 +410,7 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (!CanPlayerCharacterMove())
+            if (!CanPlayerCharacterMove() || _playerCharacterAnimator.IsAnimationBlockingMovement())
             {
                 return;
             }

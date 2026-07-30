@@ -20,6 +20,8 @@ using Unity.VisualScripting;
 using static UnityEngine.Rendering.DebugUI;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
 using _Scripts.Gameplay.General.Morgue.Bodies;
+using _Scripts.Gameplay.Animate.Rig;
+using UnityEngine.Animations.Rigging;
 
 namespace _Scripts.Gameplay.Animate.Player{
 
@@ -37,6 +39,9 @@ namespace _Scripts.Gameplay.Animate.Player{
         private Tweener _playbackSpeedTweener;
         private float _sawingAmount; // 0 to 1
         private float _handTilt;
+
+        [SerializeField]
+        private RigBehaviour _rigBehaviour;
 
         #region Hashes
         //animation layer hash
@@ -1086,8 +1091,9 @@ namespace _Scripts.Gameplay.Animate.Player{
         #region Animation states
         public bool IsAnimationBlockingMovement()
         {
-            if (CurrentAnimator.IsInTransition(_baseAnimLayer_Index))
+            if (_rigBehaviour.IsRigAnimating)
             {
+                Debug.Log("Animation rig is in transition: BLOCK");
                 return true;
             }
 
@@ -1105,6 +1111,12 @@ namespace _Scripts.Gameplay.Animate.Player{
             if (CurrentAnimator.IsInTransition(_baseAnimLayer_Index))
             {
                 Debug.Log("Animation is in transition: BLOCK");
+                return true;
+            }
+
+            if (_rigBehaviour.IsRigAnimating)
+            {
+                Debug.Log("Animation Rig is in transition: BLOCK");
                 return true;
             }
 
@@ -1307,6 +1319,39 @@ namespace _Scripts.Gameplay.Animate.Player{
             return playbackSpeed;
         }
 
+        public bool TriggerRigTransition(ERigBehaviourType type, System.Action onComplete = null, float targetWeight = 1.0f, float speed = 2.5f)
+        {
+            if (_rigBehaviour == null)
+            {
+                Debug.LogError("RigBehaviour reference is missing on PlayerCharacterAnimator!", this);
+                return false;
+            }
+
+            // Forward the request directly to the internal rig behaviour system
+            return _rigBehaviour.SetRigWeight(type, speed, targetWeight, onComplete);
+        }
+
+        public Transform GetRigTargetTransform(ERigBehaviourType type)
+        {
+            // Access the active constraint via your RigBehaviour tracking
+            if (_rigBehaviour != null)
+            {
+                IRigConstraint rigConstraint = _rigBehaviour.GetRigConstraint(type);
+
+                if (rigConstraint != null)
+                {
+                    TwoBoneIKConstraint twoBoneIKConstraint = rigConstraint as TwoBoneIKConstraint;
+                    // Assuming your wrapper exposes the underlying constraint data target
+                    if (twoBoneIKConstraint != null)
+                    {
+                        return twoBoneIKConstraint.data.target;
+                    }
+                }
+            }
+            return null;
+        }
+
+
         public void ResetRig()
         {
             //SetRigControlPosition(_rigControlDefaultLocalPosition, true);
@@ -1497,7 +1542,7 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             bool perfectTiming = PlayerManager.Instance.CurrentPlayerController.PlayerCharacterAnimator.GetPerfectTimingActive();
             float factor = _operatingDirection == EDirectionType.East ? (perfectTiming ? 0.1f : 0.12f) : ((perfectTiming ? 1.0f : 0.05f));
-            Vector3 velocity = new Vector3((_operatingDirection == EDirectionType.East ? 1.0f : -1.0f) * Random.RandomRange(0.05f, 0.075f), Random.Range(-0.05f, 0.05f), 0.05f) * factor;
+            Vector3 velocity = new Vector3((_operatingDirection == EDirectionType.East ? 1.0f : -1.0f) * Random.Range(0.05f, 0.075f), Random.Range(-0.05f, 0.05f), 0.05f) * factor;
             //_cinemachineImpulseSource_Bump.GenerateImpulseWithVelocity(velocity);
 
             if (_operatingDirection == EDirectionType.West)

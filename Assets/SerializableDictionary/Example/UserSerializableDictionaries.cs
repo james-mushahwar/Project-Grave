@@ -9,6 +9,7 @@ using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.Audio;
 using _Scripts.Gameplay.VFX;
 using JetBrains.Annotations;
+using _Scripts.Gameplay.Animate.Rig;
 
 [Serializable]
 public class StringStringDictionary : SerializableDictionary<string, string> {}
@@ -57,3 +58,7 @@ public class AudioCueDictionary : SerializableDictionary<EAudioCue, AudioCueScri
 //Particle
 [Serializable]
 public class ParticleGroupDictionary : SerializableDictionary<EParticleGroup, ParticleGroupScriptableObject> { }
+
+//Animation
+[Serializable]
+public class RigIKTypeDictionary : SerializableDictionary<ERigBehaviourType, MonoBehaviour> { }

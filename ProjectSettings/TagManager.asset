@@ -29,6 +29,8 @@ TagManager:
   - Contract_Portable
   - UI_ContractMarker
   - Contract_Hook
+  - RigTarget_Pulley
+  - Room_Pulley
   layers:
   - Default
   - TransparentFX
