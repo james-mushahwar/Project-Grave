@@ -40,9 +40,6 @@ namespace _Scripts.Gameplay.Animate.Player{
         private float _sawingAmount; // 0 to 1
         private float _handTilt;
 
-        [SerializeField]
-        private RigBehaviour _rigBehaviour;
-
         #region Hashes
         //animation layer hash
         private int _baseAnimLayer_Index;
@@ -209,6 +206,12 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         [SerializeField]
         private AnimationCurve _operatingAnimationSpeedDampnerCurve;
+
+        [Header("Rig Behaviour")]
+        [SerializeField]
+        private RigBehaviour _rigBehaviour;
+        [SerializeField]
+        private float _rigBlendToContractTime;
 
         public bool CanTick { get => true; set => throw new System.NotImplementedException(); }
 
@@ -754,6 +757,25 @@ namespace _Scripts.Gameplay.Animate.Player{
 
         private void UpdateAnimState()
         {
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+            if (pc != null)
+            {
+                if (pc.PlayerControllerState == EPlayerControllerState.Contracts)
+                {
+                    //player point
+                    //Transform pointTransform = ContractsManager.Instance.GetContractPointingTransform();
+
+                    //ERigBehaviourType rigBehaviourType = ContractsManager.Instance.ContractRigBehaviour;
+
+                    //SetRigTargetTransform(rigBehaviourType, pointTransform);
+                    ERigBehaviourType rigBehaviourType = ContractsManager.Instance.ContractRigBehaviour;
+                    if (_rigBehaviour.ActiveRigType != rigBehaviourType)
+                    {
+                        TriggerRigTransition(rigBehaviourType, null, 1.0f, _rigBlendToContractTime);
+                    }
+                }
+            }
+
             {
                 // left arm with stopwatch
                 bool showWatch = MorgueManager.Instance.WorkTimeActive;
@@ -791,8 +813,6 @@ namespace _Scripts.Gameplay.Animate.Player{
 
             _previousBaseLayerStateHash = _currentBaseLayerStateHash;
             _currentBaseLayerStateHash = nextState;
-
-            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
 
             //previous state checks
             //pickup tool
@@ -1319,8 +1339,18 @@ namespace _Scripts.Gameplay.Animate.Player{
             return playbackSpeed;
         }
 
+        public bool SetAllRigWeights()
+        {
+            return _rigBehaviour.SetAllRigWeights();
+        }
+
         public bool TriggerRigTransition(ERigBehaviourType type, System.Action onComplete = null, float targetWeight = 1.0f, float speed = 2.5f)
         {
+            if (type == ERigBehaviourType.None)
+            {
+                return false;
+            }
+
             if (_rigBehaviour == null)
             {
                 Debug.LogError("RigBehaviour reference is missing on PlayerCharacterAnimator!", this);
@@ -1351,6 +1381,20 @@ namespace _Scripts.Gameplay.Animate.Player{
             return null;
         }
 
+        public void SetRigTargetTransform(ERigBehaviourType type, Transform copyTransform)
+        {
+            Transform ikTarget = GetRigTargetTransform(type);
+
+            if (ikTarget != null)
+            {
+                // (Optional: If the handle moves during the animation, child the target to it!)
+                ikTarget.SetParent(copyTransform);
+
+                // 2. Instantly snap or smoothly slide the IK target to the handle position
+                ikTarget.position = copyTransform.position;
+                ikTarget.rotation = copyTransform.rotation;
+            }
+        }
 
         public void ResetRig()
         {

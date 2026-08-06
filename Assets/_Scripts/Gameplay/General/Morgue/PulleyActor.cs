@@ -108,18 +108,7 @@ namespace _Scripts.Gameplay.General.Morgue{
             }
 
             PlayerCharacterAnimator pcAnimator = pc.PlayerCharacterAnimator;
-            Transform ikTarget = pcAnimator.GetRigTargetTransform(ERigBehaviourType.Player_PulleyHandle);
-
-            if (ikTarget != null)
-            {
-                // (Optional: If the handle moves during the animation, child the target to it!)
-                ikTarget.SetParent(_handleTransfrom);
-
-                // 2. Instantly snap or smoothly slide the IK target to the handle position
-                ikTarget.position = _handleTransfrom.position;
-                ikTarget.rotation = _handleTransfrom.rotation;
-
-            }
+            pcAnimator.SetRigTargetTransform(ERigBehaviourType.Player_PulleyHandle, _handleTransfrom);
 
             bool rigBlendFinished = false;
 

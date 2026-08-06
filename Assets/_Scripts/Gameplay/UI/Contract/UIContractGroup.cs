@@ -1,4 +1,6 @@
-﻿using _Scripts.Gameplay.Architecture.Managers;
+﻿using _Scripts.Gameplay.Animate.Player;
+using _Scripts.Gameplay.Animate.Rig;
+using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Gameplay.UI.Marker;
 using NUnit.Framework;
@@ -99,6 +101,7 @@ namespace _Scripts.Gameplay.UI.Contract {
                 if (i == playerSelectedContract)
                 {
                     uIMarker.SetHighlight(true);
+                    
                 }
                 else
                 {

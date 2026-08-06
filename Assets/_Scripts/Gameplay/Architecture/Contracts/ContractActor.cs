@@ -12,11 +12,18 @@ namespace _Scripts.Gameplay.Architecture.Contracts {
         public bool CanTick { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         private MorgueContract _morgueContract;
+        [SerializeField]
+        private Transform _pointTransform;
 
         public MorgueContract Contract
         {
             get => _morgueContract;
             protected set => _morgueContract = value;
+        }
+
+        public Transform GetPointTransform
+        {
+            get => _pointTransform;
         }
 
         public abstract void Disable();

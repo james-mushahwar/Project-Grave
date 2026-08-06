@@ -27,6 +27,7 @@ using _Scripts.Gameplay.Animate.Player;
 using DG.Tweening;
 using _Scripts.Gameplay.General.Morgue.Operation.Tools.Profiles;
 using static SerializableDictionary;
+using _Scripts.Gameplay.Animate.Rig;
 
 namespace _Scripts.Gameplay.Player.Controller{
 
@@ -1406,6 +1407,11 @@ namespace _Scripts.Gameplay.Player.Controller{
                         mpi.Game.Movement.performed += OnContracts_NavigateLR;
                         mpi.Game.Select.started += OnContracts_Select;
                         mpi.Game.Back.started += OnContracts_Back;
+
+                        //ContractsManager.Instance.RefreshContracts();
+                        // Resets the active rig back to zero weight smoothly
+                        ERigBehaviourType rigBehaviourType = ContractsManager.Instance.ContractRigBehaviour;
+                        PlayerCharacterAnimator.TriggerRigTransition(rigBehaviourType, null, 1.0f, 1.5f);
                         break;
                     default:
                         break;
@@ -1485,6 +1491,9 @@ namespace _Scripts.Gameplay.Player.Controller{
                         mpi.Game.Movement.performed -= OnContracts_NavigateLR;
                         mpi.Game.Select.started -= OnContracts_Select;
                         mpi.Game.Back.started -= OnContracts_Back;
+                        ERigBehaviourType rigBehaviourType = ContractsManager.Instance.ContractRigBehaviour;
+                        //PlayerCharacterAnimator.TriggerRigTransition(rigBehaviourType, null, 0.0f, 1.0f);
+                        PlayerCharacterAnimator.SetAllRigWeights();
                         break;
 
                     default:

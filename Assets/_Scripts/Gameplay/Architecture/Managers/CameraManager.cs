@@ -267,7 +267,19 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                     id = PlayerManager.Instance.CurrentPlayerController.RuntimeID;
                 }
 
-
+                bool firstPersonCamera = (CmBrain.ActiveVirtualCamera != null && CmBrain.ActiveVirtualCamera.Equals(GetVirtualCamera(PlayerManager.Instance.CurrentPlayerController.RuntimeID, EVirtualCameraType.FirstPersonView_Normal)));
+                bool contractView = vCamType == EVirtualCameraType.Contract_Book_Overview;
+                
+                {
+                    Debug.Log("Activated New VCam");
+                    Transform playerHolder = PlayerManager.Instance.CurrentPlayerController.PlayerCharacterHolder;
+                    Transform newPlayerHolderParent = contractView ? null : GetVirtualCamera(PlayerManager.Instance.CurrentPlayerController.RuntimeID, EVirtualCameraType.FirstPersonView_Normal).transform;
+                    if (playerHolder.parent != newPlayerHolderParent)
+                    {
+                        playerHolder.SetParent(newPlayerHolderParent);
+                        Debug.Log("Set new player holder parent");
+                    }
+                }
                 bool activate = false;
                 if (vCam != null)
                 {
@@ -396,6 +408,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 }
 
                 vCam.gameObject.SetActive(true);
+
                 _cameraTransitionBuffer = true;
                 activated = true;
                 //_currentVCamType = cameraType;

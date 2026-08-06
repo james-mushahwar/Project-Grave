@@ -31,6 +31,12 @@ TagManager:
   - Contract_Hook
   - RigTarget_Pulley
   - Room_Pulley
+  - RigTarget_Contract1
+  - Room_Contract1
+  - RigTarget_Contract2
+  - Room_Contract2
+  - RigTarget_Contract3
+  - Room_Contract3
   layers:
   - Default
   - TransparentFX

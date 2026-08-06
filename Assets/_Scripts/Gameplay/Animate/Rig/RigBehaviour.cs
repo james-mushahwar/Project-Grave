@@ -10,6 +10,7 @@ namespace _Scripts.Gameplay.Animate.Rig {
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using UnityEngine.Rendering;
 
     // Filled example enum types for context
     public enum ERigBehaviourType : UInt16
@@ -62,6 +63,15 @@ namespace _Scripts.Gameplay.Animate.Rig {
 
         // ... inside your RigBehaviour class ...
 
+        public bool SetAllRigWeights(float weight = 0.0f)
+        {
+            foreach (var kvp in _rigConstraintsDict)
+            {
+                IRigConstraint constraint = kvp.Value;
+                constraint.weight = weight;
+            }
+            return true;
+        }
         // Update the method signature to accept an optional callback
         public bool SetRigWeight(ERigBehaviourType type, float speed, float targetWeight = 1.0f, Action onComplete = null)
         {
@@ -90,6 +100,7 @@ namespace _Scripts.Gameplay.Animate.Rig {
 
             while (keepBlending)
             {
+                // 1. Assume we are done blending this frame
                 keepBlending = false;
                 float step = speed * Time.deltaTime;
 
@@ -99,10 +110,16 @@ namespace _Scripts.Gameplay.Animate.Rig {
                     IRigConstraint constraint = kvp.Value;
                     float target = (type == activeType) ? targetWeight : 0.0f;
 
+                    constraint.weight = Mathf.MoveTowards(constraint.weight, target, step);
+
+                    // 2. If ANY constraint has not reached its target yet, we must keep blending
                     if (!Mathf.Approximately(constraint.weight, target))
                     {
-                        constraint.weight = Mathf.MoveTowards(constraint.weight, target, step);
                         keepBlending = true;
+                    }
+                    else
+                    {
+                        constraint.weight = target;
                     }
                 }
 
@@ -114,6 +131,7 @@ namespace _Scripts.Gameplay.Animate.Rig {
             // Trigger the callback when blending is 100% finished
             onComplete?.Invoke();
         }
+
 
         internal IRigConstraint GetRigConstraint(ERigBehaviourType rigBehaviourType)
         {

@@ -1,4 +1,5 @@
-﻿using _Scripts.Gameplay.Architecture.Contracts;
+﻿using _Scripts.Gameplay.Animate.Rig;
+using _Scripts.Gameplay.Architecture.Contracts;
 using _Scripts.Gameplay.General.Morgue;
 using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Gameplay.General.Morgue.Storage;
@@ -179,7 +180,19 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         private int _playerHighlightedContractIndex = 0;
         public int PlayerHighlightedContractIndex
         {
-            get => _playerHighlightedContractIndex;
+            get
+            {
+                if (_playerHighlightedContractIndex < 0)
+                {
+                    _playerHighlightedContractIndex = SelectableContractsMidpoint;
+                }
+                return _playerHighlightedContractIndex;
+            }
+        }
+
+        public int SelectableContractsMidpoint
+        {
+            get => _selectableContracts.Count / 2;
         }
 
         public MorgueContract PlayerChosenContract
@@ -275,6 +288,30 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             set => throw new System.NotImplementedException();
         }
 
+        public ERigBehaviourType ContractRigBehaviour
+        {
+            get
+            {
+                if (PlayerHighlightedContractIndex < 0)
+                {
+                    return ERigBehaviourType.None;
+                }
+
+                if (PlayerHighlightedContractIndex == 0)
+                {
+                    return ERigBehaviourType.Player_ContractPosition1;
+                }
+                if (PlayerHighlightedContractIndex == 1)
+                {
+                    return ERigBehaviourType.Player_ContractPosition2;
+                }
+                if (PlayerHighlightedContractIndex == 2)
+                {
+                    return ERigBehaviourType.Player_ContractPosition3;
+                }
+                return ERigBehaviourType.None;
+            }
+        }
         public void ManagedPostInGameLoad()
         {
             _reserveContracts = new Stack<MorgueContract>();
@@ -461,6 +498,16 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             }
         }
 
+        public Transform GetContractPointingTransform()
+        {
+            if (_playerHighlightedContractIndex < 0)
+            {
+                return null;
+            }
+
+            return _officeContractDisplays[_playerHighlightedContractIndex].GetPointTransform;
+        }
+
         public void NextContractHighlighted()
         {
 
@@ -521,7 +568,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
                     //remove old contract
                     _selectableContracts.Remove(PlayerChosenContract);
-                    _playerHighlightedContractIndex = 0;
+                    _playerHighlightedContractIndex = SelectableContractsMidpoint;
                     //ContractActor contractActor = GetContractActor(PlayerChosenContract);
 
                     //if (contractActor != null)
@@ -552,7 +599,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         {
             if (_playerHighlightedContractIndex == -1)
             {
-                _playerHighlightedContractIndex = 0;
+                _playerHighlightedContractIndex = SelectableContractsMidpoint;
             }
 
             if (_playerHighlightedContractIndex >= 0 && _playerHighlightedContractIndex < _selectableContracts.Count)

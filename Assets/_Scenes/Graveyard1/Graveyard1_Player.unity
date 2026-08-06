@@ -145,7 +145,7 @@ Transform:
   m_GameObject: {fileID: 11148297}
   serializedVersion: 2
   m_LocalRotation: {x: -0.026347453, y: 0.9996529, z: -0.000000015311695, w: 0.0000005809435}
-  m_LocalPosition: {x: 47.901, y: 1.3509, z: 55.786}
+  m_LocalPosition: {x: 47.901, y: 1.1492, z: 55.786}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -339,7 +339,7 @@ Transform:
   m_GameObject: {fileID: 440907818}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.9878061, z: -0, w: -0.1556893}
-  m_LocalPosition: {x: 47.868, y: 1.3027, z: 55.5352}
+  m_LocalPosition: {x: 47.868, y: 1.101, z: 55.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -572,11 +572,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5909463162723811398, guid: 3f1a389a1d44aae489a05c09f579c16f,
-        type: 3}
-      propertyPath: m_TagString
-      value: RigTarget_Pulley
-      objectReference: {fileID: 0}
     - target: {fileID: 6385277896682442751, guid: 3f1a389a1d44aae489a05c09f579c16f,
         type: 3}
       propertyPath: m_Data.m_Target
@@ -730,7 +725,7 @@ Transform:
   m_GameObject: {fileID: 1832353596}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.9949038, z: -0, w: 0.100828454}
-  m_LocalPosition: {x: 47.868, y: 1.3027, z: 55.989}
+  m_LocalPosition: {x: 47.868, y: 1.101, z: 55.989}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

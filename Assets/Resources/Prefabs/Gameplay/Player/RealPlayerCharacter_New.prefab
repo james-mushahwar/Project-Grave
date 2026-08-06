@@ -749,7 +749,7 @@ GameObject:
   - component: {fileID: 6385277896682442751}
   m_Layer: 0
   m_Name: contract_03_HandIK
-  m_TagString: Untagged
+  m_TagString: RigTarget_Contract3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -927,7 +927,7 @@ GameObject:
   - component: {fileID: 8202451094583599427}
   m_Layer: 0
   m_Name: PullChain_HandIK
-  m_TagString: Untagged
+  m_TagString: RigTarget_Pulley
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1420,7 +1420,7 @@ GameObject:
   - component: {fileID: 908322209697260844}
   m_Layer: 0
   m_Name: contract_02_HandIK
-  m_TagString: Untagged
+  m_TagString: RigTarget_Contract2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1976,7 +1976,7 @@ GameObject:
   - component: {fileID: 6395596153930513934}
   m_Layer: 0
   m_Name: contract_01_HandIK
-  m_TagString: Untagged
+  m_TagString: RigTarget_Contract1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2595,6 +2595,11 @@ PrefabInstance:
       propertyPath: _leftArmAnimator
       value: 
       objectReference: {fileID: 5806588928012946954}
+    - target: {fileID: 1597779602180825288, guid: 4255157f30fae0542921f07811374a3e,
+        type: 3}
+      propertyPath: _rigBlendToContractTime
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1692246249394569415, guid: 4255157f30fae0542921f07811374a3e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
