@@ -86,5 +86,7 @@ MonoBehaviour:
     type: 3}
   _sequencerManagerPrefab: {fileID: 4114128558173646553, guid: 799c0ca0b265a0042887496c580a23fc,
     type: 3}
-  contractsManagerPrefab: {fileID: 3740760823449166110, guid: ea4ba848567faba4f9d69516a90c3faa,
+  _contractsManagerPrefab: {fileID: 3740760823449166110, guid: ea4ba848567faba4f9d69516a90c3faa,
+    type: 3}
+  _hourglassManagerPrefab: {fileID: 8443205670596207457, guid: a52db75ac51e6004290803efa6ceda79,
     type: 3}

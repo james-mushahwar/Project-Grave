@@ -382,29 +382,29 @@ namespace _Scripts.Gameplay.General.Morgue{
             
             contract.Submitted._bodyPart.Clear();
             BodyMorgueActor body = GetBody();
-            if (body)
+            if (body != null)
             {
-                if (body.HeadMorgueActor.BodyMorgueActor == body)
+                if (body.HeadMorgueActor != null && body.HeadMorgueActor.BodyMorgueActor == body)
                 {
                     contract.Submitted._bodyPart.Add(EMorgueBodyPart.Head);
                 }
 
-                if (body.LArmMorgueActor.BodyMorgueActor == body)
+                if (body.LArmMorgueActor != null && body.LArmMorgueActor.BodyMorgueActor == body)
                 {
                     contract.Submitted._bodyPart.Add(EMorgueBodyPart.LArm);
                 }
 
-                if (body.RArmMorgueActor.BodyMorgueActor == body)
+                if (body.RArmMorgueActor != null && body.RArmMorgueActor.BodyMorgueActor == body)
                 {
                     contract.Submitted._bodyPart.Add(EMorgueBodyPart.RArm);
                 }
 
-                if (body.LLegMorgueActor.BodyMorgueActor == body)
+                if (body.LLegMorgueActor != null && body.LLegMorgueActor.BodyMorgueActor == body)
                 {
                     contract.Submitted._bodyPart.Add(EMorgueBodyPart.LLeg);
                 }
 
-                if (body.RLegMorgueActor.BodyMorgueActor == body)
+                if (body.RLegMorgueActor != null && body.RLegMorgueActor.BodyMorgueActor == body)
                 {
                     contract.Submitted._bodyPart.Add(EMorgueBodyPart.RLeg);
                 }

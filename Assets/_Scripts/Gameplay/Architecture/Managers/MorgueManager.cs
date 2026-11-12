@@ -14,6 +14,7 @@ using _Scripts.Gameplay.Settings;
 using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 using UnityEngine.Playables;
 using _Scripts.Gameplay.General.Morgue.Storage;
+using _Scripts.Gameplay.Characters.Receptionist;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -250,6 +251,13 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         private GameObject _houseChuteRoot;
         private List<MorgueActor> _pendingHouseMorgueActors = new List<MorgueActor>();
 
+        private Receptionist _receptionist;
+
+        public Receptionist Receptionist
+        {
+            get { return _receptionist; }
+        }
+
         private GameObject _hooksOnChain;
         private GroupMorgueStorage _hooksStorage;
 
@@ -307,6 +315,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_PlayerSleep();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_OpenGate();
                 //InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => InvokeDayNightTransition();
+                InputManager.Instance.MasterPlayerInput.Game.Debug_SpawnBody.started += ctx => Debug_AddCurrency();
             }
 
             _morgueTickables = FindObjectsOfType<MonoBehaviour>(true).OfType<IMorgueTickable>().ToList();
@@ -315,7 +324,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 morgueTickable.Setup();
             }
 
-            _dayNightCycle = FindObjectOfType<DayNightCycle>();
+            _dayNightCycle = FindAnyObjectByType<DayNightCycle>();
             _dayNightCycle.Setup();
 
             _currentTimeline = EDayTimeline.Midday_Start;
@@ -338,6 +347,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             _hooksOnChain = GameObject.FindGameObjectWithTag("Storage_HooksOnChain");
             _hooksStorage = _hooksOnChain.GetComponent<GroupMorgueStorage>();
+
+            //receptionist
+            _receptionist = FindAnyObjectByType<Receptionist>();
+            _receptionist.Setup();
         }
 
         private void Debug_PlayerDrowsy()
@@ -353,6 +366,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             //}
 
             ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_GoToSleep);
+        }
+
+        private void Debug_AddCurrency()
+        {
+            CollectibleManager.Instance.AddCurrency(5);
         }
 
         public IEnumerator PlayerSleep()
@@ -390,6 +408,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             OnStimulusReceived(EMorgueStimulus.DayEvent_StartDay);
 
             ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_OpenGate);
+
+            ActionSequenceManager.Instance.SetPreviousActionSequence(EActionSequenceEvent.DayAny_WakeUp);
         }
 
         public EDayTimeline GetDayTimeline()
@@ -1000,8 +1020,34 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                             //ActionSequenceManager.Instance.TryPlayActionSequence(EActionSequenceEvent.Day0_OpenGate);
                         }
                     }
+                    else
+                    {
+                        ActionSequenceManager.Instance.SetPreviousActionSequence(EActionSequenceEvent.DayAny_FinishWork);
+                    }
                 }
             }
+        }
+        // lose conditions and resetting
+        public void OnDayQuotaFailed()
+        {
+            //for now just reset the game 
+            Application.Unload();
+
+            //TODO
+            //reset day to start of day
+            //reset time currency collected and banked
+            //reset contracts completed and available
+            //reset hourglasses submitted
+            //reset state of operations, tool state of health.
+
+            
+        }
+
+        public void OnWeekQuotaFailed()
+        {
+            //for now just reset the game
+            Application.Unload();
+
         }
 
         public void LowerHooksOnChain()

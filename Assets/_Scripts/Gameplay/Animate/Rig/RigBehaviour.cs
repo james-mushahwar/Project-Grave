@@ -90,6 +90,7 @@ namespace _Scripts.Gameplay.Animate.Rig {
             }
 
             // Pass the callback into the Coroutine
+            gameObject.SetActive(true);
             _blendCoroutine = StartCoroutine(BlendRigsRoutine(type, speed, targetWeight, onComplete));
             return true;
         }

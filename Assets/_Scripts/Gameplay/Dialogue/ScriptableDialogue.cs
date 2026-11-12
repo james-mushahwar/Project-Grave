@@ -29,6 +29,12 @@ namespace _Scripts._Game.Dialogue{
         Day0_Optional_FinishStoringBodyParts_Prompt,
 
         Day1_ChooseContract_Prompt = 100,
+        Day1_ReceptionistQuota_Speech,
+        
+
+
+        DayAny_QuotaCheck_0 = 10000,
+
         COUNT
     }
 

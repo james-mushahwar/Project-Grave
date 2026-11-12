@@ -28,9 +28,14 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         Day0_OpenGate = 1000,
         Day0_CloseGate,
 
+        //Day 1 
+        Day1_QuotaExplanation = 1100,
+
         //DayLoop - can happen multiple times any day 
         DayAny_WakeUp = 10000,
         DayAny_GoToSleep,
+        DayAny_FinishWork, 
+        DayAny_EndOfDayQuotaCheck,
     }
 
     public enum EActionSequencePauseReason : uint
@@ -73,6 +78,14 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                     }
                 }
                 return false;
+            }
+        }
+
+        public bool JustStartedDay
+        {
+            get
+            {
+                return (_previousMajorActionSequence == EActionSequenceEvent.DayAny_WakeUp || _previousMajorActionSequence == EActionSequenceEvent.DayAny_GoToSleep || _previousMajorActionSequence == EActionSequenceEvent.Day0_GoToSleep);
             }
         }
 
@@ -178,6 +191,10 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 {
                     TryPlayActionSequence(EActionSequenceEvent.Day0_TableExits);
                 }
+                else if (_previousMajorActionSequence == EActionSequenceEvent.DayAny_FinishWork)
+                {
+                    TryPlayActionSequence(EActionSequenceEvent.Day0_TableExits);
+                }
             }
         }
 
@@ -265,6 +282,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
             bool isTutorialDay = MorgueManager.Instance.IsTutorialDay;
 
+            //Day 0 
             if (seqEvent == EActionSequenceEvent.Day0_PickupSaw)
             {
                 canPlay = _previousMajorActionSequence == EActionSequenceEvent.DayAny_WakeUp;
@@ -287,6 +305,11 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 {
                     canPlay = MorgueManager.Instance.WorkdDoneForDay;
                 }
+            }
+            //Day 1
+            else if (seqEvent == EActionSequenceEvent.Day1_QuotaExplanation)
+            {
+                canPlay = MorgueManager.Instance.DayCount == 1 && (JustStartedDay);
             }
 
             return canPlay && GameStateManager.Instance.IsPlayingFullGame;

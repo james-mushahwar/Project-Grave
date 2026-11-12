@@ -1,5 +1,6 @@
 ﻿using _Scripts.Gameplay.Animate.Rig;
 using _Scripts.Gameplay.Architecture.Contracts;
+using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.General.Morgue;
 using _Scripts.Gameplay.General.Morgue.Bodies;
 using _Scripts.Gameplay.General.Morgue.Storage;
@@ -288,6 +289,23 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             set => throw new System.NotImplementedException();
         }
 
+        [SerializeField]
+        private int _dayAllocationToDeadline = 5;
+        private int _deadlineDay;
+        public int DeadlineDay
+        {
+            get
+            {
+                return _deadlineDay;
+            }
+        }
+        [SerializeField]
+        private int _targetDeadlineTimeCurrency = 50;
+        public int TargetDeadlineTimeCurrency
+        {
+            get { return _targetDeadlineTimeCurrency; }
+        }
+
         public ERigBehaviourType ContractRigBehaviour
         {
             get
@@ -312,6 +330,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 return ERigBehaviourType.None;
             }
         }
+
         public void ManagedPostInGameLoad()
         {
             _reserveContracts = new Stack<MorgueContract>();

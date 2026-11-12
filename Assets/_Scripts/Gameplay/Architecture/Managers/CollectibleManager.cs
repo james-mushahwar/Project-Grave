@@ -14,6 +14,8 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         private int _timeCurrency = 0;
 
+        private int _bankedTimeCurrency = 0; // this is the amount submitted within hourglasses
+
         [SerializeField]
         private List<UpgradeScriptableObject> _upgrades;
 
@@ -24,6 +26,15 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         public int Currency
         {
             get { return _timeCurrency; }
+        }
+
+        public int BankTimeCurrency
+        {
+            get
+            {
+                return _bankedTimeCurrency;
+            }
+            set { _bankedTimeCurrency = value; }
         }
 
         public virtual void ManagedPreInGameLoad()

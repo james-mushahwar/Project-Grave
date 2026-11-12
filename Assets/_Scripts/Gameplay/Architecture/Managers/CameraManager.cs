@@ -43,6 +43,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         //Contracts
         Contract_Book_Overview = 400,
+
+        //Hourglasses
+        Hourglass_Selection_Overview = 500,
         // Generic
         General_Default = 10000,
         General_Operation
@@ -256,6 +259,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                         id = OperationManager.Instance.CurrentOperationState.RuntimeID;
                     }
                 }
+                else if (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState == EPlayerControllerState.Hourglass)
+                {
+                    vCamType = EVirtualCameraType.Hourglass_Selection_Overview;
+                    id = HourglassManager.Instance.HourglassSelector.RuntimeID;
+                }
                 else if (PlayerManager.Instance.CurrentPlayerController.PlayerControllerState == EPlayerControllerState.Contracts)
                 {
                     vCamType = EVirtualCameraType.Contract_Book_Overview;
@@ -269,11 +277,12 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
                 bool firstPersonCamera = (CmBrain.ActiveVirtualCamera != null && CmBrain.ActiveVirtualCamera.Equals(GetVirtualCamera(PlayerManager.Instance.CurrentPlayerController.RuntimeID, EVirtualCameraType.FirstPersonView_Normal)));
                 bool contractView = vCamType == EVirtualCameraType.Contract_Book_Overview;
+                bool hourglassView = vCamType == EVirtualCameraType.Hourglass_Selection_Overview;
                 
                 {
                     Debug.Log("Activated New VCam");
                     Transform playerHolder = PlayerManager.Instance.CurrentPlayerController.PlayerCharacterHolder;
-                    Transform newPlayerHolderParent = contractView ? null : GetVirtualCamera(PlayerManager.Instance.CurrentPlayerController.RuntimeID, EVirtualCameraType.FirstPersonView_Normal).transform;
+                    Transform newPlayerHolderParent = contractView || hourglassView ? null : GetVirtualCamera(PlayerManager.Instance.CurrentPlayerController.RuntimeID, EVirtualCameraType.FirstPersonView_Normal).transform;
                     if (playerHolder.parent != newPlayerHolderParent)
                     {
                         playerHolder.SetParent(newPlayerHolderParent);

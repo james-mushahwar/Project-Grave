@@ -43,7 +43,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         [SerializeField] private ActionSequenceManager _actionSequenceManagerPrefab;
         [SerializeField] private DialogueManager _dialogueManagerPrefab;
         [SerializeField] private SequencerManager _sequencerManagerPrefab;
-        [SerializeField] private ContractsManager contractsManagerPrefab;
+        [SerializeField] private ContractsManager _contractsManagerPrefab;
+        [SerializeField] private HourglassManager _hourglassManagerPrefab;
 
 
         EGameState _gameState = EGameState.Bootstrap;
@@ -129,7 +130,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             _managers.Add(GameObject.Instantiate(_actionSequenceManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_dialogueManagerPrefab, this.transform));
             _managers.Add(GameObject.Instantiate(_sequencerManagerPrefab, this.transform));
-            _managers.Add(GameObject.Instantiate(contractsManagerPrefab, this.transform));
+            _managers.Add(GameObject.Instantiate(_contractsManagerPrefab, this.transform));
+            _managers.Add(GameObject.Instantiate(_hourglassManagerPrefab, this.transform));
         }
 
         void Start()

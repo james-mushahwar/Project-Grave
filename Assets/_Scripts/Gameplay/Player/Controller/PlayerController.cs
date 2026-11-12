@@ -42,6 +42,8 @@ namespace _Scripts.Gameplay.Player.Controller{
         OpenCoat = 200,
 
         Contracts = 300,
+
+        Hourglass = 400,
     }
 
     public enum EOperationType
@@ -82,6 +84,8 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         private bool _inputLeftDirection;
         private bool _inputRightDirection;
+        private bool _inputUpDirection;
+        private bool _inputDownDirection;
 
         private EPlayerControllerState _playerControllerState = EPlayerControllerState.NONE;
         public EPlayerControllerState PlayerControllerState
@@ -459,7 +463,7 @@ namespace _Scripts.Gameplay.Player.Controller{
         }
 
         #region Contract select mode
-        public void OnContracts_NavigateLR(InputAction.CallbackContext context)
+        public void OnContracts_Navigate(InputAction.CallbackContext context)
         {
             bool inTransition = CameraManager.Instance.IsCameraInTransition();
             if (inTransition)
@@ -471,6 +475,9 @@ namespace _Scripts.Gameplay.Player.Controller{
             _inputLeftDirection = leftStickInput.x < -0.1f;
             _inputRightDirection = leftStickInput.x > 0.1f;
 
+            _inputUpDirection = leftStickInput.y > 0.5f;
+            _inputDownDirection = leftStickInput.y < -0.5f;
+
             if (_inputLeftDirection)
             {
                 Debug.Log("Go left");
@@ -480,6 +487,14 @@ namespace _Scripts.Gameplay.Player.Controller{
             {
                 Debug.Log("Go right");
                 ContractsManager.Instance.SelectNextContract(true);
+
+            }
+            else if (_inputUpDirection)
+            {
+                RequestPlayerControllerState(EPlayerControllerState.Hourglass);
+            }
+            else if (_inputDownDirection)
+            {
 
             }
         }
@@ -500,6 +515,73 @@ namespace _Scripts.Gameplay.Player.Controller{
         }
 
         public void LeaveContractView()
+        {
+            bool inTransition = CameraManager.Instance.IsCameraInTransition();
+            if (inTransition)
+            {
+                return;
+            }
+
+            //leave camera view
+            //leave input control mode
+            RequestPlayerControllerState(EPlayerControllerState.Normal);
+        }
+        #endregion
+
+        #region Hourglass control mode
+        public void OnHourglass_Navigate(InputAction.CallbackContext context)
+        {
+            bool inTransition = CameraManager.Instance.IsCameraInTransition();
+            if (inTransition)
+            {
+                return;
+            }
+
+            Vector2 leftStickInput = context.ReadValue<Vector2>();
+            _inputLeftDirection = leftStickInput.x < -0.1f;
+            _inputRightDirection = leftStickInput.x > 0.1f;
+
+            _inputUpDirection = leftStickInput.y > 0.5f;
+            _inputDownDirection = leftStickInput.y < -0.5f;
+
+            if (_inputLeftDirection)
+            {
+                Debug.Log("Go left");
+            }
+            else if (_inputRightDirection)
+            {
+                Debug.Log("Go right");
+            }
+            else if (_inputUpDirection)
+            {
+            }
+            else if (_inputDownDirection)
+            {
+                RequestPlayerControllerState(EPlayerControllerState.Contracts);
+            }
+        }
+
+        public void OnHourglass_Select(InputAction.CallbackContext context)
+        {
+            bool inTransition = CameraManager.Instance.IsCameraInTransition();
+            if (inTransition)
+            {
+                return;
+            }
+
+            //todo
+
+        }
+
+        private void OnHourglass_Back(InputAction.CallbackContext context)
+        {
+            if (HourglassManager.Instance.HourglassSelector.IsFillingHourglass == false)
+            {
+                LeaveHourglassView();
+            }
+        }
+
+        public void LeaveHourglassView()
         {
             bool inTransition = CameraManager.Instance.IsCameraInTransition();
             if (inTransition)
@@ -1294,7 +1376,9 @@ namespace _Scripts.Gameplay.Player.Controller{
                 _chosenOperationState = null;
                 AnimationManager.Instance.EndOperationState(_bodyPartMorgueActor);
             }
-            
+
+            ReturnOperatingToolToSlot(EquippedOperatingTool);
+
             if (leaveOpTable || leaveOpEntirely)
             {
                 if (_operatingTable != null)
@@ -1307,8 +1391,6 @@ namespace _Scripts.Gameplay.Player.Controller{
                 }
 
                 ClearInput();
-
-                ReturnOperatingToolToSlot(EquippedOperatingTool);
 
                 _operatingTable = null;
 
@@ -1404,7 +1486,7 @@ namespace _Scripts.Gameplay.Player.Controller{
                     case EPlayerControllerState.Contracts:
                         cursorLock = CursorLockMode.Confined;
 
-                        mpi.Game.Movement.performed += OnContracts_NavigateLR;
+                        mpi.Game.Movement.performed += OnContracts_Navigate;
                         mpi.Game.Select.started += OnContracts_Select;
                         mpi.Game.Back.started += OnContracts_Back;
 
@@ -1412,6 +1494,15 @@ namespace _Scripts.Gameplay.Player.Controller{
                         // Resets the active rig back to zero weight smoothly
                         ERigBehaviourType rigBehaviourType = ContractsManager.Instance.ContractRigBehaviour;
                         PlayerCharacterAnimator.TriggerRigTransition(rigBehaviourType, null, 1.0f, 1.5f);
+                        break;
+
+                    case EPlayerControllerState.Hourglass:
+                        cursorLock = CursorLockMode.Confined;
+                        mpi.Game.Movement.performed += OnHourglass_Navigate;
+                        mpi.Game.Select.started += OnHourglass_Select;
+                        mpi.Game.Back.started += OnHourglass_Back;
+
+                        MorgueManager.Instance.Receptionist.ToggleHidden(true, true);
                         break;
                     default:
                         break;
@@ -1488,12 +1579,20 @@ namespace _Scripts.Gameplay.Player.Controller{
                         break;
 
                     case EPlayerControllerState.Contracts:
-                        mpi.Game.Movement.performed -= OnContracts_NavigateLR;
+                        mpi.Game.Movement.performed -= OnContracts_Navigate;
                         mpi.Game.Select.started -= OnContracts_Select;
                         mpi.Game.Back.started -= OnContracts_Back;
                         ERigBehaviourType rigBehaviourType = ContractsManager.Instance.ContractRigBehaviour;
                         //PlayerCharacterAnimator.TriggerRigTransition(rigBehaviourType, null, 0.0f, 1.0f);
                         PlayerCharacterAnimator.SetAllRigWeights();
+                        break;
+
+                    case EPlayerControllerState.Hourglass:
+                        mpi.Game.Movement.performed -= OnHourglass_Navigate;
+                        mpi.Game.Select.started -= OnHourglass_Select;
+                        mpi.Game.Back.started -= OnHourglass_Back;
+
+                        MorgueManager.Instance.Receptionist.ToggleHidden(false, true);
                         break;
 
                     default:
