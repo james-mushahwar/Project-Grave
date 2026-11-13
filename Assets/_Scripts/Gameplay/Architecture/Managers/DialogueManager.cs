@@ -273,6 +273,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 ts.StartTask();
                 return true;
             }
+            if (dialogueEvent == EDialogueEvent.DayAny_EndWorkReceptionist_Speech)
+            {
+                Debug.LogWarning("No dialogue is registered for " + dialogueEvent);
+            }
             return false;
         }
 
@@ -285,6 +289,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 canPlay = MorgueManager.Instance.IsTutorialDay == false && 
                     MorgueManager.Instance.DayCount == 1 && 
                     _dialoguePlayedDictionary[dialogueEvent] == false;
+            }
+            else if (dialogueEvent == EDialogueEvent.DayAny_EndWorkReceptionist_Speech)
+            {
+                canPlay = MorgueManager.Instance.IsTutorialDay == false;
             }
 
             return canPlay;

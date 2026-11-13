@@ -15,6 +15,7 @@ using _Scripts.Gameplay.General.Morgue.Operation.OperationState;
 using UnityEngine.Playables;
 using _Scripts.Gameplay.General.Morgue.Storage;
 using _Scripts.Gameplay.Characters.Receptionist;
+using _Scripts._Game.Dialogue;
 
 namespace _Scripts.Gameplay.Architecture.Managers{
 
@@ -1097,6 +1098,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public bool StopWorkingDay()
         {
+            bool wasWorking = _workTimeActive;
             _workTimeActive = false;
             if (OperationManager.Instance.OperatingTable.TableInRoom)
             {
@@ -1107,6 +1109,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
             _dayNightCycle.StopTargetTimeline();
             InvokeDayNightTransition(EDayTimeline.Night_Start, EDayTimeTransition.Timelapse_Normal);
+            if (wasWorking && !IsTutorialDay)
+            {
+                DialogueManager.Instance.TryPlayDialogue(EDialogueEvent.DayAny_EndWorkReceptionist_Speech);
+            }
             return true;
         }
         #endregion

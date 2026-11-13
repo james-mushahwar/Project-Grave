@@ -33,6 +33,7 @@ namespace _Scripts._Game.Dialogue{
         
 
 
+        DayAny_EndWorkReceptionist_Speech = 102,
         DayAny_QuotaCheck_0 = 10000,
 
         COUNT
