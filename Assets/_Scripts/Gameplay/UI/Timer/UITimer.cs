@@ -78,7 +78,7 @@ namespace _Scripts.Gameplay.UI.Timer {
             int timeInt = ((int)MorgueManager.Instance.WorkTimeRemaining);
             int timeMins = timeInt / 60;
             int timeSeconds = timeInt % 60;
-            _timerTMP.text = timeMins.ToString() + ":" + timeSeconds.ToString();
+            _timerTMP.text = timeMins.ToString() + ":" + timeSeconds.ToString("D2");
         }
     }
     

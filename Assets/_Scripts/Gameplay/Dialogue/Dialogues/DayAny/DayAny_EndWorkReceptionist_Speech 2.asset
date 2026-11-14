@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91d3671a02747445ba57d8117b1fe1a4, type: 3}
-  m_Name: DayAny_EndWorkReceptionist_Speech
+  m_Name: DayAny_EndWorkReceptionist_Speech 2
   m_EditorClassIdentifier: 
   _dialogueType: 0
   _dialogueEvent: 102
   _phrases:
-  - _text: Your workday is over, so put down that saw. Come to my desk and see what
-      fate has in store.
+  - _text: Step up to the desk my friend. Your work is done for now, let's see how
+      your day will end.
     _receiveInput: 0
     _isSkipable: 0
     _isAuto: 1

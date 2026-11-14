@@ -16,7 +16,9 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         private BaseWriterEffect[] _writerEffects;
 
-        private Dictionary<EDialogueEvent, TextSequenceable> _dialoguesDictionary = new Dictionary<EDialogueEvent, TextSequenceable>();
+        private Dictionary<EDialogueEvent, List<TextSequenceable>> _dialoguesDictionary = new Dictionary<EDialogueEvent, List<TextSequenceable>>();
+        private Dictionary<EDialogueEvent, List<TextSequenceable>> _dialogueSelectionPools = new Dictionary<EDialogueEvent, List<TextSequenceable>>();
+        private Dictionary<EDialogueEvent, TextSequenceable> _lastPlayedDialogues = new Dictionary<EDialogueEvent, TextSequenceable>();
 
         private Dictionary<EDialogueType, Task> _dialogueTasks = new Dictionary<EDialogueType, Task>();
 
@@ -105,7 +107,13 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 { 
                     if (seq.ScriptableDialogue.DialogueEvent != EDialogueEvent.None)
                     {
-                        _dialoguesDictionary.TryAdd(seq.ScriptableDialogue.DialogueEvent, seq);
+                        if (_dialoguesDictionary.TryGetValue(seq.ScriptableDialogue.DialogueEvent, out List<TextSequenceable> dialogues) == false)
+                        {
+                            dialogues = new List<TextSequenceable>();
+                            _dialoguesDictionary.Add(seq.ScriptableDialogue.DialogueEvent, dialogues);
+                        }
+
+                        dialogues.Add(seq);
                     }
                 }
             }
@@ -260,15 +268,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public bool TryPlayDialogue(EDialogueEvent dialogueEvent)
         {
-            _dialoguesDictionary.TryGetValue(dialogueEvent, out TextSequenceable ts);
-
             if (CanPlayDialogue(dialogueEvent) == false)
             {
                 return false;
             }
 
-            if (ts != null)
+            if (_dialoguesDictionary.TryGetValue(dialogueEvent, out List<TextSequenceable> dialogues) && dialogues.Count > 0)
             {
+                TextSequenceable ts = GetNextDialogue(dialogueEvent, dialogues);
                 _dialoguePlayedDictionary[dialogueEvent] = true;
                 ts.StartTask();
                 return true;
@@ -278,6 +285,39 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 Debug.LogWarning("No dialogue is registered for " + dialogueEvent);
             }
             return false;
+        }
+
+        private TextSequenceable GetNextDialogue(EDialogueEvent dialogueEvent, List<TextSequenceable> dialogues)
+        {
+            if (_dialogueSelectionPools.TryGetValue(dialogueEvent, out List<TextSequenceable> pool) == false || pool.Count == 0)
+            {
+                pool = new List<TextSequenceable>(dialogues);
+                for (int i = pool.Count - 1; i > 0; i--)
+                {
+                    int swapIndex = UnityEngine.Random.Range(0, i + 1);
+                    TextSequenceable temp = pool[i];
+                    pool[i] = pool[swapIndex];
+                    pool[swapIndex] = temp;
+                }
+
+                if (pool.Count > 1 &&
+                    _lastPlayedDialogues.TryGetValue(dialogueEvent, out TextSequenceable lastPlayed) &&
+                    pool[pool.Count - 1] == lastPlayed)
+                {
+                    int swapIndex = UnityEngine.Random.Range(0, pool.Count - 1);
+                    TextSequenceable temp = pool[pool.Count - 1];
+                    pool[pool.Count - 1] = pool[swapIndex];
+                    pool[swapIndex] = temp;
+                }
+
+                _dialogueSelectionPools[dialogueEvent] = pool;
+            }
+
+            int lastIndex = pool.Count - 1;
+            TextSequenceable nextDialogue = pool[lastIndex];
+            pool.RemoveAt(lastIndex);
+            _lastPlayedDialogues[dialogueEvent] = nextDialogue;
+            return nextDialogue;
         }
 
         private bool CanPlayDialogue(EDialogueEvent dialogueEvent)
