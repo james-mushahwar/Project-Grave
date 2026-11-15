@@ -332,8 +332,13 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             IActionSequence actionSeq = null;
             if (_eventActionSequences.TryGetValue(actionSeqEvent, out actionSeq))
             {
-                if (CanPlayActionSequence(actionSeqEvent, actionSeq))
+                if (CanPlayActionSequence(actionSeqEvent, actionSeq) &&
+                    !_currentMajorActionSequences.Contains(actionSeq) && actionSeq.CanPlay())
                 {
+                    EActionSequenceEvent previousMajor = _previousMajorActionSequence;
+                    EActionSequenceEvent previousAny = _previousAnyActionSequence;
+                    int previousCounter = _actionSequenceEventCounter;
+
                     if (actionSeq.ActionSequenceSettings.IsCritical)
                     {
                         _previousMajorActionSequence = actionSeqEvent;
@@ -346,7 +351,16 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
                     _currentMajorActionSequences.Add(actionSeq);
 
-                    return actionSeq.Play();
+                    if (actionSeq.Play())
+                    {
+                        return true;
+                    }
+
+                    _currentMajorActionSequences.Remove(actionSeq);
+                    _previousMajorActionSequence = previousMajor;
+                    _previousAnyActionSequence = previousAny;
+                    _actionSequenceEventCounter = previousCounter;
+                    Debug.LogWarning("Failed to play action sequence " + actionSeqEvent, this);
                 }
             }
 

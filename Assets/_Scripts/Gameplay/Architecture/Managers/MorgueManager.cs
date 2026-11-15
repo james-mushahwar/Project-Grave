@@ -562,28 +562,8 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             if (_spawnBodyCoroutine == null)
             {
                 bool tableInRoom = OperationManager.Instance.OperatingTable.TableInRoom;
-                if (exitAndEnter)
-                {
-                    if (tableInRoom)
-                    {
-                        _spawnBodyCoroutine = StartCoroutine(SpawnBodySequence(isContractSubmission));
-                    }
-                    else
-                    {
-                        _spawnBodyCoroutine = StartCoroutine(CallTable());
-                    }
-                }
-                else
-                {
-                    if (tableInRoom)
-                    {
-                        _spawnBodyCoroutine = StartCoroutine(SendTable(isContractSubmission));
-                    }
-                    else
-                    {
-                        _spawnBodyCoroutine = StartCoroutine(CallTable());
-                    }
-                }
+                _spawnBodyCoroutine = StartCoroutine(SpawnBodySequence(
+                    tableInRoom, exitAndEnter || !tableInRoom, isContractSubmission));
             }
         }
 
@@ -632,8 +612,6 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
                 yield return TaskManager.Instance.WaitForSecondsPool.Get(1.0f);
             }
-
-            _spawnBodyCoroutine = null;
         }
 
         //bring table into the room
@@ -662,25 +640,18 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
                 ContractsManager.Instance.Echo_ContractRequirements();
             }
-
-            _spawnBodyCoroutine = null;
-
         }
 
-        public IEnumerator SpawnBodySequence(bool isContractSubmission)
+        private IEnumerator SpawnBodySequence(bool sendTable, bool callTable, bool isContractSubmission)
         {
-            _spawnBodyCoroutine = StartCoroutine(SendTable(isContractSubmission));
-
-            while (_spawnBodyCoroutine != null)
+            if (sendTable)
             {
-                yield return null;
+                yield return SendTable(isContractSubmission);
             }
 
-            _spawnBodyCoroutine = StartCoroutine(CallTable());
-
-            while (_spawnBodyCoroutine != null)
+            if (callTable)
             {
-                yield return null;
+                yield return CallTable();
             }
 
             _spawnBodyCoroutine = null;
