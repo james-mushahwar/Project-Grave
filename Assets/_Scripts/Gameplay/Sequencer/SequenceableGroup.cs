@@ -22,6 +22,7 @@ namespace _Scripts._Game.Sequencer{
 
         [SerializeField] 
         private EActionSequencePauseReason _onFinished_TryPauseReason;
+        public EActionSequencePauseReason OnFinishedPauseReason => _onFinished_TryPauseReason;
 
         private void Awake()
         {
@@ -32,6 +33,15 @@ namespace _Scripts._Game.Sequencer{
         {
             _isStarted = true;
             _sequenceIndex = 0;
+            if (_sequenceables.Count == 0)
+            {
+                Debug.LogError("Sequence group has no sequenceables: " + name, this);
+            }
+            else if (_isSimultaneousGroup)
+            {
+                Debug.LogError("Simultaneous sequence groups are not supported: " + name, this);
+                _sequenceIndex = _sequenceables.Count;
+            }
         }
 
         public override void Stop()
@@ -41,47 +51,37 @@ namespace _Scripts._Game.Sequencer{
 
             if (_onFinished_TryPauseReason != EActionSequencePauseReason.None)
             {
-                ActionSequenceManager.Instance.TryUnpauseActionSequence(_onFinished_TryPauseReason);
+                if (!ActionSequenceManager.Instance.TryUnpauseActionSequence(_onFinished_TryPauseReason))
+                {
+                    Debug.LogError("Could not resume the action sequence after sequence group " + name, this);
+                }
             }
         }
 
         public override void Tick()
         {
-            if (_isSimultaneousGroup)
+            if (!_isStarted || _sequenceIndex >= _sequenceables.Count)
             {
-
+                return;
             }
-            else
+
+            Sequenceable seq = GetCurrentSequence();
+            if (!seq)
             {
+                Debug.LogError("Missing sequenceable in group " + name + " at index " + _sequenceIndex, this);
+                _sequenceIndex++;
+                return;
+            }
 
-                Sequenceable seq = GetCurrentSequence();
-
-                if (seq)
-                {
-                    if (seq.IsComplete())
-                    {
-                        seq.Stop(); // clean up
-                        seq = GetNextSequence();
-                    }
-                }
-                else
-                {
-
-                }
-
-                if (seq)
-                {
-                    if (seq.IsStarted() == false)
-                    {
-                        seq.Begin();
-                    }
-                    seq.Tick();
-                }
-                else
-                {
-                    ResetSequenceGroup();
-                    return;
-                }
+            if (!seq.IsStarted())
+            {
+                seq.Begin();
+            }
+            seq.Tick();
+            if (seq.IsComplete())
+            {
+                seq.Stop();
+                _sequenceIndex++;
             }
         }
 
@@ -93,19 +93,7 @@ namespace _Scripts._Game.Sequencer{
 
         public override bool IsComplete()
         {
-            if (_isSimultaneousGroup)
-            {
-                return false;
-            }
-            else
-            {
-                bool complete = _sequenceIndex >= _sequenceables.Count;
-                //if (complete)
-                //{
-                //    _sequenceIndex = 0;
-                //}
-                return complete;
-            }
+            return _isStarted && _sequenceIndex >= _sequenceables.Count;
         }
         private Sequenceable GetCurrentSequence()
         {
@@ -116,24 +104,6 @@ namespace _Scripts._Game.Sequencer{
             return _sequenceables[_sequenceIndex];
         }
 
-        private Sequenceable GetNextSequence()
-        {
-            _sequenceIndex++;
-
-            if (IsComplete())
-            {
-                return null;
-            }
-            else
-            {
-                return _sequenceables[_sequenceIndex];
-            }
-        }
-
-        public void ResetSequenceGroup()
-        {
-            
-        }
     }
 
 }

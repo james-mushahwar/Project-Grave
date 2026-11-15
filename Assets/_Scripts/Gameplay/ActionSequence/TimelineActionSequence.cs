@@ -227,14 +227,32 @@ namespace _Scripts.Gameplay.ActionSequence {
 
             if (seq == null)
             {
+                Debug.LogError("Cannot start dialogue: no Sequenceable is attached to " + name, this);
                 return;
             }
 
-            SequencerManager.Instance.TryRegisterSequence(seq, new SequenceSettings());
-
             if (pause)
             {
-                ActionSequenceManager.Instance.TryPauseActionSequence(ActionSequenceSettings.ActionSequenceEvent, EActionSequencePauseReason.Dialogue);
+                if (!(seq is SequenceableGroup group) || group.OnFinishedPauseReason != EActionSequencePauseReason.Dialogue)
+                {
+                    Debug.LogError("Cannot pause for dialogue: the Sequenceable must be a group configured to resume dialogue.", this);
+                    return;
+                }
+
+                if (!ActionSequenceManager.Instance.TryPauseActionSequence(ActionSequenceSettings.ActionSequenceEvent, EActionSequencePauseReason.Dialogue))
+                {
+                    Debug.LogError("Cannot pause the action sequence for dialogue on " + name, this);
+                    return;
+                }
+            }
+
+            if (!SequencerManager.Instance.TryRegisterSequence(seq, new SequenceSettings()))
+            {
+                Debug.LogError("Cannot start dialogue: the Sequenceable is already registered on " + name, this);
+                if (pause && !ActionSequenceManager.Instance.TryUnpauseActionSequence(EActionSequencePauseReason.Dialogue))
+                {
+                    Debug.LogError("Could not resume the action sequence after dialogue failed to start on " + name, this);
+                }
             }
         }
 

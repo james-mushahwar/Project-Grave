@@ -51,6 +51,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         private EActionSequenceEvent _previousMajorActionSequence = EActionSequenceEvent.None;
         private EActionSequenceEvent _previousAnyActionSequence = EActionSequenceEvent.None;
         private int _actionSequenceEventCounter = 0;
+        private int _quotaCheckCompletedDay = -1;
         private List<EActionSequenceEvent> _majorActionSequenceHistory;
 
         private List<IActionSequence> _currentMajorActionSequences = new List<IActionSequence>();
@@ -299,6 +300,12 @@ namespace _Scripts.Gameplay.Architecture.Managers {
             {
                 canPlay = _previousMajorActionSequence == EActionSequenceEvent.Day0_FinishWork;
             }
+            else if (seqEvent == EActionSequenceEvent.DayAny_EndOfDayQuotaCheck)
+            {
+                canPlay = !isTutorialDay && MorgueManager.Instance.WorkdDoneForDay &&
+                    _quotaCheckCompletedDay != MorgueManager.Instance.DayCount &&
+                    !IsPlayingActionSequence(seqEvent);
+            }
             else if (isTutorialDay == false)
             {
                 if (seqEvent == EActionSequenceEvent.DayAny_GoToSleep)
@@ -348,15 +355,20 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         public bool TryPauseActionSequence(EActionSequenceEvent actionSeqEvent, EActionSequencePauseReason pauseReason)
         {
-            IActionSequence actionSeq = null;
-            if (_eventActionSequences.TryGetValue(actionSeqEvent, out actionSeq))
+            if (pauseReason == EActionSequencePauseReason.None ||
+                _actionSequencePauseDictionary.ContainsKey(pauseReason))
             {
-                _actionSequencePauseDictionary.TryAdd(pauseReason, actionSeq);
-
-                return actionSeq.Pause();
+                return false;
             }
 
-            return false;
+            if (!_eventActionSequences.TryGetValue(actionSeqEvent, out IActionSequence actionSeq) ||
+                !actionSeq.Pause())
+            {
+                return false;
+            }
+
+            _actionSequencePauseDictionary.Add(pauseReason, actionSeq);
+            return true;
         }
 
         public bool TryUnpauseActionSequence(EActionSequencePauseReason pauseReason)
@@ -367,7 +379,15 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 if (actionSeq != null)
                 {
                     _actionSequencePauseDictionary.Remove(pauseReason);
-                    return actionSeq.Play();
+                    if (actionSeq.Play())
+                    {
+                        return true;
+                    }
+
+                    if (!_actionSequencePauseDictionary.TryAdd(pauseReason, actionSeq))
+                    {
+                        Debug.LogError("Could not restore the action sequence pause for " + pauseReason);
+                    }
                 }
             }
 
@@ -382,6 +402,10 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                 if (_currentMajorActionSequences.Contains(actionSeq))
                 {
                     _currentMajorActionSequences.Remove(actionSeq);
+                    if (actionSeqEvent == EActionSequenceEvent.DayAny_EndOfDayQuotaCheck)
+                    {
+                        _quotaCheckCompletedDay = MorgueManager.Instance.DayCount;
+                    }
                 }
             }
 

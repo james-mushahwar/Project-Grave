@@ -103,8 +103,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             TextSequenceable[] ts = gameObject.GetComponentsInChildren<TextSequenceable>();
             foreach(TextSequenceable seq in ts)
             {
-                if (seq != null) 
-                { 
+                if (seq != null)
+                {
+                    if (seq.ScriptableDialogue == null)
+                    {
+                        Debug.LogError("Cannot register dialogue without an asset on " + seq.name, seq);
+                        continue;
+                    }
+
                     if (seq.ScriptableDialogue.DialogueEvent != EDialogueEvent.None)
                     {
                         if (_dialoguesDictionary.TryGetValue(seq.ScriptableDialogue.DialogueEvent, out List<TextSequenceable> dialogues) == false)
@@ -189,6 +195,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             TMP_Text textBox = GetDialogueTextBox(dialogueType);
             if (textBox == null)
             {
+                Debug.LogError("Cannot post dialogue: no text box is registered for " + dialogueType);
                 return null;
             }
 
@@ -198,6 +205,17 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             }
 
             // decide what ui it's going to occupy and what writer effect to use
+            if (_writerEffects == null || _writerEffects.Length == 0 || _writerEffects[0] == null)
+            {
+                Debug.LogError("Cannot post dialogue: no writer effect is configured.");
+                return null;
+            }
+            if (!_textGameObjectDictionary.TryGetValue(dialogueType, out GameObject dialogueObject) || dialogueObject == null)
+            {
+                Debug.LogError("Cannot post dialogue: no dialogue object is registered for " + dialogueType);
+                return null;
+            }
+
             BaseWriterEffect writerEffect = _writerEffects[0]; // for now get first writer effect
 
             // check if dictionary already has coroutine running
@@ -237,7 +255,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
                 }
             } 
 
-            _textGameObjectDictionary[dialogueType].SetActive(true);
+            dialogueObject.SetActive(true);
 
             return returnTask;
 
@@ -262,7 +280,10 @@ namespace _Scripts.Gameplay.Architecture.Managers{
 
         public void OnDialogueFinished()
         {
-            _textGameObjectDictionary[EDialogueType.Speech].SetActive(false);
+            if (_textGameObjectDictionary.TryGetValue(EDialogueType.Speech, out GameObject speechObject) && speechObject != null)
+            {
+                speechObject.SetActive(false);
+            }
             Debug.Log("DIALOGUE TASK FIN");
         }
 
@@ -276,8 +297,11 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             if (_dialoguesDictionary.TryGetValue(dialogueEvent, out List<TextSequenceable> dialogues) && dialogues.Count > 0)
             {
                 TextSequenceable ts = GetNextDialogue(dialogueEvent, dialogues);
+                if (!ts.StartTask())
+                {
+                    return false;
+                }
                 _dialoguePlayedDictionary[dialogueEvent] = true;
-                ts.StartTask();
                 return true;
             }
             if (dialogueEvent == EDialogueEvent.DayAny_EndWorkReceptionist_Speech)

@@ -21,6 +21,7 @@ namespace _Scripts._Game.Sequencer.Dialogue{
 
         private RuntimeID _runtimeID;
         private bool _isStarted;
+        private bool _isComplete;
 
         public override string RuntimeID => _runtimeID.RuntimeId;
 
@@ -34,20 +35,50 @@ namespace _Scripts._Game.Sequencer.Dialogue{
         public override void Begin()
         {
             _phrasesIndex = 0;
-            _taskRef = DialogueManager.Instance.PostText<Phrase>(_scriptableDialogue.GetPhrase(_phrasesIndex), _dialogueType);
+            _isStarted = true;
+            _isComplete = false;
+            if (_scriptableDialogue == null)
+            {
+                Debug.LogError("Cannot start dialogue without a dialogue asset on " + name, this);
+                _isComplete = true;
+                return;
+            }
+
+            Phrase phrase = _scriptableDialogue.GetPhrase(_phrasesIndex);
+            if (phrase == null)
+            {
+                Debug.LogError("Cannot start dialogue with no phrases on " + name, this);
+                _isComplete = true;
+                return;
+            }
+
+            _taskRef = DialogueManager.Instance.PostText(phrase, _dialogueType);
             _phrasesIndex++;
-            _isStarted = true; 
+            if (_taskRef == null)
+            {
+                Debug.LogError("Could not start dialogue on " + name, this);
+                _isComplete = true;
+            }
         }
 
-        public void StartTask()
+        public bool StartTask()
         {
             Begin();
+            if (_taskRef == null)
+            {
+                Stop();
+                return false;
+            }
+
             _taskRef.Finished += Finished;
+            return true;
         }
 
         public override void Stop()
         {
             _phrasesIndex = 0;
+            _isStarted = false;
+            _isComplete = false;
             if (_taskRef != null)
             {
                 _taskRef.Finished -= Finished;
@@ -69,10 +100,25 @@ namespace _Scripts._Game.Sequencer.Dialogue{
                 return;
             }
 
-            if (_taskRef.Running == false)
+            if (!_taskRef.Running && !_taskRef.Paused)
             {
-                _taskRef = DialogueManager.Instance.PostText<Phrase>(_scriptableDialogue.GetPhrase(_phrasesIndex), _dialogueType);
+                Phrase phrase = _scriptableDialogue.GetPhrase(_phrasesIndex);
+                if (phrase == null)
+                {
+                    _taskRef = null;
+                    _isComplete = true;
+                    DialogueManager.Instance.OnDialogueFinished();
+                    return;
+                }
+
+                _taskRef = DialogueManager.Instance.PostText(phrase, _dialogueType);
                 _phrasesIndex++;
+                if (_taskRef == null)
+                {
+                    Debug.LogError("Could not continue dialogue on " + name, this);
+                    _isComplete = true;
+                    DialogueManager.Instance.OnDialogueFinished();
+                }
             }
         }
 
@@ -83,36 +129,7 @@ namespace _Scripts._Game.Sequencer.Dialogue{
 
         public override bool IsComplete()
         {
-            if (_taskRef == null)
-            {
-                _taskRef = DialogueManager.Instance.PostText<Phrase>(_scriptableDialogue.GetPhrase(_phrasesIndex), _dialogueType);
-                _phrasesIndex++;
-
-                if (_taskRef == null)
-                {
-                    DialogueManager.Instance.OnDialogueFinished();
-                    return true;
-                }
-            }
-
-            if (_taskRef.Running || _taskRef.Paused)
-            {
-                return false;
-            }
-            else
-            {
-                _taskRef = DialogueManager.Instance.PostText<Phrase>(_scriptableDialogue.GetPhrase(_phrasesIndex), _dialogueType);
-                _phrasesIndex++;
-
-                if (_taskRef == null)
-                {
-                    DialogueManager.Instance.OnDialogueFinished();
-
-                    return true;
-                }
-            }
-
-            return false;
+            return _isStarted && _isComplete;
         }
 
     }

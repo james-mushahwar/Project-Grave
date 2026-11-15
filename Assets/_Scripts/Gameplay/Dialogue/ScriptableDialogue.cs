@@ -35,6 +35,12 @@ namespace _Scripts._Game.Dialogue{
 
         DayAny_EndWorkReceptionist_Speech = 102,
         DayAny_QuotaCheck_0 = 10000,
+        DayAny_Quota_Assess_Speech,
+        DayAny_Quota_Banking_Speech,
+        DayAny_Quota_DayMet_Speech,
+        DayAny_Quota_DayMissed_Speech,
+        DayAny_Quota_WeekMet_Speech,
+        DayAny_Quota_WeekFailed_Speech,
 
         COUNT
     }

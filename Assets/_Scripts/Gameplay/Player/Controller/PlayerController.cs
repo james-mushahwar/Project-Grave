@@ -531,6 +531,11 @@ namespace _Scripts.Gameplay.Player.Controller{
         #region Hourglass control mode
         public void OnHourglass_Navigate(InputAction.CallbackContext context)
         {
+            if (HourglassManager.Instance.HourglassSelector.IsScriptedControl)
+            {
+                return;
+            }
+
             bool inTransition = CameraManager.Instance.IsCameraInTransition();
             if (inTransition)
             {
@@ -563,6 +568,11 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void OnHourglass_Select(InputAction.CallbackContext context)
         {
+            if (HourglassManager.Instance.HourglassSelector.IsScriptedControl)
+            {
+                return;
+            }
+
             bool inTransition = CameraManager.Instance.IsCameraInTransition();
             if (inTransition)
             {
@@ -575,6 +585,11 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         private void OnHourglass_Back(InputAction.CallbackContext context)
         {
+            if (HourglassManager.Instance.HourglassSelector.IsScriptedControl)
+            {
+                return;
+            }
+
             if (HourglassManager.Instance.HourglassSelector.IsFillingHourglass == false)
             {
                 LeaveHourglassView();

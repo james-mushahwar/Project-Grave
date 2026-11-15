@@ -3,6 +3,7 @@ using _Scripts.Gameplay.General.Identification;
 using _Scripts.Gameplay.General.Morgue;
 using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Org;
+using System.Collections;
 using TMPro;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -37,10 +38,31 @@ namespace _Scripts.Gameplay.Architecture.Hourglass {
 
         [SerializeField]
         private float _fillHourglassWaitInterval = 1.0f;
+        [SerializeField]
+        private float _scriptedFillHourglassWaitInterval = 0.1f; // faster banking when an action sequence drives the hourglass
         private float _fillRemainingWait = 1.0f;
         public bool IsFillingHourglass { get; private set; }
 
+        // when true an action sequence owns the hourglass view, so the player can't navigate or leave it
+        public bool IsScriptedControl { get; set; }
+
         public bool CanTick { get; set; }
+
+        // waits for the hourglass view to be active, then until all unbanked time has been poured into the hourglass
+        public IEnumerator WaitForBankingComplete()
+        {
+            PlayerController pc = PlayerManager.Instance.CurrentPlayerController;
+
+            while (pc.PlayerControllerState != EPlayerControllerState.Hourglass || CameraManager.Instance.IsCameraInTransition())
+            {
+                yield return null;
+            }
+
+            while (CollectibleManager.Instance.Currency > 0 || IsFillingHourglass || !_playerHourglass.CanFillWithTime())
+            {
+                yield return null;
+            }
+        }
 
         public void Enable()
         {
@@ -109,7 +131,7 @@ namespace _Scripts.Gameplay.Architecture.Hourglass {
 
                     CollectibleManager.Instance.AddCurrency(-amountToBank + remainder);
                     
-                    _fillRemainingWait = _fillHourglassWaitInterval;
+                    _fillRemainingWait = IsScriptedControl ? _scriptedFillHourglassWaitInterval : _fillHourglassWaitInterval;
                 }
 
             }

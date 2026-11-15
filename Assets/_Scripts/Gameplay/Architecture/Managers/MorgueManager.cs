@@ -384,6 +384,7 @@ namespace _Scripts.Gameplay.Architecture.Managers{
             InvokeDayNightTransition(EDayTimeline.Morning_Start, EDayTimeTransition.Instant);
 
             _dayCount++;
+            HourglassManager.Instance.StartNewDay();
             _workDoneForDay = false;
             // make camera fade to black
             UIManager.Instance.ShowLoadingScreen(true);

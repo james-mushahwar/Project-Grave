@@ -291,6 +291,7 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         [SerializeField]
         private int _dayAllocationToDeadline = 5;
+        public int DayAllocationToDeadline => _dayAllocationToDeadline;
         private int _deadlineDay;
         public int DeadlineDay
         {

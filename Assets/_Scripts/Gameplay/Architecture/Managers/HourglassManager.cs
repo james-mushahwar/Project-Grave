@@ -19,22 +19,50 @@ namespace _Scripts.Gameplay.Architecture.Managers {
         }
 
         #region Quota
-        private int _minimumDaySubmission = -1;
+        private int[] _week1MinimumQuotas = { 2, 2, 3, 3, 4, 4, 5 };
+
+        private int _deadlineStartDay = 1;
+
+        public int DayOfDeadline => Mathf.Max(0, MorgueManager.Instance.DayCount - _deadlineStartDay + 1);
+
+        // Day 0 is the tutorial, so the first quota day is DayCount 1
         public int MinimumDaySubmission
         {
-            get 
+            get
             {
-                if (_minimumDaySubmission < 0)
-                {
-                    UpdateMinimumDaySubmission();
-                }
-
-                return _minimumDaySubmission;
+                int dayIndex = Mathf.Clamp(DayOfDeadline - 1, 0, _week1MinimumQuotas.Length - 1);
+                return _week1MinimumQuotas[dayIndex];
             }
         }
 
-        private int[] _week1MinimumQuotas = { 2, 2, 3, 3, 4, 4, 5 };
+        public bool IsLastDayOfWeek
+        {
+            get
+            {
+                return DayOfDeadline > 0 && DayOfDeadline == ContractsManager.Instance.DayAllocationToDeadline;
+            }
+        }
 
+        public bool MetDailyQuota()
+        {
+            return HourglassesSubmitted >= MinimumDaySubmission;
+        }
+
+        public bool MetWeeklyQuota()
+        {
+            return CollectibleManager.Instance.BankTimeCurrency >= ContractsManager.Instance.TargetDeadlineTimeCurrency;
+        }
+
+        public void StartNewDay()
+        {
+            _hourglassesSubmitted = 0;
+        }
+
+        public void ResetWeek()
+        {
+            _hourglassesSubmitted = 0;
+            CollectibleManager.Instance.BankTimeCurrency = 0;
+        }
         #endregion
 
         public virtual void ManagedPostInGameLoad()
@@ -49,24 +77,6 @@ namespace _Scripts.Gameplay.Architecture.Managers {
 
         }
 
-        #region Quota
-        private int UpdateMinimumDaySubmission()
-        {
-            int dayCount = MorgueManager.Instance.DayCount - 1;
-
-            int dayIndex = dayCount;
-
-            if (dayIndex > _week1MinimumQuotas.Length)
-            {
-                dayIndex = _week1MinimumQuotas.Length - 1;
-            }
-
-            _minimumDaySubmission = dayIndex;
-            return _minimumDaySubmission;
-        }
-
-        
-        #endregion
     }
 
 }
