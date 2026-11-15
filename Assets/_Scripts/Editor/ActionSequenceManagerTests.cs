@@ -66,6 +66,36 @@ public class ActionSequenceManagerTests
         Assert.IsFalse(_manager.IsPlayingActionSequence(SequenceEvent));
     }
 
+    [Test]
+    public void DayLoopSleepCannotInterruptTutorial()
+    {
+        var settings = new ActionSequenceSettings();
+        SetField(settings, "_actionSequenceEvent", EActionSequenceEvent.DayAny_GoToSleep);
+        var sleep = new TestSequence(_objects.AddComponent<RuntimeID>(), settings);
+        _manager.TryRegisterActionSequence(sleep);
+
+        SetField(_manager, "_previousMajorActionSequence", EActionSequenceEvent.DayAny_WakeUp);
+        Assert.IsFalse(_manager.TryPlayActionSequence(EActionSequenceEvent.DayAny_GoToSleep));
+        Assert.AreEqual(EActionSequenceEvent.DayAny_WakeUp, _manager.PreviousMajorActionSequence);
+
+        SetField(MorgueManager.Instance, "_workDoneForDay", true);
+        Assert.IsFalse(_manager.TryPlayActionSequence(EActionSequenceEvent.DayAny_GoToSleep));
+
+        SetField(_manager, "_previousMajorActionSequence", EActionSequenceEvent.Day0_PickupSaw);
+        Assert.IsTrue(_manager.CanPlayActionSequence(EActionSequenceEvent.Day0_MeetReceptionist, null));
+        Assert.IsTrue(_manager.CanPlayActionSequence(EActionSequenceEvent.Day0_GoToSleep, null));
+    }
+
+    [Test]
+    public void DayLoopSleepRequiresCompletedWorkAfterTutorial()
+    {
+        SetField(MorgueManager.Instance, "_dayCount", 1);
+        Assert.IsFalse(_manager.CanPlayActionSequence(EActionSequenceEvent.DayAny_GoToSleep, null));
+
+        SetField(MorgueManager.Instance, "_workDoneForDay", true);
+        Assert.IsTrue(_manager.CanPlayActionSequence(EActionSequenceEvent.DayAny_GoToSleep, null));
+    }
+
     private static void SetField(object target, string name, object value)
     {
         target.GetType().GetField(name, BindingFlags.Instance | BindingFlags.NonPublic).SetValue(target, value);

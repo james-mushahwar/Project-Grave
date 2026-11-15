@@ -306,6 +306,10 @@ namespace _Scripts.Gameplay.Architecture.Managers {
                     _quotaCheckCompletedDay != MorgueManager.Instance.DayCount &&
                     !IsPlayingActionSequence(seqEvent);
             }
+            else if (seqEvent == EActionSequenceEvent.DayAny_GoToSleep && isTutorialDay)
+            {
+                canPlay = false;
+            }
             else if (isTutorialDay == false)
             {
                 if (seqEvent == EActionSequenceEvent.DayAny_GoToSleep)
