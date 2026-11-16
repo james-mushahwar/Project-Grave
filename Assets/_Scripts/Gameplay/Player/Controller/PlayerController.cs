@@ -985,6 +985,11 @@ namespace _Scripts.Gameplay.Player.Controller{
 
         public void OnActionInput()
         {
+            if (ActionSequenceManager.Instance.LockPlay || MorgueManager.Instance.IsCriticalCoroutinePlaying)
+            {
+                return;
+            }
+
             if (CameraManager.Instance.IsCameraInTransition())
             {
                 return;
