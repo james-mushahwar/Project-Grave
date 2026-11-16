@@ -376,16 +376,18 @@ namespace _Scripts.Gameplay.Player.Controller{
             float mouseX = mouseInput.x * mouseSensitivity * Time.deltaTime;
             float mouseY = mouseInput.y * mouseSensitivity * Time.deltaTime;
 
-            if (CameraManager.Instance.CmBrain.ActiveVirtualCamera != null)
-            {
-                GameObject vCameraGameObject = CameraManager.Instance.CmBrain.ActiveVirtualCamera.VirtualCameraGameObject;
-                if (vCameraGameObject != null)
-                {
-                    vCameraGameObject.transform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f); // Rotate the camera
-                }
-            }
-            
+            RotateView(CameraManager.Instance.CmBrain.ActiveVirtualCamera, mouseX, mouseY);
+        }
 
+        private void RotateView(ICinemachineCamera activeCamera, float mouseX, float mouseY)
+        {
+            CinemachineVirtualCamera playerCamera = _firstPersonVCam.VirtualCamera;
+            if (playerCamera == null || activeCamera != playerCamera)
+            {
+                return;
+            }
+
+            playerCamera.transform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f); // Rotate the camera
             _xRotation -= mouseY;
             _xRotation = Mathf.Clamp(_xRotation, -90f, 90f); // Clamp the vertical rotation
             transform.Rotate(Vector3.up * mouseX); // Rotate the player

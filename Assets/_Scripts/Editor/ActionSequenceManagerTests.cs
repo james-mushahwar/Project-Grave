@@ -1,8 +1,10 @@
 using System.Reflection;
 using _Scripts.Gameplay.Architecture.Managers;
 using _Scripts.Gameplay.General.Identification;
+using _Scripts.Gameplay.Player.Controller;
 using _Scripts.Gameplay.Settings;
 using _Scripts.Org;
+using Cinemachine;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -94,6 +96,38 @@ public class ActionSequenceManagerTests
 
         SetField(MorgueManager.Instance, "_workDoneForDay", true);
         Assert.IsTrue(_manager.CanPlayActionSequence(EActionSequenceEvent.DayAny_GoToSleep, null));
+    }
+
+    [Test]
+    public void PlayerLookDoesNotRotateSharedTimelineCameraAfterSequence()
+    {
+        var playerObject = new GameObject("Player");
+        playerObject.transform.SetParent(_objects.transform);
+        var player = playerObject.AddComponent<PlayerController>();
+        var playerCameraObject = new GameObject("Player camera");
+        playerCameraObject.transform.SetParent(player.transform);
+        var playerCamera = playerCameraObject.AddComponent<CinemachineVirtualCamera>();
+        var timelineCameraObject = new GameObject("Shared timeline camera");
+        timelineCameraObject.transform.SetParent(_objects.transform);
+        var timelineCamera = timelineCameraObject.AddComponent<CinemachineVirtualCamera>();
+        timelineCamera.transform.rotation = Quaternion.Euler(-9f, 87f, 0f);
+
+        object firstPersonCamera = new FVirtualCamera();
+        SetField(firstPersonCamera, "_virtualCamera", playerCamera);
+        SetField(player, "_firstPersonVCam", firstPersonCamera);
+        var rotateView = typeof(PlayerController).GetMethod("RotateView", BindingFlags.Instance | BindingFlags.NonPublic);
+        Quaternion timelineRotation = timelineCamera.transform.rotation;
+        Quaternion playerRotation = player.transform.rotation;
+
+        rotateView.Invoke(player, new object[] { timelineCamera, 10f, 5f });
+        Assert.Less(Quaternion.Angle(timelineRotation, timelineCamera.transform.rotation), 0.001f);
+        Assert.Less(Quaternion.Angle(playerRotation, player.transform.rotation), 0.001f);
+
+        rotateView.Invoke(player, new object[] { playerCamera, 10f, 5f });
+        Assert.That(Quaternion.Angle(playerRotation, player.transform.rotation), Is.EqualTo(10f).Within(0.01f));
+        rotateView.Invoke(player, new object[] { playerCamera, 0f, 0f });
+        Assert.That(Quaternion.Angle(Quaternion.identity, playerCamera.transform.localRotation), Is.EqualTo(5f).Within(0.01f));
+        Assert.Less(Quaternion.Angle(timelineRotation, timelineCamera.transform.rotation), 0.001f);
     }
 
     private static void SetField(object target, string name, object value)
