@@ -1072,6 +1072,14 @@ namespace _Scripts.Gameplay.Architecture.Managers{
         {
             bool wasWorking = _workTimeActive;
             _workTimeActive = false;
+
+            // Leave any operation immediately; don't depend on the table-exit coroutine running.
+            var player = PlayerManager.Instance.CurrentPlayerController;
+            if (player.PlayerControllerState == Player.Controller.EPlayerControllerState.Operating)
+            {
+                player.EndOperatingState(true);
+            }
+
             if (OperationManager.Instance.OperatingTable.TableInRoom)
             {
                 SpawnBodySequenceCommand(false, false);
